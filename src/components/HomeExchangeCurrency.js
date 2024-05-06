@@ -1,11 +1,68 @@
+import { useState,useEffect } from "react";
+import { order } from "@/states/storage";
 import FrameComponent2 from "./frame-component2";
 import FrameComponent1 from "./frame-component1";
 import FrameComponent from "./frame-component";
 import LinkFunction from "./link-function";
 import Component from "./component";
 import ColorAdjustor from "./color-adjustor";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import { useRouter } from "next/router";
+import { useAtom } from "jotai";
+import { getRateMutation } from "@/hooks/prod";
+
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3,
+    slidesToSlide: 3, // optional, default to 1.
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+    slidesToSlide: 2, // optional, default to 1.
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+    slidesToSlide: 1, // optional, default to 1.
+  },
+};
 
 const HomeExchangeCurrency = () => {
+  const [selected, setSelected] = useState(true);
+ 
+  const [intialCurrency, setIntialCurrency] = useState({label:"INR",value:"INR"});
+  const [finalCurrency, setFinalCurrency] = useState({label:"INR",value:"INR"});
+  const [ amount, setAmount] = useState(0);
+  const router = useRouter();
+  const [Order, setOrder] = useAtom(order);
+  const [rate, setRate] = useState(0)
+
+  const { mutate: getRate } = getRateMutation(
+    (res) => {
+      setRate(res.data.rate);
+    },
+    (err) => {
+      console.log(err);
+    }
+  )
+  useEffect(() => {
+  getRate(finalCurrency.value)
+  }, [finalCurrency])
+  
+
+
+  const handleOrder = () => {
+    setOrder({
+      intialCurrency: intialCurrency,
+      finalCurrency: finalCurrency,
+      amount: amount,
+      rate: rate,
+    });
+    router.push("/summary/");
+  }
   return (
     <div className="w-[1920px] bg-background max-w-full overflow-hidden flex flex-col items-start justify-start tracking-[normal]">
       <section className="self-stretch bg-black flex flex-col items-start justify-start pt-12 px-0 pb-0 box-border relative gap-[82px] max-w-full text-left text-xl text-white font-body-small mq825:gap-[20px_82px] mq825:pt-5 mq825:box-border mq1275:gap-[41px_82px] mq1275:pt-[31px] mq1275:box-border">
@@ -15,7 +72,7 @@ const HomeExchangeCurrency = () => {
           src="/gradient-wallpapers@2x.png"
         />
         <img
-          className="w-[3983.1px] h-[1948.8px] absolute !m-[0] right-[-1032.1px] bottom-[-468.8px] z-[1]"
+          className="w-[3983px] h-[1948.8px] absolute !m-[0] right-[-1032.1px] bottom-[-468.8px] z-[1]"
           alt=""
         />
         <div className="self-stretch flex flex-row items-start justify-center py-0 pr-[22px] pl-5 box-border max-w-full">
@@ -84,45 +141,39 @@ const HomeExchangeCurrency = () => {
                 </div>
                 <div className="self-stretch flex flex-col items-center justify-center gap-[32px] max-w-full mq450:gap-[16px_32px]">
                   <div className="self-stretch rounded-2xl bg-gray-100 shadow-[-2px_2px_8px_rgba(14,_21,_56,_0.2)_inset,_-4px_4px_16px_rgba(15,_20,_45,_0.15)_inset] flex flex-row items-start justify-start max-w-full [row-gap:20px] mq825:flex-wrap">
-                    <button className="cursor-pointer [border:none] py-3 px-5 bg-primary flex-1 rounded-2xl overflow-hidden flex flex-row items-center justify-center box-border min-w-[248px] whitespace-nowrap max-w-full hover:bg-chocolate-100">
-                      <div className="relative text-xl leading-[32px] font-semibold font-lato text-white text-left inline-block min-w-[123px]">
+                    <div
+                      onClick={() => setSelected(false)}
+                      className={` cursor-pointer [border:none] py-3 px-5 ${!selected ? "bg-primary" : ""} flex-1 rounded-2xl overflow-hidden flex flex-row items-center justify-center box-border min-w-[248px] whitespace-nowrap max-w-full hover:bg-chocolate-100`}
+                    >
+                      <div className="relative text-xl  font-semibold font-lato text-white text-left inline-block min-w-[123px]">
                         Buy Currency
                       </div>
-                    </button>
-                    <div className="flex-1 overflow-hidden flex flex-row items-center justify-center py-3 px-5 box-border min-w-[248px] max-w-full">
-                      <div className="relative text-xl leading-[32px] font-medium font-lato text-text5 text-left inline-block min-w-[118px] mq450:text-base mq450:leading-[26px]">
-                        Sell Currency
+                    </div>
+                    <div className="flex-1 overflow-hidden flex flex-row items-center justify-center box-border min-w-[248px] max-w-full">
+                      <div
+                        onClick={() => setSelected(true)}
+                        className={`cursor-pointer [border:none] py-3 px-5 ${selected ? "bg-primary" : ""} flex-1 rounded-2xl overflow-hidden flex flex-row items-center justify-center box-border min-w-[248px] whitespace-nowrap max-w-full hover:bg-chocolate-100`}
+                      >
+                        <div className="relative text-xl  font-medium font-lato text-text5 text-left inline-block min-w-[118px] mq450:text-base ">
+                          Sell Currency
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div className="self-stretch flex flex-col items-start justify-start gap-[24px] max-w-full">
                     <div className="self-stretch flex flex-row items-start justify-start gap-[24px] max-w-full mq825:flex-wrap">
-                      <FrameComponent2 currencyYouHave="Currency you Have" />
-                      <FrameComponent2 currencyYouHave="Currency you Want" />
+                      <FrameComponent2  selectedOption={intialCurrency} setSelectedOption={setIntialCurrency} currencyYouHave={ selected ? "Currency you Have" : "Currency you Want"  } />
+                      <FrameComponent2 fixed={true} selectedOption={finalCurrency} setSelectedOption={setFinalCurrency} currencyYouHave={ selected ?  "Currency you Want" :"Currency you Have" } />
                     </div>
-                    <div className="self-stretch rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-3 px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq1275:flex-wrap">
-                      <div className="w-[682px] flex flex-row items-center justify-start gap-[16px] max-w-full">
-                        <img
-                          className="h-8 w-8 relative overflow-hidden shrink-0 object-cover hidden min-h-[32px]"
-                          alt=""
-                          src="/iconframe@2x.png"
-                        />
-                        <div className="flex-1 relative text-xl leading-[32px] font-medium font-body-small text-text5 text-left inline-block max-w-full mq450:text-base mq450:leading-[26px]">
-                          Select Product
-                        </div>
-                      </div>
-                      <img
-                        className="h-8 w-8 relative"
-                        alt=""
-                        src="/iconsarrow-drop-down-24px.svg"
-                      />
-                    </div>
+                    
                     <div className="self-stretch flex flex-row items-start justify-start gap-[24px] max-w-full mq825:flex-wrap">
                       <div className="flex-1 rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-3 px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
                         <input
-                          className="w-[419px] [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-medium text-xl text-text5 max-w-full"
+                          className=" w-[80%] max-w-[419px] [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-medium text-xl text-text5 "
                           placeholder="Forex Amount"
                           type="text"
+                          value={amount}
+                          onChange={(e) => setAmount(e.target.value)}
                         />
                         <img
                           className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
@@ -132,7 +183,7 @@ const HomeExchangeCurrency = () => {
                       </div>
                       <div className="w-[239px] rounded-2xl bg-informative box-border overflow-hidden shrink-0 flex flex-row items-center justify-center py-4 px-[26px] whitespace-nowrap border-[2px] border-solid border-secondary">
                         <div className="flex-1 relative text-5xl leading-[32px] font-body-small text-white text-left">
-                          1 USD = ₹ 83.17
+                          1 {finalCurrency?.value} = {rate} {intialCurrency?.value}
                         </div>
                       </div>
                     </div>
@@ -141,13 +192,13 @@ const HomeExchangeCurrency = () => {
                 <div className="self-stretch flex flex-row items-end justify-start gap-[56px] max-w-full mq825:flex-wrap mq450:gap-[56px_28px]">
                   <div className="flex flex-col items-start justify-center gap-[8px]">
                     <div className="w-[181px] relative text-13xl leading-[32px] font-body-small text-accent text-left inline-block mq825:text-7xl mq825:leading-[26px] mq450:text-lgi mq450:leading-[19px]">
-                      INR Amount
+                      { selected? intialCurrency?.value : finalCurrency?.value  } Amount
                     </div>
                     <h1 className="m-0 relative text-29xl leading-[56px] font-normal font-body-small text-white text-left mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
-                      XXXXX.XX
+                      { selected ?  `${rate * amount}` : `${(rate / amount).toFixed(2)}` }
                     </h1>
                   </div>
-                  <button className="cursor-pointer [border:none] p-5 bg-white flex-1 rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100">
+                  <div onClick={()=>{handleOrder()}} className="cursor-pointer [border:none] p-5 bg-white flex-1 rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100">
                     <img
                       className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
                       alt=""
@@ -156,7 +207,7 @@ const HomeExchangeCurrency = () => {
                     <div className="relative text-5xl leading-[32px] font-medium font-body-small text-text1 text-left">
                       Add To Cart
                     </div>
-                  </button>
+                  </div>
                 </div>
               </form>
               <div className="w-[683px] flex flex-col items-start justify-start pt-[84px] px-0 pb-0 box-border min-w-[683px] max-w-full mq825:min-w-full mq450:pt-[55px] mq450:box-border mq1575:flex-1">
@@ -176,49 +227,93 @@ const HomeExchangeCurrency = () => {
           </div>
         </div>
         <div className="self-stretch bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
-          <div className="w-[1680px] flex flex-row flex-wrap items-start justify-center gap-[56px] max-w-full mq825:gap-[28px]">
-            <FrameComponent1 flagsUS="/flags--us@2x.png" uSDollar="US Dollar" />
-            <FrameComponent1
-              flagsUS="/flags--eu@2x.png"
-              uSDollar="Euro"
-              propGap="14px"
-              propMinWidth="51px"
-              propPadding="0px 0px 0px 0px"
-              propPadding1="0px 0px 0px 0px"
-            />
-            <FrameComponent1
-              flagsUS="/flags--gb@2x.png"
-              uSDollar="GB Pound"
-              propGap="16px"
-              propMinWidth="108px"
-              propPadding="unset"
-              propPadding1="unset"
-            />
-            <FrameComponent1
-              flagsUS="/flags--ch.svg"
-              uSDollar="Swiss Franc"
-              propGap="15px"
-              propMinWidth="124px"
-              propPadding="unset"
-              propPadding1="unset"
-            />
-            <FrameComponent1
-              flagsUS="/flags--th.svg"
-              uSDollar="Thai Bhat"
-              propGap="15px"
-              propMinWidth="103px"
-              propPadding="0px 0px 0px 0px"
-              propPadding1="0px 0px 0px 0px"
-            />
-            <FrameComponent1
-              flagsUS="/flags--ru.svg"
-              uSDollar="Russian Rubel"
-              propGap="12px"
-              propMinWidth="unset"
-              propPadding="unset"
-              propPadding1="unset"
-            />
-          </div>
+          {/* <div className="w-[1680px] flex flex-row flex-wrap items-start justify-center gap-[56px] max-w-full mq825:gap-[28px]"> */}
+          <Carousel
+          sliderClass="w-[80vw] bg-red-400"
+            swipeable={false}
+            draggable={false}
+            showDots={true}
+            responsive={responsive}
+            ssr={true}
+            infinite={true}
+            // autoPlay={this.props.deviceType !== "mobile" ? true : false}
+            // autoPlaySpeed={1000}
+            keyBoardControl={true}
+            customTransition="all .5"
+            // transitionDuration={500}
+            containerClass="carousel-container"
+            removeArrowOnDeviceType={["tablet", "mobile"]}
+            // deviceType={this.props.deviceType}
+            // dotListClass="custom-dot-list-style"
+            // itemClass="carousel-item-padding-40-px"
+          >
+            {/* <FrameComponent1
+                flagsUS="/flags--us@2x.png"
+                uSDollar="US Dollar"
+              />
+              <FrameComponent1
+                flagsUS="/flags--eu@2x.png"
+                uSDollar="Euro"
+                propGap="14px"
+                propMinWidth="51px"
+                propPadding="0px 0px 0px 0px"
+                propPadding1="0px 0px 0px 0px"
+              />
+              <FrameComponent1
+                flagsUS="/flags--gb@2x.png"
+                uSDollar="GB Pound"
+                propGap="16px"
+                propMinWidth="108px"
+                propPadding="unset"
+                propPadding1="unset"
+              />
+              <FrameComponent1
+                flagsUS="/flags--ch.svg"
+                uSDollar="Swiss Franc"
+                propGap="15px"
+                propMinWidth="124px"
+                propPadding="unset"
+                propPadding1="unset"
+              />
+              <FrameComponent1
+                flagsUS="/flags--th.svg"
+                uSDollar="Thai Bhat"
+                propGap="15px"
+                propMinWidth="103px"
+                propPadding="0px 0px 0px 0px"
+                propPadding1="0px 0px 0px 0px"
+              />
+              <FrameComponent1
+                flagsUS="/flags--ru.svg"
+                uSDollar="Russian Rubel"
+                propGap="12px"
+                propMinWidth="unset"
+                propPadding="unset"
+                propPadding1="unset"
+              /> */}
+            <div>Item 1</div>
+            <div>Item 2</div>
+            <div>Item 3</div>
+            <div>Item 4</div>
+            <div>Item 1</div>
+            <div>Item 2</div>
+            <div>Item 3</div>
+            <div>Item 4</div>
+            <div>Item 1</div>
+            <div>Item 2</div>
+            <div>Item 3</div>
+            <div>Item 4</div>
+            <div>Item 1</div>
+            <div>Item 2</div>
+            <div>Item 3</div>
+            <div>Item 4</div>
+            <div>Item 1</div>
+            <div>Item 2</div>
+            <div>Item 3</div>
+            <div>Item 4</div>
+          </Carousel>
+
+          {/* </div> */}
           <button className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200">
             <img
               className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"

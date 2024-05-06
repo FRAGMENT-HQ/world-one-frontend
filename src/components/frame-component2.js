@@ -1,26 +1,52 @@
-const FrameComponent2 = ({ currencyYouHave }) => {
+// import Select from 'react-select';
+import countryData from "../../country.json";
+import React, { useState } from "react";
+// import Dropdown from 'react-dropdown';
+import Select from "react-select";
+
+import "react-dropdown/style.css";
+
+const FrameComponent2 = ({
+  selectedOption,
+  setSelectedOption,
+  currencyYouHave,
+  fixed = false,
+}) => {
+  const fullPptions = countryData.map((country) => ({
+    value: country.code,
+    label: country.code,
+  }));
+
+  const options = fixed
+    ? fullPptions
+    : [{ value: "INR", label: "INR" }];
+
   return (
     <div className="flex-1 flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
       <div className="self-stretch relative leading-[32px] font-medium mq450:text-base mq450:leading-[26px]">
         {currencyYouHave}
       </div>
-      <div className="self-stretch rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-3 px-6 gap-[0px] [row-gap:20px] mq825:flex-wrap">
-        <div className="h-8 w-[289px] flex flex-row items-center justify-start gap-[16px]">
-          <img
-            className="h-8 w-8 relative overflow-hidden shrink-0 object-cover min-h-[32px]"
-            alt=""
-            src="/iconframe@2x.png"
-          />
-          <div className="flex-1 relative leading-[32px] font-medium mq450:text-base mq450:leading-[26px]">
-            USD
-          </div>
-        </div>
-        <img
-          className="h-8 w-8 relative min-h-[32px]"
-          alt=""
-          src="/iconsarrow-drop-down-24px.svg"
-        />
-      </div>
+      <Select
+        defaultValue={selectedOption}
+        isSearchable={true}
+        onChange={setSelectedOption}
+        options={options}
+        classNames={{
+          container: () =>
+            "min-w-[240px]  text-white !rounded-xl !border-none !self-stretch rounded-lg bg-gray-100 py-2 ",
+          control: () => "self-stretch !bg-transparent !border-none ",
+
+          menuList: () => "!bg-midnightblue",
+
+          option: () => "text-white bg-red-100",
+
+          input: () => "text-white",
+          singleValue: () => "!text-white",
+        }}
+        // components={{ singleValue: Display }}
+      />
+
+      
     </div>
   );
 };
