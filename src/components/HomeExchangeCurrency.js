@@ -11,6 +11,7 @@ import "react-multi-carousel/lib/styles.css";
 import { useRouter } from "next/router";
 import { useAtom } from "jotai";
 import { getRateMutation } from "@/hooks/prod";
+import CityModal from "./cityModal";
 
 const responsive = {
   desktop: {
@@ -39,6 +40,10 @@ const HomeExchangeCurrency = () => {
   const router = useRouter();
   const [Order, setOrder] = useAtom(order);
   const [rate, setRate] = useState(0)
+  const [open, setOpen] = useState(false)
+  const [city, setCity] = useState("")
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const { mutate: getRate } = getRateMutation(
     (res) => {
@@ -60,11 +65,13 @@ const HomeExchangeCurrency = () => {
       finalCurrency: finalCurrency,
       amount: amount,
       rate: rate,
+      city:city
     });
     router.push("/summary/");
   }
   return (
     <div className="w-[1920px] bg-background max-w-full overflow-hidden flex flex-col items-start justify-start tracking-[normal]">
+      <CityModal onClick={handleOrder} open={open} handleClose={handleClose} city={city} onCitySelect={setCity} />
       <section className="self-stretch bg-black flex flex-col items-start justify-start pt-12 px-0 pb-0 box-border relative gap-[82px] max-w-full text-left text-xl text-white font-body-small mq825:gap-[20px_82px] mq825:pt-5 mq825:box-border mq1275:gap-[41px_82px] mq1275:pt-[31px] mq1275:box-border">
         <img
           className="w-full h-full absolute !m-[0] top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover"
@@ -116,7 +123,7 @@ const HomeExchangeCurrency = () => {
               </div>
             </div>
             <div className="self-stretch flex flex-row items-start justify-start gap-[173px] max-w-full text-[64px] text-text5 mq825:gap-[173px_43px] mq450:gap-[173px_22px] mq1275:gap-[173px_86px] mq1575:flex-wrap">
-              <form className="m-0 flex-1 rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-8 pb-12 box-border gap-[56px] min-w-[537px] max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border mq825:min-w-full mq450:gap-[28px_56px]">
+              <form className="m-0 flex-1 rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-8 pb-12 box-border gap-[56px] min-w-[35vw] max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border mq825:min-w-full mq450:gap-[28px_56px]">
                 <div className="self-stretch rounded-3xl bg-darkslateblue-100 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-auto flex flex-row items-center justify-between py-6 px-8 gap-[13px]">
                   <button className="cursor-pointer [border:none] py-4 px-2 bg-[transparent] w-[177px] shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200">
                     <div className="self-stretch relative text-lg leading-[24px] font-body-small text-white text-center">
@@ -198,7 +205,7 @@ const HomeExchangeCurrency = () => {
                       { selected ?  `${rate * amount}` : `${(rate / amount).toFixed(2)}` }
                     </h1>
                   </div>
-                  <div onClick={()=>{handleOrder()}} className="cursor-pointer [border:none] p-5 bg-white flex-1 rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100">
+                  <div onClick={()=>{handleOpen()}} className="cursor-pointer [border:none] p-5 bg-white flex-1 rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100">
                     <img
                       className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
                       alt=""
@@ -228,90 +235,7 @@ const HomeExchangeCurrency = () => {
         </div>
         <div className="self-stretch bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
           {/* <div className="w-[1680px] flex flex-row flex-wrap items-start justify-center gap-[56px] max-w-full mq825:gap-[28px]"> */}
-          <Carousel
-          sliderClass="w-[80vw] bg-red-400"
-            swipeable={false}
-            draggable={false}
-            showDots={true}
-            responsive={responsive}
-            ssr={true}
-            infinite={true}
-            // autoPlay={this.props.deviceType !== "mobile" ? true : false}
-            // autoPlaySpeed={1000}
-            keyBoardControl={true}
-            customTransition="all .5"
-            // transitionDuration={500}
-            containerClass="carousel-container"
-            removeArrowOnDeviceType={["tablet", "mobile"]}
-            // deviceType={this.props.deviceType}
-            // dotListClass="custom-dot-list-style"
-            // itemClass="carousel-item-padding-40-px"
-          >
-            {/* <FrameComponent1
-                flagsUS="/flags--us@2x.png"
-                uSDollar="US Dollar"
-              />
-              <FrameComponent1
-                flagsUS="/flags--eu@2x.png"
-                uSDollar="Euro"
-                propGap="14px"
-                propMinWidth="51px"
-                propPadding="0px 0px 0px 0px"
-                propPadding1="0px 0px 0px 0px"
-              />
-              <FrameComponent1
-                flagsUS="/flags--gb@2x.png"
-                uSDollar="GB Pound"
-                propGap="16px"
-                propMinWidth="108px"
-                propPadding="unset"
-                propPadding1="unset"
-              />
-              <FrameComponent1
-                flagsUS="/flags--ch.svg"
-                uSDollar="Swiss Franc"
-                propGap="15px"
-                propMinWidth="124px"
-                propPadding="unset"
-                propPadding1="unset"
-              />
-              <FrameComponent1
-                flagsUS="/flags--th.svg"
-                uSDollar="Thai Bhat"
-                propGap="15px"
-                propMinWidth="103px"
-                propPadding="0px 0px 0px 0px"
-                propPadding1="0px 0px 0px 0px"
-              />
-              <FrameComponent1
-                flagsUS="/flags--ru.svg"
-                uSDollar="Russian Rubel"
-                propGap="12px"
-                propMinWidth="unset"
-                propPadding="unset"
-                propPadding1="unset"
-              /> */}
-            <div>Item 1</div>
-            <div>Item 2</div>
-            <div>Item 3</div>
-            <div>Item 4</div>
-            <div>Item 1</div>
-            <div>Item 2</div>
-            <div>Item 3</div>
-            <div>Item 4</div>
-            <div>Item 1</div>
-            <div>Item 2</div>
-            <div>Item 3</div>
-            <div>Item 4</div>
-            <div>Item 1</div>
-            <div>Item 2</div>
-            <div>Item 3</div>
-            <div>Item 4</div>
-            <div>Item 1</div>
-            <div>Item 2</div>
-            <div>Item 3</div>
-            <div>Item 4</div>
-          </Carousel>
+          
 
           {/* </div> */}
           <button className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200">

@@ -12,14 +12,12 @@ const FrameComponent2 = ({
   currencyYouHave,
   fixed = false,
 }) => {
-  const fullPptions = countryData.map((country) => ({
+  const fullOptions = countryData.map((country) => ({
     value: country.code,
     label: country.code,
   }));
 
-  const options = fixed
-    ? fullPptions
-    : [{ value: "INR", label: "INR" }];
+  const options = fixed ? fullOptions : [{ value: "INR", label: "INR" }];
 
   return (
     <div className="flex-1 flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
@@ -38,15 +36,13 @@ const FrameComponent2 = ({
 
           menuList: () => "!bg-midnightblue",
 
-          option: () => "text-white bg-red-100",
+          option: () => "text-white",
 
           input: () => "text-white",
           singleValue: () => "!text-white",
         }}
         // components={{ singleValue: Display }}
       />
-
-      
     </div>
   );
 };
