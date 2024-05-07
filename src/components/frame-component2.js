@@ -4,7 +4,7 @@ import React, { useState } from "react";
 // import Dropdown from 'react-dropdown';
 import Select from "react-select";
 
-import "react-dropdown/style.css";
+// import "react-dropdown/style.css";
 
 const FrameComponent2 = ({
   selectedOption,
@@ -31,7 +31,7 @@ const FrameComponent2 = ({
         options={options}
         classNames={{
           container: () =>
-            "min-w-[240px]  text-white !rounded-xl !border-none !self-stretch rounded-lg bg-gray-100 py-2 ",
+            "w-[240px]  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-2 ",
           control: () => "self-stretch !bg-transparent !border-none ",
 
           menuList: () => "!bg-midnightblue",

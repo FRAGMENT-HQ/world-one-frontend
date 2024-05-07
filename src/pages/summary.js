@@ -131,27 +131,27 @@ import { useRouter } from "next/router";
                     alt=""
                     src="/ushoppingcart.svg"
                   />
-                  <div className="relative text-[1.5rem] leading-[2rem] font-body-small text-white text-left inline-block min-w-[4.188rem] mq450:text-[1.188rem] mq450:leading-[1.625rem]">
+                  <div className="relative text-[1.5rem]  font-body-small text-white text-left inline-block min-w-[4.188rem] mq450:text-[1.188rem]">
                     Apply
                   </div>
                 </div>
               </div>
             </div>
-            <div className="self-stretch shadow-[0px_2px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl bg-white overflow-hidden flex flex-col items-start justify-center p-[2rem] box-border gap-[1rem] max-w-full">
+            <div className="self-stretch shadow-[0px_2px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl bg-white overflow-hidden flex flex-col items-start justify-center p-[2rem]  gap-[1rem] max-w-full">
               <div className="w-[9.188rem] relative text-[1.25rem] leading-[2rem] font-medium font-body-small text-text2 text-left inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
                 Order Summary
               </div>
               <div className="self-stretch flex flex-col items-start justify-start gap-[1.187rem] max-w-full">
                 <div className="self-stretch flex flex-col items-start justify-start gap-[0.062rem] max-w-full">
-                  <div className="self-stretch box-border flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[2rem] max-w-full border-b-[1px] border-solid border-text3 mq900:flex-wrap mq450:gap-[1rem]">
+                  <div className="self-stretch  flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[2rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap mq450:gap-[1rem]">
                     <div className="flex-1 relative text-[1.25rem] leading-[2rem] font-medium font-body-small text-text2 text-left inline-block min-w-[2.125rem] max-w-full mq450:text-[1rem] mq450:leading-[1.625rem]">
                       Total
                     </div>
-                    <div className="relative text-[1.25rem] leading-[2rem] font-medium font-body-small text-secondary text-left inline-block min-w-[5.375rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
+                    <div className="relative text-[1.25rem] leading-[2rem] font-medium font-body-small text-text3 text-left inline-block min-w-[3.938rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
                       {(orderDetails?.amount*orderDetails?.rate).toFixed(2)}
                     </div>
                   </div>
-                  <div className="self-stretch box-border flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[1.75rem] max-w-full border-b-[1px] border-solid border-text3 mq900:flex-wrap">
+                  <div className="self-stretch  flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[1.75rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap">
                     <div className="flex-1 relative text-[1.25rem] leading-[2rem] font-medium font-body-small text-text3 text-left inline-block min-w-[1.875rem] max-w-full mq450:text-[1rem] mq450:leading-[1.625rem]">
                       GST
                     </div>
@@ -159,12 +159,12 @@ import { useRouter } from "next/router";
                     {(orderDetails?.amount*orderDetails?.rate*0.18).toFixed(2)}
                     </div>
                   </div>
-                  <div className="self-stretch box-border flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[2rem] max-w-full border-b-[1px] border-solid border-text3 mq900:flex-wrap mq450:gap-[1rem]">
-                    <div className="flex-1 relative text-[1.25rem] leading-[2rem] font-medium font-body-small text-text2 text-left inline-block min-w-[3.938rem] max-w-full mq450:text-[1rem] mq450:leading-[1.625rem]">
+                  <div className="self-stretch flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[2rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap mq450:gap-[1rem]">
+                    <div className="flex-1 relative text-[1.25rem] leading-[2rem] font-medium font-body-small text-text2 text-left inline-block min-w-[3.938rem] max-w-full mq450:text-[1rem]">
                       Discount
                     </div>
-                    <div className="relative text-[1.25rem] leading-[2rem] font-medium font-body-small text-success text-left inline-block min-w-[5.25rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
-                      - 0.0
+                    <div className="relative text-[1.25rem] leading-[2rem] font-medium font-body-small  text-left inline-block min-w-[3.938rem] mq450:text-[1rem] mq450:leading-[1.625rem] text-success ">
+                      0.00
                     </div>
                   </div>
                 </div>

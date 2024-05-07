@@ -14,7 +14,11 @@
   src: url("/AvenirNextLTPro-UltLt.otf");
   font-weight: 500;
 }
-
+* {
+  font-family: "Avenir Next LT Pro";
+  src: url("/AvenirNextLTPro-Regular.otf");
+  
+}
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
