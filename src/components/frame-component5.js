@@ -91,7 +91,7 @@ const FrameComponent5 = ({
       <div className=" relative leading-[2rem] font-medium inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
         Documents Required
       </div>
-      <div className=" bg-red-100 w-full flex flex-row items-center justify-around flex-wrap">
+      <div className=" b w-full flex flex-row items-center justify-around flex-wrap">
         <button
           onClick={() => {
             panRef.current.click();
@@ -101,7 +101,7 @@ const FrameComponent5 = ({
           <img
             className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0"
             alt=""
-            src="/id-card.svg"
+            src={pan === null ? "/id-card.svg" : "/upload-icon.svg"}
           />
           <div className="flex-1 relative text-[1.25rem] leading-[1.5rem] font-medium font-avenir-next-lt-pro  text-left">
             {`Upload${pan === null ? " Pan Card" : "ed"}`}
@@ -124,7 +124,7 @@ const FrameComponent5 = ({
           <img
             className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0 min-h-[3rem]"
             alt=""
-            src="/passport.svg"
+            src={passportFront === null ? "/passport.svg" : "/upload-icon.svg"}
           />
           <div className="relative text-[1.25rem] leading-[1.5rem] font-medium font-avenir-next-lt-pro text-left">
             <p className="m-0">
@@ -151,7 +151,7 @@ const FrameComponent5 = ({
             className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0 min-h-[3rem]"
             loading="lazy"
             alt=""
-            src="/passport.svg"
+            src={passportBack === null ? "/passport.svg" : "/upload-icon.svg"}  
           />
           <div className="relative leading-[1.5rem] font-medium mq450:text-[1rem] mq450:leading-[1.188rem]">
             <p className="m-0">
@@ -178,7 +178,7 @@ const FrameComponent5 = ({
             className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0"
             loading="lazy"
             alt=""
-            src="/air.svg"
+            src={airTicket === null ? "/air.svg" : "/upload-icon.svg"}   
           />
           <div className="flex-1 relative leading-[1.5rem] font-medium">
             <p className="m-0">
@@ -204,7 +204,7 @@ const FrameComponent5 = ({
             <img
               className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0"
               alt=""
-              src="/passport-2.svg"
+              src={visa === null ? "/passport-2.svg" : "/upload-icon.svg"}  
             />
             <div className="flex-1 relative text-[1.25rem] leading-[1.5rem] font-medium font-avenir-next-lt-pro text-left">
               <p className="m-0">

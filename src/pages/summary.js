@@ -80,13 +80,13 @@ import { useRouter } from "next/router";
                 {orderDetails?.finalCurrency.value}
                 </div>
                 <div className="w-[11.5rem] relative text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
-                  1 {orderDetails?.finalCurrency.value} = {orderDetails?.intialCurrency?.value} {orderDetails?.rate.toFixed(2)}
+                  1 {orderDetails?.finalCurrency.value} = {orderDetails?.intialCurrency?.value} {(1/orderDetails?.rate).toFixed(2)}
                 </div>
                 <div className="flex-1 relative text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left">
                  {(orderDetails?.amount)}
                 </div>
                 <div className="flex-1 relative text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left">
-                {(orderDetails?.amount*orderDetails?.rate).toFixed(2)}
+                {(orderDetails?.amount/(orderDetails?.rate*1.05)).toFixed(2)}
                 </div>
               </div>
               <img
@@ -148,7 +148,7 @@ import { useRouter } from "next/router";
                       Total
                     </div>
                     <div className="relative text-[1.25rem] leading-[2rem] font-medium font-body-small text-text3 text-left inline-block min-w-[3.938rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
-                      {(orderDetails?.amount*orderDetails?.rate).toFixed(2)}
+                      {(orderDetails?.amount/(orderDetails?.rate*1.05)).toFixed(2)}
                     </div>
                   </div>
                   <div className="self-stretch  flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[1.75rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap">
@@ -156,7 +156,7 @@ import { useRouter } from "next/router";
                       GST
                     </div>
                     <div className="relative text-[1.25rem] leading-[2rem] font-medium font-body-small text-text3 text-left inline-block min-w-[3.938rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
-                    {(orderDetails?.amount*orderDetails?.rate*0.18).toFixed(2)}
+                    {(orderDetails?.amount/orderDetails?.rate*0.005).toFixed(2)}
                     </div>
                   </div>
                   <div className="self-stretch flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[2rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap mq450:gap-[1rem]">
@@ -173,7 +173,7 @@ import { useRouter } from "next/router";
                     Grand Total
                   </div>
                   <div className="relative text-[1.5rem] leading-[2rem] font-body-small text-secondary text-left inline-block min-w-[7.313rem] mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-                  {(orderDetails?.amount*orderDetails?.rate*1.18).toFixed(2)}
+                  {(orderDetails?.amount/(orderDetails?.rate*1.05)*1.005).toFixed(2)}
                   </div>
                 </div>
               </div>

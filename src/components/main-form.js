@@ -28,7 +28,7 @@ const MainForm = () => {
     }
   );
   const handleSubmission = () => {
-    if (selected === false) {
+    if (selected === true) {
     const data = new FormData();
     data.append("pan", pan);
     data.append("passport_front", passportFront);
@@ -40,8 +40,11 @@ const MainForm = () => {
       JSON.stringify({
         currency: orderData.finalCurrency.value,
         amount: orderData.amount,
-        forex_rate: orderData.rate,
-        total_amount: orderData.amount * orderData.rate * 1.18,
+        forex_rate: 1/orderData.rate,
+        total_amount: orderData.amount / (orderData.rate*1.05) * 1.005,
+        product: orderData.product,
+        city: orderData.city,
+
       })
     );
     data.append("user", JSON.stringify(userData));
@@ -85,7 +88,7 @@ const MainForm = () => {
           <div className="">
             I confirm that I'm in possession of valid documents as per the list
             shown above and that I haven't bought or transfered foreign currency
-            for more than USD 2,50,000 (or equivalent in another currency) in
+            for more than USD 250,000 (or equivalent in another currency) in
             the current financial year.{" "}
           </div>
         </div>

@@ -36,3 +36,21 @@ export const postOrderMutation = (successCallback, errorCallback) => {
     },
   });
 };
+
+const rateCardRequest = () => {
+  const url = getUrl(`/api/products/forex/`);
+
+  return request("GET", url, null, false);
+};
+
+export const getRateCardMutation = (successCallback, errorCallback) => {
+  return useMutation(rateCardRequest, {
+    mutationKey: "rate-request",
+    onSuccess: (res) => {
+      successCallback(res);
+    },
+    onError: (err) => {
+      errorCallback(err);
+    },
+  });
+};
