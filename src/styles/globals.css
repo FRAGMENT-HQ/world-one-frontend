@@ -14,26 +14,36 @@
   src: url("/AvenirNextLTPro-UltLt.otf");
   font-weight: 500;
 }
+@font-face {
+  font-family: "Avenir Next LT Pro";
+  src: url("/AvenirNextLTPro-Demi.otf");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Avenir Next LT Pro";
+  src: url("/AvenirNextLTPro-Bold.otf");
+  font-weight: 700;
+}
 * {
   font-family: "Avenir Next LT Pro" !important ;
   src: url("/AvenirNextLTPro-Regular.otf");
   
 }
 :root {
-  --foreground-rgb: 0, 0, 0;
+  /* --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255; */
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} */
 
-body {
+/* body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -47,4 +57,4 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-}
+} */

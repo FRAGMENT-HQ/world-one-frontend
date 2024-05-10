@@ -37,11 +37,11 @@ const HomeExchangeCurrency = () => {
   const [selected, setSelected] = useState(true);
  
   const [intialCurrency, setIntialCurrency] = useState({label:"INR",value:"INR"});
-  const [finalCurrency, setFinalCurrency] = useState({label:"INR",value:"INR"});
+  const [finalCurrency, setFinalCurrency] = useState({label:"USD",value:"USD"});
   const [ amount, setAmount] = useState(0);
   const router = useRouter();
   const [Order, setOrder] = useAtom(order);
-  const [rate, setRate] = useState(0)
+  const [rate, setRate] = useState(1)
   const [open, setOpen] = useState(false)
   const [city, setCity] = useState("")
   const [rates, setRates] = useState([])
@@ -70,6 +70,7 @@ const HomeExchangeCurrency = () => {
     }
   )
   useEffect(() => {
+    getRate(finalCurrency.value)
     getRateCard()
   }, [])
 
@@ -86,7 +87,7 @@ const HomeExchangeCurrency = () => {
     router.push("/summary/");
   }
   return (
-    <div className="w-[1920px] bg-background max-w-full overflow-hidden flex flex-col items-start justify-start tracking-[normal]">
+    <div className=" bg-background max-w-full overflow-hidden flex flex-col items-start justify-start">
       <CityModal onClick={handleOrder} open={open} handleClose={handleClose} city={city} onCitySelect={setCity} />
       <section className="self-stretch bg-black flex flex-col items-start justify-start pt-12 px-0 pb-0 box-border relative gap-[82px] max-w-full text-left text-xl text-white font-body-small mq825:gap-[20px_82px] mq825:pt-5 mq825:box-border mq1275:gap-[41px_82px] mq1275:pt-[31px] mq1275:box-border">
         <img
@@ -95,7 +96,7 @@ const HomeExchangeCurrency = () => {
           src="/gradient-wallpapers@2x.png"
         />
         <img
-          className="w-[3983px] h-[1948.8px] absolute !m-[0] right-[-1032.1px] bottom-[-468.8px] z-[1]"
+          className="w-full  absolute !m-[0]   z-[1]"
           alt=""
         />
         <div className="self-stretch flex flex-row items-start justify-center py-0 pr-[22px] pl-5 box-border max-w-full">
@@ -138,9 +139,9 @@ const HomeExchangeCurrency = () => {
                 </button>
               </div>
             </div>
-            <div className="self-stretch flex flex-row items-start justify-start gap-[173px] max-w-full text-[64px] text-text5 mq825:gap-[173px_43px] mq450:gap-[173px_22px] mq1275:gap-[173px_86px] mq1575:flex-wrap">
-              <form className="m-0  rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-8 pb-12 box-border gap-[56px] min-w-[35vw] max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border mq825:min-w-full mq450:gap-[28px_56px]">
-                <div className="self-stretch rounded-3xl bg-darkslateblue-100 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-auto flex flex-row items-center justify-between py-6 px-8 gap-[1px]">
+            <div className="self-stretch w-full flex flex-row items-start justify-between gap-[1%] max-w-full text-[64px] text-text5 mq825:gap-[173px_43px] mq450:gap-[173px_22px] mq1275:gap-[173px_86px] mq1575:flex-wrap">
+              <form className="m-0 w-[52%] ml-[3%]  rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-8 pb-12 box-border gap-[56px] min-w-[35vw] max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border mq825:min-w-full mq450:gap-[28px_56px]">
+                <div className=" min-w-[710px] w-[80%] rounded-3xl bg-darkslateblue-100 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-auto flex flex-row items-center justify-between py-6 px-8 gap-[1px]">
                   <button onClick={()=>{setprod("Exchange Currency")}} className="cursor-pointer [border:none] py-4 px-2 bg-[transparent] w-[177px] shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200">
                     <div className={`relative text-lg font-body-small ${ prod=="Exchange Currency" ? "" : "font-medium"  } text-white text-center`}>
                       Exchange Currency
@@ -233,12 +234,12 @@ const HomeExchangeCurrency = () => {
                   </div>
                 </div>
               </form>
-              <div className="w-[683px] flex flex-col items-start justify-start pt-[84px] px-0 pb-0 box-border min-w-[683px] max-w-full mq825:min-w-full mq450:pt-[55px] mq450:box-border mq1575:flex-1">
+              <div className="w-[40%] min-w-[500px] flex flex-col items-start justify-start pt-[84px] px-10 pb-0 box-border  max-w-full mq825:min-w-full mq450:pt-[55px] mq450:box-border mq1575:flex-1">
                 <div className="self-stretch flex flex-col items-start justify-start gap-[64px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
-                  <h1 className="m-0 self-stretch relative text-inherit leading-[72px] font-normal font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
+                  <h1 className="m-0 self-stretch relative text-inherit  font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
                     Exchange Your Currency
                   </h1>
-                  <div className="self-stretch relative text-5xl leading-[36px] font-medium text-white mq450:text-lgi mq450:leading-[29px]">
+                  <div className="self-stretch relative text-5xl  font-medium text-white mq450:text-lgi mq450:leading-[29px]">
                     Exchange major world currencies with competitive rates and
                     exceptional service, ensuring seamless transactions for your
                     convenience. Whether for travel or business, trust us for
@@ -259,7 +260,7 @@ const HomeExchangeCurrency = () => {
 
 
           </div>
-          <button className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200">
+          <button onClick={()=>{ router.push("/rates") }} className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200">
             <img
               className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
               alt=""
@@ -331,48 +332,17 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
               <FrameComponent
                 currency="/send-money.svg"
                 exchangeCurrency="Transfer Money Abroad"
-                propLeft="856px"
-                propTop="0px"
-                propBackgroundColor="rgba(60, 73, 139, 0.3)"
-                propBottom="-281.66px"
+      
               />
               <FrameComponent
                 currency="/mdilightcreditcard.svg"
                 exchangeCurrency="Transfer Money Abroad"
-                propLeft="0px"
-                propTop="332px"
-                propBackgroundColor="rgba(55, 70, 143, 0.3)"
-                propBottom="-281.66px"
+                
               />
-              <div className="w-[49%] !m-[0] top-[332px] left-[856px] rounded-13xl bg-darkslateblue-600 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden shrink-0 flex flex-row items-start justify-start py-8 px-16 box-border gap-[48px] max-w-full mq825:flex-wrap">
-                <div className="h-[190px] flex flex-col items-start justify-start pt-[30px] px-0 pb-0 box-border">
-                  <img
-                    className="w-40 h-40 relative overflow-hidden shrink-0"
-                    loading="lazy"
-                    alt=""
-                    src="/phairplanetakeofflight.svg"
-                  />
-                </div>
-                <div className="flex-1 flex flex-col items-start justify-start gap-[32px] min-w-[317px] max-w-full">
-                  <div className="self-stretch flex flex-col items-start justify-start gap-[16px] max-w-full">
-                    <b className="relative leading-[40px] inline-block max-w-full mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
-                      Transfer Money Abroad
-                    </b>
-                    <div className="self-stretch relative text-xl leading-[28px] mq450:text-base mq450:leading-[22px]">{`Exchange major world currencies with competitive rates and exceptional service, ensuring seamless transactions for your convenience. `}</div>
-                  </div>
-                  <div className="h-12 rounded-xl bg-white overflow-hidden shrink-0 flex flex-row items-start justify-start py-2 px-[37.5px] box-border gap-[6px] text-5xl text-text1">
-                    <div className="relative  leading-[32px] font-medium inline-block min-w-[82px] mq450:text-lgi mq450:leading-[26px]">
-                      Explore
-                    </div>
-                    <img
-                      className="h-8 w-8 relative overflow-hidden shrink-0 object-cover min-h-[32px]"
-                      alt=""
-                      src="/eiarrowright@2x.png"
-                    />
-                  </div>
-                </div>
-                <div className="h-[334px] w-[528.3px] absolute !m-[0] right-[-47.3px] bottom-[-281.66px] rounded-[50%] bg-lightblue [filter:blur(250px)] [transform:_rotate(-12deg)] [transform-origin:0_0] z-[1]" />
-              </div>
+              <FrameComponent currency="/phairplanetakeofflight.svg"
+                exchangeCurrency="Transfer Money Abroad" />
+
+              
             </div>
           </div>
         </div>
