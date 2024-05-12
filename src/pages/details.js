@@ -1,17 +1,16 @@
 import InputArray from "../components/input-array";
 import FrameComponent4 from "../components/frame-component4";
 import PhoneNumberInputField from "../components/phone-number-input-field";
-import FrameComponent6 from "../components/frame-component6";
 import FrameComponent3 from "../components/frame-component3";
-import FrameComponent5 from "../components/frame-component5";
 import { useState } from "react";
 import { useAtom } from "jotai";
-import { user } from "@/states/storage";
+import { user,order } from "@/states/storage";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 
 const Frame11 = () => {
   const [userData, setUserData] = useAtom(user);
+  const [orderData, setOrderData] = useAtom(order);
   const [panNumber, setPanNumber] = useState(userData?.panNumber || "");
   const [name, setName] = useState(userData?.name || "");
   const [email, setEmail] = useState(userData?.email || "");
@@ -36,11 +35,11 @@ const Frame11 = () => {
       toast.error("Correct phone number is required");
       return;
     }
-
+    
     setUserData({ panNumber, name, email, phone_no:phone });
     router.push("/verf");
   }
-  console.log(userData);
+  
 
   return (
     <div className="w-full relative bg-background overflow-hidden flex flex-col items-center justify-start pt-[3rem] px-[1.25rem] pb-[10rem] box-border gap-[2.75rem] leading-[normal] tracking-[normal] mq900:gap-[1.375rem]">

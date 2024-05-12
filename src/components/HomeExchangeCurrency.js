@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { order } from "@/states/storage";
 import FrameComponent2 from "./frame-component2";
 import FrameComponent1 from "./frame-component1";
@@ -35,32 +35,49 @@ const responsive = {
 
 const HomeExchangeCurrency = () => {
   const [selected, setSelected] = useState(true);
- 
-  const [intialCurrency, setIntialCurrency] = useState({label:"INR",value:"INR"});
-  const [finalCurrency, setFinalCurrency] = useState({label:"USD",value:"USD"});
-  const [ amount, setAmount] = useState(0);
+
+  const [intialCurrency, setIntialCurrency] = useState({
+    label: "INR",
+    value: "INR",
+  });
+  const [finalCurrency, setFinalCurrency] = useState({
+    label: "USD",
+    value: "USD",
+  });
+  const [amount, setAmount] = useState(0);
   const router = useRouter();
   const [Order, setOrder] = useAtom(order);
-  const [rate, setRate] = useState(1)
-  const [open, setOpen] = useState(false)
-  const [city, setCity] = useState("")
-  const [rates, setRates] = useState([])
-  const [prod, setprod] = useState("Exchange Currency")
+  const [rate, setRate] = useState(1);
+  const [factor, setFactor] = useState(1.05);
+  const [open, setOpen] = useState(false);
+  const [city, setCity] = useState("");
+  const [rates, setRates] = useState([]);
+  const [powerFactor, setPowerFactor] = useState(1);
+  const [prod, setprod] = useState("Exchange Currency");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const { mutate: getRate } = getRateMutation(
     (res) => {
-      setRate(res.data.rate);
+      setRate(1 / res.data.rate);
     },
     (err) => {
       console.log(err);
     }
-  )
+  );
   useEffect(() => {
-  getRate(finalCurrency.value)
-  }, [finalCurrency])
-  
+    setFactor(selected ? 1.05 : 0.95);
+    setPowerFactor(selected ? 1 : -1);
+  }, [selected]);
+
+  useEffect(() => {
+    setSelected(true);
+  }, [prod]);
+
+  useEffect(() => {
+    getRate(finalCurrency.value);
+  }, [finalCurrency]);
+
   const { mutate: getRateCard } = getRateCardMutation(
     (res) => {
       setRates(res.data);
@@ -68,37 +85,46 @@ const HomeExchangeCurrency = () => {
     (err) => {
       console.log(err);
     }
-  )
+  );
   useEffect(() => {
-    getRate(finalCurrency.value)
-    getRateCard()
-  }, [])
-
+    getRate(finalCurrency.value);
+    getRateCard();
+  }, []);
 
   const handleOrder = () => {
     setOrder({
-      intialCurrency: intialCurrency,
-      finalCurrency: finalCurrency,
-      amount: amount,
-      rate: rate,
-      city:city,
-      product:prod
+      intialCurrency: selected ? intialCurrency : finalCurrency,
+      finalCurrency: selected ? finalCurrency : intialCurrency,
+      amount: (amount * (rate * factor) ** powerFactor).toFixed(2),
+      forexAmount: selected
+        ? amount
+        : (amount * (rate * factor) ** powerFactor).toFixed(2),
+      inrAmount: selected
+        ? (amount * (rate * factor) ** powerFactor).toFixed(2)
+        : amount,
+      rate: (rate * factor).toFixed(2),
+      city: city,
+      product: prod,
+      bs: selected ? "Buy" : "Sell",
     });
     router.push("/summary/");
-  }
+  };
   return (
     <div className=" bg-background max-w-full overflow-hidden flex flex-col items-start justify-start">
-      <CityModal onClick={handleOrder} open={open} handleClose={handleClose} city={city} onCitySelect={setCity} />
+      <CityModal
+        onClick={handleOrder}
+        open={open}
+        handleClose={handleClose}
+        city={city}
+        onCitySelect={setCity}
+      />
       <section className="self-stretch bg-black flex flex-col items-start justify-start pt-12 px-0 pb-0 box-border relative gap-[82px] max-w-full text-left text-xl text-white font-body-small mq825:gap-[20px_82px] mq825:pt-5 mq825:box-border mq1275:gap-[41px_82px] mq1275:pt-[31px] mq1275:box-border">
         <img
           className="w-full h-full absolute !m-[0] top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover"
           alt=""
-          src="/gradient-wallpapers@2x.png"
+          src="/bg-grad.png"
         />
-        <img
-          className="w-full  absolute !m-[0]   z-[1]"
-          alt=""
-        />
+        <img className="w-full absolute !m-[0] z-[1]" alt="" />
         <div className="self-stretch flex flex-row items-start justify-center py-0 pr-[22px] pl-5 box-border max-w-full">
           <div className="w-[1682px] flex flex-col items-end justify-start gap-[98px] max-w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px]">
             <div className="self-stretch h-[100px] rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
@@ -139,57 +165,120 @@ const HomeExchangeCurrency = () => {
                 </button>
               </div>
             </div>
-            <div className="self-stretch w-full flex flex-row items-start justify-between gap-[1%] max-w-full text-[64px] text-text5 mq825:gap-[173px_43px] mq450:gap-[173px_22px] mq1275:gap-[173px_86px] mq1575:flex-wrap">
-              <form className="m-0 w-[52%] ml-[3%]  rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-8 pb-12 box-border gap-[56px] min-w-[35vw] max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border mq825:min-w-full mq450:gap-[28px_56px]">
-                <div className=" min-w-[710px] w-[80%] rounded-3xl bg-darkslateblue-100 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-auto flex flex-row items-center justify-between py-6 px-8 gap-[1px]">
-                  <button onClick={()=>{setprod("Exchange Currency")}} className="cursor-pointer [border:none] py-4 px-2 bg-[transparent] w-[177px] shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200">
-                    <div className={`relative text-lg font-body-small ${ prod=="Exchange Currency" ? "" : "font-medium"  } text-white text-center`}>
+            <div className="self-stretch w-full flex flex-row items-start justify-between gap-[8%] max-w-full text-[64px] text-text5 mq825:gap-[173px_43px] mq450:gap-[173px_22px] mq1275:gap-[173px_86px] mq1575:flex-wrap">
+              <form className="m-0 w-[48%] ml-[3%]  rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-8 pb-12 box-border gap-[56px] min-w-[35vw] max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border mq825:min-w-full mq450:gap-[28px_56px]">
+                <div className=" px-[10px]  w-full rounded-3xl bg-darkslateblue-100 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-auto flex flex-row items-center justify-between py-6 px-8 gap-[1px]">
+                  <button
+                    onClick={() => {
+                      setprod("Exchange Currency");
+                    }}
+                    className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
+                  >
+                    <div
+                      className={`relative text-medium font-body-small ${prod == "Exchange Currency" ? "" : "font-medium   "} text-white text-center`}
+                    >
                       Exchange Currency
                     </div>
+                    {prod == "Exchange Currency" && (
+                      <div className="w-full h-1 rounded-xl mt-2 bg-[#FF9135]"></div>
+                    )}
                   </button>
-                  <div onClick={()=>{setprod("Transfer Money Abroad")}} className="cursor-pointer rounded-xl [filter:drop-shadow(0px_8px_16px_rgba(39,_53,_126,_0.1))] shrink-0 flex flex-col items-center justify-center py-4 px-2 box-border">
-                    <div className={`relative text-lg font-body-small ${ prod=="Transfer Money Abroad" ? "" : "font-medium"  } text-white text-center`}>
+                  <div
+                    onClick={() => {
+                      setprod("Transfer Money Abroad");
+                    }}
+                    className="cursor-pointer rounded-xl [filter:drop-shadow(0px_8px_16px_rgba(39,_53,_126,_0.1))] shrink-0 flex flex-col items-center justify-center py-4 px-2 box-border"
+                  >
+                    <div
+                      className={`relative text-base font-body-small ${prod == "Transfer Money Abroad" ? "" : "font-medium"} text-white text-center`}
+                    >
                       Transfer Money Abroad
                     </div>
+                    {prod == "Transfer Money Abroad" && (
+                      <div className="w-full h-1 rounded-xl mt-2 bg-[#FF9135]"></div>
+                    )}
                   </div>
-                  <div onClick={()=>{setprod("Forex Card")}} className="cursor-pointer rounded-xl [filter:drop-shadow(0px_8px_16px_rgba(39,_53,_126,_0.1))] shrink-0 flex flex-col items-center justify-center p-4 box-border">
-                    <div className={`relative text-lg font-body-small ${ prod=="Forex Card" ? "" : "font-medium"  } text-white text-center`}>
+                  <div
+                    onClick={() => {
+                      setprod("Forex Card");
+                    }}
+                    className="cursor-pointer rounded-xl [filter:drop-shadow(0px_8px_16px_rgba(39,_53,_126,_0.1))] shrink-0 flex flex-col items-center justify-center p-4 box-border"
+                  >
+                    <div
+                      className={`relative text-base font-body-small ${prod == "Forex Card" ? "" : "font-medium"} text-white text-center`}
+                    >
                       Forex Card
                     </div>
+                    {prod == "Forex Card" && (
+                      <div className="w-full h-1 rounded-xl mt-2 bg-[#FF9135]"></div>
+                    )}
                   </div>
-                  <div onClick={()=>{setprod("Travel Insurance")}} className="cursor-pointer rounded-xl [filter:drop-shadow(0px_8px_16px_rgba(39,_53,_126,_0.1))] shrink-0 flex flex-col items-center justify-center py-4 px-2 box-border">
-                    <div className={`relative text-lg font-body-small ${ prod=="Travel Insurance" ? "" : "font-medium"  } text-white text-center`}>
+                  <div
+                    onClick={() => {
+                      setprod("Travel Insurance");
+                    }}
+                    className="cursor-pointer rounded-xl [filter:drop-shadow(0px_8px_16px_rgba(39,_53,_126,_0.1))] shrink-0 flex flex-col items-center justify-center py-4 px-2 box-border"
+                  >
+                    <div
+                      className={`relative text-base font-body-small ${prod == "Travel Insurance" ? "" : "font-medium"} text-white text-center`}
+                    >
                       Travel Insurance
                     </div>
+                    {prod == "Travel Insurance" && (
+                      <div className="w-full h-1 rounded-xl mt-2 bg-[#FF9135]"></div>
+                    )}
                   </div>
                 </div>
                 <div className="self-stretch flex flex-col items-center justify-center gap-[32px] max-w-full mq450:gap-[16px_32px]">
-                  <div className="self-stretch rounded-2xl bg-gray-100 shadow-[-2px_2px_8px_rgba(14,_21,_56,_0.2)_inset,_-4px_4px_16px_rgba(15,_20,_45,_0.15)_inset] flex flex-row items-start justify-start max-w-full [row-gap:20px] mq825:flex-wrap">
-                    <div
-                      onClick={() => setSelected(false)}
-                      className={` cursor-pointer [border:none] py-3 px-5 ${selected ? "bg-primary" : ""} flex-1 rounded-2xl overflow-hidden flex flex-row items-center justify-center box-border min-w-[248px] whitespace-nowrap max-w-full hover:bg-chocolate-100`}
-                    >
-                      <div className="relative text-xl  font-semibold font-lato text-white text-left inline-block min-w-[123px]">
-                        Buy Currency
-                      </div>
-                    </div>
-                    <div className="flex-1 overflow-hidden flex flex-row items-center justify-center box-border min-w-[248px] max-w-full">
+                  {prod == "Exchange Currency" && (
+                    <div className="self-stretch rounded-2xl bg-gray-100 shadow-[-2px_2px_8px_rgba(14,_21,_56,_0.2)_inset,_-4px_4px_16px_rgba(15,_20,_45,_0.15)_inset] flex flex-row items-start justify-start max-w-full [row-gap:20px] mq825:flex-wrap">
                       <div
-                        onClick={() => setSelected(true)}
-                        className={`cursor-pointer [border:none] py-3 px-5 ${!selected ? "bg-primary" : ""} flex-1 rounded-2xl overflow-hidden flex flex-row items-center justify-center box-border min-w-[248px] whitespace-nowrap max-w-full hover:bg-chocolate-100`}
+                        onClick={() => {
+                          setSelected(true);
+                        }}
+                        className={` cursor-pointer [border:none] py-3 px-5 ${selected ? "bg-primary" : ""} flex-1 rounded-2xl overflow-hidden flex flex-row items-center justify-center box-border min-w-[248px] whitespace-nowrap max-w-full hover:bg-chocolate-100`}
                       >
-                        <div className="relative text-xl  font-medium font-lato text-text5 text-left inline-block min-w-[118px] mq450:text-base ">
-                          Sell Currency
+                        <div
+                          className={`relative text-xl ${selected ? "font-semibold" : "font-medium"}  font-lato text-white text-left inline-block min-w-[123px]`}
+                        >
+                          Buy Currency
+                        </div>
+                      </div>
+                      <div className="flex-1 overflow-hidden flex flex-row items-center justify-center box-border min-w-[248px] max-w-full">
+                        <div
+                          onClick={() => {
+                            setSelected(false);
+                          }}
+                          className={`cursor-pointer [border:none] py-3 px-5 ${!selected ? "bg-primary" : ""} flex-1 rounded-2xl overflow-hidden flex flex-row items-center justify-center box-border min-w-[248px] whitespace-nowrap max-w-full hover:bg-chocolate-100`}
+                        >
+                          <div
+                            className={`relative text-xl ${!selected ? "font-semibold" : "font-medium"}  font-lato text-white text-left inline-block min-w-[123px]`}
+                          >
+                            Sell Currency
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                   <div className="self-stretch flex flex-col items-start justify-start gap-[24px] max-w-full">
                     <div className="self-stretch flex flex-row items-start justify-start gap-[24px] max-w-full mq825:flex-wrap">
-                      <FrameComponent2  selectedOption={intialCurrency} setSelectedOption={setIntialCurrency} currencyYouHave={ selected ? "Currency you Have" : "Currency you Want"  } />
-                      <FrameComponent2 fixed={true} selectedOption={finalCurrency} setSelectedOption={setFinalCurrency} currencyYouHave={ selected ?  "Currency you Want" :"Currency you Have" } />
+                      <FrameComponent2
+                        selectedOption={intialCurrency}
+                        setSelectedOption={setIntialCurrency}
+                        currencyYouHave={
+                          selected ? "Currency you Have" : "Currency you Want"
+                        }
+                      />
+                      <FrameComponent2
+                        fixed={true}
+                        selectedOption={finalCurrency}
+                        setSelectedOption={setFinalCurrency}
+                        currencyYouHave={
+                          selected ? "Currency you Want" : "Currency you Have"
+                        }
+                      />
                     </div>
-                    
+
                     <div className="self-stretch flex flex-row items-start justify-start gap-[24px] max-w-full mq825:flex-wrap">
                       <div className="flex-1 rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-3 px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
                         <input
@@ -207,7 +296,8 @@ const HomeExchangeCurrency = () => {
                       </div>
                       <div className="w-[239px] rounded-2xl bg-informative box-border overflow-hidden shrink-0 flex flex-row items-center justify-center py-4 px-[26px] whitespace-nowrap border-[2px] border-solid border-secondary">
                         <div className="flex-1 relative text-5xl leading-[32px] font-body-small text-white text-left">
-                          1 {finalCurrency?.value} = {(1/rate).toFixed(2)} {intialCurrency?.value}
+                          1 {finalCurrency?.value} ={" "}
+                          {(rate * factor).toFixed(2)} {intialCurrency?.value}
                         </div>
                       </div>
                     </div>
@@ -216,13 +306,19 @@ const HomeExchangeCurrency = () => {
                 <div className="self-stretch flex flex-row items-end justify-start gap-[56px] max-w-full mq825:flex-wrap mq450:gap-[56px_28px]">
                   <div className="flex flex-col items-start justify-center gap-[8px]">
                     <div className="w-[181px] relative text-13xl leading-[32px] font-body-small text-accent text-left inline-block mq825:text-7xl mq825:leading-[26px] mq450:text-lgi mq450:leading-[19px]">
-                      { selected? intialCurrency?.value : finalCurrency?.value  } Amount
+                      {selected ? intialCurrency?.value : finalCurrency?.value}{" "}
+                      Amount
                     </div>
                     <h1 className="m-0 relative text-29xl leading-[56px] font-normal font-body-small text-white text-left mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
-                      { selected ?  `${(amount/rate).toFixed(2)}` : `${(amount*rate).toFixed(2)}` }
+                      {`${(amount * (rate * factor) ** powerFactor).toFixed(2)}`}
                     </h1>
                   </div>
-                  <div onClick={()=>{handleOpen()}} className="cursor-pointer [border:none] p-5 bg-white flex-1 rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100">
+                  <div
+                    onClick={() => {
+                      handleOpen();
+                    }}
+                    className="cursor-pointer [border:none] p-5 bg-white flex-1 rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
+                  >
                     <img
                       className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
                       alt=""
@@ -234,7 +330,7 @@ const HomeExchangeCurrency = () => {
                   </div>
                 </div>
               </form>
-              <div className="w-[40%] min-w-[500px] flex flex-col items-start justify-start pt-[84px] px-10 pb-0 box-border  max-w-full mq825:min-w-full mq450:pt-[55px] mq450:box-border mq1575:flex-1">
+              <div className="w-[36%] min-w-[500px] flex flex-col items-start justify-start pt-[84px] px-10 pb-0 box-border  max-w-full mq825:min-w-full mq450:pt-[55px] mq450:box-border mq1575:flex-1">
                 <div className="self-stretch flex flex-col items-start justify-start gap-[64px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
                   <h1 className="m-0 self-stretch relative text-inherit  font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
                     Exchange Your Currency
@@ -251,22 +347,23 @@ const HomeExchangeCurrency = () => {
           </div>
         </div>
         <div className="self-stretch bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
-          <div className=" flex w-full gap-5" >
-
+          <div className=" flex w-full gap-5">
             {rates.slice(4).map((rate, index) => (
               <CurrencyCard key={index} rate={rate} />
-            ))
-          }
-
-
+            ))}
           </div>
-          <button onClick={()=>{ router.push("/rates") }} className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200">
+          <button
+            onClick={() => {
+              router.push("/rates");
+            }}
+            className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
+          >
             <img
               className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
               alt=""
               src="/gglist.svg"
             />
-            <div className="relative text-5xl leading-[32px] font-semibold font-lato text-secondary text-left">
+            <div className="relative text-base leading-[32px] font-semibold font-lato text-secondary text-left">
               See Full Rate Card
             </div>
           </button>
@@ -284,14 +381,14 @@ const HomeExchangeCurrency = () => {
         </div>
       </section>
       <section className="self-stretch bg-background overflow-hidden flex flex-col items-start justify-center py-40 px-[120px] box-border max-w-full text-left text-29xl text-text1 font-body-small mq825:py-[104px] mq825:px-[30px] mq825:box-border mq450:pt-[68px] mq450:pb-[68px] mq450:box-border mq1275:pl-[60px] mq1275:pr-[60px] mq1275:box-border">
-        <div className="self-stretch flex flex-row items-start justify-start gap-[111px] max-w-full mq825:gap-[111px_55px] mq450:gap-[111px_28px] mq1575:flex-wrap">
-          <div className="flex-1 flex flex-col items-start justify-start gap-[56px] min-w-[556px] max-w-full mq825:min-w-full mq450:gap-[28px_56px]">
-            <div className="w-[254px] box-border flex flex-row items-center justify-center py-0 px-[21px] border-l-[5px] border-0 border-solid border-secondary">
-              <h1 className="m-0 w-[206px] relative text-inherit leading-[56px] font-normal font-inherit inline-block mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
+        <div className="self-stretch flex flex-row items-center justify-start gap-[111px] max-w-full mq825:gap-[111px_55px] mq450:gap-[111px_28px] mq1575:flex-wrap">
+          <div className=" flex flex-col items-start justify-start gap-[56px] w-[50%] mq825:min-w-full mq450:gap-[28px_56px]">
+            <div className=" box-border flex flex-row items-center justify-center py-0 px-[21px] border-l-[5px] border-0 border-solid border-secondary">
+              <h1 className="m-0  relative text-inherit  font-normal font-inherit inline-block mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
                 About Us
               </h1>
             </div>
-            <div className="self-stretch h-[396px] relative text-5xl leading-[36px] font-medium text-text2 inline-block mq450:text-lgi mq450:leading-[29px]">
+            <div className="self-stretch relative text-5xl font-medium text-text2 inline-block mq450:text-lgi mq450:leading-[29px]">
               <p className="m-0">
                 World One Forex was incorporated in 2013 and was granted AD CAT
                 II license as well as Import of Foreign Currencies Licence in FY
@@ -302,7 +399,7 @@ const HomeExchangeCurrency = () => {
             </div>
           </div>
           <img
-            className="h-[508px] w-[713px] relative rounded-3xl object-cover max-w-full mq1575:flex-1"
+            className=" w-[40%] h-full relative rounded-3xl object-cover max-w-full mq1575:flex-1"
             loading="lazy"
             alt=""
             src="/unsplash8nppe0ylmn8@2x.png"
@@ -332,17 +429,15 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
               <FrameComponent
                 currency="/send-money.svg"
                 exchangeCurrency="Transfer Money Abroad"
-      
               />
               <FrameComponent
                 currency="/mdilightcreditcard.svg"
                 exchangeCurrency="Transfer Money Abroad"
-                
               />
-              <FrameComponent currency="/phairplanetakeofflight.svg"
-                exchangeCurrency="Transfer Money Abroad" />
-
-              
+              <FrameComponent
+                currency="/phairplanetakeofflight.svg"
+                exchangeCurrency="Transfer Money Abroad"
+              />
             </div>
           </div>
         </div>

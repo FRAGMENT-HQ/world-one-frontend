@@ -1,12 +1,14 @@
 import React, { useRef, useState } from "react";
 import Switch from "@mui/material/Switch";
 import Select from "react-select";
-
+import { useAtom } from "jotai";
+import { order } from "@/states/storage";
 import "react-dropdown/style.css";
 const options  = [
   { value: "Indian", label: "Indian" },
   { value: "Non-Indian", label: "Non-Indian" },
 ];
+
 const FrameComponent5 = ({
   pan,
   setPan,
@@ -18,13 +20,17 @@ const FrameComponent5 = ({
   setAirTicket,
   visa,
   setVisa,
+  checked,
+  setChecked,
+  airTicketState
+  
 }) => {
   const panRef = useRef(null);
   const passportFrontRef = useRef(null);
   const passportBackRef = useRef(null);
   const airTicketRef = useRef(null);
   const visaRef = useRef(null);
-  const [checked, setChecked] = useState(false);
+  // const [checked, setChecked] = useState(false);
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
@@ -91,12 +97,12 @@ const FrameComponent5 = ({
       <div className=" relative leading-[2rem] font-medium inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
         Documents Required
       </div>
-      <div className=" b w-full flex flex-row items-center justify-around flex-wrap">
+      <div className="w-full flex flex-row items-center justify-around flex-wrap">
         <button
           onClick={() => {
             panRef.current.click();
           }}
-          className={`cursor-pointer [border:none] py-[2.125rem] px-[1.825rem] ${pan === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
+          className={`cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${pan === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
         >
           <img
             className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0"
@@ -119,7 +125,7 @@ const FrameComponent5 = ({
           onClick={() => {
             passportFrontRef.current.click();
           }}
-          className={`cursor-pointer [border:none] py-[2.125rem] px-[1.825rem] ${passportFront === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
+          className={`cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${passportFront === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
         >
           <img
             className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0 min-h-[3rem]"
@@ -145,7 +151,7 @@ const FrameComponent5 = ({
           onClick={() => {
             passportBackRef.current.click();
           }}
-          className={`cursor-pointer [border:none] py-[2.125rem] px-[1.825rem] ${passportBack === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
+          className={`cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${passportBack === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
         >
           <img
             className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0 min-h-[3rem]"
@@ -168,11 +174,11 @@ const FrameComponent5 = ({
             className="hidden"
           />
         </div>
-        <div
+        { airTicketState && <div
           onClick={() => {
             airTicketRef.current.click();
           }}
-          className={`cursor-pointer [border:none] py-[2.125rem] px-[1.825rem] ${airTicket === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
+          className={`cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${airTicket === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
         >
           <img
             className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0"
@@ -193,13 +199,13 @@ const FrameComponent5 = ({
             type="file"
             className="hidden"
           />
-        </div>
+        </div>}
         {checked == false && (
           <button
             onClick={() => {
               visaRef.current.click();
             }}
-            className={`cursor-pointer [border:none] py-[2.125rem] px-[1.825rem] ${visa === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
+            className={`cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${visa === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
           >
             <img
               className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0"

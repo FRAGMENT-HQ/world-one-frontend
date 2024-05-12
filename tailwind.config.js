@@ -16,6 +16,10 @@ module.exports = {
       colors: {
         background: "#fcf9f8",
         midnightblue: "#15103f",
+        darkorange: {
+          "100": "rgba(255, 146, 53, 0.2)",
+          "200": "rgba(255, 146, 53, 0.15)",
+        },
         darkslateblue: {
           "100": "rgba(39, 53, 126, 0.5)",
           "200": "rgba(60, 73, 139, 0.2)",

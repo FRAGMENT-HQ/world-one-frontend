@@ -28,7 +28,8 @@
     "react-dropdown-select": "^4.11.2",
     "react-hot-toast": "^2.4.1",
     "react-multi-carousel": "^2.8.5",
-    "react-select": "^5.7.5"
+    "react-select": "^5.7.5",
+    "react-timer-hook": "^3.0.7"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

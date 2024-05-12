@@ -1,6 +1,8 @@
 import MainForm from "../components/main-form";
-;
+import { useAtom } from "jotai";
+import { order } from "@/states/storage";
 const Frame2 = () => {
+  const [orderData, setOrderData] = useAtom(order);
 
   return (
     <div className="w-full relative bg-background overflow-hidden flex flex-col items-center justify-start pt-[3rem] pb-[16rem] pr-[1.687rem] pl-[1.25rem] box-border gap-[2.75rem] leading-[normal] tracking-[normal] mq900:gap-[1.375rem]">
@@ -14,7 +16,7 @@ const Frame2 = () => {
         <div className="flex flex-row items-center justify-start">
           <div className="overflow-hidden flex flex-row items-center justify-center py-[0.25rem] px-[0.968rem]">
             <div className="relative leading-[2rem] inline-block min-w-[4.938rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
-              Location
+              {orderData?.city.value}
             </div>
           </div>
         </div>

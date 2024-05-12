@@ -1,4 +1,7 @@
+
+
 const FrameComponent4 = ({handleClick=()=>{},step=1,title="first step"}) => {
+  
 
 
   return (
@@ -7,8 +10,8 @@ const FrameComponent4 = ({handleClick=()=>{},step=1,title="first step"}) => {
         <div className={`h-[0.5rem] flex-1 relative rounded bg-primary`}/>
         <div className={`h-[0.5rem] flex-1 relative rounded ${step>1 ? " bg-primary" : "bg-text5"}`}/>
         <div className={`h-[0.5rem] flex-1 relative rounded ${step>2 ? " bg-primary" : "bg-text5"}`}/>
-        {/* <div className={`h-[0.5rem] flex-1 relative rounded ${step>3 ? " bg-primary" : "bg-text5"}`}/>
-        <div className={`h-[0.5rem] flex-1 relative rounded ${step>4 ? " bg-primary" : "bg-text5"}`}/> */}
+         <div className={`h-[0.5rem] flex-1 relative rounded ${step>3 ? " bg-primary" : "bg-text5"}`}/>
+        {/*<div className={`h-[0.5rem] flex-1 relative rounded ${step>4 ? " bg-primary" : "bg-text5"}`}/> */}
       </div>
       <div className="self-stretch flex flex-row items-center justify-between [row-gap:20px] max-w-full gap-[0rem] mq1725:flex-wrap">
         <div className=" flex flex-row items-center justify-start py-[0rem]  pl-[0rem] box-border gap-[1.5rem] max-w-full  mq900:box-border mq450:pr-[1.25rem] mq450:box-border mq1325:flex-wrap mq1325:box-border">
