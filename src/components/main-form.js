@@ -36,10 +36,10 @@ const MainForm = () => {
       console.log(err);
     }
   );
-  console.log((airTicket^(orderData.bs == "Buy")));
+  
   const handleSubmission = () => {
     if (selected === true) {
-      if( (checked && visa && passportBack && passportFront && pan && (airTicket^(orderData.bs == "Buy")) ) || (passportBack && passportFront && pan && (airTicket^(orderData.bs == "Buy"))  )  ){
+      if( (checked && visa && passportBack && passportFront && pan && (airTicket^(orderData?.bs == "Buy")) ) || (passportBack && passportFront && pan && (airTicket^(orderData?.bs == "Buy"))  )  ){
         const data = new FormData();
         data.append("pan", pan);
         data.append("passport_front", passportFront);
