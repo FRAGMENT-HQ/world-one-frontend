@@ -108,7 +108,7 @@ const HomeExchangeCurrency = () => {
         city={city}
         onCitySelect={setCity}
       />
-      <section className="self-stretch bg-black flex flex-col items-start justify-start pt-12 px-0 pb-0 box-border relative gap-[82px] max-w-full text-left text-xl text-white font-body-small mq825:gap-[20px_82px] mq825:pt-5 mq825:box-border mq1275:gap-[41px_82px] mq1275:pt-[31px] mq1275:box-border">
+      <section className="self-stretch bg-black flex flex-col items-start justify-start pt-4 px-0 pb-0 box-border relative gap-[82px] max-w-full text-left text-xl text-white font-body-small mq825:gap-[20px_82px] mq825:pt-5 mq825:box-border mq1275:gap-[41px_82px] mq1275:pt-[31px] mq1275:box-border">
         <img
           className="w-full h-full absolute !m-[0] top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover"
           alt=""
@@ -116,27 +116,27 @@ const HomeExchangeCurrency = () => {
         />
         <img className="w-full absolute !m-[0] z-[1]" alt="" />
         <div className="self-stretch flex flex-row items-start justify-center py-0 pr-[22px] pl-5 box-border max-w-full">
-          <div className="w-[1682px] flex flex-col items-end justify-start gap-[98px] max-w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px]">
-            <div className="self-stretch h-[100px] rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
+          <div className=" flex flex-col items-end justify-start gap-[50px] max-w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px]">
+            <div className="w-[90%] mr-[5%] h-[4vw] min-h-[50px]  rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
               <img
                 className="h-[25.5px] w-[99px] relative"
                 loading="lazy"
                 alt=""
                 src="/w-o-f.svg"
               />
-              <div className="w-[680px] flex flex-row items-center justify-between max-w-full mq825:hidden">
-                <div className="overflow-hidden flex flex-row items-center justify-center py-1 px-[26px]">
+              <div className="w-[75%] flex flex-row items-center justify-between mq825:hidden">
+                <div className="overflow-hidden flex flex-row items-center justify-center py-1 ">
                   <div className="relative leading-[32px] inline-block min-w-[58px]">
                     About
                   </div>
                 </div>
-                <div className="overflow-hidden flex flex-row items-center justify-center py-1 px-[18px]">
+                <div className="overflow-hidden flex flex-row items-center justify-center py-1 ">
                   <div className="relative leading-[32px] inline-block min-w-[75px]">
                     Support
                   </div>
                 </div>
-                <div className="w-[111px] overflow-hidden shrink-0 flex flex-row items-center justify-center py-1 px-[29px] box-border">
-                  <div className="flex-1 relative leading-[32px]">Blogs</div>
+                <div className=" overflow-hidden shrink-0 flex flex-row items-center justify-center py-1  box-border">
+                  <div className="relative leading-[32px]">Blogs</div>
                 </div>
                 <div className="h-12 rounded-2xl bg-darkslateblue-400 overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]">
                   <img
@@ -144,7 +144,7 @@ const HomeExchangeCurrency = () => {
                     alt=""
                     src="/ulocationpinalt.svg"
                   />
-                  <div className="relative leading-[32px] inline-block min-w-[79px]">
+                  <div className="relative leading-[32px] inline-block ">
                     Location
                   </div>
                 </div>
@@ -156,7 +156,7 @@ const HomeExchangeCurrency = () => {
               </div>
             </div>
             <div className="self-stretch w-full flex flex-row items-start justify-between gap-[8%] max-w-full text-[64px] text-text5 mq825:gap-[173px_43px] mq450:gap-[173px_22px] mq1275:gap-[173px_86px] mq1575:flex-wrap">
-              <form className="m-0 w-[48%] ml-[3%]  rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-8 pb-12 box-border gap-[56px] min-w-[35vw] max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border mq825:min-w-full mq450:gap-[28px_56px]">
+              <form className="m-0 w-[48%] ml-[3%] rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-8 pb-12 box-border gap-[56px] min-w-[35vw] max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border mq825:min-w-full mq450:gap-[28px_56px]">
                 <div className=" px-[10px]  w-full rounded-3xl bg-darkslateblue-100 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-auto flex flex-row items-center justify-between py-6 px-8 gap-[1px]">
                   <div
                     onClick={() => {
@@ -218,53 +218,9 @@ const HomeExchangeCurrency = () => {
                       <div className="w-full h-1 rounded-xl mt-2 -mb-2 bg-[#FF9135]"></div>
                     )}
                   </div>
-                  {/* <div
-                    onClick={() => {
-                      setprod("Transfer Money Abroad");
-                    }}
-                    className="cursor-pointer rounded-xl [filter:drop-shadow(0px_8px_16px_rgba(39,_53,_126,_0.1))] shrink-0 flex flex-col items-center justify-center py-4 px-2 box-border"
-                  >
-                    <div
-                      className={`relative text-base font-body-small ${prod == "Transfer Money Abroad" ? "" : "font-medium"} text-white text-center`}
-                    >
-                      Transfer Money Abroad
-                    </div>
-                    {prod == "Transfer Money Abroad" && (
-                      <div className="w-full h-1 rounded-xl mt-2 bg-[#FF9135]"></div>
-                    )}
-                  </div>
-                  <div
-                    onClick={() => {
-                      setprod("Forex Card");
-                    }}
-                    className="cursor-pointer rounded-xl [filter:drop-shadow(0px_8px_16px_rgba(39,_53,_126,_0.1))] shrink-0 flex flex-col items-center justify-center p-4 box-border"
-                  >
-                    <div
-                      className={`relative text-base font-body-small ${prod == "Forex Card" ? "" : "font-medium"} text-white text-center`}
-                    >
-                      Forex Card
-                    </div>
-                    {prod == "Forex Card" && (
-                      <div className="w-full h-1 rounded-xl mt-2 bg-[#FF9135]"></div>
-                    )}
-                  </div>
-                  <div
-                    onClick={() => {
-                      setprod("Travel Insurance");
-                    }}
-                    className="cursor-pointer rounded-xl [filter:drop-shadow(0px_8px_16px_rgba(39,_53,_126,_0.1))] shrink-0 flex flex-col items-center justify-center p-4 box-border"
-                  >
-                    <div
-                      className={`relative text-base font-body-small ${prod == "Travel Insurance" ? "" : "font-medium"} text-white text-center`}
-                    >
-                      Travel Insurance
-                    </div>
-                    {prod == "Travel Insurance" && (
-                      <div className="w-full h-1 rounded-xl mt-2 bg-[#FF9135]"></div>
-                    )}
-                  </div> */}
+                
                 </div>
-                <div className="self-stretch flex flex-col items-center justify-center gap-[32px] max-w-full mq450:gap-[16px_32px]">
+                <div className="self-stretch flex -mt-8 flex-col items-center justify-center gap-[32px] max-w-full mq450:gap-[16px_32px]">
                   {prod == "Exchange Currency" && (
                     <div className="self-stretch rounded-2xl bg-gray-100 shadow-[-2px_2px_8px_rgba(14,_21,_56,_0.2)_inset,_-4px_4px_16px_rgba(15,_20,_45,_0.15)_inset] flex flex-row items-start justify-start max-w-full [row-gap:20px] mq825:flex-wrap">
                       <div
@@ -295,8 +251,8 @@ const HomeExchangeCurrency = () => {
                       </div>
                     </div>
                   )}
-                  <div className="self-stretch flex flex-col items-start justify-start gap-[24px] max-w-full">
-                    <div className="self-stretch flex flex-row items-start justify-start gap-[24px] max-w-full mq825:flex-wrap">
+                  <div className="self-stretch flex flex-col items-start justify-between gap-[24px] max-w-full">
+                    <div className="self-stretch flex flex-row items-start justify-between gap-[24px] max-w-full mq825:flex-wrap">
                       <FrameComponent2
                         selectedOption={intialCurrency}
                         setSelectedOption={setIntialCurrency}
@@ -338,7 +294,7 @@ const HomeExchangeCurrency = () => {
                     </div>
                   </div>
                 </div>
-                <div className="self-stretch flex flex-row items-end justify-start gap-[56px] max-w-full mq825:flex-wrap mq450:gap-[56px_28px]">
+                <div className="self-stretch -mt-8 flex flex-row items-end justify-between gap-[56px] max-w-full mq825:flex-wrap mq450:gap-[56px_28px]">
                   <div className="flex flex-col items-start justify-center gap-[8px]">
                     <div className="w-[181px] relative text-7xl leading-[32px] font-body-small text-accent text-left inline-block mq825:text-7xl mq825:leading-[26px] mq450:text-lgi mq450:leading-[19px]">
                       {selected ? intialCurrency?.value : finalCurrency?.value}{" "}
@@ -352,7 +308,7 @@ const HomeExchangeCurrency = () => {
                     onClick={() => {
                       handleOpen();
                     }}
-                    className="cursor-pointer [border:none] p-5 bg-white flex-1 rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
+                    className="cursor-pointer w-[40%] [border:none] py-5 bg-white  rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
                   >
                     <img
                       className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
@@ -365,12 +321,12 @@ const HomeExchangeCurrency = () => {
                   </div>
                 </div>
               </form>
-              <div className="w-[36%] min-w-[500px] flex flex-col items-start justify-start pt-[84px] px-10 pb-0 box-border  max-w-full mq825:min-w-full mq450:pt-[55px] mq450:box-border mq1575:flex-1">
+              <div className="w-[38%] min-w-[500px] flex flex-col items-start justify-start pt-[84px] px-10 pb-0 box-border  max-w-full mq825:min-w-full mq450:pt-[55px] mq450:box-border mq1575:flex-1">
                 <div className="self-stretch flex flex-col items-start justify-start gap-[64px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
                   <h1 className="m-0 self-stretch relative text-[3.2rem] font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
                     {prod}
                   </h1>
-                  <div className="self-stretch relative text-[1.25rem] leading-[30px] font-semibold text-white mq450:text-lgi mq450:leading-[29px]">
+                  <div className="self-stretch relative text-[1.25rem] leading-[30px] font-medium text-white mq450:text-lgi mq450:leading-[29px]">
                     {dispMap[prod]}
                   </div>
                 </div>
@@ -399,39 +355,27 @@ const HomeExchangeCurrency = () => {
               See Full Rate Card
             </div>
           </button>
-          {/* <img
-            className="w-14 h-14 absolute !m-[0] top-[calc(50%_-_92px)] left-[32px] overflow-hidden shrink-0 object-contain"
-            loading="lazy"
-            alt=""
-            src="/uanglerightb.svg"
-          />
-          <img
-            className="w-14 h-14 absolute !m-[0] top-[calc(50%_-_84px)] left-[1832px] overflow-hidden shrink-0"
-            alt=""
-            src="/uanglerightb-1.svg"
-          /> */}
+      
         </div>
       </section>
       <section className="self-stretch bg-background overflow-hidden flex flex-col items-start justify-center py-40 px-[120px] box-border max-w-full text-left text-29xl text-text1 font-body-small mq825:py-[104px] mq825:px-[30px] mq825:box-border mq450:pt-[68px] mq450:pb-[68px] mq450:box-border mq1275:pl-[60px] mq1275:pr-[60px] mq1275:box-border">
-        <div className="self-stretch flex flex-row items-center justify-start gap-[111px] max-w-full mq825:gap-[111px_55px] mq450:gap-[111px_28px] mq1575:flex-wrap">
-          <div className=" flex flex-col items-start justify-start gap-[56px] w-[50%] mq825:min-w-full mq450:gap-[28px_56px]">
+        <div className="self-stretch flex flex-row items-center justify-start gap-[5%] max-w-full mq825:gap-[111px_55px] mq450:gap-[111px_28px] mq1575:flex-wrap">
+          <div className=" flex flex-col items-start justify-start  w-[50%] mq825:min-w-full ">
             <div className=" box-border flex flex-row items-center justify-center py-0 px-[21px] border-l-[5px] border-0 border-solid border-secondary">
               <h1 className="m-0  relative text-inherit  font-normal font-inherit inline-block mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
                 About Us
               </h1>
             </div>
-            <div className="self-stretch relative text-5xl font-medium text-text2 inline-block mq450:text-lgi mq450:leading-[29px]">
+            <div className="self-stretch relative text-[1.2vw] font-medium text-text2 inline-block mq450:text-lgi mq450:leading-[29px]">
               <p className="m-0">
-                World One Forex was incorporated in 2013 and was granted AD CAT
-                II license as well as Import of Foreign Currencies Licence in FY
-                2019-20.
+              Established in 2013, World One Forex has become a leading name in reliable and efficient foreign exchange services. We are a licensed operator, holding both the AD CAT II and Import of Foreign Currencies Licence, ensuring you safe and secure transactions.
               </p>
-              <p className="m-0"></p>
+             <br/>
               <p className="m-0 whitespace-pre-wrap">{`We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Kochi, Ludhiana, Chandigarh) and an employee base of 85 professionals.  In addition to the regular forex services where we serve about 25,000 retail and 4,000 corporate clients, WorldOne has been regularly supporting international students with their fee remittances. We have worked with about 18,000 students till date and have closed remittances close to USD 40 million. We make a significant effort in ensuring a professional and efficient service to your clients that has led to >90% customer retention rate.`}</p>
             </div>
           </div>
           <img
-            className=" w-[40%] h-full relative rounded-3xl object-cover max-w-full mq1575:flex-1"
+            className=" w-[45%] h-full relative rounded-3xl object-cover max-w-full mq1575:flex-1"
             loading="lazy"
             alt=""
             src="/unsplash8nppe0ylmn8@2x.png"
@@ -453,7 +397,7 @@ const HomeExchangeCurrency = () => {
             </div>
             <div className="self-stretch relative text-5xl leading-[36px] font-medium mq450:text-lgi mq450:leading-[29px]">{`World One Forex was incorporated in 2013 and was granted AD CAT II license as well as Import of Foreign Currencies Licence in FY 2019-20.
 We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Kochi, Ludhiana, Chandigarh) and an employee base of 85 professionals. `}</div>
-            <div className=" w-full min-h-[616px] flex flex-row flex-wrap items-center justify-between relative gap-[1%_1%] max-w-full text-13xl font-lato">
+            <div className=" w-full min-h-[616px] flex flex-row  flex-wrap items-center justify-evenly relative gap-[1%_1%] max-w-full text-13xl font-lato">
               <FrameComponent
                 currency="/currency.svg"
                 exchangeCurrency="Exchange Currency"
@@ -475,93 +419,95 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
         </div>
       </section>
       <section className="self-stretch bg-background overflow-hidden flex flex-col items-start justify-start p-[120px] box-border gap-[56px] max-w-full text-left text-29xl text-text1 font-body-small mq825:gap-[28px_56px] mq825:py-[51px] mq825:px-[30px] mq825:box-border mq1275:py-[78px] mq1275:px-[60px] mq1275:box-border">
-        <div className="w-[345px] box-border flex flex-row items-start justify-start py-0 px-[21px] max-w-full border-l-[5px] border-0 border-solid border-secondary">
+        <div className="box-border flex flex-row items-start justify-start py-0 px-[21px] max-w-full border-l-[5px] border-0 border-solid border-secondary">
           <h1 className="m-0 flex-1 relative text-inherit leading-[56px] font-normal font-inherit mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
             How It Works
           </h1>
         </div>
-        <div className="self-stretch flex flex-row items-start justify-start gap-[143px] max-w-full text-center text-13xl mq825:gap-[143px_36px] mq450:gap-[143px_18px] mq1275:gap-[143px_71px] mq1575:flex-wrap">
-          <div className="flex-1 flex flex-col items-start justify-start gap-[32px] min-w-[536px] max-w-full mq825:min-w-full mq450:gap-[16px_32px]">
-            <div className="self-stretch rounded-13xl bg-white shadow-[-2px_-4px_16px_rgba(93,_101,_143,_0.15)_inset] overflow-hidden flex flex-row items-start justify-start p-8 box-border relative gap-[32px] max-w-full mq825:flex-wrap mq450:gap-[32px_16px]">
-              <div className="h-[302.8px] w-[634.5px] absolute !m-[0] right-[-99.5px] bottom-[-242.8px] rounded-[50%] [filter:blur(200px)] opacity-[0.5]" />
-              <div className="w-[72px] flex flex-col items-start justify-start pt-1.5 px-0 pb-0 box-border">
-                <div className="self-stretch h-[72px] relative">
-                  <div className="absolute top-[0px] left-[0px] rounded-[50%] box-border w-full h-full border-[0px] border-solid border-text1" />
-                  <div className="absolute top-[calc(50%_-_16px)] left-[calc(50%_-_20px)] leading-[40px] font-medium inline-block w-10 h-[33px] z-[1] mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
-                    01
+        <div className="self-stretch flex flex-row flex-wrap items-start justify-between max-w-full text-center text-13xl">
+          <div className="w-[43vw] flex flex-col items-start justify-start gap-[2%] max-w-full mq825:min-w-full">
+            <div className="w-[98%] rounded-13xl mb-4 bg-white shadow-[-2px_-4px_16px_rgba(93,_101,_143,_0.15)_inset] overflow-hidden flex flex-row items-start justify-start p-8 box-border relative gap-[32px] max-w-full mq825:flex-wrap mq450:gap-[32px_16px]">
+              <div className="!m-[0] right-[-99.5px]  rounded-[50%] [filter:blur(200px)] opacity-[0.5]" />
+              <div className=" flex flex-col items-start justify-start pt-1.5 px-0 pb-0 box-border">
+                <div className="self-stretch align-middle relative">
+                 
+                  <div className="flex items-center justify-center font-semibold inline-block w-12 h-12 text-center align-middle align-center z-[1] rounded-full border-[2px] border-solid border-text1  mq450:text-lgi ">
+                    <div>01</div>
                   </div>
                 </div>
               </div>
-              <div className="flex-1 flex flex-col items-start justify-start gap-[16px] min-w-[426px] max-w-full z-[1] text-left mq825:min-w-full">
-                <div className="w-[299px] relative leading-[32px] inline-block mq825:text-7xl mq825:leading-[26px] mq450:text-lgi mq450:leading-[19px]">
+              <div className="flex-1 flex flex-col items-start justify-start gap-[16px]  max-w-full z-[1] text-left mq825:min-w-full">
+              <div className=" relative font-semibold inline-block text-[2.2vw] desktop:text-5xl">
                   Select your currency
                 </div>
-                <div className="self-stretch relative text-5xl leading-[36px] font-medium text-text2 mq450:text-lgi mq450:leading-[29px]">
+                <div className="self-stretch relative text-[1.8vw] desktop:text-5xl  font-medium text-text2 mq450:text-lgi ">
                   Lorem ipsum dolor sit amet consectetur.
                 </div>
               </div>
             </div>
-            <div className="self-stretch rounded-13xl bg-secondary shadow-[-2px_-4px_16px_rgba(228,_245,_255,_0.25)_inset,_0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-row items-start justify-start p-8 box-border relative gap-[32px] max-w-full text-white mq825:flex-wrap mq450:gap-[32px_16px]">
-              <div className="h-[302.8px] w-[634.5px] absolute !m-[0] right-[-99.5px] bottom-[-242.8px] rounded-[50%] bg-steelblue-100 [filter:blur(200px)]" />
-              <div className="w-[72px] flex flex-col items-start justify-start pt-1.5 px-0 pb-0 box-border">
-                <div className="self-stretch h-[72px] relative">
-                  <div className="absolute top-[0px] left-[0px] rounded-[50%] box-border w-full h-full border-[0px] border-solid border-text5" />
-                  <div className="absolute top-[calc(50%_-_16px)] left-[calc(50%_-_20px)] leading-[40px] font-medium inline-block w-10 h-[33px] z-[1] mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
-                    02
+            <div className="w-[98%] rounded-13xl mb-4 bg-white shadow-[-2px_-4px_16px_rgba(93,_101,_143,_0.15)_inset] overflow-hidden flex flex-row items-start justify-start p-8 box-border relative gap-[32px] max-w-full mq825:flex-wrap mq450:gap-[32px_16px]">
+              <div className="!m-[0] right-[-99.5px]  rounded-[50%] [filter:blur(200px)] opacity-[0.5]" />
+              <div className=" flex flex-col items-start justify-start pt-1.5 px-0 pb-0 box-border">
+                <div className="self-stretch align-middle relative">
+                 
+                  <div className="flex items-center justify-center font-semibold inline-block w-12 h-12 text-center align-middle align-center z-[1] rounded-full border-[2px] border-solid border-text1  mq450:text-lgi ">
+                    <div>02</div>
                   </div>
                 </div>
               </div>
-              <div className="flex-1 flex flex-col items-start justify-start gap-[16px] min-w-[426px] max-w-full z-[1] text-left mq825:min-w-full">
-                <div className="w-[313px] relative leading-[32px] inline-block mq825:text-7xl mq825:leading-[26px] mq450:text-lgi mq450:leading-[19px]">
-                  Freeze your live rates
+              <div className="flex-1 flex flex-col items-start justify-start gap-[16px]  max-w-full z-[1] text-left mq825:min-w-full">
+              <div className=" relative font-semibold inline-block text-[2.2vw] desktop:text-5xl">
+                  Select your currency
                 </div>
-                <div className="self-stretch relative text-5xl leading-[36px] font-medium mq450:text-lgi mq450:leading-[29px]">
+                <div className="self-stretch relative text-[1.8vw] desktop:text-5xl  font-medium text-text2 mq450:text-lgi ">
                   Lorem ipsum dolor sit amet consectetur.
                 </div>
               </div>
             </div>
-            <div className="self-stretch rounded-13xl bg-white shadow-[-2px_-4px_16px_rgba(93,_101,_143,_0.15)_inset] overflow-hidden flex flex-row items-start justify-start p-8 box-border relative gap-[32px] max-w-full mq825:flex-wrap mq450:gap-[32px_16px]">
-              <div className="h-[302.8px] w-[634.5px] absolute !m-[0] right-[-99.5px] bottom-[-242.8px] rounded-[50%] [filter:blur(200px)] opacity-[0.5]" />
-              <div className="w-[72px] flex flex-col items-start justify-start pt-1.5 px-0 pb-0 box-border">
-                <div className="self-stretch h-[72px] relative">
-                  <div className="absolute top-[0px] left-[0px] rounded-[50%] box-border w-full h-full border-[0px] border-solid border-text1" />
-                  <div className="absolute top-[calc(50%_-_16px)] left-[calc(50%_-_20px)] leading-[40px] font-medium inline-block w-10 h-[33px] z-[1] mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
-                    03
+            <div className="w-[98%] rounded-13xl mb-4 bg-white shadow-[-2px_-4px_16px_rgba(93,_101,_143,_0.15)_inset] overflow-hidden flex flex-row items-start justify-start p-8 box-border relative gap-[32px] max-w-full mq825:flex-wrap mq450:gap-[32px_16px]">
+              <div className="!m-[0] right-[-99.5px]  rounded-[50%] [filter:blur(200px)] opacity-[0.5]" />
+              <div className=" flex flex-col items-start justify-start pt-1.5 px-0 pb-0 box-border">
+                <div className="self-stretch align-middle relative">
+                 
+                  <div className="flex items-center justify-center font-semibold inline-block w-12 h-12 text-center align-middle align-center z-[1] rounded-full border-[2px] border-solid border-text1  mq450:text-lgi ">
+                    <div>03</div>
                   </div>
                 </div>
               </div>
-              <div className="flex-1 flex flex-col items-start justify-start gap-[16px] min-w-[426px] max-w-full z-[1] text-left mq825:min-w-full">
-                <div className="w-[380px] relative leading-[32px] inline-block max-w-full mq825:text-7xl mq825:leading-[26px] mq450:text-lgi mq450:leading-[19px]">
-                  Complete documentation
+              <div className="flex-1 flex flex-col items-start justify-start gap-[16px]  max-w-full z-[1] text-left mq825:min-w-full">
+              <div className=" relative font-semibold inline-block text-[2.2vw] desktop:text-5xl">
+                  Select your currency
                 </div>
-                <div className="self-stretch relative text-5xl leading-[36px] font-medium text-text2 mq450:text-lgi mq450:leading-[29px]">
+                <div className="self-stretch relative text-[1.8vw] desktop:text-5xl  font-medium text-text2 mq450:text-lgi ">
                   Lorem ipsum dolor sit amet consectetur.
                 </div>
               </div>
             </div>
-            <div className="self-stretch rounded-13xl bg-white shadow-[-2px_-4px_16px_rgba(93,_101,_143,_0.15)_inset] overflow-hidden flex flex-row items-start justify-start p-8 box-border relative gap-[32px] max-w-full mq825:flex-wrap mq450:gap-[32px_16px]">
-              <div className="h-[302.8px] w-[634.5px] absolute !m-[0] right-[-99.5px] bottom-[-242.8px] rounded-[50%] [filter:blur(200px)] opacity-[0.5]" />
-              <div className="w-[72px] flex flex-col items-start justify-start pt-1.5 px-0 pb-0 box-border">
-                <div className="self-stretch h-[72px] relative">
-                  <div className="absolute top-[0px] left-[0px] rounded-[50%] box-border w-full h-full border-[0px] border-solid border-text1" />
-                  <div className="absolute top-[calc(50%_-_16px)] left-[calc(50%_-_20px)] leading-[40px] font-medium inline-block w-10 h-[33px] z-[1] mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
-                    04
+            <div className="w-[98%] rounded-13xl mb-4 bg-white shadow-[-2px_-4px_16px_rgba(93,_101,_143,_0.15)_inset] overflow-hidden flex flex-row items-start justify-start p-8 box-border relative gap-[32px] max-w-full mq825:flex-wrap mq450:gap-[32px_16px]">
+              <div className="!m-[0] right-[-99.5px]  rounded-[50%] [filter:blur(200px)] opacity-[0.5]" />
+              <div className=" flex flex-col items-start justify-start pt-1.5 px-0 pb-0 box-border">
+                <div className="self-stretch align-middle relative">
+                 
+                  <div className="flex items-center justify-center font-semibold inline-block w-12 h-12 text-center align-middle align-center z-[1] rounded-full border-[2px] border-solid border-text1  mq450:text-lgi ">
+                    <div>04</div>
                   </div>
                 </div>
               </div>
-              <div className="flex-1 flex flex-col items-start justify-start gap-[16px] min-w-[426px] max-w-full z-[1] text-left mq825:min-w-full">
-                <div className="w-[297px] relative leading-[32px] inline-block mq825:text-7xl mq825:leading-[26px] mq450:text-lgi mq450:leading-[19px]">
-                  Get world one forex
+              <div className="flex-1 flex flex-col items-start justify-start gap-[16px]  max-w-full z-[1] text-left mq825:min-w-full">
+                <div className=" relative font-semibold inline-block text-[2.2vw] desktop:text-5xl">
+                  Select your currency
                 </div>
-                <div className="self-stretch relative text-5xl leading-[36px] font-medium text-text2 mq450:text-lgi mq450:leading-[29px]">
+                <div className="self-stretch relative text-[1.8vw] desktop:text-5xl  font-medium text-text2 mq450:text-lgi ">
                   Lorem ipsum dolor sit amet consectetur.
                 </div>
               </div>
             </div>
+            
+            
           </div>
-          <div className="h-[688px] w-[713px] relative rounded-13xl shrink-0 flex items-center justify-center">
+          <div className="h-[100%] w-[40vw] bg-red-400 relative rounded-13xl shrink-0 flex items-center justify-center">
             <img
-              className="h-full w-full overflow-hidden shrink-0 max-w-full object-contain absolute left-[0px] top-[12px] [transform:scale(1.151)] mq1575:flex-1"
+              className="h-[40vw] w-[40vw] overflow-hidden shrink-0 max-w-full object-contain absolute left-[0px] top-[12px] [transform:scale(1.151)] mq1575:flex-1"
               loading="lazy"
               alt=""
               src="/macbookpro16@2x.png"
@@ -587,6 +533,7 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
               <LinkFunction
                 reliability="Reliability"
                 trustOurExperienceAndSecu="Trust our experience and secure transactions."
+                imgSrc="/crates.svg"
               />
               <LinkFunction
                 reliability="Competitive Rates"
