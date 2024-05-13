@@ -15,23 +15,13 @@ import CityModal from "./cityModal";
 import CurrencyCard from "./currancyCard";
 import { getRateCardMutation } from "@/hooks/prod";
 
-const responsive = {
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 3,
-    slidesToSlide: 3, // optional, default to 1.
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 2,
-    slidesToSlide: 2, // optional, default to 1.
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-    slidesToSlide: 1, // optional, default to 1.
-  },
-};
+const dispMap ={
+  "Exchange Currency": "Exchange major world currencies with competitive rates and exceptional service, ensuring seamless transactions for your convenience. Whether for travel or business, trust us for swift and reliable currency conversions.",
+  "Transfer Money Abroad": "Sending money internationally is made easy with Worldone Forex's money transfer services. Whether you need to support family members overseas or conduct business transactions, our secure and efficient transfer options ensure that your funds reach their destination safely and on time.",
+  "Forex Card": "Our pre-loaded travel currency cards offer convenience and security for your international travels. With Worldone Forex, you can easily reload your card with additional funds or unload remaining balances upon your return, ensuring financial flexibility and peace of mind while you're on the go.",
+  "Travel Insurance": "Travel with confidence knowing that you're protected with Worldone Forex's travel insurance coverage. Our comprehensive travel insurance plans offer peace of mind by providing coverage for medical emergencies, trip cancellations, lost luggage, and more, ensuring a worry-free travel experience."
+
+}
 
 const HomeExchangeCurrency = () => {
   const [selected, setSelected] = useState(true);
@@ -378,13 +368,10 @@ const HomeExchangeCurrency = () => {
               <div className="w-[36%] min-w-[500px] flex flex-col items-start justify-start pt-[84px] px-10 pb-0 box-border  max-w-full mq825:min-w-full mq450:pt-[55px] mq450:box-border mq1575:flex-1">
                 <div className="self-stretch flex flex-col items-start justify-start gap-[64px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
                   <h1 className="m-0 self-stretch relative text-[3.2rem] font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
-                    Exchange Your Currency
+                    {prod}
                   </h1>
                   <div className="self-stretch relative text-[1.25rem] leading-[30px] font-semibold text-white mq450:text-lgi mq450:leading-[29px]">
-                    Exchange major world currencies with competitive rates and
-                    exceptional service, ensuring seamless transactions for your
-                    convenience. Whether for travel or business, trust us for
-                    swift and reliable currency conversions.
+                    {dispMap[prod]}
                   </div>
                 </div>
               </div>
