@@ -85,7 +85,7 @@ const getBaseApi = () => {
   // else if (env == 'staging')
   //   return process.env.STAGING_SERVER;
 
-  return "http://backend.worldoneforex.com";
+  return "https://backend.worldoneforex.com";
 };
 
 export const BASE_API = getBaseApi();

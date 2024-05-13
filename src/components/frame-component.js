@@ -10,12 +10,12 @@ const FrameComponent = ({
 
   return (
     <div
-      className="w-[48%] mb-8  rounded-13xl bg-darkslateblue-400 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden  flex flex-row items-start justify-start py-8 px-16 box-border gap-[48px] max-w-full text-left text-13xl text-text5 font-lato mq825:flex-wrap"
+      className="w-[46%] min-h-[315px] min-w-[635px] mb-8 rounded-13xl bg-darkslateblue-400 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-row items-start justify-start py-8 px-16 box-border gap-[48px] max-w-full text-left text-13xl text-text5 font-lato mq825:flex-wrap"
       
     >
       <div className="flex flex-col items-start justify-start pt-[30px] px-0 pb-0 box-border">
         <img
-          className="w-40 h-40 relative overflow-hidden shrink-0"
+          className="w-30 h-30 relative overflow-hidden shrink-0"
           loading="lazy"
           alt=""
           src={currency}
