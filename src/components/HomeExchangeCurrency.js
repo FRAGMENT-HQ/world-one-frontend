@@ -4,9 +4,7 @@ import FrameComponent2 from "./frame-component2";
 import FrameComponent1 from "./frame-component1";
 import FrameComponent from "./frame-component";
 import LinkFunction from "./link-function";
-import Component from "./component";
-import ColorAdjustor from "./color-adjustor";
-import Carousel from "react-multi-carousel";
+import Counter from "./counter";
 import "react-multi-carousel/lib/styles.css";
 import { useRouter } from "next/router";
 import { useAtom } from "jotai";
@@ -14,6 +12,14 @@ import { getRateMutation } from "@/hooks/prod";
 import CityModal from "./cityModal";
 import CurrencyCard from "./currancyCard";
 import { getRateCardMutation } from "@/hooks/prod";
+import Select from "react-select";
+
+const options = [
+  {value:"Exchange Currency",label:"Exchange Currency"},
+  {value:"Transfer Money Abroad",label:"Transfer Money Abroad"},
+  {value:"Forex Card",label:"Forex Card"},
+  {value:"Travel Insurance",label:"Travel Insurance"},
+]
 
 const dispMap = {
   "Exchange Currency":
@@ -46,7 +52,11 @@ const HomeExchangeCurrency = () => {
   const [city, setCity] = useState("");
   const [rates, setRates] = useState([]);
   const [powerFactor, setPowerFactor] = useState(1);
-  const [prod, setprod] = useState("Exchange Currency");
+  const [prod, setprod] = useState({
+    label: "Exchange Currency",
+    value: "Exchange Currency",
+  
+  });
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -97,7 +107,7 @@ const HomeExchangeCurrency = () => {
         : amount,
       rate: (rate * factor).toFixed(2),
       city: city,
-      product: prod,
+      product: prod.value,
       bs: selected ? "Buy" : "Sell",
     });
     router.push("/summary/");
@@ -111,7 +121,7 @@ const HomeExchangeCurrency = () => {
         city={city}
         onCitySelect={setCity}
       />
-      <section className="self-stretch bg-black flex flex-col items-start justify-start pt-4 px-0 pb-0 box-border relative gap-[82px] max-w-full text-left text-xl text-white font-body-small mq825:gap-[20px_82px] mq825:pt-5 mq825:box-border mq1275:gap-[41px_82px] mq1275:pt-[31px] mq1275:box-border">
+      <section className="self-stretch  bg-black flex flex-col items-start justify-start pt-4 px-0 pb-0 box-border relative gap-[82px] max-w-full text-left text-xl text-white font-body-small mq825:gap-[20px_82px] mq825:pt-5 mq825:box-border mq1275:gap-[41px_82px] mq1275:pt-[31px] mq1275:box-border">
         <img
           className="w-full h-full absolute !m-[0] top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover"
           alt=""
@@ -120,7 +130,7 @@ const HomeExchangeCurrency = () => {
         <img className="w-full absolute !m-[0] z-[1]" alt="" />
         <div className="self-stretch flex flex-row items-start justify-center py-0 pr-[22px] pl-5 box-border max-w-full">
           <div className=" flex flex-col items-end justify-start gap-[50px] max-w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px]">
-            <div className="w-[90%] mr-[5%] h-[4vw] min-h-[55px] mt-5  rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
+            <div className="invisible sm:visible w-[90%] mr-[5%] h-[4vw] min-h-[55px] mt-5  rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
               <img
                 className="h-[25.5px] w-[99px] relative"
                 loading="lazy"
@@ -170,73 +180,73 @@ const HomeExchangeCurrency = () => {
                 <div className="text-[25%] h-0 sm:h-auto invisible sm:visible  px-[10px] w-full rounded-3xl bg-darkslateblue-100 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-auto flex flex-row items-center justify-evenly py-6 px-8 gap-[1px]">
                   <div
                     onClick={() => {
-                      setprod("Exchange Currency");
+                      setprod({label:"Exchange Currency",value:"Exchange Currency"});
                     }}
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium  font-body-small ${prod == "Exchange Currency" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium  font-body-small ${prod.value == "Exchange Currency" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Exchange Currency
                     </div>
-                    {prod == "Exchange Currency" && (
+                    {prod.value== "Exchange Currency" && (
                       <div className="w-full h-1 rounded-xl mt-2 -mb-2 bg-[#FF9135]"></div>
                     )}
                   </div>
                   <div
                     onClick={() => {
-                      setprod("Transfer Money Abroad");
+                      setprod({label:"Transfer Money Abroad",value:"Transfer Money Abroad"});
                     }}
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium  font-body-small ${prod == "Transfer Money Abroad" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium  font-body-small ${prod.value== "Transfer Money Abroad" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Transfer Money Abroad
                     </div>
-                    {prod == "Transfer Money Abroad" && (
+                    {prod.value== "Transfer Money Abroad" && (
                       <div className="w-full h-1 rounded-xl mt-2 -mb-2 bg-[#FF9135]"></div>
                     )}
                   </div>
                   <div
                     onClick={() => {
-                      setprod("Forex Card");
+                      setprod({label:"Forex Card",value:"Forex Card"});
                     }}
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium font-body-small ${prod == "Forex Card" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium font-body-small ${prod.value== "Forex Card" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Forex Card
                     </div>
-                    {prod == "Forex Card" && (
+                    {prod.value== "Forex Card" && (
                       <div className="w-full h-1 rounded-xl mt-2 -mb-2 bg-[#FF9135]"></div>
                     )}
                   </div>
                   <div
                     onClick={() => {
-                      setprod("Travel Insurance");
+                      setprod({label:"Travel Insurance",value:"Travel Insurance"});
                     }}
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium  font-body-small ${prod == "Travel Insurance" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium  font-body-small ${prod.value== "Travel Insurance" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Travel Insurance
                     </div>
-                    {prod == "Travel Insurance" && (
+                    {prod.value== "Travel Insurance" && (
                       <div className="w-full h-1 rounded-xl mt-2 -mb-2 bg-[#FF9135]"></div>
                     )}
                   </div>
                 </div>
                 <div className="self-stretch flex -mt-8 flex-col items-center justify-center gap-[32px] max-w-full mq450:gap-[16px_32px]">
-                  {prod == "Exchange Currency" && (
+                  {prod.value== "Exchange Currency" && (
                     <div className="self-stretch rounded-2xl bg-gray-100 shadow-[-2px_2px_8px_rgba(14,_21,_56,_0.2)_inset,_-4px_4px_16px_rgba(15,_20,_45,_0.15)_inset] flex flex-row items-start justify-start max-w-full [row-gap:20px] mq825:flex-wrap">
                       <div
                         onClick={() => {
                           setSelected(true);
                         }}
-                        className={` cursor-pointer [border:none] py-3 px-5 ${selected ? "bg-primary" : ""} flex-1 rounded-2xl overflow-hidden flex flex-row items-center justify-center box-border  whitespace-nowrap max-w-full hover:font-semibold`}
+                        className={` w-[50%] cursor-pointer [border:none] py-3 px-5 ${selected ? "bg-primary" : ""} rounded-2xl overflow-hidden flex flex-row items-center justify-center box-border whitespace-nowrap max-w-full hover:font-semibold`}
                       >
                         <div
                           className={`relative text-xl ${selected ? "font-semibold" : "font-medium"} hover:font-semibold font-lato text-white text-left inline-block min-w-[123px] `}
@@ -244,12 +254,12 @@ const HomeExchangeCurrency = () => {
                           Buy Currency
                         </div>
                       </div>
-                      <div className="flex-1 overflow-hidden flex flex-row items-center justify-center box-border ">
+                      <div className="  w-[50%] flex-1 overflow-hidden flex flex-row items-center justify-center box-border ">
                         <div
                           onClick={() => {
                             setSelected(false);
                           }}
-                          className={`cursor-pointer [border:none] py-3 px-2 sm:px-5 ${!selected ? "bg-primary" : ""} flex-1 rounded-2xl overflow-hidden flex flex-row items-center justify-center box-border  whitespace-nowrap max-w-full hover:font-semibold`}
+                          className={` cursor-pointer [border:none] py-3 px-2 sm:px-5 ${!selected ? "bg-primary" : ""} flex-1 rounded-2xl overflow-hidden flex flex-row items-center justify-center box-border  whitespace-nowrap max-w-full hover:font-semibold`}
                         >
                           <div
                             className={`relative text-xl ${!selected ? "font-semibold" : "font-medium"} hover:font-semibold font-lato text-white text-left inline-block min-w-[123px]`}
@@ -260,6 +270,24 @@ const HomeExchangeCurrency = () => {
                       </div>
                     </div>
                   )}
+                  <div className="flex-1 w-[100%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
+ 
+      <Select
+        defaultValue={prod}
+        value={prod}
+        isSearchable={true}
+        onChange={setprod}
+        options={options}
+        classNames={{
+          container: () => "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-2 ",
+          control: () => "self-stretch !bg-transparent !border-none ",
+          menuList: () => "!bg-midnightblue",
+          option: () => "text-white",
+          input: () => "text-white",
+          singleValue: () => "!text-white",
+        }}
+      />
+    </div>
                   <div className="self-stretch flex flex-col items-start justify-between gap-[24px] max-w-full">
                     <div className="self-stretch flex flex-row items-start justify-between gap-[4%] max-w-full mq825:flex-wrap">
                       <FrameComponent2
@@ -279,8 +307,8 @@ const HomeExchangeCurrency = () => {
                       />
                     </div>
 
-                    <div className="self-stretch flex flex-row flex-wrap items-start justify-start gap-[24px] max-w-full flex-wrap">
-                      <div className="flex-1 min-w-[300px] rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
+                    <div className="self-stretch flex flex-col  xs:flex-row flex-wrap items-start justify-start gap-[24px] max-w-full flex-wrap">
+                      <div className="flex-1 min-w-0 xs:min-w-[300px] rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
                         <input
                           className="text-white w-[80%] max-w-[419px]  [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-medium text-xl text-text5 "
                           placeholder="Forex Amount"
@@ -317,14 +345,14 @@ const HomeExchangeCurrency = () => {
                     onClick={() => {
                       handleOpen();
                     }}
-                    className="cursor-pointer w-[40%] [border:none] py-5 bg-white  rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
+                    className="cursor-pointer w-[40%] flex-1 [border:none] py-5 bg-white  rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
                   >
                     <img
                       className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
                       alt=""
                       src="/ushoppingcart.svg"
                     />
-                    <div className="relative text-5xl leading-[32px] font-medium font-body-small text-text1 text-left">
+                    <div className="relative text-5xl  leading-[32px] font-medium font-body-small text-text1 text-left">
                       Add To Cart
                     </div>
                   </div>
@@ -333,10 +361,10 @@ const HomeExchangeCurrency = () => {
               <div className="w-[38%] desktop:w-[35%] flex flex-col items-start justify-start pt-[84px] px-10 pb-0 box-border  max-w-full mq825:min-w-full mq450:pt-[55px] mq450:box-border mq1575:flex-1">
                 <div className="self-stretch flex flex-col items-start justify-start gap-[64px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
                   <h1 className="m-0 self-stretch relative text-[3.2rem] font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
-                    {prod}
+                    {prod?.value}
                   </h1>
                   <div className="self-stretch relative text-[1.25rem] leading-[30px] font-medium text-white mq450:text-lgi mq450:leading-[29px]">
-                    {dispMap[prod]}
+                    {dispMap[prod?.value]}
                   </div>
                 </div>
               </div>
@@ -391,6 +419,7 @@ const HomeExchangeCurrency = () => {
             src="/unsplash8nppe0ylmn8@2x.png"
           />
         </div>
+        <Counter />
       </section>
       {/* <section className="w-full bg-background overflow-hidden flex flex-wrap flex-col sm:flex-row items-evenely sm:items-start gap-8  mb-5 box-border max-w-full text-left text-29xl text-text1 font-body-small ">
         <div className="sm:w-[60%] w-full px-[5%] h-36 bg-red-400 flex flex-col items-center justify-start ">

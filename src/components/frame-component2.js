@@ -30,18 +30,13 @@ const FrameComponent2 = ({
         onChange={setSelectedOption}
         options={options}
         classNames={{
-          container: () =>
-            "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-2 ",
+          container: () => "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-2 ",
           control: () => "self-stretch !bg-transparent !border-none ",
-
           menuList: () => "!bg-midnightblue",
-
           option: () => "text-white",
-
           input: () => "text-white",
           singleValue: () => "!text-white",
         }}
-        // components={{ singleValue: Display }}
       />
     </div>
   );

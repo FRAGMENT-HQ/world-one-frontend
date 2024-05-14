@@ -101,6 +101,8 @@ module.exports = {
         raw: "screen and (max-width: 450px)",
       },
 
+      'xs': '375px',
+
       'sm': '640px',
 
       'tablet': '720px',
