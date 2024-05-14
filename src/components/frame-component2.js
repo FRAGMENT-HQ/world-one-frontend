@@ -20,8 +20,8 @@ const FrameComponent2 = ({
   const options = fixed ? fullOptions : [{ value: "INR", label: "INR" }];
 
   return (
-    <div className="flex-1 flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
-      <div className="self-stretch relative leading-[32px] font-medium mq450:text-base mq450:leading-[26px]">
+    <div className="flex-1 w-[48%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
+      <div className="self-stretch relative  font-medium mq450:text-base mq450:leading-[26px]">
         {currencyYouHave}
       </div>
       <Select
@@ -31,7 +31,7 @@ const FrameComponent2 = ({
         options={options}
         classNames={{
           container: () =>
-            "w-[240px]  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-2 ",
+            "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-2 ",
           control: () => "self-stretch !bg-transparent !border-none ",
 
           menuList: () => "!bg-midnightblue",

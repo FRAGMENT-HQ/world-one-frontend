@@ -1,33 +1,32 @@
-import { useMemo } from "react";
+const LinkFunction = ({ reliability, trustOurExperienceAndSecu, imgSrc }) => {
+  // const getImgObjectURL = (imgSrc) => {
+  //   if (imgSrc) {
+  //     return 'url(\''+imgSrc+'\')'
+  //   }
+  //   return `url('https://via.placeholder.com/150')`
 
-const LinkFunction = ({
-  reliability,
-  trustOurExperienceAndSecu,
-  propMinWidth,
-  propWidth,
-  imgSrc
-}) => {
-  const reliabilityStyle = useMemo(() => {
-    return {
-      minWidth: propMinWidth,
-      width: propWidth,
-    };
-  }, [propMinWidth, propWidth]);
+  // }
+  console.log("imgSrc", imgSrc, "url('" + imgSrc + "')");
+  const imgStyle = {
+    backgroundImage: "url(" + imgSrc + ")",
+    backgroundSize: "cover",
+    backgroundRepeat: "150%",
 
+  };
   return (
-    <div style={{ backgroundImage:`"${imgSrc}"` }} className="w-[21%] h-80 rounded-3xl bg-white shadow-[0px_6px_24px_-6px_rgba(34,_46,_106,_0.15)] overflow-hidden shrink-0 flex flex-col items-center justify-center  box-border  max-w-full text-left text-5xl text-secondary font-body-small">
-      
+    <div
+      // style={{backgroundImage:getImgObjectURL()}}
+      style={imgStyle}
+      className={`  w-72 h-96 p-0 bg-no-repeat flex flex-col items-center justify-center text-left text-5xl text-secondary font-body-small`}
+    >
+      <div
         
-      
-
-      <div className="self-stretch w-full h-full  flex flex-col items-center justify-center gap-[8px]">
-        <div
-          className="relative leading-[36px] font-medium inline-block min-w-[108px] mq450:text-lgi mq450:leading-[29px]"
-          style={reliabilityStyle}
-        >
+        className="text-left h-[90%] w-[90%] ml-[5%] bg-cover bg-center flex flex-col items-start justify-end gap-2 -mt-5 px-5 py-4 "
+      >
+        <div className="pt-8 inline-block text-white font-semibold ">
           {reliability}
         </div>
-        <div className="self-stretch relative text-xl leading-[24px] text-black text-center mq450:text-base mq450:leading-[19px]">
+        <div className=" text-xl text-white font-medium text-left">
           {trustOurExperienceAndSecu}
         </div>
       </div>

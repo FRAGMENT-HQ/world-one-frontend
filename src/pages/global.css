@@ -13,13 +13,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body {
-  @apply leading-[normal] m-0;
-}
-*,
+
 ::before,
 ::after {
   border-width: 0;
+}
+::placeholder {
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+body{
+  
+  width: 100vw;
+  height: 100vh;
+  margin-top: -10px;
+  margin-left: -10px;
 }
 div {
   font-family: "Avenir Next LT Pro";

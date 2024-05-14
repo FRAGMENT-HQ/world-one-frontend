@@ -100,6 +100,9 @@ module.exports = {
       mq450: {
         raw: "screen and (max-width: 450px)",
       },
+
+      'sm': '640px',
+
       'tablet': '720px',
 
       'laptop': '1024px',
