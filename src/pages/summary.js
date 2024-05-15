@@ -4,10 +4,9 @@ import { order, user } from "@/states/storage";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
 function useWindowSize() {
-
   const [windowSize, setWindowSize] = useState({
     width: undefined,
     height: undefined,
@@ -23,32 +22,29 @@ function useWindowSize() {
         height: window.innerHeight,
       });
     }
-    
+
     // Add event listener
     window.addEventListener("resize", handleResize);
-     
+
     // Call handler right away so state gets updated with initial window size
     handleResize();
-    
+
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleResize);
   }, []); // Empty array ensures that effect is only run on mount
-  return windowSize;}
+  return windowSize;
+}
 
- const Frame1 = () => {
+const Frame1 = () => {
   const [orderDetails, setOrderDetails] = useAtom(order);
   const [userData, setUserData] = useAtom(user);
   const router = useRouter();
   const size = useWindowSize();
-  
-  
-
-
 
   const handleNext = () => {
-    router.push("/details");}
-    
-  
+    router.push("/details");
+  };
+
   return (
     <div className="w-full relative bg-background overflo-hidden flex flex-col items-center justify-center pt-[3rem] pr-[2%] pl-[5%] sm:pr-[0.6rem] sm:pl-[1.25rem] pb-[7.687rem] box-border gap-[2.75rem] text-left text-[1.25rem] text-white font-body-small ">
       <div className="w-[105rem] shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] rounded-3xl bg-darkslateblue-700 flex flex-row items-center justify-between py-[1.875rem] px-[4rem] box-border gap-[1.25rem] max-w-full mq450:flex-wrap mq450:pl-[1.25rem]  mq450:box-border">
@@ -66,11 +62,13 @@ function useWindowSize() {
           </div>
         </div>
       </div>
-      <FrameComponent4 handleClick={handleNext}  step={1} title="Order Details"  />
+      <FrameComponent4
+        handleClick={handleNext}
+        step={1}
+        title="Order Details"
+      />
       <main className="w-full flex flex-col items-start justify-start gap-[1.75rem] max-w-full">
-
         <form className="m-0 self-stretch shadow-[0px_8px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white overflow-hidden flex flex-col laptop:flex-row items-start justify-start py-[4rem] px-[2%] sm:px-[2.5rem] box-border gap-[3rem] w-full ] mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border flex-wrap">
-        
           <div className="flex flex-1 w-full laptop:w-[60%] flex-col items-end justify-center gap-[2rem] max-w-full mq900:gap-[1rem] mq900:min-w-full">
             <div className="self-stretch flex flex-row laptop:flex-col items-end justify-evenly laptop:justify-start gap-[1.706rem] max-w-full">
               <div className="self-stretch flex flex-col laptop:flex-row items-start justify-evenly gap-[1rem]">
@@ -93,12 +91,14 @@ function useWindowSize() {
                   INR Amount
                 </div>
               </div>
-             {size.width>1024 && <img
-                className="self-stretch invisible laptop:visible laptop:w-full w-0  relative max-w-full overflow-hidden max-h-full"
-                loading="lazy"
-                alt=""
-                src="/vector-18.svg"
-              />}
+              {size.width > 1024 && (
+                <img
+                  className="self-stretch invisible laptop:visible laptop:w-full w-0  relative max-w-full overflow-hidden max-h-full"
+                  loading="lazy"
+                  alt=""
+                  src="/vector-18.svg"
+                />
+              )}
               <div className="self-stretch flex flex-col laptop:flex-row items-start justify-evenly gap-[1rem]">
                 <div className=" flex flex-row items-start justify-start gap-[1.437rem]">
                   <img
@@ -115,24 +115,27 @@ function useWindowSize() {
                   {orderDetails?.product}
                 </div>
                 <div className="w1-[8rem] relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
-                {orderDetails?.finalCurrency.value}
+                  {orderDetails?.finalCurrency.value}
                 </div>
                 <div className="w1-[11.5rem] relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
-                  1 {orderDetails?.finalCurrency.value} = {orderDetails?.intialCurrency?.value} {(orderDetails?.rate)}
+                  1 {orderDetails?.finalCurrency.value} ={" "}
+                  {orderDetails?.intialCurrency?.value} {orderDetails?.rate}
                 </div>
                 <div className=" relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left">
-                 {(orderDetails?.forexAmount)}
+                  {orderDetails?.forexAmount}
                 </div>
                 <div className=" relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left">
-                {(orderDetails?.inrAmount)}
+                  {orderDetails?.inrAmount}
                 </div>
               </div>
-              {size.width>1024 && <img
-                className=" invisible laptop:visible laptop:w-full w-0 self-stretch relative max-w-full overflow-hidden max-h-full"
-                loading="lazy"
-                alt=""
-                src="/vector-19.svg"
-              />}
+              {size.width > 1024 && (
+                <img
+                  className=" invisible laptop:visible laptop:w-full w-0 self-stretch relative max-w-full overflow-hidden max-h-full"
+                  loading="lazy"
+                  alt=""
+                  src="/vector-19.svg"
+                />
+              )}
             </div>
           </div>
           <div className=" flex flex-col w-full laptop:w-[32%] items-center justify-center gap-[2rem] max-w-full mq900:gap-[1rem] mq900:min-w-full mq1725:flex-1">
@@ -148,8 +151,12 @@ function useWindowSize() {
                     type="text"
                   />
                 </div>
-                <div onClick={()=>{toast.error("Invalid Code")}} className="cursor-pointer [border:none] py-[0.5rem] px-2 sm:px-[3.843rem] bg-primary shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-tl-none rounded-tr-xl rounded-br-xl rounded-bl-none overflow-hidden flex flex-row items-center justify-center gap-[1rem] hover:bg-chocolate-100">
-
+                <div
+                  onClick={() => {
+                    toast.error("Invalid Code");
+                  }}
+                  className="cursor-pointer [border:none] py-[0.5rem] px-2 sm:px-[3.843rem] bg-primary shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-tl-none rounded-tr-xl rounded-br-xl rounded-bl-none overflow-hidden flex flex-row items-center justify-center gap-[1rem] hover:bg-chocolate-100"
+                >
                   <div className="relative sm:text-[1.5rem] text-[1.25rem] font-body-small text-white text-center xs:text-left inline-block  ">
                     Apply
                   </div>
@@ -175,7 +182,7 @@ function useWindowSize() {
                       GST
                     </div>
                     <div className="relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-medium font-body-small text-text3 text-left inline-block min-w-[3.938rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
-                    {(orderDetails?.inrAmount*0.005).toFixed(2)}
+                      {(orderDetails?.inrAmount * 0.005).toFixed(2)}
                     </div>
                   </div>
                   <div className="self-stretch flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[2rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap mq450:gap-[1rem]">
@@ -192,18 +199,37 @@ function useWindowSize() {
                     Grand Total
                   </div>
                   <div className="relative text-[1.5rem] leading-[2rem] font-body-small text-secondary text-left inline-block min-w-[7.313rem] mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-                  {(orderDetails?.inrAmount*1.005).toFixed(2)}
+                    {(orderDetails?.inrAmount * 1.005).toFixed(2)}
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          {size.width < 500 && (
+            <button
+              onClick={handleNext}
+              className="mx-auto cursor-pointer invisable xs:visable  [border:none] py-[1.125rem] pr-[1.968rem] pl-[2.468rem] bg-secondary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[1rem]"
+              // onClick={onCustomerDetailsClick}
+            >
+              <img
+                className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 hidden min-h-[2rem]"
+                alt=""
+                src="/ushoppingcart.svg"
+              />
+              <div className="flex-1 relative text-[1.5rem] leading-[2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
+                Continue
+              </div>
+              <img
+                className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
+                alt=""
+                src="/fiarrowright.svg"
+              />
+            </button>
+          )}
         </form>
       </main>
     </div>
   );
 };
- 
 
- 
-export default Frame1
+export default Frame1;

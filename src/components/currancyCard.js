@@ -26,7 +26,7 @@ const CurrencyCard = ({ rate }) => {
             Buy
           </div>
           <div className="relative text-[1.5rem] leading-[2rem] font-semibold font-lato text-success inline-block min-w-[3.875rem] mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-            {rate?.currency && ((1/rate.rate) * 1.05).toFixed(2)}
+            {rate?.currency && ((1/rate.rate) + 1).toFixed(2)}
           </div>
         </div>
         <div className="self-stretch flex flex-row items-center justify-between gap-[1.25rem]">
@@ -34,7 +34,7 @@ const CurrencyCard = ({ rate }) => {
             Sell
           </div>
           <div className="relative text-[1.5rem] leading-[2rem] font-semibold font-lato text-error inline-block min-w-[3.875rem] mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-            {rate?.currency && ((1/rate.rate) * 0.95).toFixed(2)}
+            {rate?.currency && ((1/rate.rate) - 1).toFixed(2)}
           </div>
         </div>
       </div>

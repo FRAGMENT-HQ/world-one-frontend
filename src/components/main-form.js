@@ -3,11 +3,41 @@ import FrameComponent6 from "./frame-component6";
 import FrameComponent5 from "./frame-component5";
 import { order, user } from "@/states/storage";
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { postOrderMutation } from "@/hooks/prod";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import Smodal from "./smodal";
+
+function useWindowSize() {
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined,
+  });
+
+  useEffect(() => {
+    // only execute all the code below in client side
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
+  return windowSize;
+}
+
 const MainForm = () => {
   const [orderData, setOrderData] = useAtom(order);
   const [userData, setUserData] = useAtom(user);
@@ -19,6 +49,10 @@ const MainForm = () => {
   const [selected, setSelected] = useState(false);
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(false);
+
+
+  const size = useWindowSize();
+
   const router = useRouter();
   const handleOpen = () => {
     setOpen(true);
@@ -130,8 +164,29 @@ const MainForm = () => {
             for more than USD 250,000 (or equivalent in another currency) in the
             current financial year.{" "}
           </div>
+
         </div>
+        {size.width <500 && <button
+        onClick={handleSubmission}
+          className="mx-auto cursor-pointer invisable xs:visable  [border:none] py-[1.125rem] pr-[1.968rem] pl-[2.468rem] bg-secondary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[1rem]"
+          // onClick={onCustomerDetailsClick}
+        >
+          <img
+            className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 hidden min-h-[2rem]"
+            alt=""
+            src="/ushoppingcart.svg"
+          />
+          <div className="flex-1 relative text-[1.5rem] leading-[2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
+            Continue
+          </div>
+          <img
+            className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
+            alt=""
+            src="/fiarrowright.svg"
+          />
+        </button>}
       </div>
+      
     </section>
   );
 };
