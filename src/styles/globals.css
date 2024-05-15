@@ -100,20 +100,20 @@
   }
   .landing-counter-subcontainer {
     margin: auto;
-    width: 40%;
+    width: 60%;
     margin-bottom: 40px;
     /* flex-direction: column; */
   }
   .landing-counter-number {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
   .landing-counter-text {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
   .landing-counter-svg {
     width: 60px;
   }
   .landing-counter-subcontainer span:first-child {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 }

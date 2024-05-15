@@ -13,7 +13,31 @@ import CityModal from "./cityModal";
 import CurrencyCard from "./currancyCard";
 import { getRateCardMutation } from "@/hooks/prod";
 import Select from "react-select";
-// import CountryData 
+import toast from "react-hot-toast";
+
+
+const cityOptions = [
+  { label: " New Delhi", value: "New Delhi" },
+  { label: "Gurgaon", value: "Gurgaon" },
+  { label: "Noida", value: "Noida" },
+  { label: "Kolkata", value: "Kolkata" },
+  { label: "Mumbai", value: "Mumbai" },
+  { label: "Chandigarh", value: "Chandigarh" },
+  { label: "Hyderabad", value: "Hyderabad" },
+  { label: "Vadodara", value: "Vadodara" },
+  { label: "Lucknow", value: "Lucknow" },
+  { label: "Bangalore", value: "Bangalore" },
+  { label: "Kochi", value: "Kochi" },
+  { label: "Chennai", value: "Chennai" },
+  { label: "Ludhiana", value: "Ludhiana" },
+  { label: "Jalandhar", value: "Jalandhar" },
+  { label: "Amritsar", value: "Amritsar" },
+  { label: "Ahmedabad", value: "Ahmedabad" },
+  { label: "Trichy", value: "Trichy" },
+  { label: "Pune", value: "Pune" },
+  { label: "Calicut", value: "Calicut" },
+];
+// import CountryData
 function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
@@ -133,23 +157,37 @@ const HomeExchangeCurrency = () => {
   }, []);
 
   const handleOrder = () => {
+    if(amount == undefined || amount == "" || (amount * (rate ** powerFactor + factor)) < 5000){
+      toast.error("Please enter the amount greater than 5000");
+
+      return;
+    }
+    if (city == "") {
+      toast.error("Please select the city");
+      return;
+    }
     setOrder({
       intialCurrency: selected ? intialCurrency : finalCurrency,
       finalCurrency: selected ? finalCurrency : intialCurrency,
-      amount: (amount *( (rate ** powerFactor) + factor)).toFixed(2),
+      amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
       forexAmount: selected
         ? amount
-        : (amount *( (rate ** powerFactor) + factor)).toFixed(2),
+        : (amount * (rate ** powerFactor + factor)).toFixed(2),
       inrAmount: selected
-        ? (amount *( (rate ** powerFactor) + factor)).toFixed(2)
+        ? (amount * (rate ** powerFactor + factor)).toFixed(2)
         : amount,
       rate: (rate + factor ** powerFactor).toFixed(2),
       city: city,
       product: prod.value,
       bs: selected ? "Buy" : "Sell",
     });
-    router.push( prod.value == "Travel Insurance" ? "/details/" : "/summary/");
+    router.push(prod.value == "Travel Insurance" ? "/details/" : "/summary/");
   };
+  const scroll = (id) => {
+    const section = document.querySelector(id);
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <div className=" bg-background w-full overflow-hidden flex flex-col items-start justify-start">
       <CityModal
@@ -182,39 +220,57 @@ const HomeExchangeCurrency = () => {
                   <div className="w-[75%] flex flex-row items-center justify-center text-[15px] font-semibold mq825:hidden">
                     <div className="flex gap-[15%] ">
                       <div className=" flex flex-row items-center justify-center py-1 ">
-                        <div className="relative leading-[32px] inline-block ">
+                        <div
+                          onClick={() => {
+                            scroll("#about");
+                          }}
+                          className=" cursor-pointer relative leading-[32px] inline-block "
+                        >
                           About
                         </div>
                       </div>
                       <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
-                        <div className="relative leading-[32px]">Services</div>
+                        <div
+                          onClick={() => {
+                            scroll("#services");
+                          }}
+                          className="cursor-pointer relative leading-[32px]"
+                        >
+                          Services
+                        </div>
                       </div>
-                      <div className=" flex flex-row items-center justify-center py-1 ">
+                      {/* <div className=" flex flex-row items-center justify-center py-1 ">
                         <div className="relative leading-[32px] inline-block ">
                           Support
                         </div>
-                      </div>
+                      </div> */}
                       <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
                         <div className="relative leading-[32px]">Blogs</div>
                       </div>
                     </div>
                   </div>
-                  <div className="flex h-16 gap-[5%] flex-row-reverse">
-                    <div className=" h-10 mt-3 rounded-2xl bg-darkslateblue-400 overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]">
+                  <div className="flex h-16 gap-[5%] flex-row-reverse  w-full">
+                    <div onClick={()=>{scroll("#mail")}} className="cursor-pointer w-[10rem] h-10 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]">
                       <img
                         className="h-6 w-6 relative overflow-hidden shrink-0"
                         alt=""
-                        src="/ulocationpinalt.svg"
+                        src="/support.svg"
                       />
-                      <div className="relative text-base  inline-block ">
-                        Location
+                      <div className="relative text-base !text-[#27357E]  inline-block ">
+                        Contact Us
                       </div>
                     </div>
-                    <button className="cursor-pointer [border:none] py-1 px-[29px] bg-[transparent] overflow-hidden flex flex-row items-center justify-center">
-                      <div className="relative text-base leading-[32px] font-body-small text-primary text-left inline-block min-w-[52px]">
-                        Login
+
+                    <div onClick={()=>{router.push("/rates")}} className="cursor-pointer w-[10rem] h-10 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]">
+                      <img
+                        className="h-6 w-6 relative overflow-hidden shrink-0"
+                        alt=""
+                        src="/support.svg"
+                      />
+                      <div className="relative text-base !text-[#27357E]  inline-block ">
+                        Forex Rates
                       </div>
-                    </button>
+                    </div>
                   </div>
                 </>
               ) : (
@@ -227,7 +283,10 @@ const HomeExchangeCurrency = () => {
               )}
             </div>
             <div className="self-stretch  w-full flex flex-row items-start justify-between laptop:gap-[3%] gap-[5%] max-w-full text-[64px] text-text5 mq825:gap-[173px_43px] mq450:gap-[173px_22px] mq1275:gap-[173px_86px] mq1575:flex-wrap">
-              <form className="m-0 w-[48%] tablet:min-w-[600px] laptop:min-w-[640px] flex-1 ml-[3%] rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-2 sm:px-8 pb-12 box-border gap-[56px]  max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border ">
+              <form
+                id="main-content"
+                className="m-0 w-[48%] tablet:min-w-[600px] laptop:min-w-[640px] flex-1 ml-[3%] rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-2 sm:px-8 pb-12 box-border gap-[56px]  max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border "
+              >
                 <div className="text-[25%] h-0 sm:h-auto invisible sm:visible  px-[10px] w-full rounded-3xl bg-darkslateblue-100 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-auto flex flex-row items-center justify-evenly py-6 px-8 gap-[1px]">
                   <div
                     onClick={() => {
@@ -319,6 +378,26 @@ const HomeExchangeCurrency = () => {
                       }}
                     />
                   </div>
+                  <div className="flex-1 w-[100%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
+                    <Select
+                      defaultValue={city}
+                      value={city}
+                      isSearchable={true}
+                      onChange={setCity}
+                      options={cityOptions}
+                      placeholder="Select City"
+                      classNames={{
+                        container: () =>
+                          "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-2 ",
+                        control: () =>
+                          "self-stretch !bg-transparent !border-none ",
+                        menuList: () => "!bg-midnightblue",
+                        option: () => "text-white",
+                        input: () => "text-white",
+                        singleValue: () => "!text-white",
+                      }}
+                    />
+                  </div>
                   {prod.value == "Exchange Currency" && (
                     <div className="self-stretch rounded-2xl bg-gray-100 shadow-[-2px_2px_8px_rgba(14,_21,_56,_0.2)_inset,_-4px_4px_16px_rgba(15,_20,_45,_0.15)_inset] flex flex-row items-start justify-start max-w-full [row-gap:20px] mq825:flex-wrap">
                       <div
@@ -351,61 +430,69 @@ const HomeExchangeCurrency = () => {
                   )}
 
                   <div className="self-stretch flex flex-col items-start justify-between gap-[24px] max-w-full">
-                    { prod.value != "Travel Insurance" && <div className="self-stretch flex flex-row items-start justify-between gap-[4%] max-w-full mq825:flex-wrap">
-                      <FrameComponent2
-                        selectedOption={intialCurrency}
-                        setSelectedOption={setIntialCurrency}
-                        currencyYouHave={
-                          selected ? "Currency you Have" : "Currency you Want"
-                        }
-                      />
-                      <FrameComponent2
-                        fixed={true}
-                        selectedOption={finalCurrency}
-                        setSelectedOption={setFinalCurrency}
-                        currencyYouHave={
-                          selected ? "Currency you Want" : "Currency you Have"
-                        }
-                      />
-                    </div>}
-
-                    { prod.value != "Travel Insurance" && <div className="self-stretch flex flex-col  xs:flex-row flex-wrap items-start justify-start gap-[24px] max-w-full flex-wrap">
-                      <div className="flex-1 min-w-0 xs:min-w-[300px] rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
-                        <input
-                          className="text-white w-[80%] max-w-[419px]  [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-medium text-xl text-text5 "
-                          placeholder="Forex Amount"
-                          type="text"
-                          value={amount}
-                          onChange={(e) => setAmount(e.target.value)}
+                    {prod.value != "Travel Insurance" && (
+                      <div className="self-stretch flex flex-row items-start justify-between gap-[4%] max-w-full mq825:flex-wrap">
+                        <FrameComponent2
+                          selectedOption={intialCurrency}
+                          setSelectedOption={setIntialCurrency}
+                          currencyYouHave={
+                            selected ? "Currency you Have" : "Currency you Want"
+                          }
                         />
-                        <img
-                          className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
-                          alt=""
-                          src="/uinfocircle.svg"
+                        <FrameComponent2
+                          fixed={true}
+                          selectedOption={finalCurrency}
+                          setSelectedOption={setFinalCurrency}
+                          currencyYouHave={
+                            selected ? "Currency you Want" : "Currency you Have"
+                          }
                         />
                       </div>
-                      <div className="w-[239px] rounded-2xl bg-informative box-border overflow-hidden shrink-0 flex flex-row items-center justify-center py-4 px-[26px] whitespace-nowrap border-[2px] border-solid border-secondary">
-                        <div className="flex-1 relative text-5xl leading-[32px] font-body-small text-white text-left">
-                          1 {finalCurrency?.value} ={" "}
-                          {(rate + factor).toFixed(2)} {intialCurrency?.value}
+                    )}
+
+                    {prod.value != "Travel Insurance" && (
+                      <div className="self-stretch flex flex-col  xs:flex-row flex-wrap items-start justify-start gap-[24px] max-w-full flex-wrap">
+                        <div className="flex-1 min-w-0 xs:min-w-[300px] rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
+                          <input
+                            className="text-white w-[80%] max-w-[419px]  [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-medium text-xl text-text5 "
+                            placeholder="Forex Amount"
+                            type="text"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                          />
+                          <img
+                            className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
+                            alt=""
+                            src="/uinfocircle.svg"
+                          />
+                        </div>
+                        <div className="w-[239px] rounded-2xl bg-informative box-border overflow-hidden shrink-0 flex flex-row items-center justify-center py-4 px-[26px] whitespace-nowrap border-[2px] border-solid border-secondary">
+                          <div className="flex-1 relative text-5xl leading-[32px] font-body-small text-white text-left">
+                            1 {finalCurrency?.value} ={" "}
+                            {(rate + factor).toFixed(2)} {intialCurrency?.value}
+                          </div>
                         </div>
                       </div>
-                    </div>}
+                    )}
                   </div>
                 </div>
                 <div className="self-stretch -mt-8 flex flex-row items-end justify-between gap-[56px] max-w-full mq825:flex-wrap mq450:gap-[56px_28px]">
-                  { prod.value != "Travel Insurance" && <div className="flex flex-col items-start justify-center gap-[8px]">
-                    <div className="w-[181px] relative text-7xl leading-[32px] font-body-small text-accent text-left inline-block mq825:text-7xl mq825:leading-[26px] mq450:text-lgi mq450:leading-[19px]">
-                      {selected ? intialCurrency?.value : finalCurrency?.value}{" "}
-                      Amount
+                  {prod.value != "Travel Insurance" && (
+                    <div className="flex flex-col items-start justify-center gap-[8px]">
+                      <div className="w-[181px] relative text-7xl leading-[32px] font-body-small text-accent text-left inline-block mq825:text-7xl mq825:leading-[26px] mq450:text-lgi mq450:leading-[19px]">
+                        {selected
+                          ? intialCurrency?.value
+                          : finalCurrency?.value}{" "}
+                        Amount
+                      </div>
+                      <h1 className="m-0 relative text-29xl leading-[56px] font-normal font-body-small text-white text-left mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
+                        {`${(amount * (rate ** powerFactor + factor)).toFixed(2)}`}
+                      </h1>
                     </div>
-                    <h1 className="m-0 relative text-29xl leading-[56px] font-normal font-body-small text-white text-left mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
-                      {`${(amount *( (rate ** powerFactor) + factor)).toFixed(2)}`}
-                    </h1>
-                  </div>}
+                  )}
                   <div
                     onClick={() => {
-                      handleOpen();
+                      handleOrder();
                     }}
                     className="cursor-pointer w-[40%] flex-1 [border:none] py-5 bg-white  rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
                   >
@@ -415,7 +502,9 @@ const HomeExchangeCurrency = () => {
                       src="/ushoppingcart.svg"
                     />
                     <div className="relative text-5xl  leading-[32px] font-semibold font-body-small text-text1 text-left">
-                      {prod.value != "Travel Insurance" ? "Add To Cart" : "Get Quote"}
+                      {prod.value != "Travel Insurance"
+                        ? "Add To Cart"
+                        : "Get Quote"}
                     </div>
                   </div>
                 </div>
@@ -457,8 +546,9 @@ const HomeExchangeCurrency = () => {
         </div>
       </section>
       <section
+        id="about"
         style={{
-          // ...getImgObjectURL("/abtbg.png"),
+          ...getImgObjectURL("/abtbg.png"),
           backdropFilter: "blur(24px)",
         }}
         className="self-stretch py-20 bg-background overflow-hidden flex flex-col items-start justify-center  px-[10vw] box-border max-w-full text-left text-29xl text-white font-body-small mq825:py-[104px] sm:px-[30px] mq825:box-border mq450:pt-[68px] mq450:pb-[68px] mq450:box-border mq1275:box-border"
@@ -495,7 +585,7 @@ const HomeExchangeCurrency = () => {
       </section>
       <section
         style={getImgObjectURL("/counterbg.png")}
-        className="w-full flex justify-center items-center pt-[40px] h-full"
+        className="w-full flex justify-center items-center py-[50px] px-[1%]  h-full"
       >
         <Counter bgStyle={getImgObjectURL("/abtbg.png")} />
       </section>
@@ -523,7 +613,10 @@ const HomeExchangeCurrency = () => {
           <img className="w-full" src="/unsplash8nppe0ylmn8@2x.png" />
         </div>
       </section> */}
-      <section className="self-stretch bg-secondary overflow-hidden flex flex-row items-start justify-center py-[120px] px-5 box-border relative gap-[8px] max-w-full text-left text-29xl text-text5 font-body-small mq825:pt-[51px] mq825:pb-[51px] mq825:box-border mq1275:pt-[78px] mq1275:pb-[78px] mq1275:box-border">
+      <section
+        id="services"
+        className="self-stretch bg-secondary overflow-hidden flex flex-row items-start justify-center py-[120px] px-5 box-border relative gap-[8px] max-w-full text-left text-29xl text-text5 font-body-small mq825:pt-[51px] mq825:pb-[51px] mq825:box-border mq1275:pt-[78px] mq1275:pb-[78px] mq1275:box-border"
+      >
         <img
           className="h-full w-full absolute !m-[0] top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover"
           alt=""
@@ -542,18 +635,47 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
               <FrameComponent
                 currency="/currency.svg"
                 exchangeCurrency="Exchange Currency"
+                onClick={() => {
+                  setprod({
+                    label: "Exchange Currency",
+                    value: "Exchange Currency",
+                  });
+                  scroll("#main-content");
+                }}
+                content={`Exchange major world currencies with competitive rates and exceptional service, ensuring seamless transactions for your convenience.`}
               />
               <FrameComponent
                 currency="/send-money.svg"
                 exchangeCurrency="Transfer Money Abroad"
+                onClick={() => {
+                  setprod({
+                    label: "Transfer Money Abroad",
+                    value: "Transfer Money Abroad",
+                  });
+                  scroll("#main-content");
+                }}
+                content={`Send money internationally, fast & secure. Ideal for fees, business transactions, or supporting loved ones.`}
               />
               <FrameComponent
                 currency="/mdilightcreditcard.svg"
-                exchangeCurrency="Transfer Money Abroad"
+                exchangeCurrency="Forex Card"
+                onClick={() => {
+                  setprod({ label: "Forex Card", value: "Forex Card" });
+                  scroll("#main-content");
+                }}
+                content={`Secure & convenient prepaid card for spending abroad. Lock in rates, avoid hidden fees.`}
               />
               <FrameComponent
                 currency="/phairplanetakeofflight.svg"
-                exchangeCurrency="Transfer Money Abroad"
+                exchangeCurrency="Travel Insurance"
+                onClick={() => {
+                  setprod({
+                    label: "Travel Insurance",
+                    value: "Travel Insurance",
+                  });
+                  scroll("#main-content");
+                }}
+                content={`Protect your trip with comprehensive travel insurance. Get peace of mind for medical emergencies, trip cancellations, and more.`}
               />
             </div>
           </div>
@@ -893,8 +1015,8 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
           />
         </div>
       </section> */}
-      <section className="self-stretch bg-midnightblue overflow-hidden flex flex-col items-center justify-start pt-[30px] px-5 pb-12 box-border gap-[100px] max-w-full text-left text-13xl text-white font-lato mq825:gap-[50px_100px] mq825:pt-[51px] mq825:pb-5 mq825:box-border mq450:gap-[25px_100px] mq1275:pt-[78px] mq1275:pb-[31px] mq1275:box-border">
-        <div className="w-full flex flex-row items-start justify-start max-w-full gap-[20px] mq1275:flex-wrap justify-between">
+      {/* <section className="self-stretch bg-midnightblue overflow-hidden flex flex-col items-center justify-start pt-[30px] px-5 pb-12 box-border gap-[100px] max-w-full text-left text-13xl text-white font-lato mq825:gap-[50px_100px] mq825:pt-[51px] mq825:pb-5 mq825:box-border mq450:gap-[25px_100px] mq1275:pt-[78px] mq1275:pb-[31px] mq1275:box-border">
+        <div className="w-full flex flex-row items-start justify-start max-w-full gap-[20px] mq1275:flex-wrap justify-evenly">
           <div className="flex flex-col items-start text-left justify-start gap-[35px] mq450:gap-[17px_35px]">
             <b className="relative leading-[40px] inline-block text-5xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
               Services
@@ -975,7 +1097,7 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
                 alt=""
                 src="/fimail.svg"
               />
-              <div className="flex flex-row items-center justify-start py-2 px-1.5 box-border max-w-[calc(100%_-_32px)]">
+              <div id="mail" className="flex flex-row items-center justify-start py-2 px-1.5 box-border max-w-[calc(100%_-_32px)]">
                 <b className="relative leading-[32px] whitespace-nowrap mq450:text-lgi text-xl mq450:leading-[26px]">
                   nodaldelhi@worldoneforex.com
                 </b>
@@ -995,7 +1117,7 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
               width="100%"
               height="100%"
               frameborder="0"
-              scrolling="no"
+              // scrolling="no"
               marginheight="0"
               marginwidth="0"
               id="gmap_canvas"
@@ -1014,7 +1136,7 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
             <div className="relative leading-[24px] font-semibold mq450:text-base mq450:leading-[19px]">{`Terms & Conditions`}</div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

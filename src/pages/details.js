@@ -86,20 +86,21 @@ const Frame11 = () => {
   };
 
   const handleNext = () => {
-    if (!panNumber ) {
-      toast.error("pan number is required");
+    if (!panNumber || !/[A-Z]{5}[0-9]{4}[A-Z]{1}/.test(panNumber) ) {
+      toast.error(" valid pan number is required");
       return;
     }
-    if (!name) {
-      toast.error("name is required");
+    if (!name || name.length < 3) {
+      toast.error("valid name is required");
       return;
     }
     // also validate emil using regx
-    if (!email) {
-      toast.error("email is required");
+    if (!email || !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
+      toast.error("valid email is required");
       return;
     }
-    if (!phone && phone.length < 10) {
+    // also validate phone number using regx
+    if (!phone || !/^[6-9]+[0-9]{9}$/.test(phone)) {
       toast.error("Correct phone number is required");
       return;
     }
@@ -122,7 +123,7 @@ const Frame11 = () => {
 
         handleClick={handleNext}
         
-        step={2} title="Order Details" />
+        step={2} title="Customer Details" />
         <footer className="self-stretch shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white overflow-hidden flex flex-col items-center justify-center py-[4rem] px-[5%] sm:px-[3rem] box-border gap-[3rem] max-w-full mq900:gap-[1.5rem] mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border mq1325:pl-[1.625rem] mq1325:pr-[1.625rem] mq1325:box-border">
           <PhoneNumberInputField
             name={name}
