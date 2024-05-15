@@ -36,7 +36,7 @@ const style = {
 
 };
 
-function CityModal({ open, onClose, onCitySelect, city,onClick }) {
+function CityModal({ open, onClose, onCitySelect, city,onClick,redirectTo }) {
   
   return (
     <>

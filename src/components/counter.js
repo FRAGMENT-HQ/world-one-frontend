@@ -2,17 +2,17 @@ import CountUp, { useCountUp } from 'react-countup';
 import VisibilitySensor from 'react-visibility-sensor';
 
 
-export const Counter = () => {
+export const Counter = ({bgStyle}) => {
   const countertabs = [
-    { number: 25000, text: 'Retails', suffix: '+' },
-    { number: 4000, text: 'Coprate', suffix: '+' }, //30+
-    { number: 18000, text: 'Students', suffix: '+' }, //24hrs+
-    { number: 40, text: 'closed', suffix: 'mn +' }, //6000+
+    { number: 25000, text: 'Retail Clients Served', suffix: '+' },
+    { number: 4000, text: 'Corporate Clients Served', suffix: '+' }, //30+
+    { number: 18000, text: 'Student Remittances', suffix: '+' }, //24hrs+
+    { number: 40, text: 'Worth Transaction Closed', suffix: 'mn+' }, //6000+
   ];
   return (
     <>
-      <hr />
-      <div className='landing-counter-container py-2'>
+    
+      <div  className='landing-counter-container py-2'>
         {countertabs?.map((tab) => (
           // eslint-disable-next-line react/jsx-key
           <div className='landing-counter-subcontainer'>
@@ -24,11 +24,11 @@ export const Counter = () => {
               )}
             </CountUp>
             
-            <span className='landing-counter-text'>{tab.text}</span>
+            <span className='landing-counter-text  font-semibold'>{tab.text}</span>
           </div>
         ))}
       </div>
-      <hr />
+     
     </>
   );
 };

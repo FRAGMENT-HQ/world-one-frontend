@@ -1,7 +1,39 @@
 
 
+import { useState, useEffect } from 'react'
+function useWindowSize() {
+  // Initialize state with undefined width/height so server and client renders match
+  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined,
+  });
+
+  useEffect(() => {
+    // only execute all the code below in client side
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+    
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+     
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+    
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
+  return windowSize;
+}
 const FrameComponent4 = ({handleClick=()=>{},step=1,title="first step"}) => {
   
+  const size = useWindowSize();
 
 
   return (
@@ -15,13 +47,7 @@ const FrameComponent4 = ({handleClick=()=>{},step=1,title="first step"}) => {
       </div>
       <div className="self-stretch flex flex-row items-center justify-between [row-gap:20px] max-w-full gap-[0rem] mq1725:flex-wrap">
         <div className=" flex flex-row items-center justify-start py-[0rem]  pl-[0rem] box-border gap-[1.5rem] max-w-full  mq900:box-border mq450:pr-[1.25rem] mq450:box-border mq1325:flex-wrap mq1325:box-border">
-          <img
-            className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0 cursor-pointer"
-            loading="lazy"
-            alt=""
-            src="/uangleleftb.svg"
-            // onClick={onUangleLeftBIconClick}
-          />
+       
           <div className="flex-1 flex flex-row items-center justify-start gap-[1rem] min-w-[12.188rem] mq450:flex-wrap">
             <div className="relative leading-[2.25rem] font-medium inline-block min-w-[1.813rem] mq450:text-[1.188rem] mq450:leading-[1.813rem]">
               {`0${step}`}
@@ -31,9 +57,9 @@ const FrameComponent4 = ({handleClick=()=>{},step=1,title="first step"}) => {
             </h2>
           </div>
         </div>
-        <button
+        {size.width >500 && <button
         onClick={handleClick}
-          className="cursor-pointer [border:none] py-[1.125rem] pr-[1.968rem] pl-[2.468rem] bg-secondary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[1rem]"
+          className="cursor-pointer invisable xs:visable  [border:none] py-[1.125rem] pr-[1.968rem] pl-[2.468rem] bg-secondary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[1rem]"
           // onClick={onCustomerDetailsClick}
         >
           <img
@@ -49,7 +75,7 @@ const FrameComponent4 = ({handleClick=()=>{},step=1,title="first step"}) => {
             alt=""
             src="/fiarrowright.svg"
           />
-        </button>
+        </button>}
       </div>
     </div>
   );

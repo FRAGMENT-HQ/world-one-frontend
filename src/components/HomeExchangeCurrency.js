@@ -13,13 +13,43 @@ import CityModal from "./cityModal";
 import CurrencyCard from "./currancyCard";
 import { getRateCardMutation } from "@/hooks/prod";
 import Select from "react-select";
+// import CountryData 
+function useWindowSize() {
+  // Initialize state with undefined width/height so server and client renders match
+  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined,
+  });
 
+  useEffect(() => {
+    // only execute all the code below in client side
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
+  return windowSize;
+}
 const options = [
-  {value:"Exchange Currency",label:"Exchange Currency"},
-  {value:"Transfer Money Abroad",label:"Transfer Money Abroad"},
-  {value:"Forex Card",label:"Forex Card"},
-  {value:"Travel Insurance",label:"Travel Insurance"},
-]
+  { value: "Exchange Currency", label: "Exchange Currency" },
+  { value: "Transfer Money Abroad", label: "Transfer Money Abroad" },
+  { value: "Forex Card", label: "Forex Card" },
+  { value: "Travel Insurance", label: "Travel Insurance" },
+];
 
 const dispMap = {
   "Exchange Currency":
@@ -47,7 +77,7 @@ const HomeExchangeCurrency = () => {
   const router = useRouter();
   const [Order, setOrder] = useAtom(order);
   const [rate, setRate] = useState(1);
-  const [factor, setFactor] = useState(1.005);
+  const [factor, setFactor] = useState(1);
   const [open, setOpen] = useState(false);
   const [city, setCity] = useState("");
   const [rates, setRates] = useState([]);
@@ -55,10 +85,18 @@ const HomeExchangeCurrency = () => {
   const [prod, setprod] = useState({
     label: "Exchange Currency",
     value: "Exchange Currency",
-  
   });
+  const size = useWindowSize();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const getImgObjectURL = (imgSrc) => {
+    const imgStyle = {
+      backgroundImage: "url(" + imgSrc + ")",
+      backgroundSize: "cover",
+      backgroundRepeat: "150%",
+    };
+    return imgStyle;
+  };
 
   const { mutate: getRate } = getRateMutation(
     (res) => {
@@ -69,7 +107,7 @@ const HomeExchangeCurrency = () => {
     }
   );
   useEffect(() => {
-    setFactor(selected ? 1.005 : 0.995);
+    setFactor(selected ? +1 : -1);
     setPowerFactor(selected ? 1 : -1);
   }, [selected]);
 
@@ -98,19 +136,19 @@ const HomeExchangeCurrency = () => {
     setOrder({
       intialCurrency: selected ? intialCurrency : finalCurrency,
       finalCurrency: selected ? finalCurrency : intialCurrency,
-      amount: (amount * (rate * factor) ** powerFactor).toFixed(2),
+      amount: (amount *( (rate ** powerFactor) + factor)).toFixed(2),
       forexAmount: selected
         ? amount
-        : (amount * (rate * factor) ** powerFactor).toFixed(2),
+        : (amount *( (rate ** powerFactor) + factor)).toFixed(2),
       inrAmount: selected
-        ? (amount * (rate * factor) ** powerFactor).toFixed(2)
+        ? (amount *( (rate ** powerFactor) + factor)).toFixed(2)
         : amount,
-      rate: (rate * factor).toFixed(2),
+      rate: (rate + factor ** powerFactor).toFixed(2),
       city: city,
       product: prod.value,
       bs: selected ? "Buy" : "Sell",
     });
-    router.push("/summary/");
+    router.push( prod.value == "Travel Insurance" ? "/details/" : "/summary/");
   };
   return (
     <div className=" bg-background w-full overflow-hidden flex flex-col items-start justify-start">
@@ -120,6 +158,7 @@ const HomeExchangeCurrency = () => {
         handleClose={handleClose}
         city={city}
         onCitySelect={setCity}
+        redirectTo="/summary/"
       />
       <section className="self-stretch  bg-black flex flex-col items-start justify-start pt-4 px-0 pb-0 box-border relative gap-[82px] max-w-full text-left text-xl text-white font-body-small mq825:gap-[20px_82px] mq825:pt-5 mq825:box-border mq1275:gap-[41px_82px] mq1275:pt-[31px] mq1275:box-border">
         <img
@@ -130,57 +169,72 @@ const HomeExchangeCurrency = () => {
         <img className="w-full absolute !m-[0] z-[1]" alt="" />
         <div className="self-stretch flex flex-row items-start justify-center py-0 pr-[22px] pl-5 box-border max-w-full">
           <div className=" flex flex-col items-end justify-start gap-[50px] max-w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px]">
-            <div className="invisible sm:visible w-[90%] mr-[5%] h-[4vw] min-h-[55px] mt-5  rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
+            <div className=" sm:visible w-[90%] mr-[5%] h-[4vw] min-h-[85px] mt-5  rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
               <img
-                className="h-[25.5px] w-[99px] relative"
+                className=" h-[30px] sm:h-[50px] sm:w-[120px] relative"
                 loading="lazy"
                 alt=""
-                src="/w-o-f.svg"
+                src={size.width > 600 ? "LOGO.svg" : "/worldOneLogo.svg"}
               />
-              <div className="w-[75%] flex flex-row items-center justify-center text-[15px] font-semibold mq825:hidden">
-                <div className="flex gap-[15%] ">
-                  <div className=" flex flex-row items-center justify-center py-1 ">
-                    <div className="relative leading-[32px] inline-block ">
-                      About
+              {size.width > 600 ? (
+                <>
+                  {" "}
+                  <div className="w-[75%] flex flex-row items-center justify-center text-[15px] font-semibold mq825:hidden">
+                    <div className="flex gap-[15%] ">
+                      <div className=" flex flex-row items-center justify-center py-1 ">
+                        <div className="relative leading-[32px] inline-block ">
+                          About
+                        </div>
+                      </div>
+                      <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
+                        <div className="relative leading-[32px]">Services</div>
+                      </div>
+                      <div className=" flex flex-row items-center justify-center py-1 ">
+                        <div className="relative leading-[32px] inline-block ">
+                          Support
+                        </div>
+                      </div>
+                      <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
+                        <div className="relative leading-[32px]">Blogs</div>
+                      </div>
                     </div>
                   </div>
-                  <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
-                    <div className="relative leading-[32px]">Services</div>
-                  </div>
-                  <div className=" flex flex-row items-center justify-center py-1 ">
-                    <div className="relative leading-[32px] inline-block ">
-                      Support
+                  <div className="flex h-16 gap-[5%] flex-row-reverse">
+                    <div className=" h-10 mt-3 rounded-2xl bg-darkslateblue-400 overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]">
+                      <img
+                        className="h-6 w-6 relative overflow-hidden shrink-0"
+                        alt=""
+                        src="/ulocationpinalt.svg"
+                      />
+                      <div className="relative text-base  inline-block ">
+                        Location
+                      </div>
                     </div>
+                    <button className="cursor-pointer [border:none] py-1 px-[29px] bg-[transparent] overflow-hidden flex flex-row items-center justify-center">
+                      <div className="relative text-base leading-[32px] font-body-small text-primary text-left inline-block min-w-[52px]">
+                        Login
+                      </div>
+                    </button>
                   </div>
-                  <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
-                    <div className="relative leading-[32px]">Blogs</div>
-                  </div>
+                </>
+              ) : (
+                <div className="flex gap-1 h-5 flex-col">
+                  {/* three line using divs */}
+                  <div className="w-[20px] h-0.5 bg-white"></div>
+                  <div className="w-[20px] h-0.5 bg-white"></div>
+                  <div className="w-[20px] h-0.5 bg-white"></div>
                 </div>
-              </div>
-              <div className="flex h-16 gap-[5%] flex-row-reverse" >
-                <div className=" h-10 mt-3 rounded-2xl bg-darkslateblue-400 overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]">
-                  <img
-                    className="h-6 w-6 relative overflow-hidden shrink-0"
-                    alt=""
-                    src="/ulocationpinalt.svg"
-                  />
-                  <div className="relative text-base  inline-block ">
-                    Location
-                  </div>
-                </div>
-                <button className="cursor-pointer [border:none] py-1 px-[29px] bg-[transparent] overflow-hidden flex flex-row items-center justify-center">
-                  <div className="relative text-base leading-[32px] font-body-small text-primary text-left inline-block min-w-[52px]">
-                    Login
-                  </div>
-                </button>
-              </div>
+              )}
             </div>
             <div className="self-stretch  w-full flex flex-row items-start justify-between laptop:gap-[3%] gap-[5%] max-w-full text-[64px] text-text5 mq825:gap-[173px_43px] mq450:gap-[173px_22px] mq1275:gap-[173px_86px] mq1575:flex-wrap">
               <form className="m-0 w-[48%] tablet:min-w-[600px] laptop:min-w-[640px] flex-1 ml-[3%] rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-2 sm:px-8 pb-12 box-border gap-[56px]  max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border ">
                 <div className="text-[25%] h-0 sm:h-auto invisible sm:visible  px-[10px] w-full rounded-3xl bg-darkslateblue-100 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-auto flex flex-row items-center justify-evenly py-6 px-8 gap-[1px]">
                   <div
                     onClick={() => {
-                      setprod({label:"Exchange Currency",value:"Exchange Currency"});
+                      setprod({
+                        label: "Exchange Currency",
+                        value: "Exchange Currency",
+                      });
                     }}
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
@@ -189,58 +243,83 @@ const HomeExchangeCurrency = () => {
                     >
                       Exchange Currency
                     </div>
-                    {prod.value== "Exchange Currency" && (
+                    {prod.value == "Exchange Currency" && (
                       <div className="w-full h-1 rounded-xl mt-2 -mb-2 bg-[#FF9135]"></div>
                     )}
                   </div>
                   <div
                     onClick={() => {
-                      setprod({label:"Transfer Money Abroad",value:"Transfer Money Abroad"});
+                      setprod({
+                        label: "Transfer Money Abroad",
+                        value: "Transfer Money Abroad",
+                      });
                     }}
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium  font-body-small ${prod.value== "Transfer Money Abroad" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium  font-body-small ${prod.value == "Transfer Money Abroad" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Transfer Money Abroad
                     </div>
-                    {prod.value== "Transfer Money Abroad" && (
+                    {prod.value == "Transfer Money Abroad" && (
                       <div className="w-full h-1 rounded-xl mt-2 -mb-2 bg-[#FF9135]"></div>
                     )}
                   </div>
                   <div
                     onClick={() => {
-                      setprod({label:"Forex Card",value:"Forex Card"});
+                      setprod({ label: "Forex Card", value: "Forex Card" });
                     }}
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium font-body-small ${prod.value== "Forex Card" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium font-body-small ${prod.value == "Forex Card" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Forex Card
                     </div>
-                    {prod.value== "Forex Card" && (
+                    {prod.value == "Forex Card" && (
                       <div className="w-full h-1 rounded-xl mt-2 -mb-2 bg-[#FF9135]"></div>
                     )}
                   </div>
                   <div
                     onClick={() => {
-                      setprod({label:"Travel Insurance",value:"Travel Insurance"});
+                      setprod({
+                        label: "Travel Insurance",
+                        value: "Travel Insurance",
+                      });
                     }}
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium  font-body-small ${prod.value== "Travel Insurance" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium  font-body-small ${prod.value == "Travel Insurance" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Travel Insurance
                     </div>
-                    {prod.value== "Travel Insurance" && (
+                    {prod.value == "Travel Insurance" && (
                       <div className="w-full h-1 rounded-xl mt-2 -mb-2 bg-[#FF9135]"></div>
                     )}
                   </div>
                 </div>
                 <div className="self-stretch flex -mt-8 flex-col items-center justify-center gap-[32px] max-w-full mq450:gap-[16px_32px]">
-                  {prod.value== "Exchange Currency" && (
+                  <div className="flex-1 w-[100%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
+                    <Select
+                      defaultValue={prod}
+                      value={prod}
+                      isSearchable={true}
+                      onChange={setprod}
+                      options={options}
+                      classNames={{
+                        container: () =>
+                          "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-2 ",
+                        control: () =>
+                          "self-stretch !bg-transparent !border-none ",
+                        menuList: () => "!bg-midnightblue",
+                        option: () => "text-white",
+                        input: () => "text-white",
+                        singleValue: () => "!text-white",
+                      }}
+                    />
+                  </div>
+                  {prod.value == "Exchange Currency" && (
                     <div className="self-stretch rounded-2xl bg-gray-100 shadow-[-2px_2px_8px_rgba(14,_21,_56,_0.2)_inset,_-4px_4px_16px_rgba(15,_20,_45,_0.15)_inset] flex flex-row items-start justify-start max-w-full [row-gap:20px] mq825:flex-wrap">
                       <div
                         onClick={() => {
@@ -270,26 +349,9 @@ const HomeExchangeCurrency = () => {
                       </div>
                     </div>
                   )}
-                  <div className="flex-1 w-[100%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
- 
-      <Select
-        defaultValue={prod}
-        value={prod}
-        isSearchable={true}
-        onChange={setprod}
-        options={options}
-        classNames={{
-          container: () => "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-2 ",
-          control: () => "self-stretch !bg-transparent !border-none ",
-          menuList: () => "!bg-midnightblue",
-          option: () => "text-white",
-          input: () => "text-white",
-          singleValue: () => "!text-white",
-        }}
-      />
-    </div>
+
                   <div className="self-stretch flex flex-col items-start justify-between gap-[24px] max-w-full">
-                    <div className="self-stretch flex flex-row items-start justify-between gap-[4%] max-w-full mq825:flex-wrap">
+                    { prod.value != "Travel Insurance" && <div className="self-stretch flex flex-row items-start justify-between gap-[4%] max-w-full mq825:flex-wrap">
                       <FrameComponent2
                         selectedOption={intialCurrency}
                         setSelectedOption={setIntialCurrency}
@@ -305,9 +367,9 @@ const HomeExchangeCurrency = () => {
                           selected ? "Currency you Want" : "Currency you Have"
                         }
                       />
-                    </div>
+                    </div>}
 
-                    <div className="self-stretch flex flex-col  xs:flex-row flex-wrap items-start justify-start gap-[24px] max-w-full flex-wrap">
+                    { prod.value != "Travel Insurance" && <div className="self-stretch flex flex-col  xs:flex-row flex-wrap items-start justify-start gap-[24px] max-w-full flex-wrap">
                       <div className="flex-1 min-w-0 xs:min-w-[300px] rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
                         <input
                           className="text-white w-[80%] max-w-[419px]  [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-medium text-xl text-text5 "
@@ -325,22 +387,22 @@ const HomeExchangeCurrency = () => {
                       <div className="w-[239px] rounded-2xl bg-informative box-border overflow-hidden shrink-0 flex flex-row items-center justify-center py-4 px-[26px] whitespace-nowrap border-[2px] border-solid border-secondary">
                         <div className="flex-1 relative text-5xl leading-[32px] font-body-small text-white text-left">
                           1 {finalCurrency?.value} ={" "}
-                          {(rate * factor).toFixed(2)} {intialCurrency?.value}
+                          {(rate + factor).toFixed(2)} {intialCurrency?.value}
                         </div>
                       </div>
-                    </div>
+                    </div>}
                   </div>
                 </div>
                 <div className="self-stretch -mt-8 flex flex-row items-end justify-between gap-[56px] max-w-full mq825:flex-wrap mq450:gap-[56px_28px]">
-                  <div className="flex flex-col items-start justify-center gap-[8px]">
+                  { prod.value != "Travel Insurance" && <div className="flex flex-col items-start justify-center gap-[8px]">
                     <div className="w-[181px] relative text-7xl leading-[32px] font-body-small text-accent text-left inline-block mq825:text-7xl mq825:leading-[26px] mq450:text-lgi mq450:leading-[19px]">
                       {selected ? intialCurrency?.value : finalCurrency?.value}{" "}
                       Amount
                     </div>
                     <h1 className="m-0 relative text-29xl leading-[56px] font-normal font-body-small text-white text-left mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
-                      {`${(amount * (rate * factor) ** powerFactor).toFixed(2)}`}
+                      {`${(amount *( (rate ** powerFactor) + factor)).toFixed(2)}`}
                     </h1>
-                  </div>
+                  </div>}
                   <div
                     onClick={() => {
                       handleOpen();
@@ -352,8 +414,8 @@ const HomeExchangeCurrency = () => {
                       alt=""
                       src="/ushoppingcart.svg"
                     />
-                    <div className="relative text-5xl  leading-[32px] font-medium font-body-small text-text1 text-left">
-                      Add To Cart
+                    <div className="relative text-5xl  leading-[32px] font-semibold font-body-small text-text1 text-left">
+                      {prod.value != "Travel Insurance" ? "Add To Cart" : "Get Quote"}
                     </div>
                   </div>
                 </div>
@@ -394,32 +456,48 @@ const HomeExchangeCurrency = () => {
           </button>
         </div>
       </section>
-      <section className="self-stretch bg-background overflow-hidden flex flex-col items-start justify-center py-40 px-[120px] box-border max-w-full text-left text-29xl text-text1 font-body-small mq825:py-[104px] mq825:px-[30px] mq825:box-border mq450:pt-[68px] mq450:pb-[68px] mq450:box-border mq1275:pl-[60px] mq1275:pr-[60px] mq1275:box-border">
-        <div className="self-stretch flex flex-row items-center justify-start gap-[5%] max-w-full mq825:gap-[111px_55px] mq450:gap-[111px_28px] mq1575:flex-wrap">
-          <div className=" flex flex-col items-start justify-start  w-[50%] mq825:min-w-full ">
-            <div className=" box-border flex flex-row items-center justify-center py-0 px-[21px] border-l-[5px] border-0 border-solid border-secondary">
-              <h1 className="m-0  relative text-29xl  font-bold  inline-block mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
-                About Us
+      <section
+        style={{
+          // ...getImgObjectURL("/abtbg.png"),
+          backdropFilter: "blur(24px)",
+        }}
+        className="self-stretch py-20 bg-background overflow-hidden flex flex-col items-start justify-center  px-[10vw] box-border max-w-full text-left text-29xl text-white font-body-small mq825:py-[104px] sm:px-[30px] mq825:box-border mq450:pt-[68px] mq450:pb-[68px] mq450:box-border mq1275:box-border"
+      >
+        <div className="self-stretch  flex flex-row items-center justify-start gap-[5%] max-w-full mq825:gap-[111px_55px] mq450:gap-[111px_28px] mq1575:flex-wrap">
+          <div
+            style={{ backdropFilter: "blur(24px)" }}
+            className="flex bg-[#233aaee6] gap-8 rounded-xl py-10 px-[5%] sm:px-12 flex-col items-start justify-start w-full mq825:min-w-full "
+          >
+            <div className=" box-border flex flex-row items-center justify-center py-0 px-[21px] border-l-[5px] border-0 border-solid border-white">
+              <h1 className="m-0  relative text-[2.5rem]  font-normal  inline-block mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
+                Welcome to World One Forex
               </h1>
             </div>
-            <div className="self-stretch font-semibold mt-8 relative text-lg tablet:text-[1.2vw] font-medium text-text2 inline-block mq450:text-lgi mq450:leading-[29px]">
+            <div className="self-stretch  font-normal mt-2 relative text-lg tablet:text-[1.2vw] font-medium text-white inline-block mq450:text-lgi mq450:leading-[29px]">
               <p className="m-0">
-              World One Forex was incorporated in 2013 and was granted AD CAT II license as well as Import of Foreign Currencies Licence in FY 2019-20.
-
+                Where your foreign exchange needs are met with expertise and
+                care.
+                <br /> Established in 2013, World One Forex has become a leading
+                name in reliable and efficient foreign exchange services. We are
+                a licensed operator, holding both the AD CAT II and Import of
+                Foreign Currencies Licence, ensuring you safe and secure
+                transactions.
+                <br />
+                Our unwavering focus on professionalism and efficiency has
+                resulted in a remarkable customer retention rate exceeding 90%.
+                We understand the importance of trust and transparency when
+                dealing with your hard-earned money. That's why we prioritize
+                building long-lasting relationships with our clients.
               </p>
-        
-              <br />
-              <p className="m-0 whitespace-pre-wrap">{`We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Kochi, Ludhiana, Chandigarh) and an employee base of 85 professionals.  In addition to the regular forex services where we serve about 25,000 retail and 4,000 corporate clients, WorldOne has been regularly supporting international students with their fee remittances. We have worked with about 18,000 students till date and have closed remittances close to USD 40 million. We make a significant effort in ensuring a professional and efficient service to your clients that has led to >90% customer retention rate.`}</p>
             </div>
           </div>
-          <img
-            className=" w-[45%] h-full relative rounded-3xl object-cover max-w-full mq1575:flex-1"
-            loading="lazy"
-            alt=""
-            src="/unsplash8nppe0ylmn8@2x.png"
-          />
         </div>
-        <Counter />
+      </section>
+      <section
+        style={getImgObjectURL("/counterbg.png")}
+        className="w-full flex justify-center items-center pt-[40px] h-full"
+      >
+        <Counter bgStyle={getImgObjectURL("/abtbg.png")} />
       </section>
       {/* <section className="w-full bg-background overflow-hidden flex flex-wrap flex-col sm:flex-row items-evenely sm:items-start gap-8  mb-5 box-border max-w-full text-left text-29xl text-text1 font-body-small ">
         <div className="sm:w-[60%] w-full px-[5%] h-36 bg-red-400 flex flex-col items-center justify-start ">
@@ -579,7 +657,7 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
         </div>
       </section> */}
       <section className="self-stretch flex flex-row items-start justify-start max-w-full text-left text-29xl text-text1 font-body-small">
-        <div className="flex-1 bg-background overflow-hidden flex flex-col items-start justify-center py-40 px-[120px] box-border max-w-full mq825:pl-[30px] mq825:pr-[30px] mq825:box-border mq450:pt-[68px] mq450:pb-[68px] mq450:box-border mq1275:py-[104px] mq1275:px-[60px] mq1275:box-border">
+        <div className="flex-1 bg-background overflow-hidden flex flex-col items-start justify-center py-40 px-[3vw] box-border max-w-full mq825:pl-[30px] mq825:pr-[30px] mq825:box-border mq450:pt-[68px] mq450:pb-[68px] mq450:box-border mq1275:py-[104px] mq1275:px-[60px] mq1275:box-border">
           <div className="self-stretch flex flex-col items-start justify-start gap-[111px] max-w-full mq825:gap-[55px_111px] mq450:gap-[28px_111px]">
             <div className="self-stretch flex flex-col items-start justify-start gap-[56px] max-w-full mq825:gap-[28px_56px]">
               <div className="w-[724px] box-border flex flex-row items-center justify-center py-0 px-[21px] max-w-full border-l-[5px] border-0 border-solid border-secondary">
@@ -592,7 +670,7 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
                 Forex. Here's why our users love us:
               </div>
             </div>
-            <div className=" overflow-x-hidden flex flex-row flex-wrap items-center justify-evenly gap-[2vw] w-full ">
+            <div className=" overflow-x-hidden  flex flex-row flex-wrap items-center justify-evenly gap-1 w-full ">
               <LinkFunction
                 reliability="Reliability"
                 trustOurExperienceAndSecu="Trust our experience and secure transactions."
@@ -601,7 +679,8 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
               <LinkFunction
                 reliability="Competitive Rates"
                 trustOurExperienceAndSecu="Maximize currency value with our rates.
-"               imgSrc="/crates.svg"
+"
+                imgSrc="/crates.svg"
               />
               <LinkFunction
                 reliability="Convenience"
@@ -815,12 +894,12 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
         </div>
       </section> */}
       <section className="self-stretch bg-midnightblue overflow-hidden flex flex-col items-center justify-start pt-[30px] px-5 pb-12 box-border gap-[100px] max-w-full text-left text-13xl text-white font-lato mq825:gap-[50px_100px] mq825:pt-[51px] mq825:pb-5 mq825:box-border mq450:gap-[25px_100px] mq1275:pt-[78px] mq1275:pb-[31px] mq1275:box-border">
-        <div className="w-full flex flex-row items-start justify-evenly max-w-full gap-[20px] mq1275:flex-wrap">
-          <div className="flex text-center flex-col items-center sm:items-start justify-center sm:justify-start gap-[35px] mq450:gap-[17px_35px]">
+        <div className="w-full flex flex-row items-start justify-start max-w-full gap-[20px] mq1275:flex-wrap justify-between">
+          <div className="flex flex-col items-start text-left justify-start gap-[35px] mq450:gap-[17px_35px]">
             <b className="relative leading-[40px] inline-block text-5xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
               Services
             </b>
-            <div className="flex overflow-hidden text-center flex-col tems-center sm:items-start justify-start gap-[16px] text-xl text-text5">
+            <div className="flex overflow-hidden text-left flex-col items-start justify-start gap-[16px] text-xl text-text5">
               <div className="flex flex-row items-center justify-center py-2 px-[7px]">
                 <div className="relative text-center leading-[32px] mq450:text-lgi mq450:leading-[26px]">
                   Exchange Currency
@@ -843,7 +922,7 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-center sm:items-start text-center justify-start gap-[35px]">
+          <div className="flex flex-col items-start text-left justify-start gap-[35px]">
             <b className="relative leading-[40px] text-5xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
               Quick Links
             </b>
@@ -884,8 +963,8 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
                 World One India Forex Private Limited.
               </b>
               <div className=" relative leading-[32px] text-xl mq450:text-lgi mq450:leading-[26px]">
-                Shop No. 1, S-1, Ground Floor, <br/>
-                American Plaza, Eros Hostel, <br/>
+                Shop No. 1, S-1, Ground Floor, <br />
+                American Plaza, Eros Hostel, <br />
                 Nehru Place, New Delhi, Delhi - 110019, India
               </div>
             </div>
@@ -912,7 +991,16 @@ We have offices in 12 cities (Delhi NCR, Mumbai, Kolkata, Bangalore, Chennai, Ko
         <div className="w-[1681px] h-[511px] flex flex-row items-start justify-center max-w-full">
           <div className="self-stretch w-[1436px] flex flex-row items-start justify-start relative max-w-full">
             <div className="h-[998px] w-[1413px] absolute !m-[0] bottom-[-531px] left-[-32px] rounded-[50%] bg-steelblue-200 [filter:blur(500px)]" />
-            <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" src="https://maps.google.com/maps?width=520&amp;height=400&amp;hl=en&amp;q=World%20One%20India%20Forex%20Private%20Limited.%20Roorkee+()&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe> 
+            <iframe
+              width="100%"
+              height="100%"
+              frameborder="0"
+              scrolling="no"
+              marginheight="0"
+              marginwidth="0"
+              id="gmap_canvas"
+              src="https://maps.google.com/maps?width=520&amp;height=400&amp;hl=en&amp;q=World%20One%20India%20Forex%20Private%20Limited.%20Roorkee+()&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+            ></iframe>
           </div>
         </div>
         <div className="w-[1680px] rounded-[20px] bg-darkslateblue-600 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-row items-start justify-between py-5 px-[120px] box-border max-w-full gap-[20px] z-[1] text-xl mq825:pl-[30px] mq825:pr-[30px] mq825:box-border mq1275:flex-wrap mq1275:justify-center mq1275:pl-[60px] mq1275:pr-[60px] mq1275:box-border">

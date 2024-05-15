@@ -81,13 +81,7 @@ const FrameComponent5 = ({
               arrival
             </div>
             <Switch size="large" checked={checked} onChange={handleChange} />
-            {/* <img
-        //   className="h-[3rem] w-[6rem] relative rounded-3xl overflow-hidden shrink-0 cursor-pointer"
-        //   loading="lazy"
-        //   alt=""
-        //   src="/toogle-1.svg"
-        //    onClick={onToogleClick}
-        // /> */}
+            
           </div>
         </div>
 
@@ -97,12 +91,12 @@ const FrameComponent5 = ({
       <div className=" relative leading-[2rem] font-medium inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
         Documents Required
       </div>
-      <div className="w-full flex flex-row items-center justify-around flex-wrap">
+      <div className="w-full flex flex-row items-center justify-around gap-5 flex-wrap">
         <button
           onClick={() => {
             panRef.current.click();
           }}
-          className={`cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${pan === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
+          className={`cursor-pointer flex-1 mb-4 [border:none] py-[2.125rem] px-[1.2rem] ${pan === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
         >
           <img
             className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0"
@@ -125,7 +119,7 @@ const FrameComponent5 = ({
           onClick={() => {
             passportFrontRef.current.click();
           }}
-          className={`cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${passportFront === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
+          className={`flex-1 mb-4 cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${passportFront === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-start box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
         >
           <img
             className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0 min-h-[3rem]"
@@ -151,7 +145,7 @@ const FrameComponent5 = ({
           onClick={() => {
             passportBackRef.current.click();
           }}
-          className={`cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${passportBack === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
+          className={`flex-1 mb-4 cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${passportBack === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-start box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
         >
           <img
             className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0 min-h-[3rem]"
@@ -178,7 +172,7 @@ const FrameComponent5 = ({
           onClick={() => {
             airTicketRef.current.click();
           }}
-          className={`cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${airTicket === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
+          className={`flex-1 mb-4 cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${airTicket === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
         >
           <img
             className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0"
@@ -205,7 +199,7 @@ const FrameComponent5 = ({
             onClick={() => {
               visaRef.current.click();
             }}
-            className={`cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${visa === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
+            className={`flex-1 mb-4 cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${visa === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
           >
             <img
               className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0"

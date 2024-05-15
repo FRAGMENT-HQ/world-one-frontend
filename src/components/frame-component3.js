@@ -12,7 +12,7 @@ const FrameComponent3 = ({
 }) => {
   const frameDiv3Style = useMemo(() => {
     return {
-      minWidth: propMinWidth,
+  
     };
   }, [propMinWidth]);
 
@@ -30,7 +30,7 @@ const FrameComponent3 = ({
 
   return (
     <div
-      className="flex-1 flex flex-col items-start justify-center gap-[0.75rem] min-w-[23.125rem] max-w-full text-left text-[1.25rem] text-text2 font-body-small mq900:min-w-full mq900:flex-[unset] mq900:self-stretch"
+      className="flex-1 flex flex-col items-start justify-center gap-[0.75rem] min-w-[95%] sm:min-w-[23.125rem] max-w-full text-left text-[1.25rem] text-text2 font-body-small mq900:min-w-full mq900:flex-[unset] mq900:self-stretch"
       style={frameDiv3Style}
     >
       <div
