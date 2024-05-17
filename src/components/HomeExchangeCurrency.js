@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { order } from "@/states/storage";
+import { order, services } from "@/states/storage";
 import FrameComponent2 from "./frame-component2";
-import FrameComponent1 from "./frame-component1";
 import FrameComponent from "./frame-component";
 import LinkFunction from "./link-function";
 import Counter from "./counter";
@@ -14,7 +13,7 @@ import CurrencyCard from "./currancyCard";
 import { getRateCardMutation } from "@/hooks/prod";
 import Select from "react-select";
 import toast from "react-hot-toast";
-
+import Drawer from "@mui/material/Drawer";
 
 const cityOptions = [
   { label: " New Delhi", value: "New Delhi" },
@@ -100,12 +99,14 @@ const HomeExchangeCurrency = () => {
   const [amount, setAmount] = useState();
   const router = useRouter();
   const [Order, setOrder] = useAtom(order);
-  const [rate, setRate] = useState(1);
+  const [Services, setServices] = useAtom(services);
+  const [rate, setRate] = useState(83);
   const [factor, setFactor] = useState(1);
   const [open, setOpen] = useState(false);
   const [city, setCity] = useState("");
   const [rates, setRates] = useState([]);
   const [powerFactor, setPowerFactor] = useState(1);
+  const [drawerOpen, setdrawerOpen] = useState(false);
   const [prod, setprod] = useState({
     label: "Exchange Currency",
     value: "Exchange Currency",
@@ -157,7 +158,12 @@ const HomeExchangeCurrency = () => {
   }, []);
 
   const handleOrder = () => {
-    if(amount == undefined || amount == "" || (amount * (rate ** powerFactor + factor)) < 5000){
+    if (
+      prod.value != "Travel Insurance" &&
+      (amount == undefined ||
+        amount == "" ||
+        amount * (rate ** powerFactor + factor) < 5000)
+    ) {
       toast.error("Please enter the amount greater than 5000");
 
       return;
@@ -170,12 +176,10 @@ const HomeExchangeCurrency = () => {
       intialCurrency: selected ? intialCurrency : finalCurrency,
       finalCurrency: selected ? finalCurrency : intialCurrency,
       amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
-      forexAmount: selected
-        ? amount
-        : (amount * (rate ** powerFactor + factor)).toFixed(2),
-      inrAmount: selected
-        ? (amount * (rate ** powerFactor + factor)).toFixed(2)
-        : amount,
+      forexAmount: amount,
+
+      inrAmount: (amount * (rate ** powerFactor + factor)).toFixed(2),
+
       rate: (rate + factor ** powerFactor).toFixed(2),
       city: city,
       product: prod.value,
@@ -205,11 +209,90 @@ const HomeExchangeCurrency = () => {
           src="/bg-grad.png"
         />
         <img className="w-full absolute !m-[0] z-[1]" alt="" />
-        <div className="self-stretch flex flex-row items-start justify-center py-0 pr-[22px] pl-5 box-border max-w-full">
-          <div className=" flex flex-col items-end justify-start gap-[50px] max-w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px]">
-            <div className=" sm:visible w-[90%] mr-[5%] h-[4vw] min-h-[85px] mt-5  rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
+        <Drawer
+          open={drawerOpen}
+          onClose={() => {
+            setdrawerOpen(false);
+          }}
+        >
+          <div className="w-[100vw] h-[100vh] bg-darkslateblue-700">
+            <div className=" sm:visible w-full mt-5  rounded-3xl flex flex-col items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
+              <div className="w-[75%] flex flex-col items-center justify-center text-[15px] font-semibold">
+                <div className="flex flex-col text-white  gap-[15%] ">
+                  <div className=" flex  items-center justify-center py-1 ">
+                    <div
+                      onClick={() => {
+                        setdrawerOpen(false);
+                        scroll("#about");
+                      }}
+                      className=" cursor-pointer text-white relative leading-[32px] inline-block "
+                    >
+                      About
+                    </div>
+                  </div>
+                  <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
+                    <div
+                      onClick={() => {
+                        setdrawerOpen(false);
+                        scroll("#services");
+                      }}
+                      className="cursor-pointer relative leading-[32px]"
+                    >
+                      Services
+                    </div>
+                  </div>
+                  {/* <div className=" flex flex-row items-center justify-center py-1 ">
+                        <div className="relative leading-[32px] inline-block ">
+                          Support
+                        </div>
+                      </div> */}
+                  <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
+                    <div className="relative leading-[32px]">Blogs</div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-[5%] flex-col-reverse items-center w-full">
+                <div
+                  onClick={() => {
+                    setdrawerOpen(false);
+                    scroll("#mail");
+                  }}
+                  className="cursor-pointer w-[10rem] h-10 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
+                >
+                  <img
+                    className="h-6 w-6 relative overflow-hidden shrink-0"
+                    alt=""
+                    src="/support.svg"
+                  />
+                  <div className="relative text-base !text-[#27357E]  inline-block ">
+                    Contact Us
+                  </div>
+                </div>
+
+                <div
+                  onClick={() => {
+                    router.push("/rates");
+                  }}
+                  className="cursor-pointer w-[10rem] h-10 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
+                >
+                  <img
+                    className="h-6 w-6 relative overflow-hidden shrink-0"
+                    alt=""
+                    src="/support.svg"
+                  />
+                  <div className="relative text-base !text-[#27357E]  inline-block ">
+                    Forex Rates
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Drawer>
+        <div className="self-stretch flex flex-row items-start justify-center py-0 pr-0 pl-0 box-border max-w-full">
+          <div className=" flex flex-col items-end justify-start gap-[50px] max-w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px] sm:px-[3%] ">
+            <div className=" sm:visible w-[90%] mr-[5%] h-[4vw] min-h-[85px] mt-5 rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row  items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
               <img
-                className=" h-[30px] sm:h-[50px] sm:w-[120px] relative"
+                className=" h-[30px] sm:h-[60px] sm:w-[160px] relative"
                 loading="lazy"
                 alt=""
                 src={size.width > 600 ? "LOGO.svg" : "/worldOneLogo.svg"}
@@ -250,7 +333,12 @@ const HomeExchangeCurrency = () => {
                     </div>
                   </div>
                   <div className="flex h-16 gap-[5%] flex-row-reverse  w-full">
-                    <div onClick={()=>{scroll("#mail")}} className="cursor-pointer w-[10rem] h-10 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]">
+                    <div
+                      onClick={() => {
+                        scroll("#mail");
+                      }}
+                      className="cursor-pointer w-[10rem] h-10 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
+                    >
                       <img
                         className="h-6 w-6 relative overflow-hidden shrink-0"
                         alt=""
@@ -261,7 +349,12 @@ const HomeExchangeCurrency = () => {
                       </div>
                     </div>
 
-                    <div onClick={()=>{router.push("/rates")}} className="cursor-pointer w-[10rem] h-10 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]">
+                    <div
+                      onClick={() => {
+                        router.push("/rates");
+                      }}
+                      className="cursor-pointer w-[10rem] h-10 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
+                    >
                       <img
                         className="h-6 w-6 relative overflow-hidden shrink-0"
                         alt=""
@@ -274,7 +367,12 @@ const HomeExchangeCurrency = () => {
                   </div>
                 </>
               ) : (
-                <div className="flex gap-1 h-5 flex-col">
+                <div
+                  onClick={() => {
+                    setdrawerOpen(true);
+                  }}
+                  className="cursor-pointer flex gap-1 h-5 flex-col"
+                >
                   {/* three line using divs */}
                   <div className="w-[20px] h-0.5 bg-white"></div>
                   <div className="w-[20px] h-0.5 bg-white"></div>
@@ -282,10 +380,10 @@ const HomeExchangeCurrency = () => {
                 </div>
               )}
             </div>
-            <div className="self-stretch  w-full flex flex-row items-start justify-between laptop:gap-[3%] gap-[5%] max-w-full text-[64px] text-text5 mq825:gap-[173px_43px] mq450:gap-[173px_22px] mq1275:gap-[173px_86px] mq1575:flex-wrap">
+            <div className="self-stretch w-full flex sm:flex-row flex-col-reverse bg-red-400 items-start justify-between laptop:gap-[3%] gap-[5%] max-w-full text-[64px] text-text5 mq825:gap-[173px_43px] mq450:gap-[173px_22px] mq1275:gap-[173px_86px] mq1575:flex-wrap">
               <form
                 id="main-content"
-                className="m-0 w-[48%] tablet:min-w-[600px] laptop:min-w-[640px] flex-1 ml-[3%] rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-2 sm:px-8 pb-12 box-border gap-[56px]  max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border "
+                className="ml-[6%] m-0 sm:ml-0 w-[90%] sm:w-[48%] tablet:min-w-[600px] laptop:min-w-[640px] flex-1 ml-[3%] rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-2 sm:px-8 pb-12 box-border gap-[56px]  max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border "
               >
                 <div className="text-[25%] h-0 sm:h-auto invisible sm:visible  px-[10px] w-full rounded-3xl bg-darkslateblue-100 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-auto flex flex-row items-center justify-evenly py-6 px-8 gap-[1px]">
                   <div
@@ -480,13 +578,10 @@ const HomeExchangeCurrency = () => {
                   {prod.value != "Travel Insurance" && (
                     <div className="flex flex-col items-start justify-center gap-[8px]">
                       <div className="w-[181px] relative text-7xl leading-[32px] font-body-small text-accent text-left inline-block mq825:text-7xl mq825:leading-[26px] mq450:text-lgi mq450:leading-[19px]">
-                        {selected
-                          ? intialCurrency?.value
-                          : finalCurrency?.value}{" "}
-                        Amount
+                        {"INR"} Amount
                       </div>
                       <h1 className="m-0 relative text-29xl leading-[56px] font-normal font-body-small text-white text-left mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
-                        {`${(amount * (rate ** powerFactor + factor)).toFixed(2)}`}
+                        {`${(amount * (rate + factor)).toFixed(2)}`}
                       </h1>
                     </div>
                   )}
@@ -509,54 +604,95 @@ const HomeExchangeCurrency = () => {
                   </div>
                 </div>
               </form>
-              <div className="w-[38%] desktop:w-[35%] flex flex-col items-start justify-start pt-[84px] px-10 pb-0 box-border  max-w-full mq825:min-w-full mq450:pt-[55px] mq450:box-border mq1575:flex-1">
-                <div className="self-stretch flex flex-col items-start justify-start gap-[64px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
+              <div className=" w-[98%] sm:w-[38%]  desktop:w-[35%] flex flex-col items-start justify-start pt-8 sm:pt-[84px] px-0 sm:px-10 pb-0 box-border  max-w-full mq825:min-w-full mq450:pt-[55px] mq450:box-border mq1575:flex-1">
+                <div className=" w-[90%] ml-[5%] pb-5 sm:ml-0 sm:w-inherit sm:self-stretch flex flex-col items-start justify-start gap-[64px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
                   <h1 className="m-0 self-stretch relative text-[3.2rem] font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
                     {prod?.value}
                   </h1>
                   <div className="self-stretch relative text-[1.25rem] leading-[30px] font-medium text-white mq450:text-lgi mq450:leading-[29px]">
                     {dispMap[prod?.value]}
                   </div>
+                  {size.width < 640 && (
+                    <button
+                      onClick={() => {
+                        scroll("#main-content");
+                      }}
+                      className=" w-fit cursor-pointer [border:none] py-3 px-5 xs:px-[77px] bg-white rounded-2xl shadow-[0px_4px_16px_rgba(0,_6,_57,_0.05)] overflow-hidden flex flex-row items-center justify-center whitespace-nowrap hover:bg-gainsboro-100  mq450:box-border"
+                    >
+                      <b className="relative text-xl inline-block font-lato text-text0 text-center min-w-[99px]">
+                        Check Out
+                      </b>
+                    </button>
+                  )}
+                  
                 </div>
+                {size.width < 640 && (
+                    <div className=" absolute w-[100vw] bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
+                      <div className=" flex w-full gap-5">
+                        {rates.slice(4).map((rate, index) => (
+                          <CurrencyCard key={index} rate={rate} />
+                        ))}
+                      </div>
+                      <button
+                        onClick={() => {
+                          router.push("/rates");
+                        }}
+                        className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
+                      >
+                        <img
+                          className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
+                          alt=""
+                          src="/gglist.svg"
+                        />
+                        <div className="relative text-base leading-[32px] font-semibold font-lato text-secondary text-left">
+                          See Full Rate Card
+                        </div>
+                      </button>
+                    </div>
+                  )}
               </div>
             </div>
           </div>
         </div>
-        <div className="self-stretch bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
-          <div className=" flex w-full gap-5">
-            {rates.slice(4).map((rate, index) => (
-              <CurrencyCard key={index} rate={rate} />
-            ))}
-          </div>
-          <button
-            onClick={() => {
-              router.push("/rates");
-            }}
-            className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
-          >
-            <img
-              className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
-              alt=""
-              src="/gglist.svg"
-            />
-            <div className="relative text-base leading-[32px] font-semibold font-lato text-secondary text-left">
-              See Full Rate Card
+
+        {size.width > 640 && (
+          <div className="self-stretch bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
+            <div className=" flex w-full gap-5">
+              {rates.slice(4).map((rate, index) => (
+                <CurrencyCard key={index} rate={rate} />
+              ))}
             </div>
-          </button>
-        </div>
+            <button
+              onClick={() => {
+                router.push("/rates");
+              }}
+              className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
+            >
+              <img
+                className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
+                alt=""
+                src="/gglist.svg"
+              />
+              <div className="relative text-base leading-[32px] font-semibold font-lato text-secondary text-left">
+                See Full Rate Card
+              </div>
+            </button>
+          </div>
+        )}
       </section>
+
       <section
         id="about"
         style={{
           ...getImgObjectURL("/abtbg.png"),
           backdropFilter: "blur(24px)",
         }}
-        className="self-stretch py-20 bg-background overflow-hidden flex flex-col items-start justify-center  px-[10vw] box-border max-w-full text-left text-29xl text-white font-body-small mq825:py-[104px] sm:px-[30px] mq825:box-border mq450:pt-[68px] mq450:pb-[68px] mq450:box-border mq1275:box-border"
+        className="self-stretch py-20 bg-background overflow-hidden flex flex-col items-start justify-center  px-[5vw] box-border max-w-full text-left text-29xl text-white font-body-small mq825:py-[104px] sm:px-[30px] mq825:box-border mq450:pt-[68px] mq450:pb-[68px] mq450:box-border mq1275:box-border"
       >
-        <div className="self-stretch  flex flex-row items-center justify-start gap-[5%] max-w-full mq825:gap-[111px_55px] mq450:gap-[111px_28px] mq1575:flex-wrap">
+        <div className="self-stretch flex flex-row items-center justify-start gap-[5%] max-w-full mq825:gap-[111px_55px] mq450:gap-[111px_28px] mq1575:flex-wrap">
           <div
             style={{ backdropFilter: "blur(24px)" }}
-            className="flex bg-[#233aaee6] gap-8 rounded-xl py-10 px-[5%] sm:px-12 flex-col items-start justify-start w-full mq825:min-w-full "
+            className="flex bg-[#233aaee6] gap-8 rounded-xl py-10 px-[5%] sm:px-12 flex-col items-start justify-start w-full"
           >
             <div className=" box-border flex flex-row items-center justify-center py-0 px-[21px] border-l-[5px] border-0 border-solid border-white">
               <h1 className="m-0  relative text-[2.5rem]  font-normal  inline-block mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
@@ -585,7 +721,7 @@ const HomeExchangeCurrency = () => {
       </section>
       <section
         style={getImgObjectURL("/counterbg.png")}
-        className="w-full flex justify-center items-center py-[50px] px-[1%]  h-full"
+        className="w-full flex justify-center items-center py-[50px] sm:px-[1%] max-w-[100vw]  h-full"
       >
         <Counter bgStyle={getImgObjectURL("/abtbg.png")} />
       </section>

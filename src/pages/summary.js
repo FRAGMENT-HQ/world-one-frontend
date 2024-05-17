@@ -37,14 +37,17 @@ function useWindowSize() {
 
 const Frame1 = () => {
   const [orderDetails, setOrderDetails] = useAtom(order);
-  const [userData, setUserData] = useAtom(user);
+  const [gst, setGst] = useState(1.0009)
   const router = useRouter();
   const size = useWindowSize();
 
   const handleNext = () => {
     router.push("/details");
   };
-
+  useEffect(() => {
+    setGst(orderDetails?.inrAmount < 100000 ? 1.0009 : 1.00018)
+  }, [orderDetails?.inrAmount])
+  
   return (
     <div className="w-full relative bg-background overflo-hidden flex flex-col items-center justify-center pt-[3rem] pr-[2%] pl-[5%] sm:pr-[0.6rem] sm:pl-[1.25rem] pb-[7.687rem] box-border gap-[2.75rem] text-left text-[1.25rem] text-white font-body-small ">
       <InputArray />
@@ -168,7 +171,7 @@ const Frame1 = () => {
                       GST
                     </div>
                     <div className="relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-medium font-body-small text-text3 text-left inline-block min-w-[3.938rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
-                      {(orderDetails?.inrAmount * 0.005).toFixed(2)}
+                      {(orderDetails?.inrAmount * (gst-1)).toFixed(2)}
                     </div>
                   </div>
                   <div className="self-stretch flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[2rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap mq450:gap-[1rem]">
@@ -185,7 +188,7 @@ const Frame1 = () => {
                     Grand Total
                   </div>
                   <div className="relative text-[1.5rem] leading-[2rem] font-body-small text-secondary text-left inline-block min-w-[7.313rem] mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-                    {(orderDetails?.inrAmount * 1.005).toFixed(2)}
+                    {(orderDetails?.inrAmount * gst).toFixed(2)}
                   </div>
                 </div>
               </div>

@@ -1,6 +1,9 @@
 
 
 import { useState, useEffect } from 'react'
+import { useAtom } from 'jotai';
+import { order } from '../states/storage';
+import { useRouter } from 'next/router';
 function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
@@ -34,21 +37,23 @@ function useWindowSize() {
 const FrameComponent4 = ({handleClick=()=>{},step=1,title="first step"}) => {
   
   const size = useWindowSize();
-
+  const [orderData, setOrderData] = useAtom(order);
+  const router = useRouter();
 
   return (
     <div className="self-stretch shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white overflow-hidden flex flex-col items-start justify-start py-[1.5rem] px-[2rem] box-border gap-[2rem] max-w-full text-left text-[1.5rem] text-text2 font-body-small mq900:gap-[1rem]">
       <div className="self-stretch flex flex-row flex-wrap items-start justify-start gap-[1.312rem]">
         <div className={`h-[0.5rem] flex-1 relative rounded bg-primary`}/>
         <div className={`h-[0.5rem] flex-1 relative rounded ${step>1 ? " bg-primary" : "bg-text5"}`}/>
-        <div className={`h-[0.5rem] flex-1 relative rounded ${step>2 ? " bg-primary" : "bg-text5"}`}/>
-         <div className={`h-[0.5rem] flex-1 relative rounded ${step>3 ? " bg-primary" : "bg-text5"}`}/>
+        { orderData?.product !== "Travel Insurance" && <><div className={`h-[0.5rem] flex-1 relative rounded ${step>2 ? " bg-primary" : "bg-text5"}`}/>
+         <div className={`h-[0.5rem] flex-1 relative rounded ${step>3 ? " bg-primary" : "bg-text5"}`}/></>}
         {/*<div className={`h-[0.5rem] flex-1 relative rounded ${step>4 ? " bg-primary" : "bg-text5"}`}/> */}
       </div>
       <div className="self-stretch flex flex-row items-center justify-between [row-gap:20px] max-w-full gap-[0rem] mq1725:flex-wrap">
         <div className=" flex flex-row items-center justify-start py-[0rem]  pl-[0rem] box-border gap-[1.5rem] max-w-full  mq900:box-border mq450:pr-[1.25rem] mq450:box-border mq1325:flex-wrap mq1325:box-border">
        
           <div className="flex-1 flex flex-row items-center justify-start gap-[1rem] min-w-[12.188rem] mq450:flex-wrap">
+            <img onClick={()=>{router.back()}} src={"backIcon.svg"} className='' />
             <div className="relative leading-[2.25rem] font-medium inline-block min-w-[1.813rem] mq450:text-[1.188rem] mq450:leading-[1.813rem]">
               {`0${step}`}
             </div>

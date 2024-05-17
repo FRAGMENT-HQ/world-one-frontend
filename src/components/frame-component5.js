@@ -8,6 +8,12 @@ const options  = [
   { value: "Indian", label: "Indian" },
   { value: "Non-Indian", label: "Non-Indian" },
 ];
+const options2  = [
+  { value: "Leisure/Holiday/Personal Vist", label: "Leisure/Holiday/Personal Vist" },
+  { value: "Business", label: "Business" },
+  { value: "Medical Treatment", label: "Medical Treatment" },
+  { value: "Overseas Education/Study Abroad", label: "Overseas Education/Study Abroad" },
+]
 
 const FrameComponent5 = ({
   pan,
@@ -51,9 +57,6 @@ const FrameComponent5 = ({
                   "w-full text-white !rounded-3xl border-none self-stretch rounded-lg bg-gray-100  ",
                 control: () => "py-1 self-stretch bg-transparent border-none !rounded-xl",
                 menuList:()=> "bg-midnightblue",
-                // option: "text-white",
-                // input: "text-white",
-                // singleValue: "text-white",
               }}
             />
           </div>
@@ -75,6 +78,25 @@ const FrameComponent5 = ({
               protect from misuse.
             </div>
           </div>
+          <div className="self-stretch flex flex-row flex-wrap items-center justify-start gap-[3rem] max-w-full shrink-0 mq900:gap-[1.5rem]">
+        <div className="relative leading-[2rem] font-medium mq450:text-[1rem] mq450:leading-[1.625rem]">
+          Purpous of Vist
+        </div>
+        <div className="flex-1 rounded-lg bg-white box-border  flex flex-row items-center justify-between  min-w-[55.875rem] [row-gap:20px] max-w-full gap-[0rem] text-text3 border-[0px] border-solid border-text4 mq1275:min-w-full mq1600:flex-wrap">
+          <div className="w-[80.938rem] flex flex-row items-center justify-start gap-[1rem] max-w-full">
+            <Select
+              options={options2}
+              isSearchable={true}
+              classNames={{
+                container: () =>
+                  "w-full text-white !rounded-3xl border-none self-stretch rounded-lg bg-gray-100  ",
+                control: () => "py-1 self-stretch bg-transparent border-none !rounded-xl",
+                menuList:()=> "bg-midnightblue",
+              }}
+            />
+          </div>
+        </div>
+      </div>
           <div className="w-[50.063rem] flex flex-row flex-wrap items-center justify-start gap-[4.5rem] max-w-full text-[1.25rem] text-text2 mq900:gap-[2.25rem] mq450:gap-[1.125rem]">
             <div className="flex-1 relative leading-[2rem] font-medium inline-block min-w-[25.688rem] max-w-full mq900:min-w-full mq450:text-[1rem] mq450:leading-[1.625rem]">
               In case you do not require a Visa or if you will receive a Visa on

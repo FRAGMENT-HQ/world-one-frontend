@@ -20,7 +20,7 @@ const LinkFunction = ({ reliability, trustOurExperienceAndSecu, imgSrc }) => {
     >
       <div
         
-        className="text-left ml-4 h-[90%] w-[90%] text-5xl tablet:text-[2vw]  flex flex-col items-start justify-end gap-2 -mt-5 px-12 py-4 "
+        className="text-left ml-4 h-[90%] w-[190%] text-5xl tablet:text-[2vw]  flex flex-col items-start justify-end gap-2 -mt-5 px-12 py-4 "
       >
         <div className="pt-8 inline-block text-white font-semibold ">
           {reliability}
