@@ -457,7 +457,7 @@ const HomeExchangeCurrency = () => {
                   </div>
                 </div>
                 <div className="self-stretch flex  -mt-20 sm:mt-0 flex-col items-center justify-center gap-[32px] max-w-full mq450:gap-[16px_32px]">
-                  { size<=640 && <div className="flex-1 w-[100%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
+                  { size.width < 640 && <div className="flex-1 w-[100%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
                     <Select
                       defaultValue={prod}
                       value={prod}
