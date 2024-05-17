@@ -20,8 +20,8 @@ const FrameComponent2 = ({
   const options = fixed ? fullOptions : [{ value: "INR", label: "INR" }];
 
   return (
-    <div className="flex-1 w-[48%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
-      <div className="self-stretch relative  font-medium mq450:text-base mq450:leading-[26px]">
+    <div className="flex-1 w-[48%] flex flex-col items-start justify-start gap-2 sm:gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
+      <div className="self-stretch relative font-semibold text-base ]">
         {currencyYouHave}
       </div>
       <Select
@@ -30,12 +30,13 @@ const FrameComponent2 = ({
         onChange={setSelectedOption}
         options={options}
         classNames={{
-          container: () => "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-2 ",
-          control: () => "self-stretch !bg-transparent !border-none ",
+          container: () => "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-1 sm:py-2 ",
+          control: () => "self-stretch !bg-transparent !border-none !mx-2",
           menuList: () => "!bg-midnightblue",
           option: () => "text-white",
           input: () => "text-white",
-          singleValue: () => "!text-white",
+          singleValue: () => "!text-white !text-base",
+          indicatorSeparator: () => "hidden",
         }}
       />
     </div>

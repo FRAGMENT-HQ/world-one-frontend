@@ -278,7 +278,7 @@ const HomeExchangeCurrency = () => {
                   <img
                     className="h-6 w-6 relative overflow-hidden shrink-0"
                     alt=""
-                    src="/support.svg"
+                    src="/FOREX.svg"
                   />
                   <div className="relative text-base !text-[#27357E]  inline-block ">
                     Forex Rates
@@ -289,13 +289,13 @@ const HomeExchangeCurrency = () => {
           </div>
         </Drawer>
         <div className="self-stretch flex flex-row items-start justify-center py-0 pr-0 pl-0 box-border max-w-full">
-          <div className=" flex flex-col items-end justify-start gap-[50px] max-w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px] sm:px-[3%] ">
+          <div className=" flex flex-col items-end justify-start gap-[50px] max-w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px] px-[15%] sm:px-[3%] ">
             <div className=" sm:visible w-[90%] mr-[5%] h-[4vw] min-h-[85px] mt-5 rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row  items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
               <img
                 className=" h-[30px] sm:h-[60px] sm:w-[160px] relative"
                 loading="lazy"
                 alt=""
-                src={size.width > 600 ? "LOGO.svg" : "/worldOneLogo.svg"}
+                src="LOGO.svg"
               />
               {size.width > 600 ? (
                 <>
@@ -358,7 +358,7 @@ const HomeExchangeCurrency = () => {
                       <img
                         className="h-6 w-6 relative overflow-hidden shrink-0"
                         alt=""
-                        src="/support.svg"
+                        src="/FOREX.svg"
                       />
                       <div className="relative text-base !text-[#27357E]  inline-block ">
                         Forex Rates
@@ -380,12 +380,12 @@ const HomeExchangeCurrency = () => {
                 </div>
               )}
             </div>
-            <div className="self-stretch w-full flex sm:flex-row flex-col-reverse bg-red-400 items-start justify-between laptop:gap-[3%] gap-[5%] max-w-full text-[64px] text-text5 mq825:gap-[173px_43px] mq450:gap-[173px_22px] mq1275:gap-[173px_86px] mq1575:flex-wrap">
+            <div className="self-stretch w-full flex sm:flex-row flex-col items-start justify-between laptop:gap-[3%] gap-12 max-w-full text-[64px] text-text5  mq1575:flex-wrap">
               <form
                 id="main-content"
-                className="ml-[6%] m-0 sm:ml-0 w-[90%] sm:w-[48%] tablet:min-w-[600px] laptop:min-w-[640px] flex-1 ml-[3%] rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-2 sm:px-8 pb-12 box-border gap-[56px]  max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border "
+                className="ml-[6%] m-0 sm:ml-0 w-[90%] sm:w-[48%] tablet:min-w-[600px] laptop:min-w-[640px] flex-1 ml-[3%] rounded-lg sm:rounded-13xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start pt-8 px-2 sm:px-8 pb-12 box-border gap-[56px]  max-w-full z-[2] mq825:pt-[21px] mq825:pb-[31px] mq825:box-border "
               >
-                <div className="text-[25%] h-0 sm:h-auto invisible sm:visible  px-[10px] w-full rounded-3xl bg-darkslateblue-100 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-auto flex flex-row items-center justify-evenly py-6 px-8 gap-[1px]">
+                <div className="text-[25%] h-0 sm:h-auto invisible sm:visible w-full max-w-[95%] rounded-3xl bg-darkslateblue-100 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-auto flex flex-row items-center justify-evenly py-2 px-8 gap-[1px]">
                   <div
                     onClick={() => {
                       setprod({
@@ -456,8 +456,8 @@ const HomeExchangeCurrency = () => {
                     )}
                   </div>
                 </div>
-                <div className="self-stretch flex -mt-8 flex-col items-center justify-center gap-[32px] max-w-full mq450:gap-[16px_32px]">
-                  <div className="flex-1 w-[100%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
+                <div className="self-stretch flex  -mt-20 sm:mt-0 flex-col items-center justify-center gap-[32px] max-w-full mq450:gap-[16px_32px]">
+                  { size<=640 && <div className="flex-1 w-[100%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
                     <Select
                       defaultValue={prod}
                       value={prod}
@@ -466,36 +466,19 @@ const HomeExchangeCurrency = () => {
                       options={options}
                       classNames={{
                         container: () =>
-                          "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-2 ",
+                          "w-full !rounded-[1rem] !underline-offset-2  text-white !rounded-[1rem] !border-none  bg-[#263772] py-1 sm:py-2 ",
                         control: () =>
-                          "self-stretch !bg-transparent !border-none ",
+                          "self-stretch !bg-[#263772]  !text-center !font-semibold  !border-b-4 border-x-0 border-t-0  !border-[#FF9135] mb-1 !mx-6 ",
                         menuList: () => "!bg-midnightblue",
                         option: () => "text-white",
-                        input: () => "text-white",
-                        singleValue: () => "!text-white",
+                        input: () =>
+                          "text-white !text-center !border-[#FF9135]  ",
+                        singleValue: () => "!text-white !text-sm",
+                        indicatorSeparator: () => "hidden",
                       }}
                     />
-                  </div>
-                  <div className="flex-1 w-[100%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
-                    <Select
-                      defaultValue={city}
-                      value={city}
-                      isSearchable={true}
-                      onChange={setCity}
-                      options={cityOptions}
-                      placeholder="Select City"
-                      classNames={{
-                        container: () =>
-                          "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-2 ",
-                        control: () =>
-                          "self-stretch !bg-transparent !border-none ",
-                        menuList: () => "!bg-midnightblue",
-                        option: () => "text-white",
-                        input: () => "text-white",
-                        singleValue: () => "!text-white",
-                      }}
-                    />
-                  </div>
+                  </div>}
+
                   {prod.value == "Exchange Currency" && (
                     <div className="self-stretch rounded-2xl bg-gray-100 shadow-[-2px_2px_8px_rgba(14,_21,_56,_0.2)_inset,_-4px_4px_16px_rgba(15,_20,_45,_0.15)_inset] flex flex-row items-start justify-start max-w-full [row-gap:20px] mq825:flex-wrap">
                       <div
@@ -505,7 +488,7 @@ const HomeExchangeCurrency = () => {
                         className={` w-[50%] cursor-pointer [border:none] py-3 px-5 ${selected ? "bg-primary" : ""} rounded-2xl overflow-hidden flex flex-row items-center justify-center box-border whitespace-nowrap max-w-full hover:font-semibold`}
                       >
                         <div
-                          className={`relative text-xl ${selected ? "font-semibold" : "font-medium"} hover:font-semibold font-lato text-white text-left inline-block min-w-[123px] `}
+                          className={`relative text-base sm:text-xl ${selected ? "font-semibold" : "font-medium"} hover:font-semibold font-lato text-white text-center inline-block min-w-[123px] `}
                         >
                           Buy Currency
                         </div>
@@ -518,7 +501,7 @@ const HomeExchangeCurrency = () => {
                           className={` cursor-pointer [border:none] py-3 px-2 sm:px-5 ${!selected ? "bg-primary" : ""} flex-1 rounded-2xl overflow-hidden flex flex-row items-center justify-center box-border  whitespace-nowrap max-w-full hover:font-semibold`}
                         >
                           <div
-                            className={`relative text-xl ${!selected ? "font-semibold" : "font-medium"} hover:font-semibold font-lato text-white text-left inline-block min-w-[123px]`}
+                            className={`relative text-base sm:text-xl ${!selected ? "font-semibold" : "font-medium"} hover:font-semibold font-lato text-white text-center inline-block min-w-[123px]`}
                           >
                             Sell Currency
                           </div>
@@ -526,10 +509,31 @@ const HomeExchangeCurrency = () => {
                       </div>
                     </div>
                   )}
+                  <div className="flex-1 w-[100%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
+                    <Select
+                      defaultValue={city}
+                      value={city}
+                      isSearchable={true}
+                      onChange={setCity}
+                      options={cityOptions}
+                      placeholder="Select City"
+                      classNames={{
+                        container: () =>
+                          "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-1 sm:py-2 ",
+                        control: () =>
+                          "self-stretch !bg-transparent !border-none !mx-2",
+                        menuList: () => "!bg-midnightblue",
+                        option: () => "text-white",
+                        input: () => "text-white",
+                        singleValue: () => "!text-white !text-base",
+                        indicatorSeparator: () => "hidden",
+                      }}
+                    />
+                  </div>
 
                   <div className="self-stretch flex flex-col items-start justify-between gap-[24px] max-w-full">
                     {prod.value != "Travel Insurance" && (
-                      <div className="self-stretch flex flex-row items-start justify-between gap-[4%] max-w-full mq825:flex-wrap">
+                      <div className="self-stretch flex flex-row items-start justify-between gap-5 max-w-full mq825:flex-wrap">
                         <FrameComponent2
                           selectedOption={intialCurrency}
                           setSelectedOption={setIntialCurrency}
@@ -550,9 +554,9 @@ const HomeExchangeCurrency = () => {
 
                     {prod.value != "Travel Insurance" && (
                       <div className="self-stretch flex flex-col  xs:flex-row flex-wrap items-start justify-start gap-[24px] max-w-full flex-wrap">
-                        <div className="flex-1 min-w-0 xs:min-w-[300px] rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
+                        <div className="flex-1 self-stretch sm:self-auto min-w-0 xs:w-full rounded-[12px] sm:rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-2 sm:py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
                           <input
-                            className="text-white w-[80%] max-w-[419px]  [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-medium text-xl text-text5 "
+                            className="text-white self-stretch w-[80%] max-w-[419px]  [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
                             placeholder="Forex Amount"
                             type="text"
                             value={amount}
@@ -564,8 +568,8 @@ const HomeExchangeCurrency = () => {
                             src="/uinfocircle.svg"
                           />
                         </div>
-                        <div className="w-[239px] rounded-2xl bg-informative box-border overflow-hidden shrink-0 flex flex-row items-center justify-center py-4 px-[26px] whitespace-nowrap border-[2px] border-solid border-secondary">
-                          <div className="flex-1 relative text-5xl leading-[32px] font-body-small text-white text-left">
+                        <div className="w-[239px] rounded-2xl bg-informative box-border overflow-hidden shrink-0 flex flex-row items-center justify-center py-2 sm:py-4 px-[26px] whitespace-nowrap border-[2px] border-solid border-secondary">
+                          <div className="flex-1 relative text-base sm:text-5xl leading-[32px] font-body-small text-white text-left">
                             1 {finalCurrency?.value} ={" "}
                             {(rate + factor).toFixed(2)} {intialCurrency?.value}
                           </div>
@@ -574,7 +578,7 @@ const HomeExchangeCurrency = () => {
                     )}
                   </div>
                 </div>
-                <div className="self-stretch -mt-8 flex flex-row items-end justify-between gap-[56px] max-w-full mq825:flex-wrap mq450:gap-[56px_28px]">
+                <div className="self-stretch -mt-8 flex flex-row items-end justify-between gap-12 sm:gap-[56px] max-w-full mq825:flex-wrap ">
                   {prod.value != "Travel Insurance" && (
                     <div className="flex flex-col items-start justify-center gap-[8px]">
                       <div className="w-[181px] relative text-7xl leading-[32px] font-body-small text-accent text-left inline-block mq825:text-7xl mq825:leading-[26px] mq450:text-lgi mq450:leading-[19px]">
@@ -589,14 +593,14 @@ const HomeExchangeCurrency = () => {
                     onClick={() => {
                       handleOrder();
                     }}
-                    className="cursor-pointer w-[40%] flex-1 [border:none] py-5 bg-white  rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
+                    className="cursor-pointer w-[40%] flex-1 [border:none] py-3 sm:py-5 bg-white rounded-lg sm:rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
                   >
                     <img
                       className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
                       alt=""
                       src="/ushoppingcart.svg"
                     />
-                    <div className="relative text-5xl  leading-[32px] font-semibold font-body-small text-text1 text-left">
+                    <div className="relative text-base sm:text-5xl  leading-[32px] font-semibold font-body-small text-text1 text-left">
                       {prod.value != "Travel Insurance"
                         ? "Add To Cart"
                         : "Get Quote"}
@@ -604,52 +608,42 @@ const HomeExchangeCurrency = () => {
                   </div>
                 </div>
               </form>
-              <div className=" w-[98%] sm:w-[38%]  desktop:w-[35%] flex flex-col items-start justify-start pt-8 sm:pt-[84px] px-0 sm:px-10 pb-0 box-border  max-w-full mq825:min-w-full mq450:pt-[55px] mq450:box-border mq1575:flex-1">
-                <div className=" w-[90%] ml-[5%] pb-5 sm:ml-0 sm:w-inherit sm:self-stretch flex flex-col items-start justify-start gap-[64px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
+              <div className=" w-[98%] sm:w-[38%]  desktop:w-[35%] flex flex-col items-start justify-start pt-0 sm:pt-[84px] px-0 sm:px-10 pb-0 box-border  max-w-full mq825:min-w-full mq450:box-border mq1575:flex-1">
+              {size.width > 640 && ( <div className=" w-[80%] ml-[12%]  pb-5 sm:ml-0 sm:w-inherit sm:self-stretch flex flex-col items-start justify-start gap-[64px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
                   <h1 className="m-0 self-stretch relative text-[3.2rem] font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
                     {prod?.value}
                   </h1>
                   <div className="self-stretch relative text-[1.25rem] leading-[30px] font-medium text-white mq450:text-lgi mq450:leading-[29px]">
-                    {dispMap[prod?.value]}
+                    {size.width > 640 && <>{dispMap[prod?.value]}</>}
                   </div>
-                  {size.width < 640 && (
+                  {/* {size.width < 640 && (
+                    
+                   */}
+                </div>)}
+                {size.width < 640 && (
+                  <div className=" absolute w-[100vw] bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
+                    <div className=" flex w-full gap-5">
+                      {rates.slice(4).map((rate, index) => (
+                        <CurrencyCard key={index} rate={rate} />
+                      ))}
+                    </div>
                     <button
                       onClick={() => {
-                        scroll("#main-content");
+                        router.push("/rates");
                       }}
-                      className=" w-fit cursor-pointer [border:none] py-3 px-5 xs:px-[77px] bg-white rounded-2xl shadow-[0px_4px_16px_rgba(0,_6,_57,_0.05)] overflow-hidden flex flex-row items-center justify-center whitespace-nowrap hover:bg-gainsboro-100  mq450:box-border"
+                      className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
                     >
-                      <b className="relative text-xl inline-block font-lato text-text0 text-center min-w-[99px]">
-                        Check Out
-                      </b>
-                    </button>
-                  )}
-                  
-                </div>
-                {size.width < 640 && (
-                    <div className=" absolute w-[100vw] bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
-                      <div className=" flex w-full gap-5">
-                        {rates.slice(4).map((rate, index) => (
-                          <CurrencyCard key={index} rate={rate} />
-                        ))}
+                      <img
+                        className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
+                        alt=""
+                        src="/gglist.svg"
+                      />
+                      <div className="relative text-base leading-[32px] font-semibold font-lato text-secondary text-left">
+                        See Full Rate Card
                       </div>
-                      <button
-                        onClick={() => {
-                          router.push("/rates");
-                        }}
-                        className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
-                      >
-                        <img
-                          className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
-                          alt=""
-                          src="/gglist.svg"
-                        />
-                        <div className="relative text-base leading-[32px] font-semibold font-lato text-secondary text-left">
-                          See Full Rate Card
-                        </div>
-                      </button>
-                    </div>
-                  )}
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -687,12 +681,12 @@ const HomeExchangeCurrency = () => {
           ...getImgObjectURL("/abtbg.png"),
           backdropFilter: "blur(24px)",
         }}
-        className="self-stretch py-20 bg-background overflow-hidden flex flex-col items-start justify-center  px-[5vw] box-border max-w-full text-left text-29xl text-white font-body-small mq825:py-[104px] sm:px-[30px] mq825:box-border mq450:pt-[68px] mq450:pb-[68px] mq450:box-border mq1275:box-border"
+        className="self-stretch py-20 bg-background overflow-hidden flex flex-col items-start justify-center px-[2vw] sm:px-[5vw] box-border max-w-full text-left text-29xl text-white font-body-small mq825:py-[104px] sm:px-[30px] mq825:box-border mq450:pt-[68px] mq450:pb-[68px] mq450:box-border mq1275:box-border"
       >
-        <div className="self-stretch flex flex-row items-center justify-start gap-[5%] max-w-full mq825:gap-[111px_55px] mq450:gap-[111px_28px] mq1575:flex-wrap">
+        <div className="self-stretch flex flex-row items-center justify-start gap-[5%] w-[95%] ml-[2.5%] sm:ml-0  sm:w-full mq825:gap-[111px_55px] mq450:gap-[111px_28px] mq1575:flex-wrap">
           <div
             style={{ backdropFilter: "blur(24px)" }}
-            className="flex bg-[#233aaee6] gap-8 rounded-xl py-10 px-[5%] sm:px-12 flex-col items-start justify-start w-full"
+            className="flex bg-[#233aaee6] gap-8 rounded-xl py-10 px-[7%] sm:px-[5%] sm:px-12 flex-col items-start justify-start w-[90vw] sm:w-[94%]"
           >
             <div className=" box-border flex flex-row items-center justify-center py-0 px-[21px] border-l-[5px] border-0 border-solid border-white">
               <h1 className="m-0  relative text-[2.5rem]  font-normal  inline-block mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
@@ -709,8 +703,8 @@ const HomeExchangeCurrency = () => {
                 Foreign Currencies Licence, ensuring you safe and secure
                 transactions.
                 <br />
-                Our unwavering focus on professionalism and efficiency has
-                resulted in a remarkable customer retention rate exceeding 90%.
+               <b> Our unwavering focus on professionalism and efficiency has
+                resulted in a remarkable customer retention rate exceeding 90%</b>. <br/>
                 We understand the importance of trust and transparency when
                 dealing with your hard-earned money. That's why we prioritize
                 building long-lasting relationships with our clients.
@@ -721,7 +715,7 @@ const HomeExchangeCurrency = () => {
       </section>
       <section
         style={getImgObjectURL("/counterbg.png")}
-        className="w-full flex justify-center items-center py-[50px] sm:px-[1%] max-w-[100vw]  h-full"
+        className="w-full flex justify-center items-center py-[70px] sm:px-[1%] max-w-[100vw]  h-full"
       >
         <Counter bgStyle={getImgObjectURL("/abtbg.png")} />
       </section>

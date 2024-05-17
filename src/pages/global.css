@@ -27,8 +27,8 @@ body{
   
   width: 100vw;
   height: 100vh;
-  margin-top: -10px;
-  margin-left: -10px;
+  margin:0;
+
 }
 div {
   font-family: "Avenir Next LT Pro";

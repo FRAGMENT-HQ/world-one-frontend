@@ -105,10 +105,10 @@
     /* flex-direction: column; */
   }
   .landing-counter-number {
-    font-size: 1.6rem;
+    font-size: 1.9rem !important ;
   }
   .landing-counter-text {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
   .landing-counter-svg {
     width: 60px;

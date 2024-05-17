@@ -1,11 +1,17 @@
 import "@/styles/globals.css";
 import "@/pages/global.css";
+import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from "next/router";
+import { submitQueryRequest } from "@/hooks/prod";
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
   const handleClick = (mailId) => {
     window.location.href = `mailto:${mailId}`;
     // Additional functionality can be added here if needed
@@ -15,87 +21,110 @@ export default function App({ Component, pageProps }) {
     // Additional functionality can be added here if needed
   };
 
+  const handleSubmit = () => {
+    const data = {
+      name: name,
+      email: email,
+      phone_no: phone,
+      query: message,
+    };
+    if (name.length < 3) {
+      toast.error("Name should be atleast 3 characters long");
+      return;
+    }
+    if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
+      toast.error("enter valid email");
+      return;
+    }
+    if (!/^[6-9]+[0-9]{9}$/.test(phone)) {
+      toast.error("enter valid phone number");
+      return;
+    }
+    if (message.length < 10) {
+      toast.error("Message should be atleast 10 characters long");
+      return;
+    }
+    submitQueryRequest(data)
+      .then((res) => {
+        toast.success("Query Submitted Successfully");
+      })
+      .catch((err) => {
+        toast.error("Failed to submit query");
+      });
+  };
+
   const router = useRouter();
 
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster />
       <Component {...pageProps} />
-      <section className="self-stretch bg-midnightblue overflow-hidden flex flex-col items-center justify-start pt-[60px] px-5 pb-12 box-border gap-[100px] max-w-full text-left text-13xl text-white font-lato mq825:gap-[50px_100px] mq825:pt-[51px] mq825:pb-5 mq825:box-border mq450:gap-[25px_100px] mq1275:pt-[78px] mq1275:pb-[31px] mq1275:box-border">
-        <div className="w-full flex flex-row items-start justify-start max-w-full gap-[20px] mq1275:flex-wrap justify-evenly">
+      <section className="  !text-[0px] self-stretch bg-midnightblue overflow-hidden flex flex-col items-center justify-start pt-[60px] px-5 pb-12 box-border gap-[100px] max-w-full text-left text-13xl text-white font-lato mq825:gap-[50px_100px] mq825:pt-[51px] mq825:pb-5 mq825:box-border mq450:gap-[25px_100px] mq1275:pt-[78px] mq1275:pb-[31px] mq1275:box-border">
+        <div className="w-full flex flex-col tablet:flex-row items-start justify-start sm:justify-evenly max-w-full gap-[20px] mq1275:flex-wrap ">
           <div className="flex flex-col items-start text-left justify-start gap-[35px] mq450:gap-[17px_35px]">
-            <div className="w-full  px-[4%] xs:px-4 py-4 rounded-xl border border-solid">
-              <form className="flex  flex-col items-center  gap-4">
-                <input
-                  type="text"
-                  className="text-white sm:w-[25vw] tablet:w-[20vw]  px-10 py-2 rounded-xl max-w-[419px]  [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-medium text-xl text-text5 "
-                  placeholder="Name"
-                  name="name"
-                  required
-                />
-                <input
-                  type="text"
-                  className="text-white sm:w-[25vw] tablet:w-[20vw]  px-10 py-2 rounded-xl max-w-[419px]  [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-medium text-xl text-text5 "
-                  placeholder="Email"
-                  name="name"
-                  required
-                />
+            <div className="w-full px-[4%] xs:px-4 py-4 rounded-xl ">
+              <form className="flex flex-col items-start  gap-4">
+                <div className="flex-1 self-stretch sm:self-auto min-w-0 xs:w-full rounded-[12px] sm:rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-2 sm:py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
+                  <input
+                    className="text-white self-stretch w-[80%] max-w-[419px] px-5 [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
+                    placeholder="Name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="flex-1 self-stretch sm:self-auto min-w-0 xs:w-full rounded-[12px] sm:rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-2 sm:py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
+                  <input
+                    className="text-white self-stretch w-[80%] max-w-[419px] px-5 [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
+                    placeholder="Email"
+                    type="text"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="flex-1 self-stretch sm:self-auto min-w-0 xs:w-full rounded-[12px] sm:rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-2 sm:py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
+                  <input
+                    className="text-white self-stretch w-[80%] max-w-[419px] px-5 [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
+                    placeholder="Phone Number"
+                    type="text"
+                    value={phone}
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="flex-1 self-stretch sm:self-auto min-w-0 xs:w-full rounded-[12px] sm:rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-2 sm:py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
+                  <textarea
+                    className="text-white self-stretch w-[80%] max-w-[419px] px-5 [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
+                    placeholder="Message"
+                    type="text"
+                    value={message}
+                    onChange={(e) => {
+                      setMessage(e.target.value);
+                    }}
+                  />
+                </div>
 
-                <input
-                  type="text"
-                  className="text-white sm:w-[25vw] tablet:w-[20vw]  px-10 py-2 rounded-xl max-w-[419px]  [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-medium text-xl text-text5 "
-                  placeholder="Contact Number"
-                  name="name"
-                  required
-                />
-                <textarea
-                  type="text"
-                  className="text-white sm:w-[25vw] tablet:w-[20vw] px-10 py-2 rounded-xl max-w-[419px]  [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-medium text-xl text-text5 "
-                  placeholder="Message"
-                  required
-                />
-
-                <button
-                  onClick={() => {}}
+                <div
+                  onClick={() => handleSubmit()}
                   className=" w-fit cursor-pointer [border:none] py-3 px-[77px] bg-white rounded-2xl shadow-[0px_4px_16px_rgba(0,_6,_57,_0.05)] overflow-hidden flex flex-row items-center justify-center whitespace-nowrap hover:bg-gainsboro-100  mq450:box-border"
                 >
                   <b className="relative text-xl inline-block font-lato text-text0 text-center min-w-[99px]">
                     Submit
                   </b>
-                </button>
+                </div>
               </form>
             </div>
-            {/* <b className="relative leading-[40px] inline-block text-5xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
-              Services
-            </b> */}
-            {/* <div className="flex overflow-hidden text-left flex-col items-start justify-start gap-[16px] text-xl text-text5">
-              <div className="flex flex-row items-center justify-center py-2 px-[7px]">
-                <div className="relative text-center leading-[32px] mq450:text-lgi mq450:leading-[26px]">
-                  Exchange Currency
-                </div>
-              </div>
-              <div className="flex flex-row items-center justify-center py-2 px-[7px]">
-                <div className="relative leading-[32px] mq450:text-lgi mq450:leading-[26px]">
-                  Transfer Money Abroad
-                </div>
-              </div>
-              <div className="flex flex-row items-center justify-center py-2 px-[7px]">
-                <div className="relative leading-[32px] inline-block min-w-[117px] mq450:text-lgi mq450:leading-[26px]">
-                  Forex Card
-                </div>
-              </div>
-              <div className="flex flex-row items-center justify-center py-2 px-[7px]">
-                <div className="relative leading-[32px] mq450:text-lgi mq450:leading-[26px]">
-                  Travel Insurance
-                </div>
-              </div>
-            </div> */}
           </div>
-          <div className="flex flex-col items-start text-left justify-start gap-[35px]">
-            <b className="relative leading-[40px] text-5xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
+          <div className="flex  flex-col items-start text-left justify-start gap-5 sm:gap-[35px]">
+            <b className="relative text-base leading-[40px] text-5xl mq825:leading-[32px] mq450:leading-[24px]">
               Quick Links
             </b>
-            <div className="flex flex-col items-start justify-start gap-[16px] text-xl text-text5">
+            <div className="flex text-sm flex-col items-start justify-start gap-0 sm:gap-[16px] text-xl text-text5">
               <div
                 onClick={() => {
                   router.push("/#about");
@@ -103,7 +132,7 @@ export default function App({ Component, pageProps }) {
                 href="/#about"
                 className="cursor-pointer flex flex-row items-center justify-center p-2"
               >
-                <div className="relative leading-[32px] inline-block min-w-[99px] mq450:text-lgi mq450:leading-[26px]">
+                <div className="relative text-base inline-block min-w-[99px] sm:text-lgi ">
                   About Us
                 </div>
               </div>
@@ -113,37 +142,40 @@ export default function App({ Component, pageProps }) {
                 }}
                 className=" cursor-pointer flex flex-row items-center justify-center py-2 px-1.5"
               >
-                <div className="relative leading-[32px] inline-block min-w-[84px] mq450:text-lgi mq450:leading-[26px]">
+                <div className="relative text-base inline-block min-w-[99px] sm:text-lgi">
                   Careers
                 </div>
               </div>
               <div className="flex flex-row items-center justify-center py-2 px-[7px]">
-                <div className="relative leading-[32px] inline-block min-w-[80px] mq450:text-lgi mq450:leading-[26px]">
+                <div className="relative text-base inline-block min-w-[99px] sm:text-lgi">
                   Outlets
                 </div>
               </div>
-              <div  onClick={() => router.push("/faq")}  className="flex flex-row items-center justify-center p-2">
-                <div className="relative leading-[32px] inline-block min-w-[48px] mq450:text-lgi mq450:leading-[26px]">
+              <div
+                onClick={() => router.push("/faq")}
+                className="flex flex-row items-center justify-center p-2"
+              >
+                <div className="relative text-base inline-block min-w-[99px] sm:text-lgi">
                   FAQ
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex flex-col text-center sm:text-left items-center sm:items-start justify-start  gap-[30px] max-w-full text-5xl text-text5">
-            <b className="relative text-5xl leading-[40px] inline-block text-white min-w-[118px] mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
+          <div className="flex flex-col text-left items-start justify-start gap-10 sm:gap-[30px] max-w-full text-5xl text-text5">
+            <b className="relative text-base leading-[40px] inline-block text-white min-w-[118px] ">
               Address
             </b>
-            <div className=" flex flex-col items-start text-xl justify-start gap-[8px]">
-              <b className=" relative leading-[32px] mq450:text-lgi mq450:leading-[26px]">
+            <div className=" flex flex-col items-start justify-start gap-[8px]">
+              <b className="text-sm relative leading-[32px] sm:text-lgi sm:leading-[26px]">
                 World One India Forex Private Limited.
               </b>
-              <div className=" relative leading-[32px] text-xl mq450:text-lgi mq450:leading-[26px]">
+              <div className=" text-sm relative leading-[16px] sm:text-lgi sm:leading-[26px]">
                 Shop No. 1, S-1, Ground Floor, <br />
                 American Plaza, Eros Hostel, <br />
                 Nehru Place, New Delhi, Delhi - 110019, India
               </div>
             </div>
-            <div className=" flex flex-col xs:flex-row flex-wrap items-center justify-center xs:justify-start py-0 pl-0 box-border gap-[8px] max-w-full mq825:pr-[146px] mq825:box-border mq450:pr-5 mq450:box-border">
+            <div className=" flex flex-row flex-wrap items-center justify-center xs:justify-start py-0 pl-0 box-border gap-[8px] max-w-full mq825:pr-[146px] mq825:box-border mq450:pr-5 mq450:box-border">
               <img
                 className="h-6 w-6 relative overflow-hidden shrink-0"
                 loading="lazy"
@@ -157,7 +189,7 @@ export default function App({ Component, pageProps }) {
                 id="mail"
                 className=" cursor-pointer flex flex-row items-center justify-start py-2 px-1.5 box-border ]"
               >
-                <b className="relative leading-[32px] whitespace-nowrap mq450:text-[1.1rem] text-xl mq450:leading-[26px]">
+                <b className="relative whitespace-nowrap  text-xl text-sm ">
                   nodaldelhi@worldoneforex.com
                 </b>
               </div>
@@ -178,7 +210,7 @@ export default function App({ Component, pageProps }) {
           <div className="self-stretch  flex flex-row items-start justify-start relative max-w-full">
             <div className="h-[998px]  absolute !m-[0] bottom-[-531px] left-[-32px] rounded-[50%] bg-steelblue-200 [filter:blur(500px)]" />
             <iframe
-              width="100%"
+              width="5000vw"
               height="100%"
               frameborder="0"
               // scrolling="no"
@@ -206,7 +238,10 @@ export default function App({ Component, pageProps }) {
             >
               Privacy Policy
             </div>
-            <div  onClick={() => router.push("/terms")} className="relative leading-[24px] font-semibold mq450:text-base mq450:leading-[19px]">{`Terms & Conditions`}</div>
+            <div
+              onClick={() => router.push("/terms")}
+              className="relative leading-[24px] font-semibold mq450:text-base mq450:leading-[19px]"
+            >{`Terms & Conditions`}</div>
           </div>
         </div>
       </section>

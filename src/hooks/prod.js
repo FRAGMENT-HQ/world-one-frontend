@@ -54,3 +54,9 @@ export const getRateCardMutation = (successCallback, errorCallback) => {
     },
   });
 };
+
+export const submitQueryRequest = (Data) => {
+  const url = getUrl(`/api/products/userquery/`);
+
+  return request("POST", url, Data, false);
+};
