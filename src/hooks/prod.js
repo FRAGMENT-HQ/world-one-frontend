@@ -22,7 +22,7 @@ export const getRateMutation = (successCallback, errorCallback) => {
 const orderRequest = (data) => {
   const url = getUrl(`/api/products/order/create_order/`);
 
-  return request("POST", url, data, false);
+  return request("POST", url, data, false,'multipart/form-data');
 };
 
 export const postOrderMutation = (successCallback, errorCallback) => {

@@ -1,15 +1,14 @@
 import React, { useRef, useState } from "react";
 import Switch from "@mui/material/Switch";
 import Select from "react-select";
-import { useAtom } from "jotai";
-import { order } from "@/states/storage";
+
 import "react-dropdown/style.css";
 const options  = [
   { value: "Indian", label: "Indian" },
   { value: "Non-Indian", label: "Non-Indian" },
 ];
 const options2  = [
-  { value: "Leisure/Holiday/Personal Vist", label: "Leisure/Holiday/Personal Vist" },
+  { value: "Leisure/Holiday/Personal Visit", label: "Leisure/Holiday/Personal Visit" },
   { value: "Business", label: "Business" },
   { value: "Medical Treatment", label: "Medical Treatment" },
   { value: "Overseas Education/Study Abroad", label: "Overseas Education/Study Abroad" },
@@ -18,6 +17,8 @@ const options2  = [
 const FrameComponent5 = ({
   pan,
   setPan,
+  cPan,
+  setCPan,
   passportFront,
   setPassportFront,
   passportBack,
@@ -28,7 +29,13 @@ const FrameComponent5 = ({
   setVisa,
   checked,
   setChecked,
-  airTicketState
+  airTicketState,
+  extraFile,
+  setExtraFile,
+  purpous,
+  setPurpous,
+  name,
+  orderData
   
 }) => {
   const panRef = useRef(null);
@@ -36,7 +43,10 @@ const FrameComponent5 = ({
   const passportBackRef = useRef(null);
   const airTicketRef = useRef(null);
   const visaRef = useRef(null);
+  const extraFileRef = useRef(null);
+  const cPanRef = useRef(null);
   // const [checked, setChecked] = useState(false);
+
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
@@ -79,7 +89,7 @@ const FrameComponent5 = ({
             </div>
           </div>
           <div className="self-stretch flex flex-row flex-wrap items-center justify-start gap-[3rem] max-w-full shrink-0 mq900:gap-[1.5rem]">
-        <div className="relative leading-[2rem] font-medium mq450:text-[1rem] mq450:leading-[1.625rem]">
+        { orderData?.product != "Transfer Money Abroad" && <><div className="relative leading-[2rem] font-medium mq450:text-[1rem] mq450:leading-[1.625rem]">
           Purpous of Vist
         </div>
         <div className="flex-1 rounded-lg bg-white box-border  flex flex-row items-center justify-between  min-w-[55.875rem] [row-gap:20px] max-w-full gap-[0rem] text-text3 border-[0px] border-solid border-text4 mq1275:min-w-full mq1600:flex-wrap">
@@ -87,6 +97,8 @@ const FrameComponent5 = ({
             <Select
               options={options2}
               isSearchable={true}
+              value={purpous}
+              onChange={(e)=>setPurpous(e)}
               classNames={{
                 container: () =>
                   "w-full text-white !rounded-3xl border-none self-stretch rounded-lg bg-gray-100  ",
@@ -95,7 +107,7 @@ const FrameComponent5 = ({
               }}
             />
           </div>
-        </div>
+        </div></>}
       </div>
           <div className="w-[50.063rem] flex flex-row flex-wrap items-center justify-start gap-[4.5rem] max-w-full text-[1.25rem] text-text2 mq900:gap-[2.25rem] mq450:gap-[1.125rem]">
             <div className="flex-1 relative leading-[2rem] font-medium inline-block min-w-[25.688rem] max-w-full mq900:min-w-full mq450:text-[1rem] mq450:leading-[1.625rem]">
@@ -243,6 +255,58 @@ const FrameComponent5 = ({
             />
           </button>
         )}
+        
+        
+        { name && <button
+            onClick={() => {
+              extraFileRef.current.click();
+            }}
+            className={`max-w-[100vw] sm:max-w-[340px] flex-1 mb-4 cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${extraFile === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
+          >
+            <img
+              className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0"
+              alt=""
+              src={extraFile === null ? "/passport-2.svg" : "/upload-icon.svg"}  
+            />
+            <div className="flex-1 relative text-[1.25rem] leading-[1.5rem] font-medium font-avenir-next-lt-pro text-left">
+              <p className="m-0">
+                {`Upload${extraFile === null ? ` ${name}` : "ed"}`}{" "}
+              </p>
+            </div>
+            <input
+              onChange={(e) => {
+                setExtraFile(e.target.files[0]);
+              }}
+              ref={extraFileRef}
+              type="file"
+              className="hidden"
+            />
+          </button>}
+          { purpous?.value == "Business" && <button
+            onClick={() => {
+              cPanRef.current.click();
+            }}
+            className={`max-w-[100vw] sm:max-w-[340px] flex-1 mb-4 cursor-pointer [border:none] py-[2.125rem] px-[1.2rem] ${cPan === null ? "bg-white text-text1 " : "bg-[#27357E] text-white"}   shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl flex flex-row items-center justify-center box-border gap-[1rem] whitespace-nowrap hover:bg-gainsboro`}
+          >
+            <img
+              className="h-[3rem] w-[3rem] relative overflow-hidden shrink-0"
+              alt=""
+              src={cPan === null ? "/passport-2.svg" : "/upload-icon.svg"}  
+            />
+            <div className="flex-1 relative text-[1.25rem] leading-[1.5rem] font-medium font-avenir-next-lt-pro text-left">
+              <p className="m-0">
+                {`${cPan === null ? ` Company Pan Card` : "Uploaded"}`}{" "}
+              </p>
+            </div>
+            <input
+              onChange={(e) => {
+                setCPan(e.target.files[0]);
+              }}
+              ref={cPanRef}
+              type="file"
+              className="hidden"
+            />
+          </button>}
       </div>
     </div>
   );

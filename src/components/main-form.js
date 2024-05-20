@@ -3,7 +3,7 @@ import FrameComponent6 from "./frame-component6";
 import FrameComponent5 from "./frame-component5";
 import { order, user } from "@/states/storage";
 import { useAtom } from "jotai";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { postOrderMutation } from "@/hooks/prod";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
@@ -49,7 +49,24 @@ const MainForm = () => {
   const [selected, setSelected] = useState(false);
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(false);
+  const [extraFile, setExtraFile] = useState(null);
+  const [purpous, setPurpous] = useState({});
+  const [cPan, setCPan] = useState(null);
 
+  const getName = () => {
+    switch (purpous?.value) {
+      case null:
+        return false;
+      case "Medical Treatment":
+        return "Medical letter";
+      case "Overseas Education/Study Abroad":
+        return "Admission letter";
+      case "Business":
+        return "LERMS Letter";
+      default:
+        return false;
+    }
+  };
 
   const size = useWindowSize();
 
@@ -71,40 +88,54 @@ const MainForm = () => {
 
   const handleSubmission = () => {
     if (selected === true) {
-      if (
-        (checked &&
-          visa &&
-          passportBack &&
-          passportFront &&
-          pan &&
-          airTicket ^ (orderData?.bs == "Buy")) ||
-        (passportBack &&
-          passportFront &&
-          pan &&
-          airTicket ^ (orderData?.bs == "Buy"))
-      ) {
-        const data = new FormData();
-        data.append("pan", pan);
-        data.append("passport_front", passportFront);
-        data.append("passport_back", passportBack);
-        data.append("air_ticket", airTicket);
-        data.append("visa", visa);
-        data.append(
-          "order",
-          JSON.stringify({
-            currency: orderData.finalCurrency.value,
-            amount: orderData.amount,
-            forex_rate: orderData.rate,
-            total_amount: orderData.inrAmount  * 1.005,
-            product: orderData.product,
-            city: orderData.city.value,
-          })
-        );
-        data.append("user", JSON.stringify(userData));
-        mutate(data);
-      } else {
+      if (getName() && !extraFile) {
         toast.error("upload all files");
+        return;
       }
+      if (orderData?.product !== "Transfer Money Abroad") {
+        if (Object.keys(purpous).length == 0) {
+          toast.error("Please select a purpous");
+          return;
+        }
+
+        // if (purpous?.value && !extraFile) {
+        //   toast.error("upload all files");
+        //   return;
+        // }
+        if (purpous?.value == "Business" && !cPan) {
+          toast.error("upload all files");
+          return;
+        }
+      }
+      if (!pan || !passportFront || !passportBack) {
+        toast.error("upload all files");
+        return;
+      }
+
+      const data = new FormData();
+      data.append("pan", pan);
+      data.append("passport_front", passportFront);
+      data.append("passport_back", passportBack);
+      data.append("air_ticket", airTicket);
+      data.append("visa", visa);
+      data.append("extra_file", extraFile);
+      data.append("c_pan", cPan);
+      data.append("purous_of_visit", purpous?.value);
+      data.append("name", getName());
+      data.append(
+        "order",
+        JSON.stringify({
+          currency: orderData.finalCurrency.value,
+          amount: orderData.amount,
+          forex_rate: orderData.rate,
+          total_amount: orderData.inrAmount * 1.005,
+          product: orderData.product,
+          city: orderData.city.value,
+          "purpous": purpous?.value,
+        })
+      );
+      data.append("user", JSON.stringify(userData));
+      mutate(data);
     } else {
       toast.error("Please confirm the statement");
     }
@@ -134,9 +165,15 @@ const MainForm = () => {
       <div className="self-stretch shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white overflow-hidden flex flex-col items-start justify-center py-[6rem] sm:py-[4rem] px-[1rem] sm:px-[3rem] box-border gap-[3rem] max-w-full text-[1.25rem] mq900:gap-[1.5rem] mq450:pt-[2.625rem] mq450:pb-[2.625rem] mq450:box-border mq1325:pl-[1.5rem] mq1325:pr-[1.5rem] mq1325:box-border">
         {/* <FrameComponent6 /> */}
         <FrameComponent5
-          airTicketState={orderData?.bs == "Buy"}
+          airTicketState={
+            orderData?.product == "Transfer Money Abroad"
+              ? false
+              : orderData?.bs == "Buy"
+          }
           pan={pan}
           setPan={setPan}
+          cPan={cPan}
+          setCPan={setCPan}
           passportFront={passportFront}
           setPassportFront={setPassportFront}
           passportBack={passportBack}
@@ -147,6 +184,12 @@ const MainForm = () => {
           setVisa={setVisa}
           checked={checked}
           setChecked={setChecked}
+          extraFile={extraFile}
+          setExtraFile={setExtraFile}
+          name={getName()}
+          setPurpous={setPurpous}
+          purpous={purpous}
+          orderData={orderData}
         />
         <div className="flex items-center gap-5 flex-col sm:flex-row">
           {" "}
@@ -156,7 +199,9 @@ const MainForm = () => {
             }}
             className={` flex justify-center items-center cursor-pointer border-3 border-solid border-[#4F4F4F] ${selected ? "" : "bg-transperent"} sm:w-6 w-4 h-6 sm:h-4`}
           >
-           { selected && <img className=" sm:w-6 w-4 h-4 sm:h-6"  src="tick.png" />}
+            {selected && (
+              <img className=" sm:w-6 w-4 h-4 sm:h-6" src="tick.png" />
+            )}
           </div>
           <div className=" text-[15px] text-center sm:text-inherit ">
             I confirm that I'm in possession of valid documents as per the list
@@ -164,29 +209,29 @@ const MainForm = () => {
             for more than USD 250,000 (or equivalent in another currency) in the
             current financial year.{" "}
           </div>
-
         </div>
-        {size.width <500 && <button
-        onClick={handleSubmission}
-          className="mx-auto cursor-pointer invisable xs:visable  [border:none] py-[1.125rem] pr-[1.968rem] pl-[2.468rem] bg-secondary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[1rem]"
-          // onClick={onCustomerDetailsClick}
-        >
-          <img
-            className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 hidden min-h-[2rem]"
-            alt=""
-            src="/ushoppingcart.svg"
-          />
-          <div className="flex-1 relative text-[1.5rem] leading-[2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-            Continue
-          </div>
-          <img
-            className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
-            alt=""
-            src="/fiarrowright.svg"
-          />
-        </button>}
+        {size.width < 500 && (
+          <button
+            onClick={handleSubmission}
+            className="mx-auto cursor-pointer invisable xs:visable  [border:none] py-[1.125rem] pr-[1.968rem] pl-[2.468rem] bg-secondary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[1rem]"
+            // onClick={onCustomerDetailsClick}
+          >
+            <img
+              className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 hidden min-h-[2rem]"
+              alt=""
+              src="/ushoppingcart.svg"
+            />
+            <div className="flex-1 relative text-[1.5rem] leading-[2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
+              Continue
+            </div>
+            <img
+              className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
+              alt=""
+              src="/fiarrowright.svg"
+            />
+          </button>
+        )}
       </div>
-      
     </section>
   );
 };
