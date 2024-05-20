@@ -171,7 +171,7 @@ export default function App({ Component, pageProps }) {
               </b>
               <div className=" text-sm relative leading-[16px] sm:text-lgi sm:leading-[26px]">
                 Shop No. 1, S-1, Ground Floor, <br />
-                American Plaza, Eros Hostel, <br />
+                American Plaza, Eros Hotel, <br />
                 Nehru Place, New Delhi, Delhi - 110019, India
               </div>
             </div>
