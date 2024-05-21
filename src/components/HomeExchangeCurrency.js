@@ -298,7 +298,10 @@ const HomeExchangeCurrency = () => {
                           Support
                         </div>
                       </div> */}
-                  <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
+                  <div  onClick={() => {
+                        setdrawerOpen(false);
+                        scroll("#blogs");
+                      }} className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
                     <div className="relative leading-[32px]">Blogs</div>
                   </div>
                 </div>
@@ -379,7 +382,12 @@ const HomeExchangeCurrency = () => {
                           Support
                         </div>
                       </div> */}
-                      <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
+                      <div 
+                       onClick={() => {
+                        setdrawerOpen(false);
+                        scroll("#blogs");
+                      }}
+                      className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border">
                         <div className="relative leading-[32px]">Blogs</div>
                       </div>
                     </div>
@@ -1199,6 +1207,7 @@ const HomeExchangeCurrency = () => {
         </div>
       </section>
       <section
+      id="blogs"
         style={getImgObjectURL("/shape-trimmer@2x.png")}
         className="overflow-hidden w-[100vw] px-[5%] py-10 flex flex-col items-start justify-start  box-border relative gap-[56px] max-w-full text-left text-29xl text-white font-body-small "
       >
