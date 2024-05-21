@@ -1,7 +1,7 @@
 function Privicy() {
   return (
     <div className="w-[100vw] min-h-[100vh] flex justify-center bg-[#27357e] py-[5vw]  ">
-      <div className="text-white flex w-[90vw] justify-between gap-[2vw] flex-wrap bg-[#27357e] pt-12 py-[5vw]">
+      <div className="!text-white flex w-[90vw] justify-between gap-[2vw] flex-wrap bg-[#27357e] pt-12 py-[5vw]">
         <h1
           style={{
             paddingTop: "4pt",
@@ -76,7 +76,7 @@ function Privicy() {
                   }}
                 >
                   <a
-                    className="a"
+              
                     href="http://www.worldoneforex.com/"
                     target="_blank"
                   >
@@ -1549,7 +1549,7 @@ function Privicy() {
           }}
         >
           <a
-            className="a"
+            
             href="mailto:mukherjee@worldoneforex.com"
             target="_blank"
           >
@@ -1642,7 +1642,7 @@ function Privicy() {
                   }}
                 >
                   <a
-                    className="a"
+                   
                     href="http://www.worldoneforex.com/"
                     target="_blank"
                   >
@@ -3115,7 +3115,7 @@ function Privicy() {
           }}
         >
           <a
-            className="a"
+      
             href="mailto:mukherjee@worldoneforex.com"
             target="_blank"
           >

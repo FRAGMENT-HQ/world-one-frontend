@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { order, services } from "@/states/storage";
+import { order } from "@/states/storage";
 import FrameComponent2 from "./frame-component2";
 import FrameComponent from "./frame-component";
 import LinkFunction from "./link-function";
@@ -11,10 +11,12 @@ import { getRateMutation } from "@/hooks/prod";
 import CityModal from "./cityModal";
 import CurrencyCard from "./currancyCard";
 import { getRateCardMutation } from "@/hooks/prod";
-import Select , { components }  from "react-select";
+import Select from "react-select";
 import toast from "react-hot-toast";
 import Drawer from "@mui/material/Drawer";
-
+import ColorAdjustor from "./color-adjustor";
+import FaqItems from "./faqItems";
+import { Modal } from "@mui/material";
 const cityOptions = [
   { label: " New Delhi", value: "New Delhi" },
   { label: "Gurgaon", value: "Gurgaon" },
@@ -92,18 +94,18 @@ const HomeExchangeCurrency = () => {
     label: "INR",
     value: "INR",
     image:
-    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAJDSURBVHja7JfNaxNBGIef2WwalaahhaaYUm1ta4tivViUHqxSRISeBG/SP0vwVPDkTfAiqIh4ED8OORRrFT8qghZrpYkxu9mdmddDYhtFwak4ufQHy+zC7Mwz837MO0pE6KQCOqxdAAVkgFyr9SkDNEKgp7J4+YsEfudXKqCwsNgXAgUJFNlDM36X/+klQCEEclgLOkHiKiBt1qHtu91q8pv3X/vwx35qTw+iGwC5EABrER0hOvazfB2DNQC0ADSkcfPxoUwWbPozgCR1JI08BX8GTBuAWIM0akhS9+eFOtnyjgkRWXH9vx5r3n+oYrAMFvMUunM7CEU1Ge4E/tmrz9x7tMrxyQEA7j95x5HRImemh/5/Ko6TlBt3XnDp/CTfooRKrcHFuQnKz9f4uF7bUSp2MkF5eY2NzYgktdx9vEqlGnNuZoSxA72srdeYPzvuZALnHWikBhGIE009SqnVU+qxBiBqtc4mcClKjo73c/vhW05OlZg9McSF06PMnRrm1oM3TE+V/nqcH3M6A+T3dTE/O8aV62X29+cZKRW4dnOJsYO9DA8WnAEUMJGm6UoYugXExmbE8usNjLEcHu6jVOx2SwNak81mm2E4fnUByQQkrezkrKdu3bsyWYLmUdDMhNoYwjBA8FOgKgXa6m0Aay2Imy/8kwSs0dtOaI1BKZ/VEFjTHgVWUPgjUKjmrm+dhghKKbq79nqDsLINYESE6malE1W5UcAAcAzo9zz5OrCkWneCfKv1qQbwVe1eTjsN8H0AbQf7MRxAQMIAAAAASUVORK5CYII="
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAJDSURBVHja7JfNaxNBGIef2WwalaahhaaYUm1ta4tivViUHqxSRISeBG/SP0vwVPDkTfAiqIh4ED8OORRrFT8qghZrpYkxu9mdmddDYhtFwak4ufQHy+zC7Mwz837MO0pE6KQCOqxdAAVkgFyr9SkDNEKgp7J4+YsEfudXKqCwsNgXAgUJFNlDM36X/+klQCEEclgLOkHiKiBt1qHtu91q8pv3X/vwx35qTw+iGwC5EABrER0hOvazfB2DNQC0ADSkcfPxoUwWbPozgCR1JI08BX8GTBuAWIM0akhS9+eFOtnyjgkRWXH9vx5r3n+oYrAMFvMUunM7CEU1Ge4E/tmrz9x7tMrxyQEA7j95x5HRImemh/5/Ko6TlBt3XnDp/CTfooRKrcHFuQnKz9f4uF7bUSp2MkF5eY2NzYgktdx9vEqlGnNuZoSxA72srdeYPzvuZALnHWikBhGIE009SqnVU+qxBiBqtc4mcClKjo73c/vhW05OlZg9McSF06PMnRrm1oM3TE+V/nqcH3M6A+T3dTE/O8aV62X29+cZKRW4dnOJsYO9DA8WnAEUMJGm6UoYugXExmbE8usNjLEcHu6jVOx2SwNak81mm2E4fnUByQQkrezkrKdu3bsyWYLmUdDMhNoYwjBA8FOgKgXa6m0Aay2Imy/8kwSs0dtOaI1BKZ/VEFjTHgVWUPgjUKjmrm+dhghKKbq79nqDsLINYESE6malE1W5UcAAcAzo9zz5OrCkWneCfKv1qQbwVe1eTjsN8H0AbQf7MRxAQMIAAAAASUVORK5CYII=",
   });
   const [finalCurrency, setFinalCurrency] = useState({
     label: "USD",
     value: "USD",
-    image:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAALESURBVHja7Jc/aBNxFMc/l0STtqYtihgkYLOYitjuFuwiUgfBUOgSOqS6CNqmRRqLmyjBBDQ4FLRL/TOokEEhgyC4O7RSB0MHWxEtWLGtrW2Su/s9h8ZeUlF7rV4XHzy+995v+d77vnf3fpqIsJ3mYpvtPwENcAPeMjppJlD0APXHj9/44nZvrhh3d45tsvYuAk9GdwM0nTiRkZmZb3L9+jPbuBUDmjyA1zAUIyMviMXaSaVzDPSfJJ3O0V+JqRz9A1acSufQgC+XrlpvJRXCVua06nNXYz36m0kArwtAKUVPTzvJ5FPifR0kk0/pW4/x6jje10GhoEOhaHmx7OtzP50XQDfWOIbb2lISjz+SqakFicVGN4yx2OhWJQh7AAzDJB7vYHDwEclkF4nExnBo6DGz3Rfs959/F8aHGQDKBBSJxEOuXeuit/cemUz3hhBA6d82NfxSKlkStLZekcnJeTl2LC35/Jwt/CsS6LpJT88d7oycJRod5sH9c0Sjw9z/A4Lw8egp0MptLmI9V8br8prPB8WCJYGuK27fPkPk9E2y2T5ORzJks71EIqtxZC2uznd23kJ8y9Vj9zv7MZKGjlROQSg0JKHQZZmYmJVgMLFhDAYTW5YAIBwMJmR8/JPU1Z2XsTF7OL3nkH0PtMj7g20ChDUgHAhczC8tlTAM03ZD52ue258CjwfNX8eBty+bNSBsmmbe5XL2z6yUwu12N3sApve34jFMpKQ7swPs3IGxw2NNgTINRARRpv1tQtbFld3+q3VT3CjTsAgE34/j8/kclWBlZQVqa1cJTO89TI3XiyyvOCNBbQ3LpaK1E5pKVX/B/jkDDaWkQoKPr2hoaHBUgoWFBWhsXCXwLtBCY73fUQJzXxfXKmDqfpPPMu8oAfEDBUwN2AccAfY6vJbPAq+18p3AX0YnrQgsav8vp9tN4PsALYQJa7MTgzkAAAAASUVORK5CYII="
-
+    image:
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAALESURBVHja7Jc/aBNxFMc/l0STtqYtihgkYLOYitjuFuwiUgfBUOgSOqS6CNqmRRqLmyjBBDQ4FLRL/TOokEEhgyC4O7RSB0MHWxEtWLGtrW2Su/s9h8ZeUlF7rV4XHzy+995v+d77vnf3fpqIsJ3mYpvtPwENcAPeMjppJlD0APXHj9/44nZvrhh3d45tsvYuAk9GdwM0nTiRkZmZb3L9+jPbuBUDmjyA1zAUIyMviMXaSaVzDPSfJJ3O0V+JqRz9A1acSufQgC+XrlpvJRXCVua06nNXYz36m0kArwtAKUVPTzvJ5FPifR0kk0/pW4/x6jje10GhoEOhaHmx7OtzP50XQDfWOIbb2lISjz+SqakFicVGN4yx2OhWJQh7AAzDJB7vYHDwEclkF4nExnBo6DGz3Rfs959/F8aHGQDKBBSJxEOuXeuit/cemUz3hhBA6d82NfxSKlkStLZekcnJeTl2LC35/Jwt/CsS6LpJT88d7oycJRod5sH9c0Sjw9z/A4Lw8egp0MptLmI9V8br8prPB8WCJYGuK27fPkPk9E2y2T5ORzJks71EIqtxZC2uznd23kJ8y9Vj9zv7MZKGjlROQSg0JKHQZZmYmJVgMLFhDAYTW5YAIBwMJmR8/JPU1Z2XsTF7OL3nkH0PtMj7g20ChDUgHAhczC8tlTAM03ZD52ue258CjwfNX8eBty+bNSBsmmbe5XL2z6yUwu12N3sApve34jFMpKQ7swPs3IGxw2NNgTINRARRpv1tQtbFld3+q3VT3CjTsAgE34/j8/kclWBlZQVqa1cJTO89TI3XiyyvOCNBbQ3LpaK1E5pKVX/B/jkDDaWkQoKPr2hoaHBUgoWFBWhsXCXwLtBCY73fUQJzXxfXKmDqfpPPMu8oAfEDBUwN2AccAfY6vJbPAq+18p3AX0YnrQgsav8vp9tN4PsALYQJa7MTgzkAAAAASUVORK5CYII=",
   });
   const [amount, setAmount] = useState();
   const router = useRouter();
   const [Order, setOrder] = useAtom(order);
-  const [Services, setServices] = useAtom(services);
+  const [openBlog, setOpenBlog] = useState(false)
   const [rate, setRate] = useState(83);
   const [factor, setFactor] = useState(1);
   const [open, setOpen] = useState(false);
@@ -206,6 +208,52 @@ const HomeExchangeCurrency = () => {
         onCitySelect={setCity}
         redirectTo="/summary/"
       />
+      <Modal style={{
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        bgcolor: "#FFF",
+        p: 4,
+        borderRadius: "32px",
+        width:"100vw"
+      }} open={openBlog} >
+        {/* <div className="w-96 h-96 bg-white !border-none" >
+
+        </div> */}
+        <div
+      className="sm:w-[822px] w-[95vw] shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] rounded-13xl bg-white max-w-full overflow-hidden flex flex-col items-start justify-start py-[100px] px-[67px] box-border gap-[39px] leading-[normal] tracking-[normal] cursor-pointer text-center text-5xl text-text3 font-body-small mq450:gap-[19px] mq450:pl-5 mq450:pr-5 mq450:box-border"
+    
+    >
+      <div className="self-stretch flex flex-row items-start justify-center text-left text-13xl text-secondary">
+        <div className="relative leading-[40px] mq450:text-lgi mq450:leading-[24px] mq750:text-7xl mq750:leading-[32px]">
+          <span>{`Blpgs are coming soon ! `}</span>
+          {/* <span className="text-primary">{userData?.name}</span> */}
+        </div>
+      </div>
+      <div className="self-stretch relative leading-[36px] font-medium mq450:text-lgi mq450:leading-[29px]">
+       
+      </div>
+      <div className="self-stretch flex flex-row items-start justify-center max-w-full">
+        <div className="w-[489px] relative inline-block max-w-full mq450:text-lgi">
+          <span className="leading-[40px] text-secondary">
+            {/* {userData?.email} */}
+          </span>
+        </div>
+      </div>
+      <div className="self-stretch flex flex-row items-start justify-start py-0 px-[76px] box-border max-w-full mq750:pl-[38px] mq750:pr-[38px] mq750:box-border">
+        <button onClick={()=>{setOpenBlog(false)}} className="cursor-pointer [border:none] py-[18px] px-5 bg-secondary flex-1 shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden flex flex-row items-start justify-center box-border gap-[16px] max-w-full hover:bg-darkslateblue-800">
+          <img
+            className="h-8 w-8 relative overflow-hidden shrink-0 hidden min-h-[32px]"
+            alt=""
+            src="/ushoppingcart.svg"
+          />
+          <div className="relative text-5xl leading-[32px] font-body-small text-white text-left inline-block min-w-[61px] mq450:text-lgi mq450:leading-[26px]">
+            Continue
+          </div>
+        </button>
+      </div>
+    </div>
+      </Modal>
       <section className="self-stretch  bg-black flex flex-col items-start justify-start pt-4 px-0 pb-0 box-border relative gap-[82px] max-w-full text-left text-xl text-white font-body-small mq825:gap-[20px_82px] mq825:pt-5 mq825:box-border mq1275:gap-[41px_82px] mq1275:pt-[31px] mq1275:box-border">
         <img
           className="w-full h-full absolute !m-[0] top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover"
@@ -461,27 +509,29 @@ const HomeExchangeCurrency = () => {
                   </div>
                 </div>
                 <div className="self-stretch flex  -mt-20 sm:mt-0 flex-col items-center justify-center gap-[32px] max-w-full mq450:gap-[16px_32px]">
-                  { size.width < 640 && <div className="flex-1 w-[100%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
-                    <Select
-                      defaultValue={prod}
-                      value={prod}
-                      isSearchable={true}
-                      onChange={setprod}
-                      options={options}
-                      classNames={{
-                        container: () =>
-                          "w-full !rounded-[1rem] !underline-offset-2  text-white !rounded-[1rem] !border-none  bg-[#263772] py-1 sm:py-2 ",
-                        control: () =>
-                          "self-stretch !bg-[#263772]  !text-center !font-semibold  !border-b-4 border-x-0 border-t-0  !border-[#FF9135] mb-1 !mx-6 ",
-                        menuList: () => "!bg-midnightblue",
-                        option: () => "text-white",
-                        input: () =>
-                          "text-white !text-center !border-[#FF9135]  ",
-                        singleValue: () => "!text-white !text-sm",
-                        indicatorSeparator: () => "hidden",
-                      }}
-                    />
-                  </div>}
+                  {size.width < 640 && (
+                    <div className="flex-1 w-[100%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
+                      <Select
+                        defaultValue={prod}
+                        value={prod}
+                        isSearchable={true}
+                        onChange={setprod}
+                        options={options}
+                        classNames={{
+                          container: () =>
+                            "w-full !rounded-[1rem] !underline-offset-2  text-white !rounded-[1rem] !border-none  bg-[#263772] py-1 sm:py-2 ",
+                          control: () =>
+                            "self-stretch !bg-[#263772]  !text-center !font-semibold  !border-b-4 border-x-0 border-t-0  !border-[#FF9135] mb-1 !mx-6 ",
+                          menuList: () => "!bg-midnightblue",
+                          option: () => "text-white",
+                          input: () =>
+                            "text-white !text-center !border-[#FF9135]  ",
+                          singleValue: () => "!text-white !text-sm",
+                          indicatorSeparator: () => "hidden",
+                        }}
+                      />
+                    </div>
+                  )}
 
                   {prod.value == "Exchange Currency" && (
                     <div className="self-stretch rounded-2xl bg-gray-100 shadow-[-2px_2px_8px_rgba(14,_21,_56,_0.2)_inset,_-4px_4px_16px_rgba(15,_20,_45,_0.15)_inset] flex flex-row items-start justify-start max-w-full [row-gap:20px] mq825:flex-wrap">
@@ -613,17 +663,19 @@ const HomeExchangeCurrency = () => {
                 </div>
               </form>
               <div className=" w-[98%] sm:w-[38%]  desktop:w-[35%] flex flex-col items-start justify-start pt-0 sm:pt-[84px] px-0 sm:px-10 pb-0 box-border  max-w-full mq825:min-w-full mq450:box-border mq1575:flex-1">
-              {size.width > 640 && ( <div className=" w-[80%] ml-[12%]  pb-5 sm:ml-0 sm:w-inherit sm:self-stretch flex flex-col items-start justify-start gap-[64px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
-                  <h1 className="m-0 self-stretch relative text-[3.2rem] font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
-                    {prod?.value}
-                  </h1>
-                  <div className="self-stretch relative text-[1.25rem] leading-[30px] font-medium text-white mq450:text-lgi mq450:leading-[29px]">
-                    {size.width > 640 && <>{dispMap[prod?.value]}</>}
-                  </div>
-                  {/* {size.width < 640 && (
+                {size.width > 640 && (
+                  <div className=" w-[80%] ml-[12%]  pb-5 sm:ml-0 sm:w-inherit sm:self-stretch flex flex-col items-start justify-start gap-[64px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
+                    <h1 className="m-0 self-stretch relative text-[3.2rem] font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
+                      {prod?.value}
+                    </h1>
+                    <div className="self-stretch relative text-[1.25rem] leading-[30px] font-medium text-white mq450:text-lgi mq450:leading-[29px]">
+                      {size.width > 640 && <>{dispMap[prod?.value]}</>}
+                    </div>
+                    {/* {size.width < 640 && (
                     
                    */}
-                </div>)}
+                  </div>
+                )}
                 {size.width < 640 && (
                   <div className=" absolute w-[100vw] bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
                     <div className=" flex w-full gap-5">
@@ -707,8 +759,12 @@ const HomeExchangeCurrency = () => {
                 Foreign Currencies Licence, ensuring you safe and secure
                 transactions.
                 <br />
-               <b> Our unwavering focus on professionalism and efficiency has
-                resulted in a remarkable customer retention rate exceeding 90%</b>. <br/>
+                <b>
+                  {" "}
+                  Our unwavering focus on professionalism and efficiency has
+                  resulted in a remarkable customer retention rate exceeding 90%
+                </b>
+                . <br />
                 We understand the importance of trust and transparency when
                 dealing with your hard-earned money. That's why we prioritize
                 building long-lasting relationships with our clients.
@@ -1022,14 +1078,34 @@ const HomeExchangeCurrency = () => {
           />
         </div>
       </section> */}
-      {/* <section className="self-stretch overflow-hidden flex flex-row items-start justify-center py-[120px] px-5 box-border min-h-[828px] max-w-full text-left text-29xl text-text1 font-body-small mq825:pt-[78px] mq825:pb-[78px] mq825:box-border mq450:pt-[51px] mq450:pb-[51px] mq450:box-border">
+      <section className="self-stretch overflow-hidden flex flex-row items-start justify-center py-[120px] px-5 box-border min-h-[828px] max-w-full text-left text-29xl text-text1 font-body-small mq825:pt-[78px] mq825:pb-[78px] mq825:box-border mq450:pt-[51px] mq450:pb-[51px] mq450:box-border">
         <div className=" flex flex-col items-start justify-start gap-[56px] max-w-full mq825:gap-[28px_56px]">
           <div className=" box-border border-0 flex flex-row items-start justify-start py-0 px-[21px] max-w-full border-l-[5px] border-solid border-secondary">
-            <h1 className="m-0 flex-1 relative text-inherit leading-[56px] font-normal font-inherit inline-block max-w-full mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
+            <h1 className="m-0 flex-1 relative text-inherit font-normal font-inherit inline-block max-w-full mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
               Frequently Asked Questions
             </h1>
           </div>
-          <div className="self-stretch flex flex-col items-start justify-start gap-[39.5px] max-w-full text-13xl text-text3 mq825:gap-[20px_39.5px]">
+          <FaqItems
+            number="01"
+            small="How much currency can I carry on an official/tourist trip abroad?"
+            content="You can avail of foreign exchange up to USD 10,000 in any calendar year for tourism or private travel to any country other than Nepal and Bhutan on the basis of self-certification. You are allowed to carry currency equivalent to USD 3,000 & rest in Travel Money Card."
+          />
+          <FaqItems
+            number="02"
+            small="How long does it take to service a forex order? Can you provide the currency/card on the same day?"
+            content="While we endeavor to process and service all orders within 4-6 business hours (excluding Sunday), we recommend that you place your order 24 hours before you travel so that there is no last minute stress for you"
+          />
+          <FaqItems
+            number="03"
+            small="Which bank forex card do you issue?"
+            content="IndusInd Bank, Yes Bank & Thomas Cook India Ltd."
+          />
+          <FaqItems
+            number="04"
+            small="Can I retain any of the forex that I bought for foreign travel and did not spend?"
+            content="You can indefinitely retain foreign exchange up to USD 2,000 for future use. Any foreign exchange in cash in excess of this sum, is required to be surrendered within 90 days of return."
+          />
+          {/* <div className="self-stretch flex flex-col items-start justify-start gap-[39.5px] max-w-full text-13xl text-text3 mq825:gap-[20px_39.5px]">
             <div className="self-stretch h-12 overflow-hidden shrink-0 flex flex-row items-start justify-start gap-[24px] max-w-full">
               <div className="w-10 relative leading-[40px] inline-block shrink-0 mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
                 01
@@ -1119,35 +1195,43 @@ const HomeExchangeCurrency = () => {
                 src="/eiarrowright-4@2x.png"
               />
             </div>
-          </div>
+          </div> */}
         </div>
-      </section> */}
-      {/* <section className="overflow-hidden flex flex-col items-start justify-start p-[120px] box-border relative gap-[56px] max-w-full text-left text-29xl text-white font-body-small mq825:gap-[28px_56px] mq825:py-[51px] mq825:px-[30px] mq825:box-border mq1275:py-[78px] mq1275:px-[60px] mq1275:box-border">
-        <img
-          className="w-full h-[1798px] absolute !m-[0] top-[-776px] right-[0px] left-[0px] max-w-full overflow-hidden shrink-0 object-cover"
-          alt=""
-          src="/shape-trimmer@2x.png"
-        />
+      </section>
+      <section
+        style={getImgObjectURL("/shape-trimmer@2x.png")}
+        className="overflow-hidden w-[100vw] px-[5%] py-10 flex flex-col items-start justify-start  box-border relative gap-[56px] max-w-full text-left text-29xl text-white font-body-small "
+      >
         <div className="w-[272px] box-border border-0 flex flex-row items-start justify-start py-0 px-[21px] z-[1] border-l-[5px] border-solid border-accent">
           <h1 className="m-0 w-56 relative text-inherit leading-[56px] font-normal font-inherit inline-block mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
             Our Blogs
           </h1>
         </div>
-        <div className="w-[1680px] overflow-x-auto flex flex-row items-start justify-start gap-[48px] max-w-full z-[1] mq825:gap-[48px_24px]">
+        <div className="w-[90vw] overflow-x-auto flex flex-row flex-wrap items-start justify-evenly gap-[48px] max-w-full z-[1] mq825:gap-[48px_24px]">
           <ColorAdjustor
             unsplash3PyBkxgTiL0="/unsplash3pybkxgtil0@2x.png"
-            welcomeToWorldOneForexBlo="Welcome to WorldOne Forex Blog !"
+            welcomeToWorldOneForexBlo="Welcome to WorldOne Forex Blog!"
+            onClick={() => {
+              setOpenBlog(true);
+            }}
+            
           />
           <ColorAdjustor
             unsplash3PyBkxgTiL0="/image-14@2x.png"
             welcomeToWorldOneForexBlo="How to exchange currency in India?"
+            onClick={() => {
+              setOpenBlog(true);
+            }}
           />
           <ColorAdjustor
             unsplash3PyBkxgTiL0="/unsplashvp4wmibxvcy@2x.png"
             welcomeToWorldOneForexBlo="Forex Trading In India"
+            onClick={() => {
+              setOpenBlog(true);
+            }}
           />
         </div>
-      </section> */}
+      </section>
       {/* <section className="self-stretch bg-midnightblue overflow-hidden flex flex-col items-center justify-start pt-[30px] px-5 pb-12 box-border gap-[100px] max-w-full text-left text-13xl text-white font-lato mq825:gap-[50px_100px] mq825:pt-[51px] mq825:pb-5 mq825:box-border mq450:gap-[25px_100px] mq1275:pt-[78px] mq1275:pb-[31px] mq1275:box-border">
         <div className="w-full flex flex-row items-start justify-start max-w-full gap-[20px] mq1275:flex-wrap justify-evenly">
           <div className="flex flex-col items-start text-left justify-start gap-[35px] mq450:gap-[17px_35px]">

@@ -1651,7 +1651,7 @@ function Terms() {
             <a
               href="mailto:support@worldone.com"
               style={{
-                color: "black",
+                color:"white",
                 fontFamily: '"Times New Roman", serif',
                 fontStyle: "normal",
                 fontWeight: "normal",
@@ -1664,7 +1664,7 @@ function Terms() {
             </a>
             <span
               style={{
-                color: "#00f",
+              
                 fontFamily: '"Times New Roman", serif',
                 fontStyle: "normal",
                 fontWeight: "normal",
