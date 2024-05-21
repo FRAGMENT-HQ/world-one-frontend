@@ -226,7 +226,7 @@ const HomeExchangeCurrency = () => {
     >
       <div className="self-stretch flex flex-row items-start justify-center text-left text-13xl text-secondary">
         <div className="relative leading-[40px] mq450:text-lgi mq450:leading-[24px] mq750:text-7xl mq750:leading-[32px]">
-          <span>{`Blpgs are coming soon ! `}</span>
+          <span>{`Blogs are coming soon ! `}</span>
           {/* <span className="text-primary">{userData?.name}</span> */}
         </div>
       </div>
