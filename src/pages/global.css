@@ -4,11 +4,7 @@
   src: url("/AvenirNextLTPro-Regular.otf");
   font-weight: 400;
 }
-@font-face {
-  font-family: "Avenir Next LT Pro";
-  src: url("/AvenirNextLTPro-UltLt.otf");
-  font-weight: 500;
-}
+
 
 @tailwind base;
 @tailwind components;

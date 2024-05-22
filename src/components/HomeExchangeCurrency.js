@@ -312,7 +312,7 @@ const HomeExchangeCurrency = () => {
                     setdrawerOpen(false);
                     scroll("#mail");
                   }}
-                  className="cursor-pointer w-[10rem] h-10 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
+                  className="cursor-pointer w-[10rem] h-8 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
                 >
                   <img
                     className="h-6 w-6 relative overflow-hidden shrink-0"
@@ -328,7 +328,7 @@ const HomeExchangeCurrency = () => {
                   onClick={() => {
                     router.push("/rates");
                   }}
-                  className="cursor-pointer w-[10rem] h-10 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
+                  className="cursor-pointer w-[10rem] h-8 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
                 >
                   <img
                     className="h-6 w-6 relative overflow-hidden shrink-0"
@@ -377,11 +377,7 @@ const HomeExchangeCurrency = () => {
                           Services
                         </div>
                       </div>
-                      {/* <div className=" flex flex-row items-center justify-center py-1 ">
-                        <div className="relative leading-[32px] inline-block ">
-                          Support
-                        </div>
-                      </div> */}
+                     
                       <div 
                        onClick={() => {
                         setdrawerOpen(false);
@@ -392,7 +388,7 @@ const HomeExchangeCurrency = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex h-16 gap-[5%] flex-row-reverse  w-full">
+                  <div className="flex h-16 gap-[5%] flex-row-reverse">
                     <div
                       onClick={() => {
                         scroll("#mail");
@@ -456,7 +452,7 @@ const HomeExchangeCurrency = () => {
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium  font-body-small ${prod.value == "Exchange Currency" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium  font-body-small ${prod.value !== "Exchange Currency" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Exchange Currency
                     </div>
@@ -474,7 +470,7 @@ const HomeExchangeCurrency = () => {
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium  font-body-small ${prod.value == "Transfer Money Abroad" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium  font-body-small ${prod.value !== "Transfer Money Abroad" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Transfer Money Abroad
                     </div>
@@ -489,7 +485,7 @@ const HomeExchangeCurrency = () => {
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium font-body-small ${prod.value == "Forex Card" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium font-body-small ${prod.value !== "Forex Card" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Forex Card
                     </div>
@@ -507,7 +503,7 @@ const HomeExchangeCurrency = () => {
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium  font-body-small ${prod.value == "Travel Insurance" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium  font-body-small ${prod.value !== "Travel Insurance" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Travel Insurance
                     </div>
@@ -655,14 +651,14 @@ const HomeExchangeCurrency = () => {
                     onClick={() => {
                       handleOrder();
                     }}
-                    className="cursor-pointer w-[40%] flex-1 [border:none] py-3 sm:py-5 bg-white rounded-lg sm:rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
+                    className="cursor-pointer w-[35%] flex-1 [border:none] py-3 sm:py-4 bg-white rounded-lg sm:rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] min-w-[163px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
                   >
                     <img
                       className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
                       alt=""
                       src="/ushoppingcart.svg"
                     />
-                    <div className="relative text-base sm:text-5xl  leading-[32px] font-semibold font-body-small text-text1 text-left">
+                    <div className="relative text-base sm:text-3xl  font-semibold font-body-small text-text1 text-left">
                       {prod.value != "Travel Insurance"
                         ? "Add To Cart"
                         : "Get Quote"}
@@ -672,8 +668,8 @@ const HomeExchangeCurrency = () => {
               </form>
               <div className=" w-[98%] sm:w-[38%]  desktop:w-[35%] flex flex-col items-start justify-start pt-0 sm:pt-[84px] px-0 sm:px-10 pb-0 box-border  max-w-full mq825:min-w-full mq450:box-border mq1575:flex-1">
                 {size.width > 640 && (
-                  <div className=" w-[80%] ml-[12%]  pb-5 sm:ml-0 sm:w-inherit sm:self-stretch flex flex-col items-start justify-start gap-[64px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
-                    <h1 className="m-0 self-stretch relative text-[3.2rem] font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
+                  <div className=" w-[80%] ml-[12%]  pb-5 sm:ml-0 sm:w-inherit sm:self-stretch flex flex-col items-start justify-start gap-[32px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
+                    <h1 className="m-0 self-stretch relative text-[3rem] font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
                       {prod?.value}
                     </h1>
                     <div className="self-stretch relative text-[1.25rem] leading-[30px] font-medium text-white mq450:text-lgi mq450:leading-[29px]">
@@ -685,8 +681,8 @@ const HomeExchangeCurrency = () => {
                   </div>
                 )}
                 {size.width < 640 && (
-                  <div className=" absolute w-[100vw] bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
-                    <div className=" flex w-full gap-5">
+                  <div className=" absolute w-[100vw] bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-scroll flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
+                    <div className=" flex overflow-x-scroll gap-5">
                       {rates.slice(4).map((rate, index) => (
                         <CurrencyCard key={index} rate={rate} />
                       ))}
@@ -753,11 +749,11 @@ const HomeExchangeCurrency = () => {
             className="flex bg-[#233aaee6] gap-8 rounded-xl py-10 px-[7%] sm:px-[5%] sm:px-12 flex-col items-start justify-start w-[90vw] sm:w-[94%]"
           >
             <div className=" box-border flex flex-row items-center justify-center py-0 px-[21px] border-l-[5px] border-0 border-solid border-white">
-              <h1 className="m-0  relative text-[2.5rem]  font-normal  inline-block mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
+              <h1 className="m-0 relative text-[2.5rem] font-medium inline-block mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
                 Welcome to World One Forex
               </h1>
             </div>
-            <div className="self-stretch  font-normal mt-2 relative text-lg tablet:text-[1.2vw] font-medium text-white inline-block mq450:text-lgi mq450:leading-[29px]">
+            <div className="self-stretch  font-normal mt-2 relative text-lg tablet:text-[1.2vw] font-medium text-white inline-block mq450:text-lgi leading-[29px]">
               <p className="m-0">
                 Where your foreign exchange needs are met with expertise and
                 care.

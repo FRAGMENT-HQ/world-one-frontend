@@ -66,7 +66,7 @@ export default function App({ Component, pageProps }) {
               <form className="flex flex-col items-start  gap-4">
                 <div className="flex-1 self-stretch sm:self-auto min-w-0 xs:w-full rounded-[12px] sm:rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-2 sm:py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
                   <input
-                    className="text-white self-stretch w-[80%] max-w-[419px] px-5 [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
+                    className="text-white self-stretch w-[80%] max-w-[419px] px-5 [border:none] [outline:none] bg-[transparent] h-6 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
                     placeholder="Name"
                     type="text"
                     value={name}
@@ -77,7 +77,7 @@ export default function App({ Component, pageProps }) {
                 </div>
                 <div className="flex-1 self-stretch sm:self-auto min-w-0 xs:w-full rounded-[12px] sm:rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-2 sm:py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
                   <input
-                    className="text-white self-stretch w-[80%] max-w-[419px] px-5 [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
+                    className="text-white self-stretch w-[80%] max-w-[419px] px-5 [border:none] [outline:none] bg-[transparent] h-6 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
                     placeholder="Email"
                     type="text"
                     value={email}
@@ -88,7 +88,7 @@ export default function App({ Component, pageProps }) {
                 </div>
                 <div className="flex-1 self-stretch sm:self-auto min-w-0 xs:w-full rounded-[12px] sm:rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-2 sm:py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
                   <input
-                    className="text-white self-stretch w-[80%] max-w-[419px] px-5 [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
+                    className="text-white self-stretch w-[80%] max-w-[419px] px-5 [border:none] [outline:none] bg-[transparent] h-6 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
                     placeholder="Phone Number"
                     type="text"
                     value={phone}
@@ -99,7 +99,7 @@ export default function App({ Component, pageProps }) {
                 </div>
                 <div className="flex-1 self-stretch sm:self-auto min-w-0 xs:w-full rounded-[12px] sm:rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-2 sm:py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
                   <textarea
-                    className="text-white self-stretch w-[80%] max-w-[419px] px-5 [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
+                    className="text-white self-stretch w-[80%] max-w-[419px] px-5 [border:none] [outline:none] bg-[transparent] h-6 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
                     placeholder="Message"
                     type="text"
                     value={message}
