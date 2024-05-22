@@ -20,7 +20,7 @@ const FrameComponent = ({ currency, exchangeCurrency, onClick,content="" }) => {
           onClick={onClick}
           className=" cursor-pointer h-12 rounded-xl bg-white overflow-hidden shrink-0 flex flex-row items-start justify-start py-2 px-[37.5px] box-border gap-[6px] text-5xl text-text1"
         >
-          <div className="relative leading-[32px] font-medium inline-block min-w-[82px] mq450:text-lgi mq450:leading-[26px]">
+          <div className="relative  leading-[32px] font-semibold inline-block min-w-[82px] mq450:text-lgi mq450:leading-[26px]">
             Explore
           </div>
           <img

@@ -102,7 +102,7 @@ const HomeExchangeCurrency = () => {
     image:
       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAALESURBVHja7Jc/aBNxFMc/l0STtqYtihgkYLOYitjuFuwiUgfBUOgSOqS6CNqmRRqLmyjBBDQ4FLRL/TOokEEhgyC4O7RSB0MHWxEtWLGtrW2Su/s9h8ZeUlF7rV4XHzy+995v+d77vnf3fpqIsJ3mYpvtPwENcAPeMjppJlD0APXHj9/44nZvrhh3d45tsvYuAk9GdwM0nTiRkZmZb3L9+jPbuBUDmjyA1zAUIyMviMXaSaVzDPSfJJ3O0V+JqRz9A1acSufQgC+XrlpvJRXCVua06nNXYz36m0kArwtAKUVPTzvJ5FPifR0kk0/pW4/x6jje10GhoEOhaHmx7OtzP50XQDfWOIbb2lISjz+SqakFicVGN4yx2OhWJQh7AAzDJB7vYHDwEclkF4nExnBo6DGz3Rfs959/F8aHGQDKBBSJxEOuXeuit/cemUz3hhBA6d82NfxSKlkStLZekcnJeTl2LC35/Jwt/CsS6LpJT88d7oycJRod5sH9c0Sjw9z/A4Lw8egp0MptLmI9V8br8prPB8WCJYGuK27fPkPk9E2y2T5ORzJks71EIqtxZC2uznd23kJ8y9Vj9zv7MZKGjlROQSg0JKHQZZmYmJVgMLFhDAYTW5YAIBwMJmR8/JPU1Z2XsTF7OL3nkH0PtMj7g20ChDUgHAhczC8tlTAM03ZD52ue258CjwfNX8eBty+bNSBsmmbe5XL2z6yUwu12N3sApve34jFMpKQ7swPs3IGxw2NNgTINRARRpv1tQtbFld3+q3VT3CjTsAgE34/j8/kclWBlZQVqa1cJTO89TI3XiyyvOCNBbQ3LpaK1E5pKVX/B/jkDDaWkQoKPr2hoaHBUgoWFBWhsXCXwLtBCY73fUQJzXxfXKmDqfpPPMu8oAfEDBUwN2AccAfY6vJbPAq+18p3AX0YnrQgsav8vp9tN4PsALYQJa7MTgzkAAAAASUVORK5CYII=",
   });
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState(0);
   const router = useRouter();
   const [Order, setOrder] = useAtom(order);
   const [openBlog, setOpenBlog] = useState(false)
@@ -335,7 +335,7 @@ const HomeExchangeCurrency = () => {
                     alt=""
                     src="/FOREX.svg"
                   />
-                  <div className="relative text-base !text-[#27357E]  inline-block ">
+                  <div className="relative text-base bg-red-400 !text-[#27357E]  inline-block ">
                     Forex Rates
                   </div>
                 </div>
@@ -345,7 +345,7 @@ const HomeExchangeCurrency = () => {
         </Drawer>
         <div className="self-stretch flex flex-row items-start justify-center py-0 pr-0 pl-0 box-border max-w-full">
           <div className=" flex flex-col items-end justify-start gap-[50px] max-w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px] px-[15%] sm:px-[3%] ">
-            <div className=" sm:visible w-[90%] mr-[5%] h-[4vw] min-h-[85px] mt-5 rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row  items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
+            <div className=" sm:visible w-[95%] mr-[5%] h-[4vw] min-h-[85px] mt-5 rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row  items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
               <img
                 className=" h-[30px] sm:h-[60px] sm:w-[160px] relative"
                 loading="lazy"
@@ -409,7 +409,7 @@ const HomeExchangeCurrency = () => {
                       onClick={() => {
                         router.push("/rates");
                       }}
-                      className="cursor-pointer w-[10rem] h-10 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
+                      className="cursor-pointer w-[10rem] h-10 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[10px] pl-4 box-border gap-[12px]"
                     >
                       <img
                         className="h-6 w-6 relative overflow-hidden shrink-0"
@@ -452,7 +452,7 @@ const HomeExchangeCurrency = () => {
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium  font-body-small ${prod.value !== "Exchange Currency" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium  font-body-small ${prod.value == "Exchange Currency" ? "" : "font-medium"} text-white text-center`}
                     >
                       Exchange Currency
                     </div>
@@ -470,7 +470,7 @@ const HomeExchangeCurrency = () => {
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium  font-body-small ${prod.value !== "Transfer Money Abroad" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium  font-body-small ${prod.value == "Transfer Money Abroad" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Transfer Money Abroad
                     </div>
@@ -485,7 +485,7 @@ const HomeExchangeCurrency = () => {
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium font-body-small ${prod.value !== "Forex Card" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium font-body-small ${prod.value == "Forex Card" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Forex Card
                     </div>
@@ -503,7 +503,7 @@ const HomeExchangeCurrency = () => {
                     className="cursor-pointer [border:none] py-4 px-2 bg-[transparent]  shadow-[0px_8px_16px_rgba(39,_53,_126,_0.1)] box-border shrink-0 flex flex-col items-center justify-center border-b-[4px] border-solid border-primary hover:bg-chocolate-200"
                   >
                     <div
-                      className={`relative text-medium  font-body-small ${prod.value !== "Travel Insurance" ? "" : "font-medium   "} text-white text-center`}
+                      className={`relative text-medium  font-body-small ${prod.value == "Travel Insurance" ? "" : "font-medium   "} text-white text-center`}
                     >
                       Travel Insurance
                     </div>
@@ -670,7 +670,7 @@ const HomeExchangeCurrency = () => {
                 {size.width > 640 && (
                   <div className=" w-[80%] ml-[12%]  pb-5 sm:ml-0 sm:w-inherit sm:self-stretch flex flex-col items-start justify-start gap-[32px] z-[2] mq825:gap-[32px_64px] mq450:gap-[16px_64px]">
                     <h1 className="m-0 self-stretch relative text-[3rem] font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
-                      {prod?.value}
+                      {prod?.value == "Exchange Currency" ? "Exchange Your Currency" : prod?.value}
                     </h1>
                     <div className="self-stretch relative text-[1.25rem] leading-[30px] font-medium text-white mq450:text-lgi mq450:leading-[29px]">
                       {size.width > 640 && <>{dispMap[prod?.value]}</>}

@@ -11,8 +11,9 @@
 }
 @font-face {
   font-family: "Avenir Next LT Pro";
-  src: url("/AvenirNextLTPro-MediumCn.otf");
+  src: url("/AvenirNextLTPro-UltLt.otf");
   font-weight: 500;
+  letter-spacing: 3px;
 }
 @font-face {
   font-family: "Avenir Next LT Pro";
