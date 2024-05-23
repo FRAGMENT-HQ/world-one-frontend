@@ -57,7 +57,7 @@ const MainForm = () => {
     switch (purpous?.value) {
       case null:
         return false;
-      case "Medical Treatment":
+      case "Medical Treatment Abroad":
         return "Hospital Bill";
       case "Overseas Education/Study Abroad":
         return "Admission letter";
