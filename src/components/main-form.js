@@ -58,7 +58,7 @@ const MainForm = () => {
       case null:
         return false;
       case "Medical Treatment":
-        return "Medical letter";
+        return "Hospital Bill";
       case "Overseas Education/Study Abroad":
         return "Admission letter";
       case "Business":

@@ -10,7 +10,7 @@ const options  = [
 const options2  = [
   { value: "Leisure/Holiday/Personal Visit", label: "Leisure/Holiday/Personal Visit" },
   { value: "Business", label: "Business" },
-  { value: "Medical Treatment", label: "Hospital Bill" },
+  { value: "Medical Treatment Abroad", label: "Medical Treatment Abroad" },
   { value: "Overseas Education/Study Abroad", label: "Overseas Education/Study Abroad" },
 ]
 
@@ -101,8 +101,8 @@ const FrameComponent5 = ({
               onChange={(e)=>setPurpous(e)}
               classNames={{
                 container: () =>
-                  "w-full text-white !rounded-3xl border-none self-stretch rounded-lg bg-gray-100  ",
-                control: () => "py-1 self-stretch bg-transparent border-none !rounded-xl",
+                  "w-full text-white !rounded-3xl self-stretch rounded-lg bg-gray-100  ",
+                control: () => "py-1 self-stretch bg-transparent  !rounded-xl",
                 menuList:()=> "bg-midnightblue",
               }}
             />
