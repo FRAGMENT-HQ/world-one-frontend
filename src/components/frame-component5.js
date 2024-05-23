@@ -10,7 +10,7 @@ const options  = [
 const options2  = [
   { value: "Leisure/Holiday/Personal Visit", label: "Leisure/Holiday/Personal Visit" },
   { value: "Business", label: "Business" },
-  { value: "Medical Treatment", label: "Medical Treatment" },
+  { value: "Medical Treatment", label: "Hospital Bill" },
   { value: "Overseas Education/Study Abroad", label: "Overseas Education/Study Abroad" },
 ]
 
