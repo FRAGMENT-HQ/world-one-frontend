@@ -142,7 +142,7 @@ const Frame11 = () => {
             setPhone={setPhone}
           />
           {/* <FrameComponent6 /> */}
-          { orderData.bs =="Buy" && <div className="w-full flex flex-col justify-start gap-3">
+          { orderData?.bs =="Buy" && <div className="w-full flex flex-col justify-start gap-3">
             <div className="relative text-[1.25rem] leading-[2rem] font-normal inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
               Countries Visting to
             </div>
