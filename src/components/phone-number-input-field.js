@@ -18,36 +18,25 @@ const PhoneNumberInputField = ({
         setValue={setName}
       />
       <div className="flex-1 flex flex-col items-start justify-center gap-[0.75rem] min-w-[95%] sm:min-w-[23.125rem] max-w-full mq900:min-w-full mq900:flex-[unset] mq900:self-stretch">
-        <div className=" relative text-[1.25rem] leading-[2rem] font-medium font-body-small text-text2 text-left inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
+        <div className=" relative text-[1.25rem] leading-[2rem] font-normal font-body-small text-text2 text-left inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
           Phone Number
         </div>
         <div className="self-stretch flex flex-row items-center justify-start gap-[0.75rem] max-w-full mq900:flex-wrap">
           <button className="cursor-pointer py-[0.625rem] px-[0.937rem] bg-white rounded-lg box-border overflow-hidden shrink-0 flex flex-row items-center justify-start gap-[0.5rem] border-[1px] border-solid border-text4 mq900:text-center mq900:flex-1 mq900:min-w-[158]">
             <div className="flex-1 flex flex-row items-center justify-start gap-[1rem]">
-              
-              <div className="flex-1 relative text-[1.25rem] leading-[2rem] font-medium font-body-small text-text3 text-left whitespace-nowrap mq450:text-[1rem] mq450:leading-[1.625rem]">
+              <div className="flex-1 relative text-[1.25rem] leading-[1.5rem] font-medium font-body-small text-text3 text-left whitespace-nowrap mq450:text-[1rem] mq450:leading-[1.625rem]">
                 +91
               </div>
             </div>
-            {/* <img
-              className="h-[2rem] w-[2rem] relative min-h-[2rem]"
-              alt=""
-              src="/iconsarrow-drop-down-24px.svg"
-            /> */}
           </button>
           <div className="flex-1 rounded-lg bg-white box-border overflow-hidden flex flex-row items-center justify-start py-[0.625rem] pr-[0rem] pl-0 xs:pl-[1.5rem] gap-[0.5rem]  max-w-full border-[1px] border-solid border-text4">
             <input
-              className=" w-[65%] sm:w-[42.75rem] [border:none] [outline:none] bg-[transparent] h-[2rem] flex flex-row items-center justify-start font-body-small font-medium text-[1.25rem] text-text3 max-w-[231%] shrink-0 "
+              className=" w-[65%] sm:w-[42.75rem] [border:none] [outline:none] bg-[transparent] h-[1.5rem] flex flex-row items-center justify-start font-body-small font-normal text-[1.25rem] text-text3 max-w-[231%] shrink-0 "
               placeholder="Enter phone number"
               type="phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
-            {/* <img
-              className="h-[2rem] w-[2rem] relative hidden min-h-[2rem]"
-              alt=""
-              src="/iconsarrow-drop-down-24px.svg"
-            /> */}
           </div>
         </div>
       </div>

@@ -33,7 +33,7 @@ const FrameComponent1 = ({
   }, [propPadding1]);
 
   return (
-    <div className="flex-1 rounded-2xl bg-gray-200 shadow-[1px_1px_2px_rgba(248,_248,_248,_0.05)_inset,_0px_8px_24px_rgba(19,_26,_60,_0.15)] overflow-hidden flex flex-col items-center justify-center py-4 px-6 box-border gap-[16px] min-w-[229px] max-w-[233px] text-left text-5xl text-white font-lato">
+    <div className="flex-1 rounded-2xl bg-gray-200 shadow-[1px_1px_2px_rgba(248,_248,_248,_0.05)_inset,_0px_8px_24px_rgba(19,_26,_60,_0.15)] overflow-hidden flex flex-col items-center justify-center py-4 px-6 box-border gap-[16px] min-w-[229px] max-w-[233px] text-left text-5xl text-white ">
       <div
         className="h-8 flex flex-row items-center justify-start py-0 pr-[39.3px] pl-0 box-border gap-[16px]"
         style={frameDivStyle}
@@ -54,7 +54,7 @@ const FrameComponent1 = ({
           <div className="relative leading-[32px] font-medium inline-block min-w-[35px] mq450:text-base mq450:leading-[26px]">
             Buy
           </div>
-          <div className="relative text-5xl leading-[32px] font-semibold font-lato text-success inline-block min-w-[62px] mq450:text-lgi mq450:leading-[26px]">
+          <div className="relative text-5xl leading-[32px] font-semibold  text-success inline-block min-w-[62px] mq450:text-lgi mq450:leading-[26px]">
             83.17
           </div>
         </div>
@@ -65,7 +65,7 @@ const FrameComponent1 = ({
           <div className="relative leading-[32px] font-medium inline-block min-w-[34px] mq450:text-base mq450:leading-[26px]">
             Sell
           </div>
-          <div className="relative text-5xl leading-[32px] font-semibold font-lato text-error inline-block min-w-[62px] mq450:text-lgi mq450:leading-[26px]">
+          <div className="relative text-5xl leading-[32px] font-semibold  text-error inline-block min-w-[62px] mq450:text-lgi mq450:leading-[26px]">
             82.98
           </div>
         </div>

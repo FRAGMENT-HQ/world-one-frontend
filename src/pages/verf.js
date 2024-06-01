@@ -10,7 +10,7 @@ const Frame2 = () => {
 
 
   return (
-    <div className="w-full relative bg-background overflow-hidden flex flex-col items-center justify-center pt-[3rem] pb-[16rem]  px-[5vw] sm:pr-[1.687rem] sm:pl-[1.25rem] box-border gap-[2.75rem] leading-[normal] ">
+    <div className="w-full relative bg-background overflow-hidden flex flex-col items-center justify-center pt-[2rem] pb-[16rem]  px-[5vw] sm:pr-[1.687rem] sm:pl-[1.25rem] box-border gap-[2rem] leading-[normal] ">
       <InputArray/>
       <MainForm />
     </div>

@@ -68,7 +68,7 @@ const PaymentPage = () => {
             <div className="flex flex-col items-end justify-start gap-[2rem] max-w-full mq900:gap-[1rem] mq900:min-w-full">
               <div className="self-stretch flex flex-col items-end justify-start gap-[1.706rem] max-w-full">
                 <div className="flex flex-row items-start justify-around gap-[1rem] w-full mq1325:hidden">
-                  <div className="bg-red-100 relative text-[1.25rem]  font-medium font-body-small text-text3 ">
+                  <div className=" relative text-[1.25rem]  font-medium font-body-small text-text3 ">
                     Currency
                   </div>
                   <div className="relative text-[1.25rem]  font-medium font-body-small text-text3 text-left inline-block shrink-0">

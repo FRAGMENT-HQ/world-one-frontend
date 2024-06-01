@@ -12,9 +12,11 @@ const FrameComponent2 = ({
   currencyYouHave,
   fixed = false,
 }) => {
+  
   const fullOptions = countryData.map((country) => ({
-    value: country.code,
-    label: country.code,
+    value: country.name,
+    label: country.name,
+    smValue: country.code,
     image: country.flag,
   }));
 
@@ -30,8 +32,7 @@ const FrameComponent2 = ({
       ];
 
   const CustomOption = ({ children, ...props }) => {
-    console.log(props);
-    console.log(props.data.image);
+   
     return (
       <components.Option {...props}>
         <div className="flex gap-5 items-center">
@@ -41,8 +42,7 @@ const FrameComponent2 = ({
     );
   };
   const CustomSingleValue = ({ children, ...props }) => {
-    console.log(props);
-    console.log(props?.data?.image);
+  
     return (
       <components.SingleValue {...props}>
         <div className="flex gap-5 items-center">
@@ -68,7 +68,7 @@ const FrameComponent2 = ({
             "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-1 sm:py-2 ",
           control: () => "self-stretch !bg-transparent !border-none !mx-2",
           menuList: () => "!bg-midnightblue",
-          option: () => "text-white",
+          option: () => "text-white hover:text-midnightblue",
           input: () => "text-white",
           singleValue: () => "!text-white !text-base",
           indicatorSeparator: () => "hidden",

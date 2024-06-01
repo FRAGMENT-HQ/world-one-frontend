@@ -25,7 +25,6 @@ const options = [
 ];
 
 const style = {
-  // position: "absolute",
   top: "50%",
   left: "40%",
   transform: "translate(-30%, -70%)",

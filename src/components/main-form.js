@@ -57,7 +57,7 @@ const MainForm = () => {
     switch (purpous?.value) {
       case null:
         return false;
-      case "Medical Treatment Abroad":
+      case "Medical Treatment Abroad ":
         return "Hospital Bill";
       case "Overseas Education/Study Abroad":
         return "Admission letter";
@@ -77,7 +77,7 @@ const MainForm = () => {
   };
   const { mutate } = postOrderMutation(
     (res) => {
-      console.log(res);
+      
       toast.success("Order placed successfully");
       handleOpen();
     },
@@ -150,7 +150,7 @@ const MainForm = () => {
         }}
       />
       <FrameComponent4
-        title="document verification"
+        title="Document Verification"
         handleClick={handleSubmission}
         step={3}
       />
@@ -162,9 +162,9 @@ const MainForm = () => {
         src="/vector-20.svg"
       />
 
-      <div className="self-stretch shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white overflow-hidden flex flex-col items-start justify-center py-[6rem] sm:py-[4rem] px-[1rem] sm:px-[3rem] box-border gap-[3rem] max-w-full text-[1.25rem] mq900:gap-[1.5rem] mq450:pt-[2.625rem] mq450:pb-[2.625rem] mq450:box-border mq1325:pl-[1.5rem] mq1325:pr-[1.5rem] mq1325:box-border">
+      <div className="self-stretch shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white overflow-hidden flex flex-col items-start justify-center py-[6rem] sm:py-[2.5rem] px-[1rem] sm:px-[3rem] box-border gap-[3rem] max-w-full text-[1.25rem] mq900:gap-[1.5rem] mq450:pt-[2.625rem] mq450:pb-[2.625rem] mq450:box-border mq1325:pl-[1.5rem] mq1325:pr-[1.5rem] mq1325:box-border">
         {/* <FrameComponent6 /> */}
-        <FrameComponent5
+         <FrameComponent5
           airTicketState={
             orderData?.product == "Transfer Money Abroad"
               ? false
@@ -203,7 +203,7 @@ const MainForm = () => {
               <img className=" sm:w-6 w-4 h-4 sm:h-6" src="tick.png" />
             )}
           </div>
-          <div className=" text-[15px] text-center sm:text-inherit ">
+          <div className=" text-[15px] text-left sm:text-inherit ">
             I confirm that I'm in possession of valid documents as per the list
             shown above and that I haven't bought or transfered foreign currency
             for more than USD 250,000 (or equivalent in another currency) in the

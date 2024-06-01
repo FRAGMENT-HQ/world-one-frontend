@@ -29,3 +29,31 @@ body{
 div {
   font-family: "Avenir Next LT Pro";
 }
+input:focus{
+  color: #27357E!important;
+  border-color : #27357E!important;
+  outline: #27357E!important ;
+}
+::placeholder{
+  /* color: #828282!important; */
+  font-weight: 400;
+}
+input{
+  font-family: "Avenir Next LT Pro";
+  font-weight: 500;
+}
+input::placeholder{
+  font-family: "Avenir Next LT Pro";
+  font-weight: 400;
+  color: #828282
+}
+
+textarea::placeholder{
+  font-family: "Avenir Next LT Pro";
+  font-weight: 400;
+  color: #828282
+}
+
+iframe {
+  border-radius: 10px;
+}

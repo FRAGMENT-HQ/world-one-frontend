@@ -1,6 +1,6 @@
 // import FrameComponent7 from "../components/frame-component";
 import FrameComponent4 from "@/components/frame-component4";
-import { order, user } from "@/states/storage";
+import { order } from "@/states/storage";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
@@ -37,19 +37,32 @@ function useWindowSize() {
 
 const Frame1 = () => {
   const [orderDetails, setOrderDetails] = useAtom(order);
-  const [gst, setGst] = useState(1.0009)
+  const [gst, setGst] = useState(1.0009);
+  const [amount, setAmount] = useState(0);
   const router = useRouter();
   const size = useWindowSize();
 
   const handleNext = () => {
     router.push("/details");
+    setOrderDetails({...orderDetails, gst: gst, amount: amount*gst});
   };
+
   useEffect(() => {
-    setGst(orderDetails?.inrAmount < 100000 ? 1.0009 : 1.00018)
-  }, [orderDetails?.inrAmount])
-  
+    
+    setAmount(
+      orderDetails?.orderItems.reduce((acc, item) => acc + parseFloat(item.inrAmount), 0)
+    );
+   
+    
+  }, [orderDetails?.inrAmount]);
+  useEffect(() => {
+    setGst(amount < 100000 ? 1.0009 : 1.00018);
+ 
+    
+  }, [amount]);
+
   return (
-    <div className="w-full relative bg-background overflo-hidden flex flex-col items-center justify-center pt-[3rem] pr-[2%] pl-[5%] sm:pr-[0.6rem] sm:pl-[1.25rem] pb-[7.687rem] box-border gap-[2.75rem] text-left text-[1.25rem] text-white font-body-small ">
+    <div className="w-full relative bg-background overflo-hidden flex flex-col items-center justify-center pt-[1.5rem] pr-[2%] pl-[5%] sm:pr-[0.6rem] sm:pl-[1.25rem] pb-[7.687rem] box-border gap-[2.75rem] text-left text-[1.25rem] text-white font-body-small ">
       <InputArray />
       <FrameComponent4
         handleClick={handleNext}
@@ -88,35 +101,42 @@ const Frame1 = () => {
                   src="/vector-18.svg"
                 />
               )}
-              <div className="self-stretch flex flex-col laptop:flex-row items-start justify-evenly gap-[1rem]">
-                <div className=" flex flex-row items-start justify-start gap-[1.437rem]">
-                  <img
-                    className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
-                    loading="lazy"
-                    alt=""
-                    src="/iconscheck-box-outline-blank.svg"
-                  />
-                  <div className="flex-1 relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-success text-left">
-                    {orderDetails?.bs}
-                  </div>
-                </div>
-                <div className="relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
-                  {orderDetails?.product}
-                </div>
-                <div className="w1-[8rem] relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
-                  {orderDetails?.finalCurrency.value}
-                </div>
-                <div className="w1-[11.5rem] relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
-                  1 {orderDetails?.finalCurrency.value} ={" "}
-                  {orderDetails?.intialCurrency?.value} {orderDetails?.rate}
-                </div>
-                <div className=" relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left">
-                  {orderDetails?.forexAmount}
-                </div>
-                <div className=" relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left">
-                  {orderDetails?.inrAmount}
-                </div>
-              </div>
+              {orderDetails?.orderItems.map((details, index) => {
+                return (
+                  <>
+                    <div className="self-stretch flex flex-col laptop:flex-row items-start justify-evenly gap-[1rem]">
+                      <div className=" flex flex-row items-start justify-start gap-[1.437rem]">
+                        <img
+                          className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
+                          loading="lazy"
+                          alt=""
+                          src="/iconscheck-box-outline-blank.svg"
+                        />
+                        <div className="flex-1 relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-success text-left">
+                          {details?.bs}
+                        </div>
+                      </div>
+                      <div className="relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                        {details?.product}
+                      </div>
+                      <div className="w1-[8rem] relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                        {details?.finalCurrency.value}
+                      </div>
+                      <div className="w1-[11.5rem] relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                       {console.log(details?.intialCurrency)}
+                        1 {details?.finalCurrency.value} ={" "}
+                        {details?.intialCurrency?.smValue} {details?.rate}
+                      </div>
+                      <div className=" relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left">
+                        {details?.forexAmount}
+                      </div>
+                      <div className=" relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left">
+                        {details?.inrAmount}
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
               {size.width > 1024 && (
                 <img
                   className=" invisible laptop:visible laptop:w-full w-0 self-stretch relative max-w-full overflow-hidden max-h-full"
@@ -163,7 +183,7 @@ const Frame1 = () => {
                       Total
                     </div>
                     <div className="relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-medium font-body-small text-text3 text-left inline-block min-w-[3.938rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
-                      {orderDetails?.inrAmount}
+                      {amount}
                     </div>
                   </div>
                   <div className="self-stretch  flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[1.75rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap">
@@ -171,7 +191,7 @@ const Frame1 = () => {
                       GST
                     </div>
                     <div className="relative text-[1rem] sm:text-[1.25rem] leading-[2rem] font-medium font-body-small text-text3 text-left inline-block min-w-[3.938rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
-                      {(orderDetails?.inrAmount * (gst-1)).toFixed(2)}
+                      {(amount * (gst - 1)).toFixed(2)}
                     </div>
                   </div>
                   <div className="self-stretch flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[2rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap mq450:gap-[1rem]">
@@ -188,7 +208,7 @@ const Frame1 = () => {
                     Grand Total
                   </div>
                   <div className="relative text-[1.5rem] leading-[2rem] font-body-small text-secondary text-left inline-block min-w-[7.313rem] mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-                    {(orderDetails?.inrAmount * gst).toFixed(2)}
+                    {(amount * gst).toFixed(2)}
                   </div>
                 </div>
               </div>
@@ -198,6 +218,7 @@ const Frame1 = () => {
             <button
               onClick={handleNext}
               className="mx-auto cursor-pointer invisable xs:visable  [border:none] py-[1.125rem] pr-[1.968rem] pl-[2.468rem] bg-secondary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[1rem]"
+              
               // onClick={onCustomerDetailsClick}
             >
               <img

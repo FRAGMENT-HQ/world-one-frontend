@@ -25,13 +25,13 @@ const ColorAdjustor = ({ onClick , unsplash3PyBkxgTiL0, welcomeToWorldOneForexBl
           {welcomeToWorldOneForexBlo}
         </div>
         <div className="self-stretch relative text-base leading-[24px]">
-          Welcome to Worldone Forex Blog, where you can find the latest news and
+          Welcome to World One Forex Blog, where you can find the latest news and
           analysis on forex trading.
         </div>
       </div>
       <button onClick={onClick} className="cursor-pointer  [border:none] py-2 px-5 bg-white self-stretch rounded-2xl overflow-hidden flex flex-row items-center justify-center gap-[6px]">
         <div className="flex flex-col items-center align-middle justify-center pt-2 px-0 pb-0">
-          <div className="relative text-3xl align-middle font-semibold font-lato text-text1 text-left mq450:text-3xl mq450:leading-[26px]">
+          <div className="relative text-3xl align-middle font-semibold  text-text1 text-left mq450:text-3xl mq450:leading-[26px]">
             Read More
           </div>
         </div>

@@ -8,3 +8,4 @@ export const user = atomWithStorage("userInfo");
 export const order = atomWithStorage("order");
 export const timer = atomWithStorage("timer");
 export const services = atomWithStorage("services");
+export const authUser = atomWithStorage("authUser");

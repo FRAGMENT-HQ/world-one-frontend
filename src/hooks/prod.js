@@ -60,3 +60,22 @@ export const submitQueryRequest = (Data) => {
 
   return request("POST", url, Data, false);
 };
+
+
+const loginRequest = (data) => {
+  const url = getUrl(`/api/users/google_login/`);
+
+  return request("POST", url, data, false);
+};
+
+export const loginMutation = (successCallback, errorCallback) => {
+  return useMutation(loginRequest, {
+    mutationKey: "rate-request",
+    onSuccess: (res) => {
+      successCallback(res);
+    },
+    onError: (err) => {
+      errorCallback(err);
+    },
+  });
+};

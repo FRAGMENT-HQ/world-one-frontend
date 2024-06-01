@@ -1127,7 +1127,7 @@ function Terms() {
               >
                 No redemption or cash withdrawal is permitted in PPI, except as
                 per directors of RBI, if any. The PPI has a minimum validity of
-                one year from the date of activation. Any unutilized balance
+                One year from the date of activation. Any unutilized balance
                 remaining in the PPI after date of expiry shall be forfeited
                 after three years from the expiry date of PPI as per RBI
                 Guidelines.
@@ -1367,7 +1367,7 @@ function Terms() {
             }}
           >
             Our Service may contain links to third-party web sites or services
-            that are not owned or controlled by WorldOne. "Worldone.com" has no
+            that are not owned or controlled by WorldOne. "World One.com" has no
             control over, and assumes no responsibility for, the content,
             privacy policies, or practices of any third party web sites or
             services. You further acknowledge and agree that WorldOne shall not
