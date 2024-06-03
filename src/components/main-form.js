@@ -76,7 +76,6 @@ const MainForm = () => {
   };
   const { mutate } = postOrderMutation(
     (res) => {
-      
       toast.success("Order placed successfully");
       handleOpen();
     },
@@ -97,7 +96,6 @@ const MainForm = () => {
       //     return;
       //   }
 
-        
       // }
       // if (!pan || !passportFront || !passportBack) {
       //   toast.error("upload all files");
@@ -117,13 +115,9 @@ const MainForm = () => {
           forex_amount: item.forexAmount,
           bs: item.bs,
           currency: item.finalCurrency.value,
-      
-        }
-      }
-          
-          );
-        
-      
+        };
+      });
+
       const data = new FormData();
       data.append("pan", pan);
       data.append("passport_front", passportFront);
@@ -132,7 +126,7 @@ const MainForm = () => {
       data.append("visa", visa);
       data.append("extra_file", extraFile);
       data.append("c_pan", cPan);
-      data.append("purous_of_visit", orderData.purpous );
+      data.append("purous_of_visit", orderData.purpous);
       data.append("name", getName());
       data.append(
         "order",
@@ -143,10 +137,10 @@ const MainForm = () => {
           total_amount: 0,
           product: orderData.product,
           city: orderData.city.value,
-          gst_amount : orderData.gst,
+          gst_amount: orderData.gst,
           countries: countryString,
 
-          "purpous": purpous,
+          purpous: purpous,
         })
       );
       data.append("items", JSON.stringify(orderItems));
@@ -180,7 +174,7 @@ const MainForm = () => {
 
       <div className="self-stretch shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white overflow-hidden flex flex-col items-start justify-center py-[6rem] sm:py-[2.5rem] px-[1rem] sm:px-[3rem] box-border gap-[3rem] max-w-full text-[1.25rem] mq900:gap-[1.5rem] mq450:pt-[2.625rem] mq450:pb-[2.625rem] mq450:box-border mq1325:pl-[1.5rem] mq1325:pr-[1.5rem] mq1325:box-border">
         {/* <FrameComponent6 /> */}
-         <FrameComponent5
+        <FrameComponent5
           airTicketState={
             orderData?.product == "Transfer Money Abroad"
               ? false
@@ -208,17 +202,25 @@ const MainForm = () => {
           orderData={orderData}
         />
         <div className="flex items-center gap-5 flex-col sm:flex-row">
-          {" "}
-          <div
+          {selected ? (
+            <img
             onClick={() => {
               setSelected(!selected);
             }}
-            className={` flex justify-center items-center cursor-pointer border-3 border-solid border-[#4F4F4F] ${selected ? "" : "bg-transperent"} sm:w-6 w-4 h-6 sm:h-4`}
-          >
-            {selected && (
-              <img className=" sm:w-6 w-4 h-4 sm:h-6" src="tick.png" />
-            )}
-          </div>
+              className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
+              loading="lazy"
+              alt=""
+              src="/iconscheck-box-outline-blank.svg"
+            />
+          ) : (
+            <div
+              onClick={() => {
+                setSelected(!selected);
+              }}
+              className={` flex justify-center items-center cursor-pointer border-3 border-solid border-[#4F4F4F] ${selected ? "" : "bg-transperent"} sm:w-6 w-4 h-6 sm:h-4`}
+            ></div>
+          )}
+
           <div className=" text-[15px] text-left sm:text-inherit ">
             I confirm that I'm in possession of valid documents as per the list
             shown above and that I haven't bought or transfered foreign currency

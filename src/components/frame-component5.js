@@ -98,7 +98,9 @@ const FrameComponent5 = ({
         </div>
       )} */}
       <section className="self-stretch flex flex-col items-start justify-center gap-[1.5rem] max-w-full shrink-0 text-left text-[1.25rem] text-text1 font-avenir-next-lt-pro mq900:gap-[1rem]">
-        
+      <div className=" relative leading-[2rem] font-normal inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
+        Documents Required
+      </div>
         <div className="self-stretch rounded-3xl bg-darkslateblue-600 overflow-hidden flex flex-row flex-wrap items-center justify-start py-[1.5rem] px-[2rem] box-border gap-[1.5rem] max-w-full">
           <img
             className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0"
@@ -126,9 +128,7 @@ const FrameComponent5 = ({
         {/* <FrameComponent1 />
         <FrameComponent /> */}
       </section>
-      <div className=" relative leading-[2rem] font-normal inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
-        Documents Required
-      </div>
+      
       <div className="w-full flex flex-row items-center justify-around gap-5 flex-wrap">
         {(!status || Citzen?.value == "NRI") && (
           <button
