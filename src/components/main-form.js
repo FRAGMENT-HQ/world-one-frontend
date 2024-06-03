@@ -1,5 +1,4 @@
 import FrameComponent4 from "./frame-component4";
-import FrameComponent6 from "./frame-component6";
 import FrameComponent5 from "./frame-component5";
 import { order, user } from "@/states/storage";
 import { useAtom } from "jotai";
@@ -50,14 +49,14 @@ const MainForm = () => {
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(false);
   const [extraFile, setExtraFile] = useState(null);
-  const [purpous, setPurpous] = useState({});
+  const [purpous, setPurpous] = useState();
   const [cPan, setCPan] = useState(null);
 
   const getName = () => {
-    switch (purpous?.value) {
+    switch (purpous) {
       case null:
         return false;
-      case "Medical Treatment Abroad ":
+      case "Medical Treatment Abroad":
         return "Hospital Bill";
       case "Overseas Education/Study Abroad":
         return "Admission letter";
@@ -88,30 +87,43 @@ const MainForm = () => {
 
   const handleSubmission = () => {
     if (selected === true) {
-      if (getName() && !extraFile) {
-        toast.error("upload all files");
-        return;
-      }
-      if (orderData?.product !== "Transfer Money Abroad") {
-        if (Object.keys(purpous).length == 0) {
-          toast.error("Please select a purpous");
-          return;
-        }
+      // if (getName() && !extraFile) {
+      //   toast.error("upload all files");
+      //   return;
+      // }
+      // if (orderData?.product !== "Transfer Money Abroad") {
+      //   if (Object.keys(purpous).length == 0) {
+      //     toast.error("Please select a purpous");
+      //     return;
+      //   }
 
-        // if (purpous?.value && !extraFile) {
-        //   toast.error("upload all files");
-        //   return;
-        // }
-        if (purpous?.value == "Business" && !cPan) {
-          toast.error("upload all files");
-          return;
+        
+      // }
+      // if (!pan || !passportFront || !passportBack) {
+      //   toast.error("upload all files");
+      //   return;
+      // }
+      // make a string coitaing all countries
+
+      const countryString = orderData.countries.reduce((acc, country) => {
+        return acc + `${country.value},`;
+      }, "");
+      const orderItems = orderData.orderItems.map((item) => {
+        return {
+          product: item.product,
+          currency: item.currency,
+          inr_amount: item.amount,
+          forex_rate: item.rate,
+          forex_amount: item.forexAmount,
+          bs: item.bs,
+          currency: item.finalCurrency.value,
+      
         }
       }
-      if (!pan || !passportFront || !passportBack) {
-        toast.error("upload all files");
-        return;
-      }
-
+          
+          );
+        
+      
       const data = new FormData();
       data.append("pan", pan);
       data.append("passport_front", passportFront);
@@ -120,20 +132,24 @@ const MainForm = () => {
       data.append("visa", visa);
       data.append("extra_file", extraFile);
       data.append("c_pan", cPan);
-      data.append("purous_of_visit", purpous?.value);
+      data.append("purous_of_visit", orderData.purpous );
       data.append("name", getName());
       data.append(
         "order",
         JSON.stringify({
-          currency: orderData.finalCurrency.value,
-          amount: orderData.amount,
+          // currency: orderData.finalCurrency.value,
+          amount: 0,
           forex_rate: orderData.rate,
-          total_amount: orderData.inrAmount * 1.005,
+          total_amount: 0,
           product: orderData.product,
           city: orderData.city.value,
-          "purpous": purpous?.value,
+          gst_amount : orderData.gst,
+          countries: countryString,
+
+          "purpous": purpous,
         })
       );
+      data.append("items", JSON.stringify(orderItems));
       data.append("user", JSON.stringify(userData));
       mutate(data);
     } else {

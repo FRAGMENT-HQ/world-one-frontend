@@ -1,10 +1,33 @@
 import { useRouter } from "next/router";
+import Select from "react-select";
 
 import Smodal from "@/components/smodal";
-import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
+import Navbar from "@/components/navbar";
 
-import Drawer from "@mui/material/Drawer";
+const cityOptions = [
+  { label: "Delhi", value: "Delhi" },
+  { label: "Gurgaon", value: "Gurgaon" },
+  { label: "Noida", value: "Noida" },
+  { label: "Kolkata", value: "Kolkata" },
+  { label: "Mumbai", value: "Mumbai" },
+  { label: "Chandigarh", value: "Chandigarh" },
+  { label: "Hyderabad", value: "Hyderabad" },
+  { label: "Vadodara", value: "Vadodara" },
+  { label: "Lucknow", value: "Lucknow" },
+  { label: "Bangalore", value: "Bangalore" },
+  { label: "Kochi", value: "Kochi" },
+  { label: "Chennai", value: "Chennai" },
+  { label: "Ludhiana", value: "Ludhiana" },
+  { label: "Jalandhar", value: "Jalandhar" },
+  { label: "Amritsar", value: "Amritsar" },
+  { label: "Ahmedabad", value: "Ahmedabad" },
+  { label: "Trichy", value: "Trichy" },
+  { label: "Pune", value: "Pune" },
+  { label: "Calicut", value: "Calicut" },
+]
+  .slice()
+  .sort((a, b) => a.label.trim().localeCompare(b.label.trim()));
 
 function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
@@ -38,12 +61,10 @@ function useWindowSize() {
 }
 
 const options = [
+  { label: "Delhi", value: "Delhi" },
   { label: "Mumbai", value: "Mumbai" },
-  { label: "Chandigarh", value: "Chandigarh" },
-  { label: "Ludhiana", value: "Ludhiana" },
-  { label: "Jalandhar", value: "Jalandhar" },
-  { label: "Amritsar", value: "Amritsar" },
-  { label: "Pune", value: "Pune" },
+  { label: "Chennai", value: "Chennai" },
+  { label: "Kolkata", value: "Kolkata" },
 ];
 
 const currencyData = [
@@ -135,268 +156,120 @@ const currencyData = [
 
 const Outlets = () => {
   const [open, setOpen] = useState(false);
-  const [drawerOpen, setdrawerOpen] = useState(false);
-  const [display, setDisplay] = useState(-1)
+  // const [drawerOpen, setdrawerOpen] = useState(false);
+  const [display, setDisplay] = useState(-1);
   const [city, setCity] = useState("");
-  const router = useRouter();
+  // const router = useRouter();
   const size = useWindowSize();
 
   useEffect(() => {
     if (size.width > 720) {
-      setDisplay(-1)
-      
+      setDisplay(-1);
+    } else {
+      setDisplay(0);
     }
-    else {
-      setDisplay(0)
-    }
-  }, [size.width])
-  
+  }, [size.width]);
 
   return (
-    <div className="w-full relative bg-background flex flex-col items-center justify-start pt-[3rem] px-[5%] laptop:px-[120px] pb-[10rem] box-border gap-[0.75rem]  tracking-[normal] ">
+    <div className="w-full relative bg-background flex flex-col items-start justify-start pt-[3rem] px-[5%] laptop:px-[120px] pb-[10rem] box-border gap-[0.75rem]  tracking-[normal] ">
       <Smodal open={open} setOpen={setOpen} />
       {/* <InputArray /> */}
-      <Drawer
-        open={drawerOpen}
-        onClose={() => {
-          setdrawerOpen(false);
-        }}
-      >
-        <div className="w-[100vw] h-[100vh] bg-darkslateblue-700">
-          <div className=" sm:visible w-full mt-5  rounded-3xl flex flex-col items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
-            <div className="w-[75%] flex flex-col items-center justify-center text-[15px] font-semibold">
-              <div className="flex flex-col text-white  gap-[15%] ">
-                <div className=" flex  items-center justify-center py-1 ">
-                  <div
-                    onClick={() => {
-                      setdrawerOpen(false);
-                      scroll("#about");
-                    }}
-                    className=" cursor-pointer text-white relative leading-[32px] inline-block "
-                  >
-                    About
-                  </div>
-                </div>
-                <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
-                  <div
-                    onClick={() => {
-                      setdrawerOpen(false);
-                      scroll("#services");
-                    }}
-                    className="cursor-pointer relative leading-[32px]"
-                  >
-                    Services
-                  </div>
-                </div>
-                <div
-                  onClick={() => {
-                    router.push("/rates");
-                  }}
-                  className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
-                >
-                  <div className="relative leading-[32px]">Rates</div>
-                </div>
-                {/* <div className=" flex flex-row items-center justify-center py-1 ">
-                        <div className="relative leading-[32px] inline-block ">
-                          Support
-                        </div>
-                      </div> */}
-                <div
-                  onClick={() => {
-                    setdrawerOpen(false);
-                    scroll("#blogs");
-                  }}
-                  className="  shrink-0 flex flex-row items-center justify-center py-1  box-border"
-                >
-                  <div className="relative leading-[32px]">Blogs</div>
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-[5%] flex-col-reverse items-center w-full">
-              <div
-                onClick={() => {
-                  setdrawerOpen(false);
-                  scroll("#mail");
-                }}
-                className="cursor-pointer w-[10rem] h-8 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
-              >
-                <img
-                  className="h-6 w-6 relative overflow-hidden shrink-0"
-                  alt=""
-                  src="/support.svg"
-                />
-                <div className="relative text-base !text-[#27357E]  inline-block ">
-                  Contact Us
-                </div>
-              </div>
-
-              <div
-                onClick={() => {
-                  router.push("/rates");
-                }}
-                className="cursor-pointer w-[10rem] h-8 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
-              >
-                <img
-                  className="h-6 w-6 relative overflow-hidden shrink-0"
-                  alt=""
-                  src="/FOREX.svg"
-                />
-                <div className="relative text-base  !text-[#27357E]  inline-block ">
-                  Forex Rates
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Drawer>
-      <div className="self-stretch flex  flex-row items-start justify-center py-0  box-border w-full">
-        <div className=" flex flex-col items-end justify-start gap-[50px] w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px]   ">
-          <div className="sm:visible w-full w-[95%] h-[4vw] min-h-[85px] mt-0 rounded-3xl bg-secondary shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row  items-center justify-between py-[26px]  box-border top-[0] z-[99] sticky gap-[1px] latop:gap-[20px] max-w-full px-4  desktop:px-8 ">
-            <img
-              className=" h-[60px] sm:h-[60px] sm:w-[180px] relative"
-              loading="lazy"
-              alt=""
-              src="LOGO.svg"
-            />
-            {size.width > 600 ? (
-              <>
-                <div className="w-[75%] flex flex-row items-center justify-center text-[15px] font-semibold mq825:hidden">
-                  <div className="flex gap-[10%] laptop:gap-[15%] ">
-                    <div className=" flex flex-row items-center laptop:text-base !text:xs justify-center py-1 ">
-                      <div
-                        onClick={() => {
-                          scroll("#about");
-                        }}
-                        className=" cursor-pointer relative leading-[32px] inline-block "
-                      >
-                        About
-                      </div>
-                    </div>
-                    <div
-                      onClick={() => {
-                        router.push("/rates");
-                      }}
-                      className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
-                    >
-                      <div className="relative leading-[32px]">Rates</div>
-                    </div>
-                    <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
-                      <div
-                        onClick={() => {
-                          scroll("#services");
-                        }}
-                        className="cursor-pointer relative leading-[32px]"
-                      >
-                        Services
-                      </div>
-                    </div>
-
-                    <div
-                      onClick={() => {
-                        setdrawerOpen(false);
-                        scroll("#blogs");
-                      }}
-                      className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
-                    >
-                      <div className="relative leading-[32px]">Blogs</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex h-16 gap-[12%] items-center flex-row">
-                  <div className=" text-[#FF9135] font-semibold text-sm ">
-                    Login
-                  </div>
-
-                  <div
-                    onClick={() => {
-                      scroll("#mail");
-                    }}
-                    className="cursor-pointer w-[11rem] h-10 rounded-xl bg-[#3c498b4d] overflow-hidden flex flex-row items-center justify-start py-2 pr-[12px] pl-4 box-border gap-[12px]"
-                  >
-                    <img
-                      className="h-6 w-6 relative overflow-hidden shrink-0"
-                      alt=""
-                      src="/newSupport.svg"
-                    />
-                    <div className="relative text-base text-semibold !text-white  inline-block ">
-                      Contact Us
-                    </div>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <div
-                onClick={() => {
-                  setdrawerOpen(true);
-                }}
-                className="cursor-pointer flex gap-1 h-5 flex-col"
-              >
-                {/* three line using divs */}
-                <div className="w-[20px] h-0.5 bg-white"></div>
-                <div className="w-[20px] h-0.5 bg-white"></div>
-                <div className="w-[20px] h-0.5 bg-white"></div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      <Navbar />
       <div className="w-full  box-border flex flex-row items-start justify-start py-0 px-[21px] max-w-full text-text2 border-0 border-l-[5px] border-solid border-secondary">
         <h1 className="m-0 flex-1 relative tex-3xl leading-[56px] font-bold font-inherit inline-block max-w-full ">
           Foreign Exchange Rates
         </h1>
       </div>
 
-      <div className="flex flex-row flex-wrap items-center w-full py-[1rem] px-[1.437rem]  justify-around overflow-y-scroll ">
+      <Select
+        defaultValue={city}
+        value={city}
+        isSearchable={true}
+        onChange={setCity}
+        options={cityOptions}
+        placeholder="Select City"
+        classNames={{
+          container: () =>
+            "w-96  !text-white mt-7 !rounded-xl border-solid border-2 border-[#000] rounded-lg bg-gray-100 py-1 sm:py-1 ",
+          control: () => "self-stretch !bg-transparent !border-none !mx-2",
+          menuList: () => "!bg-midnightblue",
+          option: () => "!text-white",
+          input: () => "!text-white",
+          singleValue: () => " !text-base",
+          indicatorSeparator: () => "hidden",
+          placeholder: () => "",
+        }}
+      />
+      <div className="flex flex-row flex-wrap items-center w-full py-[1rem] gap-[4vw] justify-start overflow-y-scroll ">
         {/* <div className=" w-[7rem] h-[6.5rem] shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-2xl bg-white overflow-hidden flex flex-col items-center justify-center py-[1rem] px-[1.656rem]">
               New Delhi
             </div> */}
+
         {options.map((option) => {
           return (
             <div
               key={option.value}
               onClick={() => setCity(option)}
-              className={`w-[6rem] font-semibold mt-4 ml-2 mr-2 h-[4.5rem] cursor-pointer shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-2xl  overflow-hidden flex flex-col items-center justify-center py-[1rem] px-[1.656rem] ${
+              className={`w-[6rem] font-semibold mt-4 ml-2 mr-2 h-[4.5rem] cursor-pointer shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-2xl  overflow-hidden flex flex-col items-center justify-center py-[1.5rem] px-[1.656rem] ${
                 city.value == option.value
                   ? "!bg-[#FF9135] text-white "
                   : "bg-white text-[#27357E]"
               }`}
             >
+              <img
+                src={`/city/${city.value == option.value ? "light" : "dark"}/${option.value}.svg`}
+                className="w-20"
+              />
               {option.label}
             </div>
           );
         })}
       </div>
 
-      <section className=" flex  flex-col items-start justify-start gap-[0.75rem] min-w-full">
-        <div className="flex justify-center">
+      <section className=" mt-4 flex flex-col items-start justify-start gap-6 min-w-full">
+        {/* <div className="flex justify-center">
           <input
             placeholder="search for currency"
-            className=" w-[18rem] py-2 rounded-xl pr-6 pr-12"
+            className=" w-[18rem] py-2 rounded-xl pr-1 pl-2"
           />
           <img src="/search.svg" className="w-6 -ml-10" />
-        </div>
+        </div> */}
         <div className="w-full flex font-semibold gap-[3%] ">
           <div className="w-36 bg-[#E6E9F7] h-10 py-1 rounded-xl flex items-center justify-center ">
             Currency
           </div>
-          <div onClick={()=>{setDisplay(1)}} className={` ${display==1 && "border-2 border-[#38B000] border-solid border" } w-[50%] bg-[#DCFFCC] h-10 py-1 rounded-xl flex items-center justify-center `}>
+          <div
+            onClick={() => {
+              setDisplay(1);
+            }}
+            className={` ${display == 1 && "border-2 border-[#38B000] border-solid border"} w-[50%] bg-[#DCFFCC] h-10 py-1 rounded-xl flex items-center justify-center `}
+          >
             Buy
           </div>
-          <div onClick={()=>{setDisplay(0)}} className={` ${display==0 && "border-2 border-[#FF3F2C] border-solid border" } flex-1 self-streach bg-[#FFEFE1] px-6 h-10 py-1 rounded-xl flex items-center justify-center `}>
+          <div
+            onClick={() => {
+              setDisplay(0);
+            }}
+            className={` ${display == 0 && "border-2 border-[#FF3F2C] border-solid border"} flex-1 self-streach bg-[#FFEFE1] px-6 h-10 py-1 rounded-xl flex items-center justify-center `}
+          >
             sell
           </div>
         </div>
         <div className="w-full text-xs laptop:text-sm flex font-normal gap-[3%]  ">
           <div className="w-36 rounded-xl flex items-center "></div>
-          { display!=0 &&  <div className="w-[50%] flex-1 rounded-xl flex items-center justify-evenly ">
-            <div> Currency Notes (Cash)</div>
-            <div> Prepaid Forex Card</div>
-            <div> Remittance </div>
-          </div>}
-         { display!=1 &&  <div className="flex-1 self-streach rounded-xl flex items-center justify-evenly ">
-            <div> Currency Notes (Cash) </div>
-            <div> Prepaid Forex Card </div>
-          </div>}
+          {display != 0 && (
+            <div className="w-[50%] flex-1 rounded-xl flex items-center justify-evenly ">
+              <div> Currency Notes (Cash)</div>
+              <div> Prepaid Forex Card</div>
+              <div> Remittance </div>
+            </div>
+          )}
+          {display != 1 && (
+            <div className="flex-1 self-streach rounded-xl flex items-center justify-evenly ">
+              <div> Currency Notes (Cash) </div>
+              {/* <div> Prepaid Forex Card </div> */}
+            </div>
+          )}
         </div>
         <div className="w-full border border-solid border-[#27357E]"></div>
 
@@ -407,15 +280,19 @@ const Outlets = () => {
                 <div className="w-36 rounded-xl flex items-center gap-10 ">
                   <img src={currency?.flag} /> <div> {currency?.currency} </div>
                 </div>
-                { display!=0 &&  <div className="w-[50%] text-[#38B000]  flex-1 rounded-xl flex items-center justify-evenly  ">
-                  <div> {currency.buy.cash}</div>
-                  <div> {currency.buy.forexCard} </div>
-                  <div> {currency.buy.remittance} </div>
-                </div>}
-                { display!=1 && <div className="flex-1 text-[#FF3F2C] self-streach rounded-xl flex items-center justify-evenly">
-                  <div> {currency.sell.cash} </div>
-                  <div> {currency.sell.forexCard} </div>
-                </div>}
+                {display != 0 && (
+                  <div className="w-[50%] text-[#38B000]  flex-1 rounded-xl flex items-center justify-evenly  ">
+                    <div> {currency.buy.cash}</div>
+                    <div> {currency.buy.forexCard} </div>
+                    <div> {currency.buy.remittance} </div>
+                  </div>
+                )}
+                {display != 1 && (
+                  <div className="flex-1 text-[#FF3F2C] self-streach rounded-xl flex items-center justify-evenly">
+                    <div> {currency.sell.cash} </div>
+                    {/* <div> {currency.sell.forexCard} </div> */}
+                  </div>
+                )}
               </div>
               <div className="w-full border-[0.5px] border-solid border-[#BDBDBD]"></div>
             </>

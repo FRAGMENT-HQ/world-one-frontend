@@ -9,3 +9,4 @@ export const order = atomWithStorage("order");
 export const timer = atomWithStorage("timer");
 export const services = atomWithStorage("services");
 export const authUser = atomWithStorage("authUser");
+export const cart = atomWithStorage("cart");

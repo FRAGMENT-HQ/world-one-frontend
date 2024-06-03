@@ -8,10 +8,12 @@ function FaqItems({
   number = "01",
   small = "Lorem ipsum dolor sit amet consectetur. Quisque nec mattis congue cursus velit habitasse ",
   content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
+  oppen = false,
 }) {
   return (
     <div>
       <Accordion
+      defaultExpanded={oppen}
         sx={{
           backgroundColor: "transparent",
           boxShadow: "none",
@@ -30,7 +32,7 @@ function FaqItems({
               src="/eiarrowright-4@2x.png"
             />
           }
-          aria-controls="panel1-content"
+          
           id="panel1-header"
         >
           <div className="flex justify-start items-center  gap-5">

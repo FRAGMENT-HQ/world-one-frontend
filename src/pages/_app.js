@@ -92,7 +92,7 @@ export default function App({ Component, pageProps }) {
               </div>
               <div
                 onClick={() => {
-                  handleClick("HR@worldoneforex.com");
+                  router.push("/careers");
                 }}
                 className=" cursor-pointer flex flex-row items-center justify-center py-2 px-1.5"
               >

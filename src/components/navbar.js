@@ -1,10 +1,36 @@
+import React from "react";
+import { useState, useEffect } from "react";
+import { order, cart } from "@/states/storage";
+import FrameComponent2 from "./frame-component2";
+import FrameComponent from "./frame-component";
+import LinkFunction from "./link-function";
+import Counter from "./counter";
+import "react-multi-carousel/lib/styles.css";
 import { useRouter } from "next/router";
-
-import Smodal from "@/components/smodal";
-import { useState, useEffect, useRef } from "react";
-
+import { useAtom } from "jotai";
+import { getRateMutation, loginMutation } from "@/hooks/prod";
+import CityModal from "./cityModal";
+import CurrencyCard from "./currancyCard";
+import { getRateCardMutation } from "@/hooks/prod";
+import Select from "react-select";
+import toast from "react-hot-toast";
 import Drawer from "@mui/material/Drawer";
-import Navbar from "@/components/navbar";
+import ColorAdjustor from "./color-adjustor";
+import FaqItems from "./faqItems";
+import { Modal } from "@mui/material";
+
+import { authUser } from "@/states/storage";
+import app, { auth } from "../utils/google";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+} from "firebase/auth";
+
+const provider = new GoogleAuthProvider();
+
+const usd = 84;
+
 function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
@@ -35,35 +61,35 @@ function useWindowSize() {
   }, []); // Empty array ensures that effect is only run on mount
   return windowSize;
 }
-
-const getSmallName = (name) => {
-  if (name.length > 12) {
-    return name.slice(0, 9) + "..." + name.slice(-3);
-  }
-  return name;
-};
-
-const Frame11 = () => {
-  const [open, setOpen] = useState(false);
+export default function Navbar() {
   const [drawerOpen, setdrawerOpen] = useState(false);
-  const [PDF, setPDF] = useState();
+  const [selected, setSelected] = useState(true);
+
   const router = useRouter();
+
+  const [open, setOpen] = useState(false);
+
+  // const [drawerOpen, setdrawerOpen] = useState(false);
+  const [prod, setprod] = useState({
+    label: "Exchange Currency",
+    value: "Exchange Currency",
+  });
+  const [userData, setUserData] = useAtom(authUser);
+  const [cartItems, setCartItems] = useAtom(cart);
   const size = useWindowSize();
-
-
-
-  const inputRef = useRef(null);
-
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const { mutate: login } = loginMutation(
+    (res) => {
+      console.log(res);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
   return (
-    <div
-      style={{
-        backgroundImage: "url(/CareersBackground.png)",
-      }}
-      className="w-full relative  flex flex-col items-center justify-start pt-[3rem] px-[8%] laptop:px-[120px] pb-[10rem] box-border gap-[2.75rem] leading-[normal] tracking-[normal] mq900:gap-[1.375rem]"
-    >
-     
-      {/* <InputArray /> */}
-      {/* <Drawer
+    <div className="w-full flex  self-stretch" >
+      <Drawer
         open={drawerOpen}
         onClose={() => {
           setdrawerOpen(false);
@@ -103,7 +129,7 @@ const Frame11 = () => {
                 >
                   <div className="relative leading-[32px]">Rates</div>
                 </div>
-              
+               
                 <div
                   onClick={() => {
                     setdrawerOpen(false);
@@ -152,9 +178,9 @@ const Frame11 = () => {
           </div>
         </div>
       </Drawer>
-      <div className="self-stretch flex  flex-row items-start justify-center py-0  box-border w-full">
-        <div className=" flex flex-col items-end  justify-start gap-[50px] w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px]   ">
-          <div className="sm:visible w-full w-[95%] h-[4vw] min-h-[85px] mt-0 rounded-3xl bg-secondary shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row  items-center justify-between py-[26px]  box-border top-[0] z-[99] sticky gap-[1px] latop:gap-[20px] max-w-full px-4  desktop:px-8 ">
+      <div className="self-stretch flex flex-row items-start justify-center py-0 pr-0 pl-0 box-border w-full">
+        <div className=" flex flex-col items-end justify-start gap-[50px] w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px]  ">
+          <div className="sm:visible w-full w-[95%] h-[4vw] min-h-[85px] mt-0 rounded-3xl bg-darkslateblue-900 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row  items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
             <img
               className=" h-[60px] sm:h-[60px] sm:w-[180px] relative"
               loading="lazy"
@@ -165,11 +191,11 @@ const Frame11 = () => {
               <>
                 {" "}
                 <div className="w-[75%] flex flex-row items-center justify-center text-[15px] font-semibold mq825:hidden">
-                  <div className="flex gap-[10%] laptop:gap-[15%] ">
-                    <div className=" flex flex-row items-center laptop:text-base !text:xs justify-center py-1 ">
+                  <div className="flex text-white gap-[15%] ">
+                    <div className=" flex flex-row items-center justify-center py-1 ">
                       <div
                         onClick={() => {
-                          scroll("#about");
+                          router.push("/#about");
                         }}
                         className=" cursor-pointer relative leading-[32px] inline-block "
                       >
@@ -187,7 +213,7 @@ const Frame11 = () => {
                     <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
                       <div
                         onClick={() => {
-                          scroll("#services");
+                          router.push("/#services");
                         }}
                         className="cursor-pointer relative leading-[32px]"
                       >
@@ -198,7 +224,7 @@ const Frame11 = () => {
                     <div
                       onClick={() => {
                         setdrawerOpen(false);
-                        scroll("#blogs");
+                        router.push("/#blogs");
                       }}
                       className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
                     >
@@ -206,14 +232,57 @@ const Frame11 = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex h-16 gap-[12%] items-center flex-row">
-                  <div className=" text-[#FF9135] font-semibold text-sm ">
-                    Login
+                <div className={` flex h-16 gap-[12%] items-center flex-row`}>
+                  <div
+                    onClick={() => {
+                      if (userData?.name) {
+                        router.push("/profile");
+                        return;
+                      }
+                      signInWithPopup(auth, provider)
+                        .then((result) => {
+                          // This gives you a Google Access Token. You can use it to access the Google API.
+                          const credential =
+                            GoogleAuthProvider.credentialFromResult(result);
+                          const token = credential.accessToken;
+                          // The signed-in user info.
+                          const user = result.user;
+                          // IdP data available using getAdditionalUserInfo(result)
+                          // ...
+
+                          setUserData({
+                            name: user.displayName,
+                            email: user.email,
+                            photo: user.photoURL,
+                            token: token,
+                          });
+                          login({
+                            email: user.email,
+                            name: user.displayName,
+                            password: token,
+                          });
+                        })
+                        .catch((error) => {
+                          // Handle Errors here.
+                          const errorCode = error.code;
+                          const errorMessage = error.message;
+                          // The email of the user's account used.
+                          const email = error?.customData?.email;
+                          // The AuthCredential type that was used.
+                          console.log(error);
+                          const credential =
+                            GoogleAuthProvider.credentialFromError(error);
+                          // ...
+                        });
+                    }}
+                    className={` ${userData?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl "} text-[#FF9135] font-semibold text-sm `}
+                  >
+                    {userData?.name ? userData?.name.split(" ")[0] : "Login"}
                   </div>
 
                   <div
                     onClick={() => {
-                      scroll("#mail");
+                      router.push("/#mail");
                     }}
                     className="cursor-pointer w-[11rem] h-10 rounded-xl bg-[#3c498b4d] overflow-hidden flex flex-row items-center justify-start py-2 pr-[12px] pl-4 box-border gap-[12px]"
                   >
@@ -235,7 +304,7 @@ const Frame11 = () => {
                 }}
                 className="cursor-pointer flex gap-1 h-5 flex-col"
               >
-
+                {/* three line using divs */}
                 <div className="w-[20px] h-0.5 bg-white"></div>
                 <div className="w-[20px] h-0.5 bg-white"></div>
                 <div className="w-[20px] h-0.5 bg-white"></div>
@@ -243,65 +312,7 @@ const Frame11 = () => {
             )}
           </div>
         </div>
-      </div> */}
-      <Navbar />
-
-      <section className=" flex   flex-col items-start justify-start gap-[1.75rem] min-w-full">
-        <div className="self-stretch shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-[#123479]  flex flex-col items-center justify-center py-[2rem] pb-[4rem] px-[5%] sm:px-[3rem] box-border gap-[2.5rem] max-w-full  mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border mq1325:pl-[1.625rem] mq1325:pr-[1.625rem] mq1325:box-border">
-          <div className="flex flex-col items-center gap-2 font-bold text-[2.5rem]">
-            <div className="text-[#FF9135]">Careers at</div>
-            <div className="text-white ">World One Forex</div>
-          </div>
-          <div className="text-white text-center font-normal text-[1.125rem] w-[80%]">
-            Welcome to the World One Forex Careers page! We're a global leader
-            in currency exchange, offering innovative solutions to our clients
-            across the world. We're always looking for talented, driven
-            individuals to join our team and help us achieve our mission of
-            providing seamless and secure currency exchange services. Explore
-            our current job openings below and take the first step towards an
-            exciting career with World One Forex.
-          </div>
-          <div className="flex gap-8 items-center flex-row-reverse ">
-            <div
-              onClick={() => {
-                inputRef.current.click();
-              }}
-              className=" cursor-pointer bg-white px-8 py-2 text-lg font-semibold text-[#333] rounded-lg flex items-center"
-            >
-              {" "}
-              <div>{PDF ? "Submit" : "Upload Your Resume"}</div>{" "}
-              {!PDF && <img className="w-10 h-10" src="arrow-right.svg" />}{" "}
-              <input
-                ref={inputRef}
-                type="file"
-                accept="application/pdf"
-                onChange={(e) => {
-                  setPDF(e.target.files[0]);
-                }}
-                className="invisible w-0"
-              />
-            </div>
-            {PDF && (
-              <div
-              onClick={() => {
-                inputRef.current.click();
-              }}
-                style={{
-                  boxShadow:
-                    "0px 6px 24px -4px rgba(18, 25, 56, 0.10), 0px 12px 48px 4px rgba(18, 25, 56, 0.15)",
-                  backdropFilter: "blur(24px)",
-                }}
-                className="flex gap-1 w-28 py-2 px-2 rounded-xl text-sm text-white font-normal bg-secondary flex-col items-center gap-2 font-bold text-[2.5rem]"
-              >
-                <img src="/Pdf.svg" />
-                {getSmallName(PDF.name)}
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
   );
-};
-
-export default Frame11;
+}

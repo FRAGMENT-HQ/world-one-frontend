@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { order } from "@/states/storage";
+import { order, cart } from "@/states/storage";
 import FrameComponent2 from "./frame-component2";
 import FrameComponent from "./frame-component";
 import LinkFunction from "./link-function";
@@ -28,7 +28,7 @@ import {
 
 const provider = new GoogleAuthProvider();
 
-const usd=84;
+const usd = 84;
 
 // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 const cityOptions = [
@@ -109,6 +109,7 @@ const HomeExchangeCurrency = () => {
   const [intialCurrency, setIntialCurrency] = useState({
     label: "INR",
     value: "INR",
+    smValue: "INR",
     image:
       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAJDSURBVHja7JfNaxNBGIef2WwalaahhaaYUm1ta4tivViUHqxSRISeBG/SP0vwVPDkTfAiqIh4ED8OORRrFT8qghZrpYkxu9mdmddDYhtFwak4ufQHy+zC7Mwz837MO0pE6KQCOqxdAAVkgFyr9SkDNEKgp7J4+YsEfudXKqCwsNgXAgUJFNlDM36X/+klQCEEclgLOkHiKiBt1qHtu91q8pv3X/vwx35qTw+iGwC5EABrER0hOvazfB2DNQC0ADSkcfPxoUwWbPozgCR1JI08BX8GTBuAWIM0akhS9+eFOtnyjgkRWXH9vx5r3n+oYrAMFvMUunM7CEU1Ge4E/tmrz9x7tMrxyQEA7j95x5HRImemh/5/Ko6TlBt3XnDp/CTfooRKrcHFuQnKz9f4uF7bUSp2MkF5eY2NzYgktdx9vEqlGnNuZoSxA72srdeYPzvuZALnHWikBhGIE009SqnVU+qxBiBqtc4mcClKjo73c/vhW05OlZg9McSF06PMnRrm1oM3TE+V/nqcH3M6A+T3dTE/O8aV62X29+cZKRW4dnOJsYO9DA8WnAEUMJGm6UoYugXExmbE8usNjLEcHu6jVOx2SwNak81mm2E4fnUByQQkrezkrKdu3bsyWYLmUdDMhNoYwjBA8FOgKgXa6m0Aay2Imy/8kwSs0dtOaI1BKZ/VEFjTHgVWUPgjUKjmrm+dhghKKbq79nqDsLINYESE6malE1W5UcAAcAzo9zz5OrCkWneCfKv1qQbwVe1eTjsN8H0AbQf7MRxAQMIAAAAASUVORK5CYII=",
   });
@@ -136,6 +137,7 @@ const HomeExchangeCurrency = () => {
     value: "Exchange Currency",
   });
   const [userData, setUserData] = useAtom(authUser);
+  const [cartItems, setCartItems] = useAtom(cart);
   const size = useWindowSize();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -201,36 +203,33 @@ const HomeExchangeCurrency = () => {
       return;
     }
     // console.log((amount * (rate + factor))/usd,prod);
-    if (prod.value == "Exchange Currency"){
-      if( (amount * (rate + factor))/usd>3000){
-        toast.error("You can Buy 3000$ worth cash");
-        return;
-      }
-    } if (prod.value == "Forex Card") {
-      if ((amount * (rate + factor))/usd>250000) {
-        toast.error("You can Buy 250000$ worth forex card");
+
+    if (city == "") {
+      toast.error("Please select the city");
+      return;
+    }
+    setOrder({
+      ...Order,
+      city: city,
+    });
+
+    if (prod.value == "Exchange Currency") {
+      if ((amount * (rate + factor)) / usd > 3000) {
+        toast.error("Cash Limit of USD 3000 equivalent is allowed according to RBI Guidelines.");
         return;
       }
     }
-    if (Order?.orderItems?.length > 0) {
-      setOrder({
-        ...Order,
-        orderItems: [
-          ...Order.orderItems,
-          {
-            intialCurrency: selected ? intialCurrency : finalCurrency,
-            finalCurrency: selected ? finalCurrency : intialCurrency,
-            amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
-            forexAmount: amount,
-            inrAmount: (amount * (rate + factor)).toFixed(2),
-            rate: (rate + factor ** powerFactor).toFixed(2),
-            product: prod.value,
-            bs: selected ? "Buy" : "Sell",
-          },
-        ],
-      });
-    } else {
-      setOrder({
+    if (prod.value == "Forex Card") {
+      if ((amount * (rate + factor)) / usd > 250000) {
+        toast.error("Maximum limit of 250,000 USD cannot be exceeded Including cash.");
+        return;
+      }
+    }
+    if (
+      (prod.value == "Exchange Currency" && selected) ||
+      prod.value == "Forex Card"
+    ) {
+      const append_obj = {
         intialCurrency: selected ? intialCurrency : finalCurrency,
         finalCurrency: selected ? finalCurrency : intialCurrency,
         amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
@@ -239,23 +238,19 @@ const HomeExchangeCurrency = () => {
         rate: (rate + factor ** powerFactor).toFixed(2),
         product: prod.value,
         bs: selected ? "Buy" : "Sell",
-        city: city,
-        orderItems: [
-          {
-            intialCurrency: selected ? intialCurrency : finalCurrency,
-            finalCurrency: selected ? finalCurrency : intialCurrency,
-            amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
-            forexAmount: amount,
-            inrAmount: (amount * (rate + factor)).toFixed(2),
-            rate: (rate + factor ** powerFactor).toFixed(2),
-            product: prod.value,
-            bs: selected ? "Buy" : "Sell",
-          },
-        ],
-      });
+      };
+      if (cartItems?.Items?.length > 0) {
+        setCartItems({
+          Items: [...cartItems.Items, append_obj],
+        });
+      } else {
+        setCartItems({
+          Items: [append_obj],
+        });
+      }
+      setAmount(0);
+      toast.success("Added to cart sucesfully ");
     }
-    setAmount(0);
-    toast.success("Added to cart sucesfully ");
   };
 
   const handleOrder = () => {
@@ -271,79 +266,51 @@ const HomeExchangeCurrency = () => {
       toast.error("Please select the city");
       return;
     }
-    if (prod.value == "Exchange Currency"){
-      if( (amount * (rate + factor))/usd>3000){
+    if (prod.value == "Exchange Currency") {
+      if ((amount * (rate + factor)) / usd > 3000) {
         toast.error("You can Buy 3000$ worth cash");
         return;
       }
-    } if (prod.value == "Forex Card") {
-      if ((amount * (rate + factor))/usd>250000) {
+    }
+    if (prod.value == "Forex Card") {
+      if ((amount * (rate + factor)) / usd > 250000) {
         toast.error("You can Buy 250000$ worth forex card");
         return;
       }
     }
-    if (prod.value !== "Exchange Currency" || prod.value !== "Forex Card") {
+    const Item = {
+      intialCurrency: selected ? intialCurrency : finalCurrency,
+      finalCurrency: selected ? finalCurrency : intialCurrency,
+      amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
+      forexAmount: amount,
+      inrAmount: (amount * (rate + factor)).toFixed(2),
+      rate: (rate + factor ** powerFactor).toFixed(2),
+      product: prod.value,
+      bs: selected ? "Buy" : "Sell",
+    };
+    // const meta = { city: city };
+    if (
+      (prod.value == "Exchange Currency" && selected) ||
+      prod.value == "Forex Card"
+    ) {
       setOrder({
-        intialCurrency: selected ? intialCurrency : finalCurrency,
-        finalCurrency: selected ? finalCurrency : intialCurrency,
-        amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
-        forexAmount: amount,
-        inrAmount: (amount * (rate + factor)).toFixed(2),
-        rate: (rate + factor ** powerFactor).toFixed(2),
-        product: prod.value,
-        bs: selected ? "Buy" : "Sell",
-
+        ...Order,
         city: city,
-        orderItems: [
-          {
-            intialCurrency: selected ? intialCurrency : finalCurrency,
-            finalCurrency: selected ? finalCurrency : intialCurrency,
-            amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
-            forexAmount: amount,
-            inrAmount: (amount * (rate + factor)).toFixed(2),
-            rate: (rate + factor ** powerFactor).toFixed(2),
-            product: prod.value,
-            bs: selected ? "Buy" : "Sell",
-          },
-        ],
       });
-    } else if (Order?.orderItems?.length > 0) {
-      setOrder({
-        intialCurrency: selected ? intialCurrency : finalCurrency,
-        finalCurrency: selected ? finalCurrency : intialCurrency,
-        amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
-        forexAmount: amount,
-        inrAmount: (amount * (rate + factor)).toFixed(2),
-        rate: (rate + factor ** powerFactor).toFixed(2),
-        product: prod.value,
-        bs: selected ? "Buy" : "Sell",
-        city: city,
-        orderItems: [
-          ...Order.orderItems,
-          {
-            intialCurrency: selected ? intialCurrency : finalCurrency,
-            finalCurrency: selected ? finalCurrency : intialCurrency,
-            amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
-            forexAmount: amount,
-            inrAmount: (amount * (rate + factor)).toFixed(2),
-            rate: (rate + factor ** powerFactor).toFixed(2),
-            product: prod.value,
-            bs: selected ? "Buy" : "Sell",
-          },
-        ],
-      });
+      if (cartItems?.Items?.length > 0) {
+        setCartItems({
+          Items: [...cartItems.Items, Item],
+        });
+      } else {
+        setCartItems({
+          Items: [Item],
+        });
+      }
+      router.push("my-cart");
     } else {
       setOrder({
-        intialCurrency: selected ? intialCurrency : finalCurrency,
-        finalCurrency: selected ? finalCurrency : intialCurrency,
-        amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
-        forexAmount: amount,
-        inrAmount: (amount * (rate + factor)).toFixed(2),
-        rate: (rate + factor ** powerFactor).toFixed(2),
-        product: prod.value,
-        bs: selected ? "Buy" : "Sell",
-
         city: city,
+        type: prod.value,
         orderItems: [
           {
             intialCurrency: selected ? intialCurrency : finalCurrency,
@@ -357,6 +324,7 @@ const HomeExchangeCurrency = () => {
           },
         ],
       });
+      router.push(prod.value == "Travel Services" ? "/details/" : "/summary/");
     }
     router.push(prod.value == "Travel Services" ? "/details/" : "/summary/");
   };
@@ -450,16 +418,15 @@ const HomeExchangeCurrency = () => {
       <section className="self-stretch  bg-black flex flex-col items-start justify-start pt-4 px-0 pb-0 box-border relative gap-[82px] max-w-full text-left text-xl text-white font-body-small mq825:gap-[20px_82px] mq825:pt-5 mq825:box-border mq1275:gap-[41px_82px] mq1275:pt-[31px] mq1275:box-border">
         <div
           onClick={() => {
-            if (Order?.orderItems) {
-              router.push("/summary/");
-            } else {
-              toast.error("Please add items to cart");
-            }
+            
+              router.push("/my-cart/");
+            
+          
           }}
           className="fixed flex flex-col gap-[-4px] items-end z-50 bottom-[30px] right-[20px] "
         >
           <div className="w-6 h-6  z-[55] rounded-full text-center bg-[#FF9135]">
-            {Order?.orderItems ? Order?.orderItems.length : 0}
+            {cartItems?.Items ? cartItems?.Items.length : 0}
             {/* {console.log(Order)} */}
           </div>
           <div
@@ -889,7 +856,8 @@ const HomeExchangeCurrency = () => {
                           </div>
                           <div className="flex-1 self-stretch sm:self-auto min-w-0 xs:w-full rounded-[12px] sm:rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-2 sm:py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
                             <input
-                              className="text-white self-stretch w-[80%] max-w-[419px]  [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
+                            style={{color: "white"}}
+                              className="!text-white self-stretch w-[80%] max-w-[419px]  [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
                               placeholder="Forex Amount"
                               type="text"
                               value={amount}
@@ -932,14 +900,14 @@ const HomeExchangeCurrency = () => {
                         style={{
                           textSizeAdjust: "0.58",
                         }}
-                        className="m-0 w-36 text-wrap overflow-x-hidden relative text-29xl leading-[56px] font-normal font-body-small text-white text-left mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]"
+                        className="m-0 w-32 text-wrap  relative text-2xl leading-[56px] font-normal font-body-small text-white text-left mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]"
                       >
                         {`${(amount * (rate + factor)).toFixed(2)}`}
                       </h1>
                     </div>
                   )}
 
-                  {(prod.value == "Exchange Currency" ||
+                  {((prod.value == "Exchange Currency" && selected) ||
                     prod.value == "Forex Card") && (
                     <div
                       onClick={() => {
@@ -968,7 +936,9 @@ const HomeExchangeCurrency = () => {
                     /> */}
                     <div className="relative text-base sm:text-3xl  font-semibold font-body-small text-text1 text-left">
                       {prod.value != "Travel Services"
-                        ? "Buy Now"
+                        ? selected
+                          ? "Buy Now"
+                          : "Sell Now"
                         : "Submit Request"}
                     </div>
                   </div>
@@ -993,7 +963,7 @@ const HomeExchangeCurrency = () => {
                         className="w-[42%] font-semibold flex flex-col items-center gap-5 rounded-lg text-base py-6 bg-[#181545] "
                       >
                         <img src="/Briefcase.svg" />
-                        <div>Corporate Help Desk</div>
+                        <div>Corporate Solutions</div>
                       </div>
                       <div
                         onClick={() => {
@@ -1149,13 +1119,13 @@ const HomeExchangeCurrency = () => {
         <div className="w-full px-[5%] flex flex-row items-start justify-start max-w-full z-[1] mq825:gap-[120px_60px] mq450:gap-[120px_30px]">
           <div className="flex-1  flex flex-col items-start justify-start gap-[56px] max-w-full mq825:gap-[28px_56px]">
             <div className="w-full  box-border flex flex-row items-start justify-start py-0 px-[21px] max-w-full text-text2 border-0 border-l-[5px] border-solid border-accent">
-              <h1 className="m-0 flex-1 relative text-inherit leading-[56px] font-normal font-inherit inline-block max-w-full mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
+              <h1 className="m-0 flex-1 relative text-inherit leading-[56px] font-normal text-white font-inherit inline-block max-w-full mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
                 Products Offered
               </h1>
             </div>
 
             <div className="self-stretch relative text-5xl leading-[36px] font-medium mq450:text-lgi mq450:leading-[29px]"></div>
-            <div className=" w-full min-h-[616px] flex flex-row  flex-wrap items-center justify-evenly relative gap-[0.25%_1%] max-w-full text-13xl ">
+            <div className=" w-full gap-y-4 flex flex-row  flex-wrap items-center justify-evenly relative gap-[1%] max-w-full text-13xl ">
               <FrameComponent
                 currency="/currency.svg"
                 exchangeCurrency="Exchange Currency"
@@ -1306,7 +1276,7 @@ const HomeExchangeCurrency = () => {
         <div className="flex-1 bg-background overflow-hidden flex flex-col items-start justify-center py-40 box-border max-w-full  mq825:box-border mq450:pt-[68px] mq450:pb-[68px] mq450:box-border mq1275:py-[104px]  mq1275:box-border">
           <div className="self-stretch flex flex-col items-start justify-start gap-[111px] max-w-full mq825:gap-[55px_111px] mq450:gap-[28px_111px]">
             <div className="self-stretch flex flex-col items-start justify-start gap-[56px] max-w-full mq825:gap-[28px_56px]">
-              <div className="w-[724px] box-border flex flex-row items-center justify-center py-0 px-[21px] max-w-full border-l-[5px] border-0 border-solid border-secondary">
+              <div className=" box-border flex flex-row items-center justify-center py-0 px-[21px] max-w-full border-l-[5px] border-0 border-solid border-secondary">
                 <div className="flex-1 relative leading-[56px] inline-block max-w-full mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
                   Why Choose World One Forex?
                 </div>
@@ -1536,7 +1506,7 @@ const HomeExchangeCurrency = () => {
       <section
         id="blogs"
         style={getImgObjectURL("/blog_bg.svg")}
-        className="overflow-hidden w-[100vw] px-[5%] py-10 flex flex-col items-start justify-start  box-border relative gap-[56px] max-w-full text-left text-29xl text-white font-body-small "
+        className="overflow-hidden w-[100vw] px-[5%] py-24 flex flex-col items-start justify-start  box-border relative gap-[56px] max-w-full text-left text-29xl text-white font-body-small "
       >
         <div className="w-[272px] box-border border-0 flex flex-row items-start justify-start py-0 px-[21px] z-[1] border-l-[5px] border-solid border-accent">
           <h1 className="m-0 w-56 relative text-inherit leading-[56px] font-normal font-inherit inline-block mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">

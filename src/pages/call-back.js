@@ -1,5 +1,3 @@
-import { useAtom } from "jotai";
-import { user, order } from "@/states/storage";
 import { useRouter } from "next/router";
 import { submitQueryRequest } from "@/hooks/prod";
 import Smodal from "@/components/smodal";
@@ -7,10 +5,10 @@ import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 
 import Drawer from "@mui/material/Drawer";
-import countryData from "../../country2.json";
+// import countryData from "../../country2.json";
 import CountryCode from "@/components/countryCode";
 import Select from "react-select";
-
+import Navbar from "@/components/navbar";
 const options = [
   { value: "Exchange Currency", label: "Exchange Currency" },
   { value: "Transfer Money Abroad", label: "Transfer Money Abroad" },
@@ -49,17 +47,17 @@ function useWindowSize() {
   return windowSize;
 }
 
-const countryOptions = countryData.map((country) => ({
-  value: country.name,
-  label: country.name,
-}));
 const Frame11 = () => {
   const [name, setName] = useState();
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [open, setOpen] = useState(false);
   const [querry, setQuerry] = useState();
-  const [code, setCode] = useState();
+  const [code, setCode] = useState({
+    icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAJDSURBVHja7JfNaxNBGIef2WwalaahhaaYUm1ta4tivViUHqxSRISeBG/SP0vwVPDkTfAiqIh4ED8OORRrFT8qghZrpYkxu9mdmddDYhtFwak4ufQHy+zC7Mwz837MO0pE6KQCOqxdAAVkgFyr9SkDNEKgp7J4+YsEfudXKqCwsNgXAgUJFNlDM36X/+klQCEEclgLOkHiKiBt1qHtu91q8pv3X/vwx35qTw+iGwC5EABrER0hOvazfB2DNQC0ADSkcfPxoUwWbPozgCR1JI08BX8GTBuAWIM0akhS9+eFOtnyjgkRWXH9vx5r3n+oYrAMFvMUunM7CEU1Ge4E/tmrz9x7tMrxyQEA7j95x5HRImemh/5/Ko6TlBt3XnDp/CTfooRKrcHFuQnKz9f4uF7bUSp2MkF5eY2NzYgktdx9vEqlGnNuZoSxA72srdeYPzvuZALnHWikBhGIE009SqnVU+qxBiBqtc4mcClKjo73c/vhW05OlZg9McSF06PMnRrm1oM3TE+V/nqcH3M6A+T3dTE/O8aV62X29+cZKRW4dnOJsYO9DA8WnAEUMJGm6UoYugXExmbE8usNjLEcHu6jVOx2SwNak81mm2E4fnUByQQkrezkrKdu3bsyWYLmUdDMhNoYwjBA8FOgKgXa6m0Aay2Imy/8kwSs0dtOaI1BKZ/VEFjTHgVWUPgjUKjmrm+dhghKKbq79nqDsLINYESE6malE1W5UcAAcAzo9zz5OrCkWneCfKv1qQbwVe1eTjsN8H0AbQf7MRxAQMIAAAAASUVORK5CYII=",
+    label: "+91",
+    value: "+91",
+  });
   const [drawerOpen, setdrawerOpen] = useState(false);
   const router = useRouter();
   const size = useWindowSize();
@@ -95,193 +93,10 @@ const Frame11 = () => {
     <div className="w-full relative bg-background flex flex-col items-center justify-start pt-[3rem] px-[8%] laptop:px-[120px] pb-[10rem] box-border gap-[2.75rem] leading-[normal] tracking-[normal] mq900:gap-[1.375rem]">
       <Smodal open={open} setOpen={setOpen} />
       {/* <InputArray /> */}
-      <Drawer
-        open={drawerOpen}
-        onClose={() => {
-          setdrawerOpen(false);
-        }}
-      >
-        <div className="w-[100vw] h-[100vh] bg-darkslateblue-700">
-          <div className=" sm:visible w-full mt-5  rounded-3xl flex flex-col items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
-            <div className="w-[75%] flex flex-col items-center justify-center text-[15px] font-semibold">
-              <div className="flex flex-col text-white  gap-[15%] ">
-                <div className=" flex  items-center justify-center py-1 ">
-                  <div
-                    onClick={() => {
-                      setdrawerOpen(false);
-                      scroll("#about");
-                    }}
-                    className=" cursor-pointer text-white relative leading-[32px] inline-block "
-                  >
-                    About
-                  </div>
-                </div>
-                <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
-                  <div
-                    onClick={() => {
-                      setdrawerOpen(false);
-                      scroll("#services");
-                    }}
-                    className="cursor-pointer relative leading-[32px]"
-                  >
-                    Services
-                  </div>
-                </div>
-                <div
-                  onClick={() => {
-                    router.push("/rates");
-                  }}
-                  className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
-                >
-                  <div className="relative leading-[32px]">Rates</div>
-                </div>
-                {/* <div className=" flex flex-row items-center justify-center py-1 ">
-                        <div className="relative leading-[32px] inline-block ">
-                          Support
-                        </div>
-                      </div> */}
-                <div
-                  onClick={() => {
-                    setdrawerOpen(false);
-                    scroll("#blogs");
-                  }}
-                  className="  shrink-0 flex flex-row items-center justify-center py-1  box-border"
-                >
-                  <div className="relative leading-[32px]">Blogs</div>
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-[5%] flex-col-reverse items-center w-full">
-              <div
-                onClick={() => {
-                  setdrawerOpen(false);
-                  scroll("#mail");
-                }}
-                className="cursor-pointer w-[10rem] h-8 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
-              >
-                <img
-                  className="h-6 w-6 relative overflow-hidden shrink-0"
-                  alt=""
-                  src="/support.svg"
-                />
-                <div className="relative text-base !text-[#27357E]  inline-block ">
-                  Contact Us
-                </div>
-              </div>
-
-              <div
-                onClick={() => {
-                  router.push("/rates");
-                }}
-                className="cursor-pointer w-[10rem] h-8 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
-              >
-                <img
-                  className="h-6 w-6 relative overflow-hidden shrink-0"
-                  alt=""
-                  src="/FOREX.svg"
-                />
-                <div className="relative text-base  !text-[#27357E]  inline-block ">
-                  Forex Rates
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Drawer>
-      <div className="self-stretch flex -400 flex-row items-start justify-center py-0  box-border w-full">
-        <div className=" flex flex-col items-end  justify-start gap-[50px] w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px]   ">
-          <div className="sm:visible w-full w-[95%] h-[4vw] min-h-[85px] mt-0 rounded-3xl bg-secondary shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row  items-center justify-between py-[26px]  box-border top-[0] z-[99] sticky gap-[1px] latop:gap-[20px] max-w-full px-4  desktop:px-8 ">
-            <img
-              className=" h-[60px] sm:h-[60px] sm:w-[180px] relative"
-              loading="lazy"
-              alt=""
-              src="LOGO.svg"
-            />
-            {size.width > 600 ? (
-              <>
-                {" "}
-                <div className="w-[75%] flex flex-row items-center justify-center text-[15px] font-semibold mq825:hidden">
-                  <div className="flex gap-[10%] laptop:gap-[15%] ">
-                    <div className=" flex flex-row items-center laptop:text-base !text:xs justify-center py-1 ">
-                      <div
-                        onClick={() => {
-                          scroll("#about");
-                        }}
-                        className=" cursor-pointer relative leading-[32px] inline-block "
-                      >
-                        About
-                      </div>
-                    </div>
-                    <div
-                      onClick={() => {
-                        router.push("/rates");
-                      }}
-                      className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
-                    >
-                      <div className="relative leading-[32px]">Rates</div>
-                    </div>
-                    <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
-                      <div
-                        onClick={() => {
-                          scroll("#services");
-                        }}
-                        className="cursor-pointer relative leading-[32px]"
-                      >
-                        Services
-                      </div>
-                    </div>
-
-                    <div
-                      onClick={() => {
-                        setdrawerOpen(false);
-                        scroll("#blogs");
-                      }}
-                      className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
-                    >
-                      <div className="relative leading-[32px]">Blogs</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex h-16 gap-[12%] items-center flex-row">
-                  <div className=" text-[#FF9135] font-semibold text-sm ">
-                    Login
-                  </div>
-
-                  <div
-                    onClick={() => {
-                      scroll("#mail");
-                    }}
-                    className="cursor-pointer w-[11rem] h-10 rounded-xl bg-[#3c498b4d] overflow-hidden flex flex-row items-center justify-start py-2 pr-[12px] pl-4 box-border gap-[12px]"
-                  >
-                    <img
-                      className="h-6 w-6 relative overflow-hidden shrink-0"
-                      alt=""
-                      src="/newSupport.svg"
-                    />
-                    <div className="relative text-base text-semibold !text-white  inline-block ">
-                      Contact Us
-                    </div>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <div
-                onClick={() => {
-                  setdrawerOpen(true);
-                }}
-                className="cursor-pointer flex gap-1 h-5 flex-col"
-              >
-                {/* three line using divs */}
-                <div className="w-[20px] h-0.5 bg-white"></div>
-                <div className="w-[20px] h-0.5 bg-white"></div>
-                <div className="w-[20px] h-0.5 bg-white"></div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      
+      <Navbar />
       <div className="w-full  box-border flex flex-row items-start justify-start py-0 px-[21px] max-w-full text-text2 border-0 border-l-[5px] border-solid border-secondary">
-        <h1 className="m-0 flex-1 relative tex-3xl leading-[56px] font-bold font-inherit inline-block max-w-full ">
+        <h1 className="m-0 flex-1 relative tex-3xl leading-[56px] font-semibold font-inherit inline-block max-w-full ">
           Request Call Back
         </h1>
       </div>
@@ -327,7 +142,8 @@ const Frame11 = () => {
                   "self-stretch !bg-transparent !outline-none !border-none !mx-2",
                 menuList: () => "!bg-secondary min-w-18",
                 menu: () => "!bg-secondary min-w-18 py-2 rounded-xl",
-                option: () => "text-white hover:text-midnightblue min-w-18 hover:text-secondary",
+                option: () =>
+                  "text-white hover:text-midnightblue min-w-18 hover:text-secondary",
                 input: () => "text-white !outline-none",
                 singleValue: () => "font-normal !text-base",
                 indicatorSeparator: () => "hidden",
@@ -357,8 +173,8 @@ const Frame11 = () => {
               className=" cursor-pointer invisable xs:visable  [border:none] py-[1.125rem] pr-[1.968rem] pl-[2.468rem] bg-secondary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[1rem]"
               // onClick={onCustomerDetailsClick}
             >
-              <div className="flex-1 relative text-[1.5rem] leading-[2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-                Continue
+              <div className="flex-1 relative text-[1.5rem] leading-[2rem] font-body-small text-white text-center mq450:text-[1.188rem] mq450:leading-[1.625rem]">
+                Submit
               </div>
             </button>
           </div>

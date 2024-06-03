@@ -79,3 +79,21 @@ export const loginMutation = (successCallback, errorCallback) => {
     },
   });
 };
+
+const listOutletsRequest = () => {
+  const url = getUrl(`/api/outlets/`);
+
+  return request("GET", url, null, false);
+};
+
+export const listOutletsMutation = (successCallback, errorCallback) => {
+  return useMutation(listOutletsRequest, {
+    mutationKey: "outlet-request",
+    onSuccess: (res) => {
+      successCallback(res);
+    },
+    onError: (err) => {
+      errorCallback(err);
+    },
+  });
+};

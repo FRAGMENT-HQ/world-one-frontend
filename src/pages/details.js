@@ -2,7 +2,6 @@ import InputArray from "../components/input-array";
 import FrameComponent4 from "../components/frame-component4";
 import PhoneNumberInputField from "../components/phone-number-input-field";
 import FrameComponent3 from "../components/frame-component3";
-
 import { useAtom } from "jotai";
 import { user, order } from "@/states/storage";
 import { useRouter } from "next/router";
@@ -11,6 +10,7 @@ import Smodal from "@/components/smodal";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import Select from "react-select";
+import Switch from "@mui/material/Switch";
 
 import countryData from "../../country2.json";
 
@@ -45,6 +45,18 @@ function useWindowSize() {
   return windowSize;
 }
 
+const options2 = [
+  {
+    value: "Leisure/Holiday/Personal Visit",
+    label: "Leisure/Holiday/Personal Visit",
+  },
+  { value: "Medical Treatment Abroad", label: "Medical Treatment Abroad" },
+  {
+    value: "Overseas Education/Study Abroad",
+    label: "Overseas Education/Study Abroad",
+  },
+];
+
 const countryOptions = countryData.map((country) => ({
   value: country.name,
   label: country.name,
@@ -58,6 +70,8 @@ const Frame11 = () => {
   const [phone, setPhone] = useState(userData?.phone || "");
   const [open, setOpen] = useState(false);
   const [countries, setCountries] = useState([]);
+  const [status, setStatus] = useState(true);
+  const [purpous, setPurpous] = useState({});
   const router = useRouter();
   const size = useWindowSize();
 
@@ -87,6 +101,7 @@ const Frame11 = () => {
         total_amount: 0,
         product: orderData.product,
         city: orderData.city.value,
+        purpous: purpous?.value,
       })
     );
     data.append("user", JSON.stringify(userData));
@@ -94,11 +109,12 @@ const Frame11 = () => {
   };
 
   const handleNext = () => {
-    if(orderData?.product != "Travel Services"){
-    if (!panNumber || !/[A-Z]{5}[0-9]{4}[A-Z]{1}/.test(panNumber)) {
-      toast.error("Valid pan number is required");
-      return;
-    }}
+    if ((orderData?.product != "Travel Services" || status) ) {
+      if (!panNumber || !/[A-Z]{5}[0-9]{4}[A-Z]{1}/.test(panNumber)) {
+        toast.error("Valid pan number is required");
+        return;
+      }
+    }
     if (!name || name.length < 3) {
       toast.error("valid name is required");
       return;
@@ -118,6 +134,13 @@ const Frame11 = () => {
     if (orderData.product === "Travel Services") {
       handleSubmission();
     } else {
+      setOrderData({
+        ...orderData,
+        countries: countries,
+        purpous: purpous?.value,
+        citizinShip: status ? "Indian/NRI" : "Forigner",
+        purpous: purpous?.value,
+      });
       router.push("/verf");
     }
   };
@@ -133,6 +156,39 @@ const Frame11 = () => {
           title="Customer Details"
         />
         <footer className="self-stretch shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white  flex flex-col items-center justify-center py-[1.2rem] px-[5%] sm:px-[3rem] box-border gap-[1.1rem] max-w-full mq900:gap-[1.5rem] mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border mq1325:pl-[1.625rem] mq1325:pr-[1.625rem] mq1325:box-border">
+          <div className="self-stretch flex flex-row flex-wrap items-end justify-start gap-[3rem] max-w-full shrink-0 ">
+            {orderData?.type == "cart" && (
+              <div className="flex-1 w-full rounded-lg bg-white box-border  flex flex-col items-start justify-between max-w-full gap-[1rem] text-text3 border-[0px] border-solid border-text4  mq1600:flex-wrap">
+                <div className="relative leading-[2rem] font-normal mq450:text-[1rem] mq450:leading-[1.625rem]">
+                  purpose of visit
+                </div>
+                <div className=" flex-1 flex flex-row items-center justify-start gap-[1rem] w-full">
+                  <Select
+                    options={options2}
+                    isSearchable={true}
+                    value={purpous}
+                    onChange={(e) => setPurpous(e)}
+                    classNames={{
+                      container: () =>
+                        "w-full text-white !rounded-3xl self-stretch rounded-lg bg-gray-100  ",
+                      control: () =>
+                        "py-1 self-stretch bg-transparent  !rounded-xl",
+                      menuList: () => "bg-midnightblue",
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+            <div>
+              Are you an Indian Resident (including NRIs)
+              <Switch
+                checked={status}
+                onChange={() => {
+                  setStatus(!status);
+                }}
+              />{" "}
+            </div>
+          </div>
           <PhoneNumberInputField
             name={name}
             setName={setName}
@@ -142,32 +198,34 @@ const Frame11 = () => {
             setPhone={setPhone}
           />
           {/* <FrameComponent6 /> */}
-          { orderData?.bs =="Buy" && <div className="w-full flex flex-col justify-start gap-3">
-            <div className="relative text-[1.25rem] leading-[2rem] font-normal inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
-              Countries Visting to
+          {orderData?.type == "cart" && (
+            <div className="w-full flex flex-col justify-start gap-3">
+              <div className="relative text-[1.25rem] leading-[2rem] font-normal inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
+                Countries Visting to
+              </div>
+              <Select
+                isMulti
+                values={countries}
+                onChange={(value) => {
+                  setCountries(value);
+                }}
+                placeholder="Select Visting Countries"
+                options={countryOptions}
+                classNames={{
+                  container: () =>
+                    "w-full !underline-offset-2 px-0  text-white !rounded-xl border-2  ",
+                  control: () =>
+                    "self-stretch r !font-semibold !rounded-[1.2rem] !border-2 px-4 py-2   ",
+                  menuList: () => "!bg-midnightblue hover:text-white",
+                  option: () => "text-white hover:text-midnightblue",
+                  input: () => "text-white !text-center ",
+                  singleValue: () => "!text-white !text-sm",
+                  indicatorSeparator: () => "hidden",
+                }}
+              />
             </div>
-            <Select
-              isMulti
-              values={countries}
-              onChange={(value) => {
-                setCountries(value);
-              }}
-              placeholder="Select Visting Countries"
-              options={countryOptions}
-              classNames={{
-                container: () =>
-                  "w-full !underline-offset-2 px-0  text-white !rounded-xl border-2  ",
-                control: () =>
-                  "self-stretch r !font-semibold !rounded-[1.2rem] !border-2 px-4 py-2   ",
-                menuList: () => "!bg-midnightblue hover:text-white",
-                option: () => "text-white hover:text-midnightblue",
-                input: () => "text-white !text-center ",
-                singleValue: () => "!text-white !text-sm",
-                indicatorSeparator: () => "hidden",
-              }}
-            />
-          </div>}
-          {orderData?.product != "Travel Services" && (
+          )}
+          {orderData?.type != "Travel Services" && status && (
             <div className="self-stretch flex flex-row flex-wrap items-center justify-center gap-[3rem] max-w-full mq900:gap-[1.5rem]">
               <FrameComponent3
                 travelersName="PAN number"

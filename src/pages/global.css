@@ -30,7 +30,7 @@ div {
   font-family: "Avenir Next LT Pro";
 }
 input:focus{
-  color: #27357E!important;
+  color: #27357E;
   border-color : #27357E!important;
   outline: #27357E!important ;
 }

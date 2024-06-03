@@ -30,10 +30,7 @@ const FrameComponent = ({ currency, exchangeCurrency, onClick,content="" }) => {
           />
         </div>
       </div>
-      {/* <div
-        className="h-[334px] w-[528.3px] absolute !m-[0] right-[-47.3px] bottom-[-194.66px] rounded-[50%] bg-lightblue [filter:blur(250px)] [transform:_rotate(-12deg)] [transform-origin:0_0] z-[1]"
-       
-      /> */}
+
     </div>
   );
 };

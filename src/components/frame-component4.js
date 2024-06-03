@@ -61,8 +61,8 @@ const FrameComponent4 = ({
         {/*<div className={`h-[0.5rem] flex-1 relative rounded ${step>4 ? " bg-primary" : "bg-text5"}`}/> */}
       </div>
       <div className="self-stretch flex flex-row items-center justify-between [row-gap:20px] max-w-full gap-[0rem] mq1725:flex-wrap">
-        <div className=" flex flex-row items-center justify-start py-[0rem]  pl-[0rem] box-border gap-[1.5rem] max-w-full  mq900:box-border mq450:pr-[1.25rem] mq450:box-border mq1325:flex-wrap mq1325:box-border">
-          <div className="flex-1 flex flex-row items-center justify-start gap-[1rem] min-w-[12.188rem] mq450:flex-wrap">
+        <div className=" flex flex-row items-center justify-start py-[0rem]  pl-[0rem] box-border gap-[1.2rem] max-w-full  mq900:box-border mq450:pr-[1.25rem] mq450:box-border mq1325:flex-wrap mq1325:box-border">
+          <div className="flex-1 flex flex-row items-center justify-start gap-[0.5rem] min-w-[12.188rem] mq450:flex-wrap">
             <img
               onClick={() => {
                 router.back();
@@ -85,11 +85,11 @@ const FrameComponent4 = ({
             // onClick={onCustomerDetailsClick}
           >
         
-            <div className="flex-1 relative text-[1.5rem]  font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
+            <div className="flex-1 relative text-[1.2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
               Continue
             </div>
             <img
-              className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
+              className="h-[1.2rem] w-[1.2rem] relative overflow-hidden shrink-0 min-h-[1.2rem]"
               alt=""
               src="/fiarrowright.svg"
             />

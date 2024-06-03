@@ -32,7 +32,12 @@ const CustomSingleValue = ({ children, ...props }) => {
 
 let options = codeData.map((d) =>{ 
   const Img = getImg(d.name);
-  if (Img){
+  if (Img) {
+    console.log({
+      value: d.dial_code,
+      label: `${d.dial_code}`,
+      icon: getImg(d.name),
+    });
    return {
   value: d.dial_code,
   label: `${d.dial_code}`,
@@ -54,7 +59,7 @@ export default function CountryCode({value,setValue}) {
         placeholder="Select Code"
         classNames={{
             container: () =>
-              "w-full min-w-36 text-white !rounded-2xl rounded-lg bg-gray-100 py-1 sm:py-2 ",
+              "w-full min-w-36 text-white !rounded-2xl  border-solid border-2 border-[#000] rounded-lg bg-gray-100 py-1 sm:py-2 ",
             control: () => "self-stretch  !bg-transparent !outline-none !border-none !mx-2",
             menuList: () => "!bg-midnightblue min-w-18",
             menu: () => "bg-midnightblue min-w-18",
