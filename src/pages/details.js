@@ -72,6 +72,11 @@ const Frame11 = () => {
   const [countries, setCountries] = useState([]);
   const [status, setStatus] = useState(true);
   const [purpous, setPurpous] = useState({});
+  const [code, setCode] = useState({
+    icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAJDSURBVHja7JfNaxNBGIef2WwalaahhaaYUm1ta4tivViUHqxSRISeBG/SP0vwVPDkTfAiqIh4ED8OORRrFT8qghZrpYkxu9mdmddDYhtFwak4ufQHy+zC7Mwz837MO0pE6KQCOqxdAAVkgFyr9SkDNEKgp7J4+YsEfudXKqCwsNgXAgUJFNlDM36X/+klQCEEclgLOkHiKiBt1qHtu91q8pv3X/vwx35qTw+iGwC5EABrER0hOvazfB2DNQC0ADSkcfPxoUwWbPozgCR1JI08BX8GTBuAWIM0akhS9+eFOtnyjgkRWXH9vx5r3n+oYrAMFvMUunM7CEU1Ge4E/tmrz9x7tMrxyQEA7j95x5HRImemh/5/Ko6TlBt3XnDp/CTfooRKrcHFuQnKz9f4uF7bUSp2MkF5eY2NzYgktdx9vEqlGnNuZoSxA72srdeYPzvuZALnHWikBhGIE009SqnVU+qxBiBqtc4mcClKjo73c/vhW05OlZg9McSF06PMnRrm1oM3TE+V/nqcH3M6A+T3dTE/O8aV62X29+cZKRW4dnOJsYO9DA8WnAEUMJGm6UoYugXExmbE8usNjLEcHu6jVOx2SwNak81mm2E4fnUByQQkrezkrKdu3bsyWYLmUdDMhNoYwjBA8FOgKgXa6m0Aay2Imy/8kwSs0dtOaI1BKZ/VEFjTHgVWUPgjUKjmrm+dhghKKbq79nqDsLINYESE6malE1W5UcAAcAzo9zz5OrCkWneCfKv1qQbwVe1eTjsN8H0AbQf7MRxAQMIAAAAASUVORK5CYII=",
+    label: "+91",
+    value: "+91",
+  });; 
   const router = useRouter();
   const size = useWindowSize();
 
@@ -149,7 +154,7 @@ const Frame11 = () => {
     <div className="w-full relative bg-background  flex flex-col items-center justify-start pt-[3rem] px-[1.25rem] pb-[10rem] box-border gap-[2.75rem] leading-[normal] tracking-[normal] mq900:gap-[1.375rem]">
       <Smodal open={open} setOpen={setOpen} />
       <InputArray />
-      <section className=" flex flex-col items-start justify-start gap-[1rem] max-w-full">
+      <section className=" flex flex-col items-start justify-start gap-[2.5rem] max-w-full">
         <FrameComponent4
           handleClick={handleNext}
           step={2}
@@ -158,9 +163,9 @@ const Frame11 = () => {
         <footer className="self-stretch shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white  flex flex-col items-center justify-center py-[1.2rem] px-[5%] sm:px-[3rem] box-border gap-[1.1rem] max-w-full mq900:gap-[1.5rem] mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border mq1325:pl-[1.625rem] mq1325:pr-[1.625rem] mq1325:box-border">
           <div className="self-stretch flex flex-row flex-wrap items-end justify-start gap-[3rem] max-w-full shrink-0 ">
             {orderData?.type == "cart" && (
-              <div className="flex-1 w-full rounded-lg bg-white box-border  flex flex-col items-start justify-between max-w-full gap-[1rem] text-text3 border-[0px] border-solid border-text4  mq1600:flex-wrap">
-                <div className="relative leading-[2rem] font-normal mq450:text-[1rem] mq450:leading-[1.625rem]">
-                  purpose of visit
+              <div className="flex-1 w-full rounded-lg bg-white box-border  flex flex-col items-start justify-between max-w-full gap-[0.75rem] text-[#000] border-[0px] border-solid border-text4  mq1600:flex-wrap">
+                <div className="relative leading-[2rem] text-[1.25rem] text-text2 font-normal mq450:text-[1rem] ">
+                  Purpose of Visit
                 </div>
                 <div className=" flex-1 flex flex-row items-center justify-start gap-[1rem] w-full">
                   <Select
@@ -196,6 +201,8 @@ const Frame11 = () => {
             setEmail={setEmail}
             phone={phone}
             setPhone={setPhone}
+            code={code}
+            setCode={setCode}
           />
           {/* <FrameComponent6 /> */}
           {orderData?.type == "cart" && (

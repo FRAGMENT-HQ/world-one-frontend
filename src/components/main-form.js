@@ -207,7 +207,7 @@ const MainForm = () => {
             onClick={() => {
               setSelected(!selected);
             }}
-              className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
+              className="h-8 w-8 relative overflow-hidden shrink-0 "
               loading="lazy"
               alt=""
               src="/iconscheck-box-outline-blank.svg"
@@ -217,7 +217,7 @@ const MainForm = () => {
               onClick={() => {
                 setSelected(!selected);
               }}
-              className={` flex justify-center items-center cursor-pointer border-3 border-solid border-[#4F4F4F] ${selected ? "" : "bg-transperent"} sm:w-6 w-4 h-6 sm:h-4`}
+              className={` flex justify-center items-center cursor-pointer border-3 border-solid border-[#4F4F4F] ${selected ? "" : "bg-transperent"} h-4 w-6`}
             ></div>
           )}
 

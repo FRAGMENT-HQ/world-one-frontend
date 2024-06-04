@@ -45,7 +45,6 @@ const Frame1 = () => {
   const router = useRouter();
   const size = useWindowSize();
 
-
   useEffect(() => {
     setAmount(
       orderDetails?.Items.reduce(
@@ -74,7 +73,6 @@ const Frame1 = () => {
   }, [selected]);
 
   const Continue = () => {
-    
     const slectedItems = orderDetails?.Items.filter(
       (item, index) => selected[index]
     );
@@ -85,7 +83,7 @@ const Frame1 = () => {
     const Cash = slectedItems.filter(
       (item) => item.product === "Exchange Currency"
     );
-    console.log("display =>",Forex_card, Cash);
+    console.log("display =>", Forex_card, Cash);
     const amountInForex = Forex_card.reduce(
       (acc, item) => acc + parseFloat(item.inrAmount),
       0
@@ -94,7 +92,7 @@ const Frame1 = () => {
       (acc, item) => acc + parseFloat(item.inrAmount),
       0
     );
-    console.log("amount in forex =>", amountInForex,amountInCash);
+    console.log("amount in forex =>", amountInForex, amountInCash);
     if (amountInCash / USD > 3000) {
       toast.error("Amount in cash should be less than 3000 USD");
       return;
@@ -110,7 +108,6 @@ const Frame1 = () => {
         orderItems: slectedItems,
         type: "cart",
       });
-      
     }
     router.push("/summary");
   };
@@ -133,23 +130,23 @@ const Frame1 = () => {
         <form className="m-0 self-stretch shadow-[0px_8px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white overflow-hidden flex flex-col laptop:flex-row items-start justify-start py-[4rem] px-[2%] sm:px-[2.5rem] box-border gap-[3rem] w-full ] mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border flex-wrap">
           <div className="flex flex-1 w-full laptop:w-[60%] flex-col items-end justify-center gap-[2rem] max-w-full mq900:gap-[1rem] mq900:min-w-full">
             <div className="self-stretch flex flex-row laptop:flex-col items-end justify-evenly laptop:justify-start gap-[1.706rem] max-w-full">
-              <div className="self-stretch flex flex-col laptop:flex-row items-start justify-between gap-[1rem]">
-                <div className=" relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0 whitespace-nowrap">
+            <div className="self-stretch flex flex-col laptop:flex-row items-start justify-between gap-[1rem]">
+                <div className="w-[108px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0 whitespace-nowrap">
                   Order Type
                 </div>
-                <div className=" relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0">
+                <div className=" w-[60px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0">
                   Product
                 </div>
-                <div className=" relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0">
+                <div className="w-[80px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0">
                   Currency
                 </div>
-                <div className=" relative text-[1rem] sm:text-[1.25rem] font-normal font-body-small text-text3 text-left inline-block shrink-0">
+                <div className="w-[130px] relative text-[1rem] sm:text-[1.25rem] font-normal font-body-small text-text3 text-left inline-block shrink-0">
                   Rate
                 </div>
-                <div className="relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left whitespace-nowrap">
+                <div className="w-[116px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left whitespace-nowrap">
                   Forex Amount
                 </div>
-                <div className="relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left whitespace-nowrap">
+                <div className="w-[104px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left whitespace-nowrap">
                   INR Amount
                 </div>
               </div>
@@ -164,7 +161,7 @@ const Frame1 = () => {
               {orderDetails?.Items.map((details, index) => {
                 return (
                   <>
-                    <div className="self-stretch flex flex-col laptop:flex-row items-start justify-between">
+                    <div className="self-stretch flex flex-col laptop:flex-row items-start justify-between gap-[1rem]">
                       <div
                         onClick={() => {
                           setSelected(
@@ -173,7 +170,7 @@ const Frame1 = () => {
                             )
                           );
                         }}
-                        className=" flex flex-row items-start justify-start gap-[1.2rem]"
+                        className=" w-[115px] flex flex-row items-start justify-start gap-[1.2rem]"
                       >
                         {selected?.length > 0 && selected[index] ? (
                           <img
@@ -192,21 +189,20 @@ const Frame1 = () => {
                           {details?.bs}
                         </div>
                       </div>
-                      <div className="relative mx-0 laptop:-ml-[5vw] laptop:mr-[2vw] text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                      <div className=" w-[70px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
                         {details?.product}
                       </div>
-                      <div className=" mx-0 laptop:-ml-[6.5vw] laptop:mr-[3vw] bg-red-400 relative font-semibold text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                      <div className=" w-[83px] relative font-semibold text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
                         {details?.finalCurrency.smValue}
                       </div>
-                      <div className="mx-0 laptop:-ml-[7.5vw] font-semibold relative text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                      <div className=" w-[130px] font-semibold relative text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
                         {console.log(details?.intialCurrency)}1{" "}
-                        {details?.finalCurrency.smValue} ={" "}
-                        {details?.intialCurrency?.smValue} {details?.rate}
+                        {details?.finalCurrency.smValue} = {details?.intialCurrency.smValue} {details?.rate}
                       </div>
-                      <div className=" mx-0 laptop:-ml-[4.5vw] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
+                      <div className=" w-[116px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
                         {details?.forexAmount}
                       </div>
-                      <div className="mx-0 laptop:mr-[1.5vw] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
+                      <div className="w-[103px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
                         {details?.inrAmount}
                       </div>
                     </div>
@@ -231,8 +227,10 @@ const Frame1 = () => {
                 onClick={() => {
                   setOrderDetails({ ...orderDetails, Items: [] });
                 }}
-                className="h-full cursor-pointer px-3 bg-white text-red-600  rounded-lg flex justify-center items-center "
+                className="h-full cursor-pointer px-4 gap-3 bg-white text-[#FF3F2C] font-normal rounded-lg flex justify-center items-center "
               >
+                {" "}
+                <img src="/trash.svg" />
                 Clear Cart
               </div>
               <div
@@ -291,12 +289,13 @@ const Frame1 = () => {
               </div>
             </div>
             <div
-              onClick={()=>{Continue()}}
+              onClick={() => {
+                Continue();
+              }}
               className=" cursor-pointer invisable xs:visable  [border:none] py-[1.125rem] pr-[1.968rem] pl-[2.468rem] bg-secondary w-full shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[1rem]"
 
               // onClick={onCustomerDetailsClick}
             >
-            
               <div className="flex-1 relative text-[1.5rem] leading-[2rem] font-body-small text-white text-center mq450:text-[1.188rem] mq450:leading-[1.625rem]">
                 Buy Now
               </div>

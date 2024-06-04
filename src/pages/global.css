@@ -32,7 +32,7 @@ div {
 input:focus{
   color: #27357E;
   border-color : #27357E!important;
-  outline: #27357E!important ;
+  outline: #27357E ;
 }
 ::placeholder{
   /* color: #828282!important; */

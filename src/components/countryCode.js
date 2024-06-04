@@ -51,7 +51,7 @@ let options = codeData.map((d) =>{
 // remove undefined values
 options = options.filter((option) => option);
 
-export default function CountryCode({value,setValue}) {
+export default function CountryCode({value,setValue,border="border-2"}) {
   return (
     <div>
       <Select
@@ -59,7 +59,7 @@ export default function CountryCode({value,setValue}) {
         placeholder="Select Code"
         classNames={{
             container: () =>
-              "w-full min-w-36 text-white !rounded-2xl  border-solid border-2 border-[#000] rounded-lg bg-gray-100 py-1 sm:py-2 ",
+              `w-full min-w-36 text-white !rounded-2xl  border-solid ${border} border-[#000] rounded-lg bg-gray-100 py-1 sm:py-2 `,
             control: () => "self-stretch  !bg-transparent !outline-none !border-none !mx-2",
             menuList: () => "!bg-midnightblue min-w-18",
             menu: () => "bg-midnightblue min-w-18",

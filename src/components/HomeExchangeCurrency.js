@@ -103,6 +103,12 @@ const dispMap = {
     "Travel with confidence knowing that you're protected with World One Forex's Travel Services coverage. Our comprehensive Travel Services plans offer peace of mind by providing coverage for medical emergencies, trip cancellations, lost luggage, and more, ensuring a worry-free travel experience.",
 };
 
+const serviceOption = [
+  { value: "Travel Insurance", label: "Travel Insurance" },
+  { value: "Visa Services", label: "Visa Services" },
+  { value: "Sim Card", label: "Sim Card" },
+];
+
 const HomeExchangeCurrency = () => {
   const [selected, setSelected] = useState(true);
 
@@ -138,6 +144,7 @@ const HomeExchangeCurrency = () => {
   });
   const [userData, setUserData] = useAtom(authUser);
   const [cartItems, setCartItems] = useAtom(cart);
+  const [service, setService] = useState("");
   const size = useWindowSize();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -215,13 +222,17 @@ const HomeExchangeCurrency = () => {
 
     if (prod.value == "Exchange Currency") {
       if ((amount * (rate + factor)) / usd > 3000) {
-        toast.error("Cash Limit of USD 3000 equivalent is allowed according to RBI Guidelines.");
+        toast.error(
+          "Cash Limit of USD 3000 equivalent is allowed according to RBI Guidelines."
+        );
         return;
       }
     }
     if (prod.value == "Forex Card") {
       if ((amount * (rate + factor)) / usd > 250000) {
-        toast.error("Maximum limit of 250,000 USD cannot be exceeded Including cash.");
+        toast.error(
+          "Maximum limit of 250,000 USD cannot be exceeded Including cash."
+        );
         return;
       }
     }
@@ -236,7 +247,7 @@ const HomeExchangeCurrency = () => {
         forexAmount: amount,
         inrAmount: (amount * (rate + factor)).toFixed(2),
         rate: (rate + factor ** powerFactor).toFixed(2),
-        product: prod.value,
+        product: prod.value == "Exchange Currency" ? "Cash" : "Forex Card",
         bs: selected ? "Buy" : "Sell",
       };
       if (cartItems?.Items?.length > 0) {
@@ -340,12 +351,14 @@ const HomeExchangeCurrency = () => {
         // https://firebase.google.com/docs/reference/js/auth.user
         const uid = user.uid;
         // ...
-
+        console.log(user);
+        console.log(auth);
+        console.log(user.accessToken);
         setUserData({
           name: user.displayName,
           email: user.email,
           photo: user.photoURL,
-          token: user.refreshToken,
+          // token: user.accessToken,
         });
       } else {
         setUserData({});
@@ -418,10 +431,7 @@ const HomeExchangeCurrency = () => {
       <section className="self-stretch  bg-black flex flex-col items-start justify-start pt-4 px-0 pb-0 box-border relative gap-[82px] max-w-full text-left text-xl text-white font-body-small mq825:gap-[20px_82px] mq825:pt-5 mq825:box-border mq1275:gap-[41px_82px] mq1275:pt-[31px] mq1275:box-border">
         <div
           onClick={() => {
-            
-              router.push("/my-cart/");
-            
-          
+            router.push("/my-cart/");
           }}
           className="fixed flex flex-col gap-[-4px] items-end z-50 bottom-[30px] right-[20px] "
         >
@@ -607,6 +617,8 @@ const HomeExchangeCurrency = () => {
                             const credential =
                               GoogleAuthProvider.credentialFromResult(result);
                             const token = credential.accessToken;
+                            console.log(token);
+                            console.log(credential);
                             // The signed-in user info.
                             const user = result.user;
                             // IdP data available using getAdditionalUserInfo(result)
@@ -818,7 +830,7 @@ const HomeExchangeCurrency = () => {
                         control: () =>
                           "self-stretch !bg-transparent !border-none !mx-2",
                         menuList: () => "!bg-midnightblue",
-                        option: () => "!text-white",
+                        option: () => "!text-white hover:!text-midnightblue",
                         input: () => "!text-white",
                         singleValue: () => "!text-white !text-base",
                         indicatorSeparator: () => "hidden",
@@ -826,7 +838,30 @@ const HomeExchangeCurrency = () => {
                       }}
                     />
                   </div>
-
+                  {prod.value == "Travel Services" && (
+                    <div className="flex-1 w-[100%] flex flex-col -mb-4 items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
+                      <Select
+                        
+                        value={service}
+                        isSearchable={true}
+                        onChange={setService}
+                        options={serviceOption}
+                        placeholder="Select Service"
+                        classNames={{
+                          container: () =>
+                            "w-full  !text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-1 sm:py-2 ",
+                          control: () =>
+                            "self-stretch !bg-transparent !border-none !mx-2",
+                          menuList: () => "!bg-midnightblue",
+                          option: () => "!text-white hover:!text-midnightblue",
+                          input: () => "!text-white",
+                          singleValue: () => "!text-white !text-base",
+                          indicatorSeparator: () => "hidden",
+                          placeholder: () => "!text-white",
+                        }}
+                      />
+                    </div>
+                  )}
                   <div className="self-stretch  flex flex-col items-start justify-between gap-[24px] max-w-full">
                     {prod.value != "Travel Services" && (
                       <div className="self-stretch flex flex-row items-start justify-between gap-5 max-w-full mq825:flex-wrap">
@@ -856,7 +891,7 @@ const HomeExchangeCurrency = () => {
                           </div>
                           <div className="flex-1 self-stretch sm:self-auto min-w-0 xs:w-full rounded-[12px] sm:rounded-lg bg-gray-100 overflow-hidden flex flex-row items-center justify-between py-2 sm:py-3 px-2 sm:px-6 box-border [row-gap:20px] max-w-full gap-[0px] mq825:flex-wrap">
                             <input
-                            style={{color: "white"}}
+                              style={{ color: "white" }}
                               className="!text-white self-stretch w-[80%] max-w-[419px]  [border:none] [outline:none] bg-[transparent] h-8 flex flex-row items-center justify-start font-body-small font-semibold  !text-base sm:text-xl text-text5 "
                               placeholder="Forex Amount"
                               type="text"

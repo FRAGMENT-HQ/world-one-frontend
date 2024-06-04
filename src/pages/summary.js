@@ -72,22 +72,22 @@ const Frame1 = () => {
           <div className="flex flex-1 w-full laptop:w-[60%] flex-col items-end justify-center gap-[2rem] max-w-full mq900:gap-[1rem] mq900:min-w-full">
             <div className="self-stretch flex flex-row laptop:flex-col items-end justify-evenly laptop:justify-start gap-[1.706rem] max-w-full">
               <div className="self-stretch flex flex-col laptop:flex-row items-start justify-between gap-[1rem]">
-                <div className=" relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0 whitespace-nowrap">
+                <div className="w-[103px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0 whitespace-nowrap">
                   Order Type
                 </div>
-                <div className=" relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0">
+                <div className=" w-[70px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0">
                   Product
                 </div>
-                <div className=" relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0">
+                <div className="w-[60px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0">
                   Currency
                 </div>
-                <div className=" relative text-[1rem] sm:text-[1.25rem] font-normal font-body-small text-text3 text-left inline-block shrink-0">
+                <div className="w-[130px] relative text-[1rem] sm:text-[1.25rem] font-normal font-body-small text-text3 text-left inline-block shrink-0">
                   Rate
                 </div>
-                <div className="relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left whitespace-nowrap">
+                <div className="w-[116px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left whitespace-nowrap">
                   Forex Amount
                 </div>
-                <div className="relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left whitespace-nowrap">
+                <div className="w-[104px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left whitespace-nowrap">
                   INR Amount
                 </div>
               </div>
@@ -103,26 +103,26 @@ const Frame1 = () => {
                 return (
                   <>
                     <div className="self-stretch flex flex-col laptop:flex-row items-start justify-between">
-                      <div className="mx-0 laptop:ml-[2vw] laptop:mr-[3vw] flex flex-row items-start justify-start gap-[1.2rem]">
+                      <div className="w-[103px] flex flex-row items-start justify-start gap-[1.2rem]">
                         <div className="flex-1 relative font-semibold text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-success text-left">
                           {details?.bs}
                         </div>
                       </div>
-                      <div className="relative mx-0 laptop:-ml-[5vw] laptop:mr-[2vw] text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                      <div className="relative w-[70px] text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
                         {details?.product}
                       </div>
-                      <div className=" mx-0 laptop:-ml-[6.5vw] laptop:mr-[3vw] bg-red-400 relative font-semibold text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                      <div className=" w-[60px]  relative font-semibold text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
                         {details?.finalCurrency.smValue}
                       </div>
-                      <div className="mx-0 laptop:-ml-[7.5vw] font-semibold relative text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                      <div className="w-[130px] mt-2 font-semibold relative text-[1rem] sm:text-[0.875rem] font-body-small text-text2 text-left inline-block shrink-0 ">
                         {console.log(details?.intialCurrency)}1{" "}
                         {details?.finalCurrency.smValue} ={" "}
                         {details?.intialCurrency?.smValue} {details?.rate}
                       </div>
-                      <div className=" mx-0 laptop:-ml-[4.5vw] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
+                      <div className="w-[116px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
                         {details?.forexAmount}
                       </div>
-                      <div className="mx-0 laptop:mr-[1.5vw] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
+                      <div className="w-[103px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
                         {details?.inrAmount}
                       </div>
                     </div>

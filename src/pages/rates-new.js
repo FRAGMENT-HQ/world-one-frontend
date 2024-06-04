@@ -1,10 +1,9 @@
-import { useRouter } from "next/router";
 import Select from "react-select";
-
+import { getFullRateCardMutation } from "@/hooks/prod";
 import Smodal from "@/components/smodal";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/navbar";
-
+import country from "../../country.json";
 const cityOptions = [
   { label: "Delhi", value: "Delhi" },
   { label: "Gurgaon", value: "Gurgaon" },
@@ -153,14 +152,63 @@ const currencyData = [
     sell: { cash: "76.50", forexCard: "76.50" },
   },
 ];
+const getImg = (name) => {
+  let Country = country.find((c) => c.code === name);
 
+  return Country?.flag;
+};
 const Outlets = () => {
   const [open, setOpen] = useState(false);
   // const [drawerOpen, setdrawerOpen] = useState(false);
   const [display, setDisplay] = useState(-1);
   const [city, setCity] = useState("");
+  const [data, setData] = useState([]);
+
   // const router = useRouter();
   const size = useWindowSize();
+
+  const { mutate, isLoading } = getFullRateCardMutation(
+    (res) => {
+      console.log(res);
+      let Data = res.data;
+      Data = Data.map((d) => {
+        const buyRate =
+          d.rate > 1
+            ? (1 / (d.rate + 1)).toFixed(2)
+            : (1 / d.rate).toFixed(2) + 1;
+        const sellRate =
+          d.rate > 1
+            ? (1 / (d.rate - 1)).toFixed(2)
+            : ((1 / d.rate).toFixed(2) - 1).toFixed(2);
+        const currency = d.currency;
+        let flag = getImg(currency);
+        console.log(flag);
+        return {
+          flag,
+          currency,
+          buy: {
+            cash: buyRate,
+            forexCard: buyRate,
+            remittance: buyRate,
+          },
+          sell: {
+            cash: sellRate,
+            forexCard: sellRate,
+          },
+        };
+      });
+
+      setData(Data);
+    },
+
+    (err) => {
+      console.log(err);
+    }
+  );
+
+  useEffect(() => {
+    mutate();
+  }, []);
 
   useEffect(() => {
     if (size.width > 720) {
@@ -171,7 +219,7 @@ const Outlets = () => {
   }, [size.width]);
 
   return (
-    <div className="w-full relative bg-background flex flex-col items-start justify-start pt-[3rem] px-[5%] laptop:px-[120px] pb-[10rem] box-border gap-[0.75rem]  tracking-[normal] ">
+    <div className="w-full relative bg-background flex flex-col items-start justify-start pt-[3rem] px-[5%] laptop:px-[120px] pb-[10rem] box-border gap-[2rem]  tracking-[normal] ">
       <Smodal open={open} setOpen={setOpen} />
       {/* <InputArray /> */}
       <Navbar />
@@ -210,7 +258,7 @@ const Outlets = () => {
             <div
               key={option.value}
               onClick={() => setCity(option)}
-              className={`w-[6rem] font-semibold mt-4 ml-2 mr-2 h-[4.5rem] cursor-pointer shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-2xl  overflow-hidden flex flex-col items-center justify-center py-[1.5rem] px-[1.656rem] ${
+              className={`w-[4rem] font-semibold mt-4 ml-2 mr-2 h-[3.5rem] cursor-pointer shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-2xl  overflow-hidden flex flex-col items-center justify-center py-[1.5rem] px-[1.656rem] ${
                 city.value == option.value
                   ? "!bg-[#FF9135] text-white "
                   : "bg-white text-[#27357E]"
@@ -218,7 +266,7 @@ const Outlets = () => {
             >
               <img
                 src={`/city/${city.value == option.value ? "light" : "dark"}/${option.value}.svg`}
-                className="w-20"
+                className="w-16"
               />
               {option.label}
             </div>
@@ -258,22 +306,22 @@ const Outlets = () => {
         <div className="w-full text-xs laptop:text-sm flex font-normal gap-[3%]  ">
           <div className="w-36 rounded-xl flex items-center "></div>
           {display != 0 && (
-            <div className="w-[50%] flex-1 rounded-xl flex items-center justify-evenly ">
-              <div> Currency Notes (Cash)</div>
-              <div> Prepaid Forex Card</div>
-              <div> Remittance </div>
+            <div className="w-full flex-1 rounded-xl flex items-center justify-evenly ">
+              <div className="w-[105px]" > Currency Notes (Cash)</div>
+              <div className="w-[98px]"> Prepaid Forex Card</div>
+              <div className="w-[71px]"> Remittance </div>
             </div>
           )}
           {display != 1 && (
             <div className="flex-1 self-streach rounded-xl flex items-center justify-evenly ">
-              <div> Currency Notes (Cash) </div>
+              <div className="w-[143px]" > Currency Notes (Cash) </div>
               {/* <div> Prepaid Forex Card </div> */}
             </div>
           )}
         </div>
         <div className="w-full border border-solid border-[#27357E]"></div>
 
-        {currencyData.map((currency) => {
+        {data.map((currency) => {
           return (
             <>
               <div className="w-full text-sm flex font-normal gap-[3%]  ">
@@ -281,15 +329,15 @@ const Outlets = () => {
                   <img src={currency?.flag} /> <div> {currency?.currency} </div>
                 </div>
                 {display != 0 && (
-                  <div className="w-[50%] text-[#38B000]  flex-1 rounded-xl flex items-center justify-evenly  ">
-                    <div> {currency.buy.cash}</div>
-                    <div> {currency.buy.forexCard} </div>
-                    <div> {currency.buy.remittance} </div>
+                  <div className="w-full text-[#38B000]  flex-1 rounded-xl flex items-center justify-evenly  ">
+                    <div className="w-[105px]"> {currency.buy.cash}</div>
+                    <div className="w-[98px]">  {currency.buy.forexCard} </div>
+                    <div className="w-[71px]">  {currency.buy.remittance} </div>
                   </div>
                 )}
                 {display != 1 && (
                   <div className="flex-1 text-[#FF3F2C] self-streach rounded-xl flex items-center justify-evenly">
-                    <div> {currency.sell.cash} </div>
+                    <div className="w-[143px]"> {currency.sell.cash} </div>
                     {/* <div> {currency.sell.forexCard} </div> */}
                   </div>
                 )}

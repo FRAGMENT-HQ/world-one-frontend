@@ -108,7 +108,7 @@ const FrameComponent5 = ({
             alt=""
             src="/clipboard.svg"
           />
-          <div className="flex-1 relative leading-[1.5rem] font-normal inline-block min-w-[59.5rem] max-w-full mq1275:min-w-full">
+          <div className="flex-1 text-sm relative leading-[1.5rem] font-normal inline-block min-w-[59.5rem] max-w-full mq1275:min-w-full">
             Please upload the documents shown below. You may upload all the
             required documents after completing your booking as well. Your
             documents are safe and watermarked with order reference number to

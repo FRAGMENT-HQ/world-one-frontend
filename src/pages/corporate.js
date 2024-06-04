@@ -130,7 +130,7 @@ const Frame11 = () => {
       <Navbar />
       <div className="w-full  box-border flex flex-row items-start justify-start py-0 px-[21px] max-w-full text-text2 border-0 border-l-[5px] border-solid border-secondary">
         <h1 className="m-0 flex-1 relative tex-3xl leading-[56px] font-bold font-inherit inline-block max-w-full ">
-        Corporate Help Desk
+        Corporate Solutions
         </h1>
       </div>
       <section className=" flex  flex-col items-start justify-start gap-[1.75rem] min-w-full">
@@ -141,14 +141,14 @@ const Frame11 = () => {
 
           <div className="w-full flex flex-col laptop:flex-row justify-between  gap-6 laptop:gap-[4%] ">
             <input
-              className=" w-[calc(100% - )] font-normal laptop:w-[48%]  h-[2rem] flex-1 flex flex-row items-center justify-start text-[1.25rem] text-base text-[#000]  py-3 px-3 rounded-xl"
+              className=" w-[calc(100% - )] !outline-0 font-normal laptop:w-[48%]  h-[2rem] flex-1 flex flex-row !border items-center justify-start text-[1.25rem] text-base text-[#000]  py-3 px-3 rounded-xl"
               placeholder="Enter Your Name"
               // type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <input
-              className="w-[calc(100% - )] font-normal laptop:w-[48%] h-[2rem] flex-1 flex flex-row items-center justify-start  text-[1.25rem] text-base text-[#000]  py-3 px-3 rounded-xl"
+              className="w-[calc(100% - )] !border font-normal laptop:w-[48%] h-[2rem] flex-1 flex flex-row items-center justify-start  text-[1.25rem] text-base text-[#000]  py-3 px-3 rounded-xl"
               placeholder="Enter email address"
               // type="text"
               value={email}
@@ -157,9 +157,9 @@ const Frame11 = () => {
           </div>
           <div className="w-full flex flex-col laptop:flex-row gap-6 laptop:gap-[4%]">
             <div className=" w-full laptop:w-[48%] flex flex-col sm:flex-row items-start justify-start gap-[0.75rem] max-w-full">
-              <CountryCode value={code} setValue={setCode}  />
+              <CountryCode value={code} border={"!border"} setValue={setCode}  />
               <input
-                className=" w-[96%] px-[2%] font-normal sm:w-full sm:px-3 h-[2rem] flex-1 flex flex-row items-center justify-start text-[1.25rem] text-base text-[#000]  py-3  rounded-xl"
+                className=" w-[96%] px-[2%] font-normal !border sm:w-full sm:px-3 h-[2rem] flex-1 flex flex-row items-center justify-start text-[1.25rem] text-base text-[#000]  py-3  rounded-xl"
                 placeholder="Enter phone number"
                 // type="phone"
                 value={phone}
@@ -167,7 +167,7 @@ const Frame11 = () => {
               />
             </div>
             <input
-              className=" w-[calc(100% - )] font-normal laptop:w-[48%]  h-[2rem] flex-1 flex flex-row items-center justify-start text-[1.25rem] text-base text-[#000]  py-3 px-3 rounded-xl"
+              className=" w-[calc(100% - )] font-normal !border laptop:w-[48%]  h-[2rem] flex-1 flex flex-row items-center justify-start text-[1.25rem] text-base text-[#000]  py-3 px-3 rounded-xl"
               placeholder="Enter Company Name"
               // type="text"
               value={companyName}
@@ -179,7 +179,7 @@ const Frame11 = () => {
               options={options}
               classNames={{
                 container: () =>
-                  " w-full  flex-1 min-w-36 text-white border-solid border-2 border-[#000] !rounded-2xl  rounded-lg bg-gray-100 py-1 sm:py-2 ",
+                  " w-full  flex-1 min-w-36 text-white border-solid border border-[#000] !rounded-2xl  rounded-lg bg-gray-100 py-1 sm:py-2 ",
                 control: () =>
                   "self-stretch !bg-transparent !outline-none !border-none !mx-2",
                 menuList: () => "!bg-secondary min-w-18",

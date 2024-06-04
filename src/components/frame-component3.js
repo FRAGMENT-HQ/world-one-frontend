@@ -44,7 +44,7 @@ const FrameComponent3 = ({
         style={inputFieldStyle}
       >
         <input
-          className="w-full [border:none] [outline:none] bg-[transparent] h-[1.5rem] flex-1 flex flex-row items-center justify-start font-body-small font-normal text-[1.25rem] text-text3 min-w-[15.625rem] max-w-full mq900:min-w-full"
+          className="w-full [border:none] [outline:none] bg-[transparent] h-[2rem] flex-1 flex flex-row items-center justify-start font-body-small font-normal text-[1.25rem] text-text3 min-w-[15.625rem] max-w-full mq900:min-w-full"
           placeholder={Placeholder}
           type="text"
           value={value}

@@ -70,9 +70,9 @@ const FrameComponent4 = ({
               src={"backIcon.svg"}
               className=""
             />
-            <div className="relative leading-[2.25rem] font-semibold inline-block min-w-[1.813rem] ">
+            {/* <div className="relative leading-[2.25rem] font-semibold inline-block min-w-[1.813rem] ">
               {`0${step}`}
-            </div>
+            </div> */}
             <h2 className="m-0 flex-1 relative text-[2rem] leading-[2.5rem] font-semibold inline-block min-w-[10.375rem] mq900:text-[1.625rem] mq900:leading-[2rem] mq450:text-[1.188rem] mq450:leading-[1.5rem]">
               {title}
             </h2>
