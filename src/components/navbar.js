@@ -123,7 +123,7 @@ export default function Navbar() {
                 </div>
                 <div
                   onClick={() => {
-                    router.push("/rates");
+                    router.push("/rates-new");
                   }}
                   className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
                 >
@@ -204,7 +204,7 @@ export default function Navbar() {
                     </div>
                     <div
                       onClick={() => {
-                        router.push("/rates");
+                        router.push("/rates-new");
                       }}
                       className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
                     >

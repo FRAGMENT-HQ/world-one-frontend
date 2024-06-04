@@ -491,7 +491,7 @@ const HomeExchangeCurrency = () => {
                   </div>
                   <div
                     onClick={() => {
-                      router.push("/rates");
+                      router.push("/rates-new");
                     }}
                     className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
                   >
@@ -533,7 +533,7 @@ const HomeExchangeCurrency = () => {
 
                 <div
                   onClick={() => {
-                    router.push("/rates");
+                    router.push("/rates-new");
                   }}
                   className="cursor-pointer w-[10rem] h-8 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
                 >
@@ -761,7 +761,7 @@ const HomeExchangeCurrency = () => {
                     )}
                   </div>
                 </div>
-                <div className="self-stretch flex  -mt-20 sm:mt-0 flex-col items-center justify-center gap-[32px] max-w-full mq450:gap-[16px_32px]">
+                <div className="self-stretch flex  -mt-20 sm:mt-0 flex-col items-center justify-center gap-[32px] max-w-full ">
                   {size.width < 640 && (
                     <div className="flex-1 w-[100%] flex flex-col items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
                       <Select
@@ -884,7 +884,7 @@ const HomeExchangeCurrency = () => {
                     )}
 
                     {prod.value != "Travel Services" && (
-                      <div className="self-stretch flex xs:flex-row flex-wrap items-end justify-start gap-[24px] max-w-full flex-wrap">
+                      <div className="self-stretch flex flex-col sm:flex-row flex-wrap items-startr sm:items-end justify-start gap-[24px] max-w-full flex-wrap">
                         <div className="flex flex-col gap-2 flex-1 self-stretch ">
                           <div className=" relative self-stretch font-semibold text-base ">
                             Forex Amount
