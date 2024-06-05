@@ -169,7 +169,7 @@ const Outlets = () => {
 
   const { mutate, isLoading } = getFullRateCardMutation(
     (res) => {
-      console.log(res);
+    
       let Data = res.data;
       Data = Data.map((d) => {
         const buyRate =
@@ -182,7 +182,7 @@ const Outlets = () => {
             : ((1 / d.rate).toFixed(2) - 1).toFixed(2);
         const currency = d.currency;
         let flag = getImg(currency);
-        console.log(flag);
+   
         return {
           flag,
           currency,

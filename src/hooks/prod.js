@@ -115,3 +115,39 @@ export const listOutletsMutation = (successCallback, errorCallback) => {
     },
   });
 };
+
+const listOrdersRequest = (email) => {
+  const url = getUrl(`/api/items/?email=${email}`);
+
+  return request("GET", url, null, false);
+};
+
+export const listOrdersMutation = (successCallback, errorCallback) => {
+  return useMutation(listOrdersRequest, {
+    mutationKey: "outlet-request",
+    onSuccess: (res) => {
+      successCallback(res);
+    },
+    onError: (err) => {
+      errorCallback(err);
+    },
+  });
+};
+
+const submitRequest = (data) => {
+  const url = getUrl(`/api/resume/`);
+
+  return request("POST", url, data, false);
+};
+
+export const submitMutation = (successCallback, errorCallback) => {
+  return useMutation(submitRequest, {
+    mutationKey: "resume-request",
+    onSuccess: (res) => {
+      successCallback(res);
+    },
+    onError: (err) => {
+      errorCallback(err);
+    },
+  });
+};

@@ -1,10 +1,9 @@
 import { useRouter } from "next/router";
 
-import Smodal from "@/components/smodal";
 import { useState, useEffect, useRef } from "react";
-
-import Drawer from "@mui/material/Drawer";
+import { submitMutation } from "@/hooks/prod";
 import Navbar from "@/components/navbar";
+import toast from "react-hot-toast";
 function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
@@ -43,6 +42,8 @@ const getSmallName = (name) => {
   return name;
 };
 
+
+
 const Frame11 = () => {
   const [open, setOpen] = useState(false);
   const [drawerOpen, setdrawerOpen] = useState(false);
@@ -50,7 +51,16 @@ const Frame11 = () => {
   const router = useRouter();
   const size = useWindowSize();
 
-
+  const { mutate } = submitMutation(
+    (res) => {
+      toast.success("Resume Uploaded Successfully");
+      setPDF(null);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+  
 
   const inputRef = useRef(null);
 
@@ -264,7 +274,13 @@ const Frame11 = () => {
           <div className="flex gap-8 items-center flex-row-reverse ">
             <div
               onClick={() => {
-                inputRef.current.click();
+                if(PDF){
+                  const Data = new FormData();
+                  Data.append("resume", PDF);
+                  mutate(Data);
+
+                }else{
+                 inputRef.current.click();}
               }}
               className=" cursor-pointer bg-white px-8 py-2 text-lg font-semibold text-[#333] rounded-lg flex items-center"
             >

@@ -110,7 +110,7 @@ const PaymentPage = () => {
                   src="/vector-19.svg"
                 />
               </div>
-              {/* <button className="cursor-pointer [border:none] py-[1.125rem] px-[1.062rem] bg-primary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden flex flex-row items-start justify-start box-border gap-[1rem]">
+              <button className="cursor-pointer [border:none] py-[1.125rem] px-[1.062rem] bg-primary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden flex flex-row items-start justify-start box-border gap-[1rem]">
             <img
               className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 hidden min-h-[2rem]"
               alt=""
@@ -124,7 +124,7 @@ const PaymentPage = () => {
             <div className="flex-1 relative text-[1.5rem] leading-[2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
               Add Product
             </div>
-          </button> */}
+          </button>
             </div>
             <div className=" flex flex-col items-center justify-center gap-[2rem]  max-w-full mq900:gap-[1rem] mq900:min-w-full mq1725:flex-1">
               

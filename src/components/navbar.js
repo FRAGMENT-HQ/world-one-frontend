@@ -77,11 +77,10 @@ export default function Navbar() {
   const [userData, setUserData] = useAtom(authUser);
   const [cartItems, setCartItems] = useAtom(cart);
   const size = useWindowSize();
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
   const { mutate: login } = loginMutation(
     (res) => {
-      console.log(res);
+      console.log();
     },
     (err) => {
       console.log(err);

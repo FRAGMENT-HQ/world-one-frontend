@@ -33,11 +33,7 @@ const CustomSingleValue = ({ children, ...props }) => {
 let options = codeData.map((d) =>{ 
   const Img = getImg(d.name);
   if (Img) {
-    console.log({
-      value: d.dial_code,
-      label: `${d.dial_code}`,
-      icon: getImg(d.name),
-    });
+
    return {
   value: d.dial_code,
   label: `${d.dial_code}`,

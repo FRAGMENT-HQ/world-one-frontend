@@ -60,7 +60,7 @@ const Frame1 = () => {
   }, [amount]);
 
   return (
-    <div className="w-full relative bg-background overflo-hidden flex flex-col items-center justify-center pt-[1.5rem] pr-[2%] pl-[5%] sm:pr-[0.6rem] sm:pl-[1.25rem] pb-[7.687rem] box-border gap-[2.75rem] text-left text-[1.25rem] text-white font-body-small ">
+    <div className="w-full relative bg-background overflo-hidden flex flex-col items-center justify-center pt-[1.5rem] pr-[2%] pl-[2%] sm:pr-[1.25rem] sm:pl-[1.25rem] pb-[7.687rem] box-border gap-[2.75rem] text-left text-[1.25rem] text-white font-body-small ">
       <InputArray />
       <FrameComponent4
         handleClick={handleNext}
@@ -70,8 +70,8 @@ const Frame1 = () => {
       <main className="w-full flex flex-col items-start justify-start gap-[1.75rem] max-w-full">
         <form className="m-0 self-stretch shadow-[0px_8px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white overflow-hidden flex flex-col laptop:flex-row items-start justify-start py-[4rem] px-[2%] sm:px-[2.5rem] box-border gap-[3rem] w-full ] mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border flex-wrap">
           <div className="flex flex-1 w-full laptop:w-[60%] flex-col items-end justify-center gap-[2rem] max-w-full mq900:gap-[1rem] mq900:min-w-full">
-            <div className="self-stretch flex flex-row laptop:flex-col items-end justify-evenly laptop:justify-start gap-[1.706rem] max-w-full">
-              <div className="self-stretch flex flex-col laptop:flex-row items-start justify-between gap-[1rem]">
+            <div className="self-stretch  snap-x overflow-x-scroll laptop:snap-none flex flex-row laptop:flex-col items-end justify-evenly laptop:justify-start gap-[1.706rem] max-w-full">
+              <div className="self-stretch snap-center  flex flex-col laptop:flex-row items-start justify-between gap-[1rem]">
                 <div className="w-[103px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0 whitespace-nowrap">
                   Order Type
                 </div>
@@ -102,7 +102,7 @@ const Frame1 = () => {
               {orderDetails?.orderItems.map((details, index) => {
                 return (
                   <>
-                    <div className="self-stretch flex flex-col laptop:flex-row items-start justify-between">
+                    <div className="self-stretch snap-center flex flex-col laptop:flex-row items-start justify-between">
                       <div className="w-[103px] flex flex-row items-start justify-start gap-[1.2rem]">
                         <div className="flex-1 relative font-semibold text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-success text-left">
                           {details?.bs}
@@ -115,7 +115,7 @@ const Frame1 = () => {
                         {details?.finalCurrency.smValue}
                       </div>
                       <div className="w-[130px] mt-2 font-semibold relative text-[1rem] sm:text-[0.875rem] font-body-small text-text2 text-left inline-block shrink-0 ">
-                        {console.log(details?.intialCurrency)}1{" "}
+                        
                         {details?.finalCurrency.smValue} ={" "}
                         {details?.intialCurrency?.smValue} {details?.rate}
                       </div>

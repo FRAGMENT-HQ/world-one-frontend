@@ -76,14 +76,14 @@ const Frame1 = () => {
     const slectedItems = orderDetails?.Items.filter(
       (item, index) => selected[index]
     );
-    console.log("selected items =>", slectedItems[0].product);
+
     const Forex_card = slectedItems.filter(
       (item) => item.product === "Forex Card"
     );
     const Cash = slectedItems.filter(
       (item) => item.product === "Exchange Currency"
     );
-    console.log("display =>", Forex_card, Cash);
+
     const amountInForex = Forex_card.reduce(
       (acc, item) => acc + parseFloat(item.inrAmount),
       0
@@ -92,7 +92,7 @@ const Frame1 = () => {
       (acc, item) => acc + parseFloat(item.inrAmount),
       0
     );
-    console.log("amount in forex =>", amountInForex, amountInCash);
+
     if (amountInCash / USD > 3000) {
       toast.error("Amount in cash should be less than 3000 USD");
       return;
@@ -127,10 +127,10 @@ const Frame1 = () => {
         </h1>
       </div>
       <main className="w-full flex flex-col items-start justify-start gap-[1.75rem] max-w-full">
-        <form className="m-0 self-stretch shadow-[0px_8px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white overflow-hidden flex flex-col laptop:flex-row items-start justify-start py-[4rem] px-[2%] sm:px-[2.5rem] box-border gap-[3rem] w-full ] mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border flex-wrap">
+        <form className="m-0 self-stretch shadow-[0px_8px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white  laptop:overflow-hidden flex flex-col laptop:flex-row items-start justify-start py-[4rem] px-[2%] sm:px-[2.5rem] box-border gap-[3rem] w-full ] mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border flex-wrap">
           <div className="flex flex-1 w-full laptop:w-[60%] flex-col items-end justify-center gap-[2rem] max-w-full mq900:gap-[1rem] mq900:min-w-full">
-            <div className="self-stretch flex flex-row laptop:flex-col items-end justify-evenly laptop:justify-start gap-[1.706rem] max-w-full">
-            <div className="self-stretch flex flex-col laptop:flex-row items-start justify-between gap-[1rem]">
+            <div className="self-stretch flex snap-x overflow-x-scroll laptop:snap-none flex-row laptop:flex-col items-end justify-evenly laptop:justify-start gap-[1.706rem] max-w-full">
+              <div className="self-stretch flex flex-col snap-center laptop:flex-row items-start justify-between gap-[1rem]">
                 <div className="w-[108px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0 whitespace-nowrap">
                   Order Type
                 </div>
@@ -150,18 +150,11 @@ const Frame1 = () => {
                   INR Amount
                 </div>
               </div>
-              {size.width > 1024 && (
-                <img
-                  className="self-stretch invisible laptop:visible laptop:w-full w-0  relative max-w-full overflow-hidden max-h-full"
-                  loading="lazy"
-                  alt=""
-                  src="/vector-18.svg"
-                />
-              )}
+
               {orderDetails?.Items.map((details, index) => {
                 return (
                   <>
-                    <div className="self-stretch flex flex-col laptop:flex-row items-start justify-between gap-[1rem]">
+                    <div className=" snap-center self-stretch flex flex-col laptop:flex-row items-start justify-between gap-[1rem]">
                       <div
                         onClick={() => {
                           setSelected(
@@ -196,8 +189,8 @@ const Frame1 = () => {
                         {details?.finalCurrency.smValue}
                       </div>
                       <div className=" w-[130px] font-semibold relative text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
-                        {console.log(details?.intialCurrency)}1{" "}
-                        {details?.finalCurrency.smValue} = {details?.intialCurrency.smValue} {details?.rate}
+                        {details?.finalCurrency.smValue} ={" "}
+                        {details?.intialCurrency.smValue} {details?.rate}
                       </div>
                       <div className=" w-[116px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
                         {details?.forexAmount}
@@ -209,15 +202,10 @@ const Frame1 = () => {
                   </>
                 );
               })}
+              
+              
 
-              {size.width > 1024 && (
-                <img
-                  className=" invisible laptop:visible laptop:w-full w-0 self-stretch relative max-w-full overflow-hidden max-h-full"
-                  loading="lazy"
-                  alt=""
-                  src="/vector-19.svg"
-                />
-              )}
+              
             </div>
             <div className="w-full h-12 flex-wrap flex justify-between">
               <div

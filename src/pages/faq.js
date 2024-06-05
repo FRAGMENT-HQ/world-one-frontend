@@ -161,7 +161,7 @@ const data = [
 ];
 
 function Faqs() {
-  console.log(data);
+ 
   return (
     <div className="mt-12 px-[5%] pb-16">
       <Navbar />
@@ -173,7 +173,7 @@ function Faqs() {
         </div>
         <div className="flex flex-col items-center justify-center mt-12 gap-10">
           {data.map((item, index) =>  {
-            console.log(item);
+            
             return (
               <FaqItems
                 number={index + 1}

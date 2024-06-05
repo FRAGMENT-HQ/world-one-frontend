@@ -106,7 +106,7 @@ const Frame11 = () => {
         total_amount: 0,
         product: orderData.product,
         city: orderData.city.value,
-        purpous: purpous?.value,
+        purpous: orderData.type=="Transfer Money Abroad" ? "Overseas Education/Study Abroad" : purpous?.value,
       })
     );
     data.append("user", JSON.stringify(userData));
@@ -114,7 +114,7 @@ const Frame11 = () => {
   };
 
   const handleNext = () => {
-    if ((orderData?.product != "Travel Services" || status) ) {
+    if ((orderData?.product != "Travel Services" || !status) ) {
       if (!panNumber || !/[A-Z]{5}[0-9]{4}[A-Z]{1}/.test(panNumber)) {
         toast.error("Valid pan number is required");
         return;
@@ -184,15 +184,15 @@ const Frame11 = () => {
                 </div>
               </div>
             )}
-            <div>
-              Are you an Indian Resident (including NRIs)
-              <Switch
-                checked={status}
-                onChange={() => {
-                  setStatus(!status);
-                }}
-              />{" "}
-            </div>
+            <div className="flex gap-[20vw]" >
+                <div> Are you an Indian Resident (including NRIs)</div>
+                <Switch
+                  checked={status}
+                  onChange={() => {
+                    setStatus(!status);
+                  }}
+                />
+              </div>
           </div>
           <PhoneNumberInputField
             name={name}

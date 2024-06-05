@@ -32,7 +32,7 @@ const usd = 84;
 
 // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 const cityOptions = [
-  { label: " New Delhi", value: "New Delhi" },
+  { label: "New Delhi", value: "New Delhi" },
   { label: "Gurgaon", value: "Gurgaon" },
   { label: "Noida", value: "Noida" },
   { label: "Kolkata", value: "Kolkata" },
@@ -167,7 +167,7 @@ const HomeExchangeCurrency = () => {
   );
   const { mutate: login } = loginMutation(
     (res) => {
-      console.log(res);
+      console.log();
     },
     (err) => {
       console.log(err);
@@ -296,7 +296,7 @@ const HomeExchangeCurrency = () => {
       forexAmount: amount,
       inrAmount: (amount * (rate + factor)).toFixed(2),
       rate: (rate + factor ** powerFactor).toFixed(2),
-      product: prod.value,
+      product: prod.value == "Exchange Currency" ? "Cash" : prod.value,
       bs: selected ? "Buy" : "Sell",
     };
     // const meta = { city: city };
@@ -330,7 +330,12 @@ const HomeExchangeCurrency = () => {
             forexAmount: amount,
             inrAmount: (amount * (rate + factor)).toFixed(2),
             rate: (rate + factor ** powerFactor).toFixed(2),
-            product: prod.value,
+            product:
+              prod.value == "Exchange Currency"
+                ? "Cash"
+                : prod.value == "Transfer Money Abroad"
+                  ? "Remittance"
+                  : prod.value,
             bs: selected ? "Buy" : "Sell",
           },
         ],
@@ -351,9 +356,8 @@ const HomeExchangeCurrency = () => {
         // https://firebase.google.com/docs/reference/js/auth.user
         const uid = user.uid;
         // ...
-        console.log(user);
-        console.log(auth);
-        console.log(user.accessToken);
+      
+        // console.log(user.accessToken);
         setUserData({
           name: user.displayName,
           email: user.email,
@@ -617,8 +621,7 @@ const HomeExchangeCurrency = () => {
                             const credential =
                               GoogleAuthProvider.credentialFromResult(result);
                             const token = credential.accessToken;
-                            console.log(token);
-                            console.log(credential);
+                          
                             // The signed-in user info.
                             const user = result.user;
                             // IdP data available using getAdditionalUserInfo(result)
@@ -841,7 +844,6 @@ const HomeExchangeCurrency = () => {
                   {prod.value == "Travel Services" && (
                     <div className="flex-1 w-[100%] flex flex-col -mb-4 items-start justify-start gap-[16px] min-w-[240px] max-w-full text-left text-xl text-text5 font-body-small">
                       <Select
-                        
                         value={service}
                         isSearchable={true}
                         onChange={setService}
@@ -1024,7 +1026,7 @@ const HomeExchangeCurrency = () => {
                     </div>
                     <button
                       onClick={() => {
-                        router.push("/rates");
+                        router.push("/rates-new");
                       }}
                       className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
                     >
@@ -1053,7 +1055,7 @@ const HomeExchangeCurrency = () => {
             </div>
             <button
               onClick={() => {
-                router.push("/rates");
+                router.push("/rates-new");
               }}
               className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
             >

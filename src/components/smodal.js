@@ -3,14 +3,14 @@ import { useRouter } from "next/router";
 import Modal from '@mui/material/Modal';
 import { useAtom } from "jotai";
 import { user,order } from "@/states/storage";
-const Smodal = ({open,handleClose}) => {
+const Smodal = ({open,handleClose,route}) => {
   const router = useRouter();
 
   const [orderData, setOrderData] = useAtom(order);
   const [userData, setUserData] = useAtom(user);
 
   const onFrameContainer5Click = ()=>{
-    router.push("/");
+    router.push(route);
 }
 const style = {
   // position: "absolute",

@@ -34,8 +34,8 @@ const FrameComponent3 = ({
       style={frameDiv3Style}
     >
       <div
-        className=" relative leading-[2rem] font-normal inline-block mq450:text-[1rem] mq450:leading-[1.625rem]"
-        style={travelersNameStyle}
+        className=" w-full relative leading-[2rem] font-normal inline-block mq450:text-[1rem] mq450:leading-[1.625rem]"
+        // style={travelersNameStyle}
       >
         {travelersName}
       </div>

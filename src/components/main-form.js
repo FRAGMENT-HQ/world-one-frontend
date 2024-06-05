@@ -47,13 +47,21 @@ const MainForm = () => {
   const [visa, setVisa] = useState(null);
   const [selected, setSelected] = useState(false);
   const [open, setOpen] = useState(false);
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(
+    orderData?.type == "Transfer Money Abroad" ? true : false
+  );
   const [extraFile, setExtraFile] = useState(null);
-  const [purpous, setPurpous] = useState();
+  const [purpous, setPurpous] = useState(
+    orderData?.type == "Transfer Money Abroad"
+      ? "Overseas Education/Study Abroad"
+      : null
+  );
   const [cPan, setCPan] = useState(null);
 
   const getName = () => {
+    
     switch (purpous) {
+
       case null:
         return false;
       case "Medical Treatment Abroad":
@@ -114,7 +122,7 @@ const MainForm = () => {
           forex_rate: item.rate,
           forex_amount: item.forexAmount,
           bs: item.bs,
-          currency: item.finalCurrency.value,
+          currency: item.finalCurrency.smValue,
         };
       });
 
@@ -155,6 +163,7 @@ const MainForm = () => {
     <section className="flex flex-col items-start justify-start gap-[1.75rem] pb-10 max-w-full text-left text-[1.5rem] text-text2 font-body-small">
       <Smodal
         open={open}
+        route={orderData?.type == "cart" ? "/delivery" : "/"}
         handleClose={() => {
           setOpen(false);
         }}
@@ -200,13 +209,14 @@ const MainForm = () => {
           setPurpous={setPurpous}
           purpous={purpous}
           orderData={orderData}
+          showPan={orderData?.type == "Cart"}
         />
         <div className="flex items-center gap-5 flex-col sm:flex-row">
           {selected ? (
             <img
-            onClick={() => {
-              setSelected(!selected);
-            }}
+              onClick={() => {
+                setSelected(!selected);
+              }}
               className="h-8 w-8 relative overflow-hidden shrink-0 "
               loading="lazy"
               alt=""

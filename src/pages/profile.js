@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-
+import { listOrdersMutation } from "@/hooks/prod";
 import Smodal from "@/components/smodal";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
@@ -60,9 +60,9 @@ const Status = ({ status }) => {
     <div className="">
       <img
         src={
-          status == "PENDING"
+          status == 0
             ? "/pending.svg"
-            : status == "COMPLETED"
+            : status == 1
               ? "/approved.svg"
               : "/rejected.svg"
         }
@@ -82,8 +82,20 @@ const BlockTime = ({ date = "May 22, 2024", time = "22:30" }) => {
 const Frame11 = () => {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useAtom(authUser);
+  const [data, setData] = useState([]);
   const router = useRouter();
   const size = useWindowSize();
+  const { mutate: listOrders } = listOrdersMutation(
+    (res) => {
+      setData(res.data);
+    },
+    (err) => {
+      toast.error(err.message);
+    }
+  );
+  useEffect(() => {
+    listOrders(user?.email);
+  }, [user?.email]);
 
   
 
@@ -153,7 +165,36 @@ const Frame11 = () => {
               <td></td>
             </tr>
 
-            <tr className="!text-xs !border-b border-t-0 border-x-0 py-5 !border-[#BDBDBD] !border-solid ">
+            { 
+            
+            data.map((item) => (
+              <tr className="!text-xs !border-b border-t-0 border-x-0 py-5 !border-[#BDBDBD] !border-solid ">
+                <td className="py-4">
+                  <BlockTime date={item?.date} time={item?.time} />
+                </td>
+                <td>
+                  <BuySell type={item?.bs} />
+                </td>
+                <td>{item?.product}</td>
+                <td>{item?.currency}</td>
+                <td>1 {item?.currency} = {item?.forex_rate}</td>
+                <td>{item?.forex_amount}</td>
+                <td>{item?.inr_amount}</td>
+                <td>
+                  <Status status={item?.status} />
+                </td>
+                <td>
+                  <div className="text-secondary px-2 py-2 rounded-xl border-solid border">
+                    Repeat Order
+                  </div>
+                </td>
+              </tr>
+            ))
+
+            }
+
+            
+            {/* <tr className="!text-xs !border-b border-t-0 border-x-0 py-5 !border-[#BDBDBD] !border-solid ">
               <td className="py-4">
                 <BlockTime />
               </td>
@@ -257,7 +298,7 @@ const Frame11 = () => {
                   Repeat Order
                 </div>
               </td>
-            </tr>
+            </tr> */}
           </table>
         </div>
       </section>
