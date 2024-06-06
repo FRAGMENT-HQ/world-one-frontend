@@ -184,7 +184,7 @@ const HomeExchangeCurrency = () => {
   }, [prod]);
 
   useEffect(() => {
-    getRate(finalCurrency.value);
+    getRate(finalCurrency.smValue);
   }, [finalCurrency]);
 
   const { mutate: getRateCard } = getRateCardMutation(
