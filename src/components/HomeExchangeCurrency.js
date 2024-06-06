@@ -307,6 +307,8 @@ const HomeExchangeCurrency = () => {
       setOrder({
         ...Order,
         city: city,
+        product: prod.value,
+
       });
       if (cartItems?.Items?.length > 0) {
         setCartItems({
@@ -322,6 +324,7 @@ const HomeExchangeCurrency = () => {
       setOrder({
         city: city,
         type: prod.value,
+        product: prod.value,
         orderItems: [
           {
             intialCurrency: selected ? intialCurrency : finalCurrency,

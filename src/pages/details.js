@@ -100,13 +100,13 @@ const Frame11 = () => {
     data.append(
       "order",
       JSON.stringify({
-        currency: orderData.finalCurrency.value,
+        currency: orderData?.finalCurrency?.value ? orderData?.finalCurrency?.value : "INR",
         amount: 0,
         forex_rate: 0,
         total_amount: 0,
-        product: orderData.product,
-        city: orderData.city.value,
-        purpous: orderData.type=="Transfer Money Abroad" ? "Overseas Education/Study Abroad" : purpous?.value,
+        product: orderData?.product,
+        city: orderData?.city?.value,
+        purpous: orderData?.type=="Transfer Money Abroad" ? "Overseas Education/Study Abroad" : purpous?.value,
       })
     );
     data.append("user", JSON.stringify(userData));
@@ -184,7 +184,7 @@ const Frame11 = () => {
                 </div>
               </div>
             )}
-            <div className="flex gap-[20vw]" >
+            { orderData?.product != "Travel Services" && <div className="flex gap-[20vw]" >
                 <div> Are you an Indian Resident (including NRIs)</div>
                 <Switch
                   checked={status}
@@ -192,7 +192,7 @@ const Frame11 = () => {
                     setStatus(!status);
                   }}
                 />
-              </div>
+              </div>}
           </div>
           <PhoneNumberInputField
             name={name}

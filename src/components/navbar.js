@@ -1,23 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { order, cart } from "@/states/storage";
-import FrameComponent2 from "./frame-component2";
-import FrameComponent from "./frame-component";
-import LinkFunction from "./link-function";
-import Counter from "./counter";
+
 import "react-multi-carousel/lib/styles.css";
 import { useRouter } from "next/router";
 import { useAtom } from "jotai";
 import { getRateMutation, loginMutation } from "@/hooks/prod";
-import CityModal from "./cityModal";
-import CurrencyCard from "./currancyCard";
-import { getRateCardMutation } from "@/hooks/prod";
-import Select from "react-select";
-import toast from "react-hot-toast";
+
 import Drawer from "@mui/material/Drawer";
-import ColorAdjustor from "./color-adjustor";
-import FaqItems from "./faqItems";
-import { Modal } from "@mui/material";
+
 
 import { authUser } from "@/states/storage";
 import app, { auth } from "../utils/google";
@@ -185,6 +176,11 @@ export default function Navbar() {
               loading="lazy"
               alt=""
               src="LOGO.svg"
+              onClick={() => {
+                router.push("/");
+
+              }
+            }
             />
             {size.width > 600 ? (
               <>

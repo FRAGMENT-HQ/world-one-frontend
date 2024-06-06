@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Modal from '@mui/material/Modal';
 import { useAtom } from "jotai";
 import { user,order } from "@/states/storage";
-const Smodal = ({open,handleClose,route}) => {
+const Smodal = ({open,handleClose,route="/"}) => {
   const router = useRouter();
 
   const [orderData, setOrderData] = useAtom(order);

@@ -138,8 +138,7 @@ const Frame11 = () => {
       toast.error("Please enter a valid phone number");
       return;
     }
-    toast.success("Delivery adress updated");
-    router.push("/");
+    setOpen(true);
     
   };
 
