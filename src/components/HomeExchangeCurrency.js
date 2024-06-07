@@ -558,7 +558,7 @@ const HomeExchangeCurrency = () => {
           </div>
         </Drawer>
         <div className="self-stretch flex flex-row items-start justify-center py-0 pr-0 pl-0 box-border max-w-full">
-          <div className=" flex flex-col items-end justify-start gap-[50px] max-w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px] px-[15%] sm:px-[3%] laptop:px-[120px] ">
+          <div className=" flex flex-col items-end justify-start gap-[50px] max-w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px] px-5 sm:px-[3%] laptop:px-[120px] ">
             <div className="sm:visible w-full w-[95%] h-[4vw] min-h-[85px] mt-0 rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row  items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
               <img
                 className=" h-[60px] sm:h-[60px] sm:w-[180px] relative"
@@ -1021,8 +1021,8 @@ const HomeExchangeCurrency = () => {
                   </div>
                 )}
                 {size.width < 640 && (
-                  <div className=" absolute w-[100vw] bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-x-scroll flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
-                    <div className=" flex overflow-x-scroll gap-5">
+                  <div className=" absolute w-[100vw] bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)]  flex flex-col items-center justify-start py-12 px-0 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
+                    <div className="w-full  snap-x overflow-x-scroll flex gap-5">
                       {rates.map((rate, index) => (
                         <CurrencyCard key={index} rate={rate} />
                       ))}
@@ -1051,7 +1051,7 @@ const HomeExchangeCurrency = () => {
 
         {size.width > 640 && (
           <div className="self-stretch bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
-            <div className=" flex w-full gap-5">
+            <div className="flex w-full snap-x overflow-x-scroll flex w-full gap-5">
               {rates.map((rate, index) => (
                 <CurrencyCard key={index} rate={rate} />
               ))}

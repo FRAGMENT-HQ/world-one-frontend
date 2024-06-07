@@ -37,13 +37,13 @@ function FaqItems({
         >
           <div className="flex justify-start items-center  gap-5">
             {" "}
-            <div className="text-5xl text-[#828282] ">{number}</div>{" "}
-            <div className="text-5xl"> {small} </div>
+            <div className="text-xs sm:text-5xl text-[#828282] ">{number}</div>{" "}
+            <div className="text-xs sm:text-5xl"> {small} </div>
           </div>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            {content}
+          <div className="text-xs sm:text-2xl">  {content}</div>
           </Typography>
         </AccordionDetails>
       </Accordion>

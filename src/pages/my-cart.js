@@ -81,7 +81,7 @@ const Frame1 = () => {
       (item) => item.product === "Forex Card"
     );
     const Cash = slectedItems.filter(
-      (item) => item.product === "Exchange Currency"
+      (item) => item.product === "Cash"
     );
 
     const amountInForex = Forex_card.reduce(
@@ -97,6 +97,12 @@ const Frame1 = () => {
       toast.error("Amount in cash should be less than 3000 USD");
       return;
     }
+
+    if((amountInForex + amountInCash) < 5000) {
+      toast.error("Amount in forex and cash should be greater than 5000 INR");
+      return;
+    }
+
     if ((amountInForex + amountInCash) / USD > 250000) {
       toast.error("Amount in forex should be less than 250000 USD");
       return;
@@ -107,6 +113,7 @@ const Frame1 = () => {
         amount: amount * gst,
         orderItems: slectedItems,
         type: "cart",
+        product: "Forex Card, Cash",
       });
     }
     router.push("/summary");
