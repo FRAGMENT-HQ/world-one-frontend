@@ -352,26 +352,7 @@ const HomeExchangeCurrency = () => {
     section.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
-        const uid = user.uid;
-        // ...
-      
-        // console.log(user.accessToken);
-        setUserData({
-          name: user.displayName,
-          email: user.email,
-          photo: user.photoURL,
-          // token: user.accessToken,
-        });
-      } else {
-        setUserData({});
-      }
-    });
-  }, []);
+  
 
   return (
     <div className=" bg-background w-full  overflow-hidden flex flex-col items-start justify-start">
@@ -990,7 +971,7 @@ const HomeExchangeCurrency = () => {
                     <h1 className="m-0 self-stretch relative text-[3rem] font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
                       {prod?.value == "Exchange Currency"
                         ? "Exchange Your Currency"
-                        : prod?.value}
+                        : `${prod?.value}${prod?.value == "Transfer Money Abroad" ? "(for education only)" : "" }` }
                     </h1>
                     <div className="self-stretch relative text-[1.25rem] leading-[30px] font-medium text-white mq450:text-lgi mq450:leading-[29px]">
                       {size.width > 640 && <>{dispMap[prod?.value]}</>}

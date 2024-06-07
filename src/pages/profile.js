@@ -4,7 +4,7 @@ import Smodal from "@/components/smodal";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
-import { authUser } from "@/states/storage";
+import { authUser,order,user,cart } from "@/states/storage";
 import Select from "react-select";
 import Navbar from "@/components/navbar";
 const options = [
@@ -82,6 +82,9 @@ const BlockTime = ({ date = "May 22, 2024", time = "22:30" }) => {
 const Frame11 = () => {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useAtom(authUser);
+  const [orderData, setOrderData] = useAtom(order);
+  const [cartData, setCartData] = useAtom(cart);
+  // const [userdata, setuserdata] = useAtom(user);
   const [data, setData] = useState([]);
   const router = useRouter();
   const size = useWindowSize();
@@ -117,7 +120,14 @@ const Frame11 = () => {
           {/* <div className="font-medium mt-2">9833250066</div> */}
           <div className="font-medium mt-2">{user?.email}</div>
           <div className="flex-1"></div>
-          <div className="">
+          <div onClick={()=>{
+            setUser(null);
+            setOrderData(null);
+            setCartData(null);
+            // setUserData(null);
+            router.push("/");
+          
+          }} className="">
             {" "}
             <img src="/logout.svg" />{" "}
           </div>
