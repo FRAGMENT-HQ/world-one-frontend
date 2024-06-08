@@ -449,85 +449,120 @@ const HomeExchangeCurrency = () => {
             <div className=" sm:visible w-full mt-5  rounded-3xl flex flex-col items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
               <div className="w-[75%] flex flex-col items-center justify-center text-[15px] font-semibold">
                 <div className="flex flex-col text-white  gap-[15%] ">
-                  <div className=" flex  items-center justify-center py-1 ">
-                    <div
-                      onClick={() => {
-                        setdrawerOpen(false);
-                        scroll("#about");
-                      }}
-                      className=" cursor-pointer text-white relative leading-[32px] inline-block "
-                    >
-                      About
-                    </div>
-                  </div>
-                  <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
-                    <div
-                      onClick={() => {
-                        setdrawerOpen(false);
-                        scroll("#services");
-                      }}
-                      className="cursor-pointer relative leading-[32px]"
-                    >
-                      Services
-                    </div>
-                  </div>
-                  <div
-                    onClick={() => {
-                      router.push("/rates-new");
-                    }}
-                    className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
-                  >
-                    <div className="relative leading-[32px]">Rates</div>
-                  </div>
-                  {/* <div className=" flex flex-row items-center justify-center py-1 ">
-                        <div className="relative leading-[32px] inline-block ">
-                          Support
-                        </div>
-                      </div> */}
-                  <div
-                    onClick={() => {
-                      setdrawerOpen(false);
-                      scroll("#blogs");
-                    }}
-                    className="  shrink-0 flex flex-row items-center justify-center py-1  box-border"
-                  >
-                    <div className="relative leading-[32px]">Blogs</div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex gap-[5%] flex-col-reverse items-center w-full">
-                <div
-                  onClick={() => {
-                    setdrawerOpen(false);
-                    scroll("#mail");
-                  }}
-                  className="cursor-pointer w-[10rem] h-8 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
-                >
-                  <img
-                    className="h-6 w-6 relative overflow-hidden shrink-0"
-                    alt=""
-                    src="/support.svg"
-                  />
-                  <div className="relative text-base !text-[#27357E]  inline-block ">
-                    Contact Us
-                  </div>
-                </div>
+                <div className=" flex flex-row items-center justify-center py-1 ">
+                        <div
+                          onClick={() => {
+                            setdrawerOpen(false);
 
-                <div
-                  onClick={() => {
-                    router.push("/rates-new");
-                  }}
-                  className="cursor-pointer w-[10rem] h-8 mt-3 rounded-xl bg-white overflow-hidden flex flex-row items-center justify-start py-2 pr-[18px] pl-4 box-border gap-[12px]"
-                >
-                  <img
-                    className="h-6 w-6 relative overflow-hidden shrink-0"
-                    alt=""
-                    src="/FOREX.svg"
-                  />
-                  <div className="relative text-base  !text-[#27357E]  inline-block ">
-                    Forex Rates
+                            scroll("#about");
+                            
+                          }}
+                          className=" cursor-pointer relative leading-[32px] inline-block "
+                        >
+                          About
+                        </div>
+                      </div>
+                      <div
+                        onClick={() => {
+                          setdrawerOpen(false);
+
+                          router.push("/rates-new");
+                        }}
+                        className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
+                      >
+                        <div className="relative leading-[32px]">Rates</div>
+                      </div>
+                      <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
+                        <div
+                          onClick={() => {
+                            setdrawerOpen(false);
+
+                            scroll("#services");
+                          }}
+                          className="cursor-pointer relative leading-[32px]"
+                        >
+                          Services
+                        </div>
+                      </div>
+
+                      <div
+                        onClick={() => {
+                          setdrawerOpen(false);
+
+                          setdrawerOpen(false);
+                          scroll("#blogs");
+                        }}
+                        className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
+                      >
+                        <div className="relative leading-[32px]">Blogs</div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                  <div className={` flex h-16 gap-[12%] items-center flex-col`}>
+                    <div
+                      onClick={() => {setdrawerOpen(false);
+
+                        if (userData?.name) {
+                          router.push("/profile");
+                          return;
+                        }
+                        signInWithPopup(auth, provider)
+                          .then((result) => {
+                            // This gives you a Google Access Token. You can use it to access the Google API.
+                            const credential =
+                              GoogleAuthProvider.credentialFromResult(result);
+                            const token = credential.accessToken;
+
+                            // The signed-in user info.
+                            const user = result.user;
+                            // IdP data available using getAdditionalUserInfo(result)
+                            // ...
+
+                            setUserData({
+                              name: user.displayName,
+                              email: user.email,
+                              photo: user.photoURL,
+                              token: token,
+                            });
+                            login({
+                              email: user.email,
+                              name: user.displayName,
+                              password: token,
+                            });
+                          })
+                          .catch((error) => {
+                            // Handle Errors here.
+                            const errorCode = error.code;
+                            const errorMessage = error.message;
+                            // The email of the user's account used.
+                            const email = error?.customData?.email;
+                            // The AuthCredential type that was used.
+                            console.log(error);
+                            const credential =
+                              GoogleAuthProvider.credentialFromError(error);
+                            // ...
+                          });
+                      }}
+                      className={` ${userData?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl "} text-[#FF9135] font-semibold text-sm `}
+                    >
+                      {userData?.name ? userData?.name.split(" ")[0] : "Login"}
+                    </div>
+
+                    <div
+                      onClick={() => {
+                        scroll("#mail");
+                      }}
+                      className="cursor-pointer w-[11rem] h-10 rounded-xl bg-[#3c498b4d] overflow-hidden flex flex-row items-center justify-start py-2 pr-[12px] pl-4 box-border gap-[12px]"
+                    >
+                      <img
+                        className="h-6 w-6 relative overflow-hidden shrink-0"
+                        alt=""
+                        src="/newSupport.svg"
+                      />
+                      <div className="relative text-base text-semibold !text-white  inline-block ">
+                        Contact Us
+                      </div>
+                  </div>
               </div>
             </div>
           </div>
