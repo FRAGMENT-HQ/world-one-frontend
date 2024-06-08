@@ -19,12 +19,8 @@ import FaqItems from "./faqItems";
 import { Modal } from "@mui/material";
 
 import { authUser } from "@/states/storage";
-import app, { auth } from "../utils/google";
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { auth } from "../utils/google";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const provider = new GoogleAuthProvider();
 
@@ -100,7 +96,7 @@ const dispMap = {
   "Forex Card":
     "Our pre-loaded travel currency cards offer convenience and security for your international travels. With World One Forex, you can easily reload your card with additional funds or unload remaining balances upon your return, ensuring financial flexibility and peace of mind while you're on the go.",
   "Travel Services":
-    "Travel with confidence knowing that you're protected with World One Forex's Travel Services coverage. Our comprehensive Travel Services plans offer peace of mind by providing coverage for medical emergencies, trip cancellations, lost luggage, and more, ensuring a worry-free travel experience.",
+    "Sending money internationally is made easy with Worldone Forex's money transfer services. To support your family members Studying Abroad, our secure and efficient transfer options ensure that your funds reach their destination safely and on time.",
 };
 
 const serviceOption = [
@@ -189,7 +185,7 @@ const HomeExchangeCurrency = () => {
 
   const { mutate: getRateCard } = getRateCardMutation(
     (res) => {
-      setRates(res.data);
+      setRates(res?.data);
     },
     (err) => {
       console.log(err);
@@ -308,7 +304,6 @@ const HomeExchangeCurrency = () => {
         ...Order,
         city: city,
         product: prod.value,
-
       });
       if (cartItems?.Items?.length > 0) {
         setCartItems({
@@ -320,6 +315,7 @@ const HomeExchangeCurrency = () => {
         });
       }
       router.push("my-cart");
+      return;
     } else {
       setOrder({
         city: city,
@@ -345,14 +341,12 @@ const HomeExchangeCurrency = () => {
       });
       router.push(prod.value == "Travel Services" ? "/details/" : "/summary/");
     }
-    router.push(prod.value == "Travel Services" ? "/details/" : "/summary/");
+    // router.push(prod.value == "Travel Services" ? "/details/" : "/summary/");
   };
   const scroll = (id) => {
     const section = document.querySelector(id);
     section.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-
-  
 
   return (
     <div className=" bg-background w-full  overflow-hidden flex flex-col items-start justify-start">
@@ -605,7 +599,7 @@ const HomeExchangeCurrency = () => {
                             const credential =
                               GoogleAuthProvider.credentialFromResult(result);
                             const token = credential.accessToken;
-                          
+
                             // The signed-in user info.
                             const user = result.user;
                             // IdP data available using getAdditionalUserInfo(result)
@@ -971,7 +965,7 @@ const HomeExchangeCurrency = () => {
                     <h1 className="m-0 self-stretch relative text-[3rem] font-semibold font-inherit mq825:text-[51px] mq825:leading-[58px] mq450:text-19xl mq450:leading-[43px]">
                       {prod?.value == "Exchange Currency"
                         ? "Exchange Your Currency"
-                        : `${prod?.value}${prod?.value == "Transfer Money Abroad" ? "(for education only)" : "" }` }
+                        : `${prod?.value}${prod?.value == "Transfer Money Abroad" ? "- Remittance for Education" : ""}`}
                     </h1>
                     <div className="self-stretch relative text-[1.25rem] leading-[30px] font-medium text-white mq450:text-lgi mq450:leading-[29px]">
                       {size.width > 640 && <>{dispMap[prod?.value]}</>}
@@ -1002,8 +996,8 @@ const HomeExchangeCurrency = () => {
                   </div>
                 )}
                 {size.width < 640 && (
-                  <div className=" absolute w-[100vw] bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)]  flex flex-col items-center justify-start py-12 px-0 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
-                    <div className="w-full  snap-x overflow-x-scroll flex gap-5">
+                  <div className=" absolute  w-[100vw] bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)]  flex flex-col items-center justify-start py-12 px-4 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
+                    <div className="w-full m-2  px-5 snap-x overflow-x-scroll flex gap-5">
                       {rates.map((rate, index) => (
                         <CurrencyCard key={index} rate={rate} />
                       ))}
@@ -1196,104 +1190,8 @@ const HomeExchangeCurrency = () => {
           </div>
         </div>
       </section>
-      {/* <section className="self-stretch bg-background overflow-hidden flex flex-col items-start justify-start p-[120px] box-border gap-[56px] max-w-full text-left text-29xl text-text1 font-body-small mq825:gap-[28px_56px] mq825:py-[51px] mq825:px-[30px] mq825:box-border mq1275:py-[78px] mq1275:px-[60px] mq1275:box-border">
-        <div className="box-border flex flex-row items-start justify-start py-0 px-[21px] max-w-full border-l-[5px] border-0 border-solid border-secondary">
-          <h1 className="m-0 flex-1 relative text-inherit leading-[56px] font-normal font-inherit mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
-            How It Works
-          </h1>
-        </div>
-        <div className="self-stretch flex flex-row flex-wrap items-start justify-between max-w-full text-center text-13xl">
-          <div className="w-[43vw] flex flex-col items-start justify-start gap-[3%] max-w-full ">
-            <div className="w-[96%] rounded-13xl mb-4 bg-white shadow-[-2px_-4px_16px_rgba(93,_101,_143,_0.15)_inset] overflow-hidden flex flex-row items-start justify-start p-8 box-border relative gap-[32px] max-w-full ">
-              <div className="!m-[0] right-[-99.5px]  rounded-[50%] [filter:blur(200px)] opacity-[0.5]" />
-              <div className=" flex flex-col items-start justify-start pt-1.5 px-0 pb-0 box-border">
-                <div className="self-stretch align-middle relative">
-                 
-                  <div className="flex items-center justify-center font-semibold inline-block w-12 h-12 text-center align-middle align-center z-[1] rounded-full border-[2px] border-solid border-text1  mq450:text-lgi ">
-                    <div>01</div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1 flex flex-col items-start justify-start gap-[16px]  max-w-full z-[1] text-left mq825:min-w-full">
-              <div className=" relative font-semibold inline-block text-[2.2vw] desktop:text-5xl">
-                  Select your currency
-                </div>
-                <div className="self-stretch relative text-[1.8vw] desktop:text-5xl  font-medium text-text2 mq450:text-lgi ">
-                  Lorem ipsum dolor sit amet consectetur.
-                </div>
-              </div>
-            </div>
-            <div className="w-[98%] rounded-13xl mb-4 bg-white shadow-[-2px_-4px_16px_rgba(93,_101,_143,_0.15)_inset] overflow-hidden flex flex-row items-start justify-start p-8 box-border relative gap-[32px] max-w-full mq825:flex-wrap mq450:gap-[32px_16px]">
-              <div className="!m-[0] right-[-99.5px]  rounded-[50%] [filter:blur(200px)] opacity-[0.5]" />
-              <div className=" flex flex-col items-start justify-start pt-1.5 px-0 pb-0 box-border">
-                <div className="self-stretch align-middle relative">
-                 
-                  <div className="flex items-center justify-center font-semibold inline-block w-12 h-12 text-center align-middle align-center z-[1] rounded-full border-[2px] border-solid border-text1  mq450:text-lgi ">
-                    <div>02</div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1 flex flex-col items-start justify-start gap-[16px]  max-w-full z-[1] text-left mq825:min-w-full">
-              <div className=" relative font-semibold inline-block text-[2.2vw] desktop:text-5xl">
-                  Select your currency
-                </div>
-                <div className="self-stretch relative text-[1.8vw] desktop:text-5xl  font-medium text-text2 mq450:text-lgi ">
-                  Lorem ipsum dolor sit amet consectetur.
-                </div>
-              </div>
-            </div>
-            <div className="w-[98%] rounded-13xl mb-4 bg-white shadow-[-2px_-4px_16px_rgba(93,_101,_143,_0.15)_inset] overflow-hidden flex flex-row items-start justify-start p-8 box-border relative gap-[32px] max-w-full mq825:flex-wrap mq450:gap-[32px_16px]">
-              <div className="!m-[0] right-[-99.5px]  rounded-[50%] [filter:blur(200px)] opacity-[0.5]" />
-              <div className=" flex flex-col items-start justify-start pt-1.5 px-0 pb-0 box-border">
-                <div className="self-stretch align-middle relative">
-                 
-                  <div className="flex items-center justify-center font-semibold inline-block w-12 h-12 text-center align-middle align-center z-[1] rounded-full border-[2px] border-solid border-text1  mq450:text-lgi ">
-                    <div>03</div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1 flex flex-col items-start justify-start gap-[16px]  max-w-full z-[1] text-left mq825:min-w-full">
-              <div className=" relative font-semibold inline-block text-[2.2vw] desktop:text-5xl">
-                  Select your currency
-                </div>
-                <div className="self-stretch relative text-[1.8vw] desktop:text-5xl  font-medium text-text2 mq450:text-lgi ">
-                  Lorem ipsum dolor sit amet consectetur.
-                </div>
-              </div>
-            </div>
-            <div className="w-[98%] rounded-13xl mb-4 bg-white shadow-[-2px_-4px_16px_rgba(93,_101,_143,_0.15)_inset] overflow-hidden flex flex-row items-start justify-start p-8 box-border relative gap-[32px] max-w-full mq825:flex-wrap mq450:gap-[32px_16px]">
-              <div className="!m-[0] right-[-99.5px]  rounded-[50%] [filter:blur(200px)] opacity-[0.5]" />
-              <div className=" flex flex-col items-start justify-start pt-1.5 px-0 pb-0 box-border">
-                <div className="self-stretch align-middle relative">
-                 
-                  <div className="flex items-center justify-center font-semibold inline-block w-12 h-12 text-center align-middle align-center z-[1] rounded-full border-[2px] border-solid border-text1  mq450:text-lgi ">
-                    <div>04</div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1 flex flex-col items-start justify-start gap-[16px]  max-w-full z-[1] text-left mq825:min-w-full">
-                <div className=" relative font-semibold inline-block text-[2.2vw] desktop:text-5xl">
-                  Select your currency
-                </div>
-                <div className="self-stretch relative text-[1.8vw] desktop:text-5xl  font-medium text-text2 mq450:text-lgi ">
-                  Lorem ipsum dolor sit amet consectetur.
-                </div>
-              </div>
-            </div>
-            
-            
-          </div>
-          <div className="h-[100%] flex-1 bg-red-400 relative rounded-13xl shrink-0 flex items-center justify-center">
-            <img
-              className="h-[40vw] w-full min-w-[300px]  overflow-hidden  max-w-full object-contain absolute left-[0px] top-[12px] [transform:scale(1.151)] "
-              loading="lazy"
-              alt=""
-              src="/macbookpro16@2x.png"
-            />
-          </div>
-        </div>
-      </section> */}
-      <section className="px-[15%] sm:px-[3%] laptop:px-[120px]  self-stretch flex flex-row items-start justify-start max-w-full text-left text-29xl text-text1 font-body-small">
+
+      <section className="px-5 sm:px-[3%] laptop:px-[120px]  self-stretch flex flex-row items-start justify-start max-w-full text-left text-29xl text-text1 font-body-small">
         <div className="flex-1 bg-background overflow-hidden flex flex-col items-start justify-center py-40 box-border max-w-full  mq825:box-border mq450:pt-[68px] mq450:pb-[68px] mq450:box-border mq1275:py-[104px]  mq1275:box-border">
           <div className="self-stretch flex flex-col items-start justify-start gap-[111px] max-w-full mq825:gap-[55px_111px] mq450:gap-[28px_111px]">
             <div className="self-stretch flex flex-col items-start justify-start gap-[56px] max-w-full mq825:gap-[28px_56px]">

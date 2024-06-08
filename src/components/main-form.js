@@ -1,13 +1,26 @@
 import FrameComponent4 from "./frame-component4";
 import FrameComponent5 from "./frame-component5";
-import { order, user } from "@/states/storage";
+import { order, user, creatOrder } from "@/states/storage";
 import { useAtom } from "jotai";
 import { useState, useEffect } from "react";
 import { postOrderMutation } from "@/hooks/prod";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import Smodal from "./smodal";
+import { TailSpin } from "react-loader-spinner";
 
+const Loading = () => {
+  return (
+    <TailSpin
+      color="#CFEEFF"
+      height={50}
+      width={50}
+      timeout={2500} //3 secs
+      ariaLabel="tail-spin-loading"
+      radius="1"
+    />
+  );
+};
 function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
     width: undefined,
@@ -47,6 +60,7 @@ const MainForm = () => {
   const [visa, setVisa] = useState(null);
   const [selected, setSelected] = useState(false);
   const [open, setOpen] = useState(false);
+  const [creatOrderData, setCreatOrderData] = useAtom(creatOrder);
   const [checked, setChecked] = useState(
     orderData?.type == "Transfer Money Abroad" ? true : false
   );
@@ -59,9 +73,7 @@ const MainForm = () => {
   const [cPan, setCPan] = useState(null);
 
   const getName = () => {
-    
     switch (purpous) {
-
       case null:
         return false;
       case "Medical Treatment Abroad":
@@ -82,14 +94,15 @@ const MainForm = () => {
     setOpen(true);
     // if(checked){
   };
-  const { mutate } = postOrderMutation(
+  const { mutate, isLoading } = postOrderMutation(
     (res) => {
       toast.success("Order placed successfully");
-      if(orderData?.type == "cart"){
+      if (orderData?.type == "cart") {
+        setCreatOrderData(res.data);
         router.push("/delivery");
+      } else {
+        handleOpen();
       }
-      else{
-      handleOpen();}
     },
     (err) => {
       console.log(err);
@@ -151,7 +164,6 @@ const MainForm = () => {
           city: orderData.city.value,
           gst_amount: orderData.gst,
           countries: countryString,
-
           purpous: purpous,
         })
       );
@@ -167,7 +179,7 @@ const MainForm = () => {
     <section className="flex flex-col items-start justify-start gap-[1.75rem] pb-10 max-w-full text-left text-[1.5rem] text-text2 font-body-small">
       <Smodal
         open={open}
-        route={"/delivery"}
+        route={"/"}
         handleClose={() => {
           setOpen(false);
         }}
@@ -176,6 +188,7 @@ const MainForm = () => {
         title="Document Verification"
         handleClick={handleSubmission}
         step={3}
+        isLoading={isLoading}
       />
       {/* <FrameComponent2 /> */}
       {/* <img
@@ -215,7 +228,7 @@ const MainForm = () => {
           orderData={orderData}
           showPan={orderData?.type == "Cart"}
         />
-        <div className="flex items-center gap-5 flex-col sm:flex-row">
+        <div className="flex sm:items-start gap-5 flex-row sm:flex-row">
           {selected ? (
             <img
               onClick={() => {
@@ -231,7 +244,7 @@ const MainForm = () => {
               onClick={() => {
                 setSelected(!selected);
               }}
-              className={` flex justify-center items-center cursor-pointer border-3 border-solid border-[#4F4F4F] ${selected ? "" : "bg-transperent"} h-4 w-6`}
+              className={` flex justify-center items-center cursor-pointer border-3 border-solid border-[#4F4F4F] ${selected ? "" : "bg-transperent"} h-4 w-24 sm:w-6`}
             ></div>
           )}
 
@@ -248,19 +261,23 @@ const MainForm = () => {
             className="mx-auto cursor-pointer invisable xs:visable  [border:none] py-[1.125rem] pr-[1.968rem] pl-[2.468rem] bg-secondary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[1rem]"
             // onClick={onCustomerDetailsClick}
           >
-            <img
-              className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 hidden min-h-[2rem]"
-              alt=""
-              src="/ushoppingcart.svg"
-            />
-            <div className="flex-1 relative text-[1.5rem] leading-[2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-              Continue
-            </div>
-            <img
-              className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
-              alt=""
-              src="/fiarrowright.svg"
-            />
+            {!isLoading ? (
+              <>
+                {" "}
+                <div className="flex-1 relative text-[1.5rem] leading-[2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
+                  Continue
+                </div>
+                <img
+                  className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
+                  alt=""
+                  src="/fiarrowright.svg"
+                />
+              </>
+            ) : (
+              <>
+                <Loading />
+              </>
+            )}
           </button>
         )}
       </div>

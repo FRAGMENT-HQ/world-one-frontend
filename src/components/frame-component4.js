@@ -2,6 +2,20 @@ import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { order } from "../states/storage";
 import { useRouter } from "next/router";
+import { TailSpin } from "react-loader-spinner";
+
+const Loading = () => {
+  return (
+    <TailSpin
+      color="#CFEEFF"
+      height={50}
+      width={50}
+      timeout={2500} //3 secs
+      ariaLabel="tail-spin-loading"
+      radius="1"
+    />
+  );
+};
 function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
@@ -36,6 +50,7 @@ const FrameComponent4 = ({
   handleClick = () => {},
   step = 1,
   title = "first step",
+  isLoading = false,
 }) => {
   const size = useWindowSize();
   const [orderData, setOrderData] = useAtom(order);
@@ -80,19 +95,22 @@ const FrameComponent4 = ({
         </div>
         {size.width > 500 && (
           <button
-            onClick={handleClick}
+            onClick={() => {
+              if (!isLoading) {
+                handleClick();
+              }
+            }}
             className="cursor-pointer invisable xs:visable  [border:none] py-[0.8rem] pr-[1.968rem] pl-[2.468rem] bg-secondary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[1rem]"
             // onClick={onCustomerDetailsClick}
           >
-        
-            <div className="flex-1 relative text-[1.2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
+           { !isLoading ? <> <div className="flex-1 relative text-[1.2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
               Continue
             </div>
             <img
               className="h-[1.2rem] w-[1.2rem] relative overflow-hidden shrink-0 min-h-[1.2rem]"
               alt=""
               src="/fiarrowright.svg"
-            />
+            /> </> : <Loading/>}
           </button>
         )}
       </div>

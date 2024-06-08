@@ -49,7 +49,7 @@ const InputArray = () => {
       <div className="flex flex-row items-center justify-start">
         <div className="overflow-hidden flex flex-row items-center justify-center py-[0.25rem] px-[0.968rem]">
           <div className="relative leading-[2rem] inline-block min-w-[4.938rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
-            {orderData?.city.value}
+            {orderData?.city?.value}
           </div>
         </div>
       </div>

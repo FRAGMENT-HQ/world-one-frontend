@@ -151,3 +151,20 @@ export const submitMutation = (successCallback, errorCallback) => {
     },
   });
 };
+const addLocationRequest = (data) => {
+  const url = getUrl(`/api/add-adress/`);
+
+  return request("POST", url, data, false);
+};
+
+export const locationMutation = (successCallback, errorCallback) => {
+  return useMutation(addLocationRequest, {
+    mutationKey: "location-request",
+    onSuccess: (res) => {
+      successCallback(res);
+    },
+    onError: (err) => {
+      errorCallback(err);
+    },
+  });
+};

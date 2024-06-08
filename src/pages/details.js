@@ -101,6 +101,7 @@ const Frame11 = () => {
       "order",
       JSON.stringify({
         currency: orderData?.finalCurrency?.value ? orderData?.finalCurrency?.value : "INR",
+        
         amount: 0,
         forex_rate: 0,
         total_amount: 0,
@@ -110,6 +111,7 @@ const Frame11 = () => {
       })
     );
     data.append("user", JSON.stringify(userData));
+    data.append("name", "");
     mutate(data);
   };
 

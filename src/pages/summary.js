@@ -99,7 +99,7 @@ const Frame1 = () => {
                   src="/vector-18.svg"
                 />
               )}
-              {orderDetails?.orderItems.map((details, index) => {
+              {orderDetails?.orderItems && <> {orderDetails?.orderItems.map((details, index) => {
                 return (
                   <>
                     <div className="self-stretch snap-center flex flex-col laptop:flex-row items-start justify-between">
@@ -128,14 +128,14 @@ const Frame1 = () => {
                     </div>
                   </>
                 );
-              })}
+              })}</>}
 
               {size.width > 1024 && (
                 <img
                   className=" invisible laptop:visible laptop:w-full w-0 self-stretch relative max-w-full overflow-hidden max-h-full"
                   loading="lazy"
                   alt=""
-                  src="/vector-19.svg"
+                  
                 />
               )}
             </div>

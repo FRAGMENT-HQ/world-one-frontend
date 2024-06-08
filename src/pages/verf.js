@@ -1,6 +1,5 @@
 import MainForm from "../components/main-form";
-import { useAtom } from "jotai";
-import { order } from "@/states/storage";
+
 // import { useState, useEffect } from "react";
 import InputArray from "@/components/input-array";
 

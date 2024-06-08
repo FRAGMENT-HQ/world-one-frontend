@@ -23,9 +23,9 @@ import InputArray from "../components/input-array";
 import FrameComponent4 from "../components/frame-component4";
 import FrameComponent3 from "../components/frame-component3";
 import { useAtom } from "jotai";
-import { user, order } from "@/states/storage";
+import { user, creatOrder,order } from "@/states/storage";
 import { useRouter } from "next/router";
-import { postOrderMutation } from "@/hooks/prod";
+import { locationMutation } from "@/hooks/prod";
 import Smodal from "@/components/smodal";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
@@ -64,17 +64,7 @@ function useWindowSize() {
   return windowSize;
 }
 
-const options2 = [
-  {
-    value: "Leisure/Holiday/Personal Visit",
-    label: "Leisure/Holiday/Personal Visit",
-  },
-  { value: "Medical Treatment Abroad", label: "Medical Treatment Abroad" },
-  {
-    value: "Overseas Education/Study Abroad",
-    label: "Overseas Education/Study Abroad",
-  },
-];
+
 
 const countryOptions = countryData.map((country) => ({
   value: country.name,
@@ -83,15 +73,14 @@ const countryOptions = countryData.map((country) => ({
 const Frame11 = () => {
   const [userData, setUserData] = useAtom(user);
   const [orderData, setOrderData] = useAtom(order);
-  const [panNumber, setPanNumber] = useState(userData?.panNumber || "");
-  const [name, setName] = useState(userData?.name || "");
+  const [orderData1, setOrderData1] = useAtom(creatOrder);
+
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState(userData?.phone || "");
   const [open, setOpen] = useState(false);
-  const [countries, setCountries] = useState([]);
-  const [status, setStatus] = useState(true);
+
   const [selected, setSelected] = useState(true);
-  const [purpous, setPurpous] = useState({});
+
   const [code, setCode] = useState({
     icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAJDSURBVHja7JfNaxNBGIef2WwalaahhaaYUm1ta4tivViUHqxSRISeBG/SP0vwVPDkTfAiqIh4ED8OORRrFT8qghZrpYkxu9mdmddDYhtFwak4ufQHy+zC7Mwz837MO0pE6KQCOqxdAAVkgFyr9SkDNEKgp7J4+YsEfudXKqCwsNgXAgUJFNlDM36X/+klQCEEclgLOkHiKiBt1qHtu91q8pv3X/vwx35qTw+iGwC5EABrER0hOvazfB2DNQC0ADSkcfPxoUwWbPozgCR1JI08BX8GTBuAWIM0akhS9+eFOtnyjgkRWXH9vx5r3n+oYrAMFvMUunM7CEU1Ge4E/tmrz9x7tMrxyQEA7j95x5HRImemh/5/Ko6TlBt3XnDp/CTfooRKrcHFuQnKz9f4uF7bUSp2MkF5eY2NzYgktdx9vEqlGnNuZoSxA72srdeYPzvuZALnHWikBhGIE009SqnVU+qxBiBqtc4mcClKjo73c/vhW05OlZg9McSF06PMnRrm1oM3TE+V/nqcH3M6A+T3dTE/O8aV62X29+cZKRW4dnOJsYO9DA8WnAEUMJGm6UoYugXExmbE8usNjLEcHu6jVOx2SwNak81mm2E4fnUByQQkrezkrKdu3bsyWYLmUdDMhNoYwjBA8FOgKgXa6m0Aay2Imy/8kwSs0dtOaI1BKZ/VEFjTHgVWUPgjUKjmrm+dhghKKbq79nqDsLINYESE6malE1W5UcAAcAzo9zz5OrCkWneCfKv1qQbwVe1eTjsN8H0AbQf7MRxAQMIAAAAASUVORK5CYII=",
     label: "+91",
@@ -103,7 +92,7 @@ const Frame11 = () => {
   useEffect(() => {
     setCity(orderData?.city);
     const state = cityOptions.find(
-      (city) => city.value === orderData?.city?.value
+      (city) => city?.value === orderData?.city?.value
     )?.state;
     setState({
       value: state,
@@ -118,10 +107,12 @@ const Frame11 = () => {
     setOpen(true);
     // if(checked){
   };
-  const { mutate } = postOrderMutation(
+  const { mutate } = locationMutation(
     (res) => {
       toast.success("Order placed successfully");
       handleOpen();
+      setOrderData({});
+      setOrderData1({});
     },
     (err) => {
       console.log(err);
@@ -138,7 +129,15 @@ const Frame11 = () => {
       toast.error("Please enter a valid phone number");
       return;
     }
-    setOpen(true);
+    mutate({
+      email: userData?.email,
+      phone_no: phone,
+      city: city?.value,
+      state: State?.value,
+      address:email,
+      order: orderData1.id,
+    
+    })
     
   };
 
