@@ -4,7 +4,7 @@ import Smodal from "@/components/smodal";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
-import { authUser,order,user,cart } from "@/states/storage";
+import { authUser, order, cart } from "@/states/storage";
 import Select from "react-select";
 import Navbar from "@/components/navbar";
 const options = [
@@ -100,44 +100,60 @@ const Frame11 = () => {
     listOrders(user?.email);
   }, [user?.email]);
 
-  
-
+  const handleRepeteOrder = (item) => {
+    setOrderData(
+     { ...orderData,
+        city: item.city,
+        orderItems:[{product: item.product,
+        product: item.product,
+        intialCurrency:{},
+        forex_rate: item.forex_rate,
+        forex_amount: item.forex_amount,
+        inr_amount: item.inr_amount,
+        status: item.status,
+        bs: item.bs,}]
+        }
+    )
+    router.push("/summary");
+  }
 
   return (
-    <div className="w-full relative bg-background flex flex-col items-center justify-start pt-[3rem] px-[8%] laptop:px-[120px] pb-[10rem] box-border gap-[2.75rem] leading-[normal] tracking-[normal] mq900:gap-[1.375rem]">
+    <div className="w-full relative bg-background flex flex-col items-center justify-start pt-[3rem] px-[2%] laptop:px-[20px] pb-[10rem] box-border gap-[2.75rem] leading-[normal] tracking-[normal] mq900:gap-[1.375rem]">
       <Smodal open={open} setOpen={setOpen} />
       {/* <InputArray /> */}
       <Navbar />
 
-      <section className=" flex  flex-row items-start justify-start gap-[2%] min-w-full">
-        <div className="w-[23%] text-white min-w-[300px] h-96 bg-[#3C498B] rounded-xl pt-10 pb-2 flex flex-col items-center">
+      <section className="overflow-x-sroll flex flex-col-reverse laptop:flex-row items-start justify-start gap-[2%] min-w-full">
+        <div className=" w-full laptop:w-[23%] text-white min-w-[300px] h-96 bg-[#3C498B] rounded-xl pt-10 pb-2 flex flex-col items-center">
           <div className="w-24 h-24 bg-[#FF9135] text-center align-middle text-white font-semibold flex justify-center items-center text-[4rem] rounded-full">
             <div>{user?.name[0]}</div>
           </div>
           <div className="font-normal text-lg tracking-wide mt-4">
-          {user?.name}
+            {user?.name}
           </div>
           {/* <div className="font-medium mt-2">9833250066</div> */}
           <div className="font-medium mt-2">{user?.email}</div>
           <div className="flex-1"></div>
-          <div onClick={()=>{
-            setUser(null);
-            setOrderData(null);
-            setCartData(null);
-            // setUserData(null);
-            router.push("/");
-          
-          }} className="">
+          <div
+            onClick={() => {
+              setUser(null);
+              setOrderData(null);
+              setCartData(null);
+              // setUserData(null);
+              router.push("/");
+            }}
+            className=""
+          >
             {" "}
             <img src="/logout.svg" />{" "}
           </div>
         </div>
-        <div className="w-[75%] shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white flex flex-col items-start justify-center py-[4rem] px-[5%] sm:px-[1rem] box-border gap-[1rem] max-w-full mq900:gap-[1.5rem] mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border mq1325:pl-[1.625rem] mq1325:pr-[1.625rem] mq1325:box-border">
+        <div className=" w-full overflow-x-scroll laptop:w-[75%] shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white flex flex-col items-start justify-start py-[4rem] px-[5%] sm:px-[1rem] box-border gap-[1rem] max-w-full mq900:gap-[1.5rem] mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border mq1325:pl-[1.625rem] mq1325:pr-[1.625rem] mq1325:box-border">
           <div className="w-full flex justify-between">
             <div className="text-5xl text-secondary font-semibold">
               All Transactions
             </div>
-            <div className="flex gap-5">
+            {/* <div className=" flex-col tablet:flex-row flex gap-5">
               <Select
                 options={options}
                 classNames={{
@@ -154,16 +170,16 @@ const Frame11 = () => {
                   indicatorSeparator: () => "hidden",
                 }}
               />
-              <input placeholder="search" className="w-48 rounded-xl px-4 " />
-            </div>
+              <input placeholder="search" className="w-48 h-10 rounded-xl px-4 " /> 
+            </div>*/}
           </div>
           <table
-            className="w-full border-collapse gap-12 border-spacing-2.5 border border-slate-400 "
+            className="w-full  border-collapse gap-12 border-spacing-2.5 border border-slate-400 "
             // style={{
             //   borderSpacing: "0 12rem",
             // }}
           >
-            <tr className="!border-b-2 border-t-0 border-x-0 py-5 !border-secondary !border-solid ">
+            <tr className="w-full text-sm tablet:text-base !border-b-2 border-t-0 border-x-0 py-5 !border-secondary !border-solid ">
               <td className="">Time</td>
               <td className="py-4">Type</td>
               <td>Product</td>
@@ -175,9 +191,7 @@ const Frame11 = () => {
               <td></td>
             </tr>
 
-            { 
-            
-            data.map((item) => (
+            {data.map((item) => (
               <tr className="!text-xs !border-b border-t-0 border-x-0 py-5 !border-[#BDBDBD] !border-solid ">
                 <td className="py-4">
                   <BlockTime date={item?.date} time={item?.time} />
@@ -187,23 +201,22 @@ const Frame11 = () => {
                 </td>
                 <td>{item?.product}</td>
                 <td>{item?.currency}</td>
-                <td>1 {item?.currency} = {item?.forex_rate}</td>
+                <td>
+                  1 {item?.currency} = {item?.forex_rate}
+                </td>
                 <td>{item?.forex_amount}</td>
                 <td>{item?.inr_amount}</td>
                 <td>
                   <Status status={item?.status} />
                 </td>
-                <td>
+                {/* <td>
                   <div className="text-secondary px-2 py-2 rounded-xl border-solid border">
                     Repeat Order
                   </div>
-                </td>
+                </td> */}
               </tr>
-            ))
+            ))}
 
-            }
-
-            
             {/* <tr className="!text-xs !border-b border-t-0 border-x-0 py-5 !border-[#BDBDBD] !border-solid ">
               <td className="py-4">
                 <BlockTime />
