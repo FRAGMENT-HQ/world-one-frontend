@@ -227,7 +227,7 @@ const Frame11 = () => {
                     "self-stretch r !font-semibold !rounded-[1.2rem] !border-2 px-4 py-2   ",
                   menuList: () => "!bg-midnightblue hover:text-white",
                   option: () => "text-white hover:text-midnightblue",
-                  input: () => "text-white !text-center ",
+                  input: () => "!text-center ",
                   singleValue: () => "!text-white !text-sm",
                   indicatorSeparator: () => "hidden",
                 }}
