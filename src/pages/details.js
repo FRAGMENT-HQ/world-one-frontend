@@ -153,7 +153,7 @@ const Frame11 = () => {
   };
 
   return (
-    <div className="w-full relative bg-background  flex flex-col items-center justify-start pt-[3rem] px-[1.25rem] pb-[10rem] box-border gap-[2.75rem] leading-[normal] tracking-[normal] mq900:gap-[1.375rem]">
+    <div className="w-full relative bg-background  flex flex-col items-center justify-start pt-[1.5rem] px-[1.25rem] pb-[10rem] box-border gap-[2.75rem] leading-[normal] tracking-[normal] mq900:gap-[1.375rem]">
       <Smodal open={open} setOpen={setOpen} />
       <InputArray />
       <section className=" flex flex-col items-start justify-start gap-[2.5rem] max-w-full">

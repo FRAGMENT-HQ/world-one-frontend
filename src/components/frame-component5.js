@@ -215,7 +215,7 @@ const FrameComponent5 = ({
         <FrameComponent /> */}
       </section>
       
-      <div className="w-full flex flex-row items-center justify-around gap-5 flex-wrap">
+      <div className="w-full flex flex-row items-center justify-start gap-5 flex-wrap">
         {(!status || Citzen?.value == "NRI" ) && (
           <button
             onClick={() => {

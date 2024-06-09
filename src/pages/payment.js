@@ -1,21 +1,22 @@
 import { use, useCallback, useEffect } from "react";
-import FrameComponent2 from "../components/frame-component2";
-import FrameComponent1 from "../components/frame-component1";
-import FrameComponent from "../components/frame-component";
+
 import FrameComponent4 from "@/components/frame-component4";
 import { useAtom } from "jotai";
-import { order,timer } from "@/states/storage";
-import React from 'react';
-import { useTimer } from 'react-timer-hook';
+import { order, timer } from "@/states/storage";
+import React from "react";
+import { useTimer } from "react-timer-hook";
 import { useRouter } from "next/router";
 
 const PaymentPage = () => {
-  const [orderDetails , setOrderDetails ] = useAtom(order);
-  const [timerDetails,setTimerDetails] = useAtom(timer);
+  const [orderDetails, setOrderDetails] = useAtom(order);
+  const [timerDetails, setTimerDetails] = useAtom(timer);
+  // const payment
   const router = useRouter();
   // check if stored time stamp is less than 5 minutes then use it else create new timestamp
-  const expiryTimestamp = timerDetails?.expiryTimestamp ? timerDetails?.expiryTimestamp : new Date().getTime() + 300000;
-  
+  const expiryTimestamp = timerDetails?.expiryTimestamp
+    ? timerDetails?.expiryTimestamp
+    : new Date().getTime() + 300000;
+
   const {
     seconds,
     minutes,
@@ -26,20 +27,21 @@ const PaymentPage = () => {
     pause,
     resume,
     restart,
-  } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
+  } = useTimer({
+    expiryTimestamp,
+    onExpire: () => console.warn("onExpire called"),
+  });
 
   useEffect(() => {
-    setTimerDetails({expiryTimestamp:expiryTimestamp});
-  }, [])
+    setTimerDetails({ expiryTimestamp: expiryTimestamp });
+  }, []);
 
   useEffect(() => {
-    if(!isRunning){
+    if (!isRunning) {
       // setOrderDetails({})
-      router.push('/')
+      router.push("/");
     }
-  }, [isRunning])
-  
-  
+  }, [isRunning]);
 
   return (
     <div className="w-full relative bg-background overflow-hidden flex flex-col items-center justify-start pt-[3rem] pb-[2.5rem] pr-[1.687rem] pl-[1.25rem] box-border gap-[2.75rem] leading-[normal] tracking-[normal] text-left text-[1.25rem] text-white font-sub-heading-small mq825:gap-[1.375rem]">
@@ -64,70 +66,51 @@ const PaymentPage = () => {
         <section className="self-stretch shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white overflow-hidden flex flex-col items-start justify-center py-[4rem] px-[3rem] box-border gap-[3rem] max-w-full text-left text-[1.25rem] text-text1 font-sub-heading-small mq825:gap-[1.5rem] mq825:pt-[1.688rem] mq825:pb-[1.688rem] mq825:box-border mq1400:py-[2.625rem] mq1400:px-[1.5rem] mq1400:box-border">
           {/* <FrameComponent1 /> */}
           {/* <FrameComponent /> */}
-          <form className="m-0 self-stretch rounded-13xl bg-white overflow-hidden flex flex-row items-start justify-start py-[4rem] px-[2.5rem] box-border gap-[3rem] max-w-full mq900:gap-[1.5rem] mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border mq1725:flex-wrap">
-            <div className="flex flex-col items-end justify-start gap-[2rem] max-w-full mq900:gap-[1rem] mq900:min-w-full">
-              <div className="self-stretch flex flex-col items-end justify-start gap-[1.706rem] max-w-full">
-                <div className="flex flex-row items-start justify-around gap-[1rem] w-full mq1325:hidden">
-                  <div className=" relative text-[1.25rem]  font-medium font-body-small text-text3 ">
+          <form className="m-0 self-stretch rounded-13xl bg-green-400 bg-white overflow-hidden flex flex-row items-start justify-start py-[4rem] px-[2.5rem] box-border gap-[3rem] max-w-full mq900:gap-[1.5rem] mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border mq1725:flex-wrap">
+            <div className="flex self-stretch flex-1 flex-col items-end bg-blue-400 justify-start gap-[2rem] max-w-full mq900:gap-[1rem] mq900:min-w-full">
+              <div className="self-stretch flex flex-1 bg-red-400 snap-x overflow-x-scroll laptop:snap-none flex-row laptop:flex-col items-end justify-evenly laptop:justify-start gap-[1.706rem] max-w-full">
+                <div className="self-stretch flex flex-col snap-center laptop:flex-row items-start justify-evenly gap-[1rem]">
+                  <div className="w-[80px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0">
                     Currency
                   </div>
-                  <div className="relative text-[1.25rem]  font-medium font-body-small text-text3 text-left inline-block shrink-0">
+                  <div className=" w-[60px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left inline-block shrink-0">
                     Product
                   </div>
 
-                  <div className=" relative text-[1.25rem]  font-medium font-body-small text-text3 text-left whitespace-nowrap">
+                  <div className="w-[116px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left whitespace-nowrap">
                     Forex Amount
                   </div>
-                  <div className=" relative text-[1.25rem]  font-medium font-body-small text-text3 text-left whitespace-nowrap">
+                  <div className="w-[104px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left whitespace-nowrap">
                     INR Amount
                   </div>
                 </div>
-                <img
-                  className="self-stretch relative max-w-full overflow-hidden max-h-full"
-                  loading="lazy"
-                  alt=""
-                  src="/vector-18.svg"
-                />
-                <div className="self-stretch w-full  flex flex-row items-start justify-around gap-[1rem]">
-                  <div className=" relative text-[1.25rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
-                    {orderDetails?.finalCurrency?.value}
-                  </div>
-                  <div className="relative text-[1.25rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
-                    {orderDetails?.product}
-                  </div>
 
-                  <div className=" relative text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left">
-                    {orderDetails?.forexAmount}
-                  </div>
-                  <div className="relative text-[1.25rem] leading-[2rem] font-body-small text-text2 text-left">
-                    {orderDetails?.inrAmount}
-                  </div>
-                </div>
-                <img
-                  className="self-stretch relative max-w-full overflow-hidden max-h-full"
-                  loading="lazy"
-                  alt=""
-                  src="/vector-19.svg"
-                />
+                {orderDetails?.orderItems.map((details, index) => {
+                  return (
+                    <>
+                      <div className=" snap-center self-stretch flex flex-col laptop:flex-row items-start justify-evenly gap-[1rem]">
+                        <div className=" w-[83px] relative font-semibold text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                          {details?.finalCurrency.smValue}
+                        </div>
+
+                        <div className=" w-[70px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                          {details?.product}
+                        </div>
+
+                        <div className=" w-[116px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
+                          {details?.forexAmount}
+                        </div>
+                        <div className="w-[103px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
+                          {details?.inrAmount}
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
               </div>
-              <button className="cursor-pointer [border:none] py-[1.125rem] px-[1.062rem] bg-primary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden flex flex-row items-start justify-start box-border gap-[1rem]">
-            <img
-              className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 hidden min-h-[2rem]"
-              alt=""
-              src="/ushoppingcart1.svg"
-            />
-            <img
-              className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
-              alt=""
-              src="/uplus.svg"
-            />
-            <div className="flex-1 relative text-[1.5rem] leading-[2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-              Add Product
-            </div>
-          </button>
+             
             </div>
             <div className=" flex flex-col items-center justify-center gap-[2rem]  max-w-full mq900:gap-[1rem] mq900:min-w-full mq1725:flex-1">
-              
               <div className="self-stretch shadow-[0px_2px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl bg-white overflow-hidden flex flex-col items-start justify-center p-[2rem]  gap-[1rem] max-w-full">
                 <div className="w-[9.188rem] relative text-[1.25rem] leading-[2rem] font-medium font-body-small text-text2 text-left inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
                   Order Summary
@@ -172,26 +155,26 @@ const PaymentPage = () => {
             </div>
           </form>
           <div className="self-stretch flex flex-row items-center justify-between max-w-full gap-[1.25rem] text-left text-[1.5rem] text-text1 font-sub-heading-small lg:flex-wrap">
-      <div className="relative leading-[2.5rem] inline-block max-w-full mq450:text-[1.188rem] mq450:leading-[2rem]">
-        How would you like to make payment?
-      </div>
-      <div className="w-[35.313rem] shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-lg bg-darkorange-100 overflow-hidden shrink-0 flex flex-row items-center justify-start py-[1rem] px-[2rem] box-border gap-[1.5rem] max-w-full text-error mq825:flex-wrap">
-        <div className="flex flex-row items-center justify-start gap-[0.812rem]">
-          <img
-            className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
-            alt=""
-            src="/uclock.svg"
-          />
-          <div className="relative leading-[2rem] inline-block min-w-[3.25rem] mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-            {`${minutes}:${seconds}`}
+            <div className="relative leading-[2.5rem] inline-block max-w-full mq450:text-[1.188rem] mq450:leading-[2rem]">
+              How would you like to make payment?
+            </div>
+            <div className="w-[35.313rem] shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-lg bg-darkorange-100 overflow-hidden shrink-0 flex flex-row items-center justify-start py-[1rem] px-[2rem] box-border gap-[1.5rem] max-w-full text-error mq825:flex-wrap">
+              <div className="flex flex-row items-center justify-start gap-[0.812rem]">
+                <img
+                  className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
+                  alt=""
+                  src="/uclock.svg"
+                />
+                <div className="relative leading-[2rem] inline-block min-w-[3.25rem] mq450:text-[1.188rem] mq450:leading-[1.625rem]">
+                  {`${minutes}:${seconds}`}
+                </div>
+              </div>
+              <div className="flex-1 relative text-[1.25rem] leading-[1.5rem] font-medium text-text2 inline-block min-w-[15.438rem] max-w-full mq450:text-[1rem] mq450:leading-[1.188rem]">
+                Rates held for 5 mins; complete payment before timer ends to
+                avoid new rates.
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="flex-1 relative text-[1.25rem] leading-[1.5rem] font-medium text-text2 inline-block min-w-[15.438rem] max-w-full mq450:text-[1rem] mq450:leading-[1.188rem]">
-          Rates held for 5 mins; complete payment before timer ends to avoid new
-          rates.
-        </div>
-      </div>
-    </div>
           <div className="w-[64.75rem] flex flex-row flex-wrap items-center justify-start gap-[3rem] max-w-full text-secondary mq825:gap-[1.5rem]">
             <div className="flex-1 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-3xl bg-secondary flex flex-col items-center justify-center py-[3rem] pr-[4.381rem] pl-[4.387rem] box-border gap-[1.5rem] min-w-[14.688rem] text-white mq450:pl-[1.25rem] mq450:pr-[1.25rem] mq450:box-border">
               <img
