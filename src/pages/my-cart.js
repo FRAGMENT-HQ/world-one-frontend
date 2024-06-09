@@ -2,7 +2,7 @@ import { order, cart } from "@/states/storage";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import InputArray from "@/components/input-array";
 
 function useWindowSize() {
@@ -80,9 +80,7 @@ const Frame1 = () => {
     const Forex_card = slectedItems.filter(
       (item) => item.product === "Forex Card"
     );
-    const Cash = slectedItems.filter(
-      (item) => item.product === "Cash"
-    );
+    const Cash = slectedItems.filter((item) => item.product === "Cash");
 
     const amountInForex = Forex_card.reduce(
       (acc, item) => acc + parseFloat(item.inrAmount),
@@ -98,7 +96,7 @@ const Frame1 = () => {
       return;
     }
 
-    if((amountInForex + amountInCash) < 5000) {
+    if (amountInForex + amountInCash < 5000) {
       toast.error("Amount in forex and cash should be greater than 5000 INR");
       return;
     }
@@ -120,14 +118,8 @@ const Frame1 = () => {
   };
 
   return (
-    <div className="w-full relative bg-background overflo-hidden flex flex-col items-center justify-center pt-[1.5rem] px-[5%] pb-[7.687rem] box-border gap-[2.75rem] text-left text-[1.25rem] text-white font-body-small ">
+    <div className="w-full relative bg-background overflo-hidden flex flex-col items-center justify-center pt-[1.5rem] px-[5vw] sm:px-[1.25rem] pb-[7.687rem] box-border gap-[2.75rem] text-left text-[1.25rem] text-white font-body-small ">
       <InputArray />
-      {/* <FrameComponent4
-        handleClick={handleNext}
-        step={1}
-        title="Order Details"
-      /> */}
-
       <div className="w-full  box-border flex flex-row items-start justify-start py-0 px-[21px] max-w-full text-text2 border-0 border-l-[5px] border-solid border-secondary">
         <h1 className="m-0 flex-1 relative tex-3xl leading-[56px] font-semibold font-inherit inline-block max-w-full ">
           My Cart
@@ -209,10 +201,6 @@ const Frame1 = () => {
                   </>
                 );
               })}
-              
-              
-
-              
             </div>
             <div className="w-full h-12 flex-wrap flex justify-between">
               <div
