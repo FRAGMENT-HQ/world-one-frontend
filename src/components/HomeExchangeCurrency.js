@@ -141,9 +141,11 @@ const HomeExchangeCurrency = () => {
   const [userData, setUserData] = useAtom(authUser);
   const [cartItems, setCartItems] = useAtom(cart);
   const [service, setService] = useState("");
+  const [callBack, setCallBack] = useState(()=>{setOpenBlog(false);})
   const size = useWindowSize();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  
   const getImgObjectURL = (imgSrc) => {
     const imgStyle = {
       backgroundImage: "url(" + imgSrc + ")",
@@ -261,6 +263,60 @@ const HomeExchangeCurrency = () => {
   };
 
   const handleOrder = () => {
+    if(
+      !userData?.name
+    )
+    {
+      setOpenBlog(true);
+      setMessage("Please Login to continue");
+      setCallBack((e)=>{
+        
+
+        setdrawerOpen(false);
+
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential =
+              GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+
+            // The signed-in user info.
+            const user = result.user;
+            // IdP data available using getAdditionalUserInfo(result)
+            // ...
+
+            setUserData({
+              name: user.displayName,
+              email: user.email,
+              photo: user.photoURL,
+              token: token,
+            });
+            login({
+              email: user.email,
+              name: user.displayName,
+              password: token,
+            });
+            
+          })
+          .catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error?.customData?.email;
+            // The AuthCredential type that was used.
+            console.log(error);
+            const credential =
+              GoogleAuthProvider.credentialFromError(error);
+            // ...
+          });
+
+      })
+      
+      
+      return;
+    }
     if (
       prod.value != "Travel Services" &&
       (amount == undefined || amount == "" || amount * (rate + factor) < 5000)
@@ -393,8 +449,10 @@ const HomeExchangeCurrency = () => {
           <div className="self-stretch flex flex-row items-start justify-start py-0 px-[76px] box-border max-w-full mq750:pl-[38px] mq750:pr-[38px] mq750:box-border">
             <button
               onClick={() => {
-                setOpenBlog(false);
+                
                 setMessage("Blogs are coming soon ! ");
+                callBack
+                setCallBack(()=>{setOpenBlog(false);})
               }}
               className="cursor-pointer [border:none] py-[18px] px-5 bg-secondary flex-1 shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden flex flex-row items-start justify-center box-border gap-[16px] max-w-full hover:bg-darkslateblue-800"
             >
@@ -543,7 +601,7 @@ const HomeExchangeCurrency = () => {
                             // ...
                           });
                       }}
-                      className={` ${userData?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl "} text-[#FF9135] font-semibold text-sm `}
+                      className={` ${userData?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl cursor-pointer "} text-[#FF9135] font-semibold text-sm `}
                     >
                       {userData?.name ? userData?.name.split(" ")[0] : "Login"}
                     </div>

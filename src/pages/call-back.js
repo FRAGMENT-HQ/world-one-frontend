@@ -135,6 +135,7 @@ const Frame11 = () => {
             </div>
             <Select
               options={options}
+              placeholder="Select Service Required"
               classNames={{
                 container: () =>
                   " w-full laptop:w-[48%] flex-1 min-w-36 text-white border-solid border-2 border-[#000] !rounded-2xl rounded-lg bg-gray-100 py-1 sm:py-2 ",

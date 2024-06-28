@@ -88,6 +88,9 @@ const Frame11 = () => {
   });
   const [city, setCity] = useState({});
   const [State, setState] = useState({});
+  const [pin, setPin] = useState("")
+  const [location, setLocation] = useState("")
+
 
   useEffect(() => {
     setCity(orderData?.city);
@@ -129,6 +132,14 @@ const Frame11 = () => {
       toast.error("Please enter a valid phone number");
       return;
     }
+    if(!/^[1-9]{1}[0-9]{5}$/.test(pin)){
+      toast.error("Please enter a valid pin code")
+      return;
+    }
+    if(location.length <3){
+      toast.error("Please enter a valid landmark")
+      return;
+    }
     mutate({
       email: userData?.email,
       phone_no: phone,
@@ -136,6 +147,8 @@ const Frame11 = () => {
       state: State?.value,
       address:email,
       order: orderData1.id,
+      landmark:location,
+      pincode:pin
     
     })
     
@@ -199,8 +212,28 @@ const Frame11 = () => {
               value={email}
               setValue={setEmail}
             />
+            <FrameComponent3
+              travelersName="Landmark"
+              frame18Placeholder="Lanmark"
+              iconsarrowDropDown24px="/iconsarrow-drop-down-24px11.svg"
+              propMinWidth="23.125rem"
+              propWidth="8.25rem"
+              propGap="14.956rem"
+              value={location}
+              setValue={setLocation}
+            />
           </form>
           <form className="m-0 self-stretch flex flex-row flex-wrap items-center justify-center gap-[3rem] max-w-full mq900:flex-col mq900:gap-[1.5rem]">
+          <FrameComponent3
+              travelersName="Pin Code"
+              frame18Placeholder="pin-code"
+              iconsarrowDropDown24px="/iconsarrow-drop-down-24px11.svg"
+              propMinWidth="23.125rem"
+              propWidth="8.25rem"
+              propGap="14.956rem"
+              value={pin}
+              setValue={setPin}
+            />
             <div className="flex-1 flex flex-col items-start justify-center gap-[0.75rem] min-w-[95%] sm:min-w-[23.125rem] max-w-full mq900:min-w-full mq900:flex-[unset] mq900:self-stretch">
               <div className=" relative text-[1.25rem] leading-[2rem] font-normal font-body-small text-text2 text-left inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
                 City

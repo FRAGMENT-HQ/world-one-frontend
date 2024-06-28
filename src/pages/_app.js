@@ -102,14 +102,14 @@ export default function App({ Component, pageProps }) {
               </div>
               <div onClick={()=>{
                 router.push("/outlets")
-              }} className="flex flex-row items-center justify-center py-2 px-[7px]">
+              }} className="flex cursor-pointer flex-row items-center justify-center py-2 px-[7px]">
                 <div className="relative text-base inline-block min-w-[99px] sm:text-lgi">
                   Outlets
                 </div>
               </div>
               <div
                 onClick={() => router.push("/faq")}
-                className="flex flex-row items-center justify-center p-2"
+                className="cursor-pointer flex flex-row items-center justify-center p-2"
               >
                 <div className="relative text-base inline-block min-w-[99px] sm:text-lgi">
                   FAQ

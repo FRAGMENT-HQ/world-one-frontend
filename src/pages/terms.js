@@ -53,7 +53,11 @@ function Terms() {
         <br />
         <strong>Contact Us</strong>
         <br />
-        Contact World One Forex by email at <a href="mailto:[email protected]">[email protected]</a>.
+        Email: <a href="mailto:compliance@worldoneforex.com">compliance@worldoneforex.com</a>
+        <br />
+        Phone: : 8860104511
+        <br />
+      
       </div>
     </div>
   );

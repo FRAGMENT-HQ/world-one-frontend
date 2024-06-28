@@ -1,9 +1,7 @@
-// import FrameComponent7 from "../components/frame-component";
 import FrameComponent4 from "@/components/frame-component4";
 import { order } from "@/states/storage";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
-import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import InputArray from "@/components/input-array";
 function useWindowSize() {

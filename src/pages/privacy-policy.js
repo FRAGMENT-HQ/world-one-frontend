@@ -82,9 +82,9 @@ function Privicy() {
         <br />
         If you have any questions about this Privacy Policy, please contact us at:
         <br />
-        Email: <a href="mailto:info@worldoneforex.com">info@worldoneforex.com</a>
+        Email: <a href="mailto:compliance@worldoneforex.com">compliance@worldoneforex.com</a>
         <br />
-        Phone: +91 8527475009
+        Phone: : 8860104511
         <br />
         Address: Shop #1, S-1 (Ground Floor), American Plaza, Eros Hotel, Nehru Place, New Delhi - 110019
       </div>

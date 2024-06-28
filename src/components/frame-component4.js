@@ -71,9 +71,14 @@ const FrameComponent4 = ({
             <div
               className={`h-[0.5rem] flex-1 relative rounded ${step > 3 ? " bg-primary" : "bg-text5"}`}
             />
+
+            {orderData?.type == "cart" && (
+              <div
+                className={`h-[0.5rem] flex-1 relative rounded ${step > 4 ? " bg-primary" : "bg-text5"}`}
+              />
+            )}
           </>
         )}
-        {/*<div className={`h-[0.5rem] flex-1 relative rounded ${step>4 ? " bg-primary" : "bg-text5"}`}/> */}
       </div>
       <div className="self-stretch flex flex-row items-center justify-between [row-gap:20px] max-w-full gap-[0rem] mq1725:flex-wrap">
         <div className=" flex flex-row items-center justify-start py-[0rem]  pl-[0rem] box-border gap-[1.2rem] max-w-full  mq900:box-border mq450:pr-[1.25rem] mq450:box-border mq1325:flex-wrap mq1325:box-border">
@@ -85,15 +90,13 @@ const FrameComponent4 = ({
               src={"backIcon.svg"}
               className=""
             />
-            {/* <div className="relative leading-[2.25rem] font-semibold inline-block min-w-[1.813rem] ">
-              {`0${step}`}
-            </div> */}
+
             <h2 className="m-0 flex-1 relative text-[2rem] leading-[2.5rem] font-semibold inline-block min-w-[10.375rem] mq900:text-[1.625rem] mq900:leading-[2rem] mq450:text-[1.188rem] mq450:leading-[1.5rem]">
               {title}
             </h2>
           </div>
         </div>
-        {size.width > 500 && (
+        {size.width > 500 && step != 5 && (
           <button
             onClick={() => {
               if (!isLoading) {
@@ -103,14 +106,21 @@ const FrameComponent4 = ({
             className="cursor-pointer invisable xs:visable  [border:none] py-[0.8rem] pr-[1.968rem] pl-[2.468rem] bg-secondary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[1rem]"
             // onClick={onCustomerDetailsClick}
           >
-           { !isLoading ? <> <div className="flex-1 relative text-[1.2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-              Continue
-            </div>
-            <img
-              className="h-[1.2rem] w-[1.2rem] relative overflow-hidden shrink-0 min-h-[1.2rem]"
-              alt=""
-              src="/fiarrowright.svg"
-            /> </> : <Loading/>}
+            {!isLoading ? (
+              <>
+                {" "}
+                <div className="flex-1 relative text-[1.2rem] font-body-small text-white text-left mq450:text-[1.188rem] mq450:leading-[1.625rem]">
+                  Continue
+                </div>
+                <img
+                  className="h-[1.2rem] w-[1.2rem] relative overflow-hidden shrink-0 min-h-[1.2rem]"
+                  alt=""
+                  src="/fiarrowright.svg"
+                />{" "}
+              </>
+            ) : (
+              <Loading />
+            )}
           </button>
         )}
       </div>
