@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import { submitQueryRequest } from "@/hooks/prod";
-
+import { DefaultSeo } from 'next-seo';
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }) {
@@ -59,11 +59,39 @@ export default function App({ Component, pageProps }) {
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster />
+      <DefaultSeo
+
+        title="World One India Forex Pvt. Ltd."
+        description="Find the best exchange rates and transfer money worldwide with ease. Our transparent platform offers fast, reliable, and cost-effective currency exchange solutions"
+        openGraph={{
+          type: 'website',
+          locale: 'en_IE',
+          url: 'https://worldoneforex.com/',
+          site_name: 'World One India Forex Pvt. Ltd.',
+          images:[
+            {
+              url: 'https://worldoneforex.com/seo.png',
+              width: 800,
+              height: 600,
+              alt: 'World One India Forex Pvt. Ltd.',
+            },
+          
+          ],
+        description: 'Get the best exchange rates and transfer money globally with ease. Fast, secure, and reliable currency exchange for individuals and businesses.',
+        }}
+        // meta tags
+        additionalMetaTags={[
+          {
+            name: 'keywords',
+            content:'best exchange rates,send money online,buy currency,sell currency,transfer money abroad,cheapest way to send money,international money transfer,online currency exchange,real-time exchange rates,currency exchange,money transfer,foreign exchange,forex,exchange rates,international payments,remittance,money exchange,currency converter,wire transfer'
+          }]}
+      />
+
       <Component {...pageProps} />
       <section className="  !text-[0px] self-stretch bg-midnightblue overflow-hidden flex flex-col items-center justify-start pt-[60px] px-5 pb-12 box-border gap-[100px] max-w-full text-left text-13xl text-white  mq825:gap-[50px_100px] mq825:pt-[51px] mq825:pb-5 mq825:box-border mq450:gap-[25px_100px] mq1275:pt-[78px] mq1275:pb-[31px] mq1275:box-border">
         <div className="w-full flex flex-col tablet:flex-row items-start justify-start sm:justify-evenly max-w-full gap-[20px] mq1275:flex-wrap ">
           <div className="flex flex-col items-start text-left justify-start gap-[35px] mq450:gap-[17px_35px]">
-          <iframe
+            <iframe
               width="350px"
               height="400px"
               frameborder="0"
@@ -100,7 +128,7 @@ export default function App({ Component, pageProps }) {
                   Careers
                 </div>
               </div>
-              <div onClick={()=>{
+              <div onClick={() => {
                 router.push("/outlets")
               }} className="flex cursor-pointer flex-row items-center justify-center py-2 px-[7px]">
                 <div className="relative text-base inline-block min-w-[99px] sm:text-lgi">
@@ -162,7 +190,7 @@ export default function App({ Component, pageProps }) {
             </button>
           </div>
         </div>
-      
+
         <div className="px-[120px] mq825:pl-[30px] mq825:pr-[30px] text-base">
           World One India Forex Pvt. Ltd. is a currency exchange service
           provider authorized by the Reserve Bank of India (RBI) RBI License
