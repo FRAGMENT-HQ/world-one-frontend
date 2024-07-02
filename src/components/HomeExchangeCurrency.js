@@ -1517,6 +1517,7 @@ const HomeExchangeCurrency = () => {
                 key={index}
                 unsplash3PyBkxgTiL0={blog.mobile_image}
                 welcomeToWorldOneForexBlo={blog.title}
+                content={blog?.mini_content}
                 onClick={() => {
                   router.push(`/blogs/${blog.id}`);
                 }}

@@ -271,7 +271,7 @@ const Outlets = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="search for currency"
-            className=" w-[18rem] py-2 rounded-xl pr-1 pl-2"
+            className=" w-[18rem] py-3.5 rounded-xl pr-1 pl-2"
           />
           <img src="/search.svg" className="w-6 -ml-10" />
         </div>
