@@ -1146,7 +1146,7 @@ const HomeExchangeCurrency = () => {
           </div>
         </div>
 
-        {size.width > 640 && (
+        {/* {size.width > 640 && ( */}
           <div className="flex w-full flex-col bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] max-w-full p-0 justify-start" >
             <div className="self-stretch flex  overflow-hidden flex flex-row items-center justify-start py-12 px-8 box-border relative gap-4 max-w-full z-[2]  mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
               <div onClick={() => {
@@ -1173,20 +1173,20 @@ const HomeExchangeCurrency = () => {
                 onClick={() => {
                   router.push("/rates-new");
                 }}
-                className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
+                className="cursor-pointer [border:none] gap-[8px] tablet:gap-[14px] py-0 tablet:py-4 px-[30px] tablet:px-[38px] bg-background h-12 tablet:h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border whitespace-nowrap hover:bg-gainsboro-200"
               >
                 <img
-                  className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
+                  className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[28px]"
                   alt=""
                   src="/gglist.svg"
                 />
-                <div className="relative text-base leading-[32px] font-semibold  text-secondary text-left">
+                <div className="relative text-base font-semibold  text-secondary text-left">
                   See Full Rate Card
                 </div>
               </button>
             </div>
           </div>
-        )}
+        {/* )} */}
 
       </section>
 

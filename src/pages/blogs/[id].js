@@ -74,10 +74,12 @@ const Frame11 = () => {
         </h1>
       </div>
       {/* content */}
-      <div className="w-full flex-col justify-start" >
+      <div className="w-full flex-col  items-center justify-center" >
+        <div className=" w-full m-auto tablet:w-[60vw]  flex-col justify-start">
       <h2>{content?.title}</h2>
       <img src={ width>600 ? content?.web_image : content?.mobile_image } className="w-full max-h-64" />
-      <div dangerouslySetInnerHTML={{ __html: content?.content }} ></div>
+      <div className="" dangerouslySetInnerHTML={{ __html: content?.content }} ></div>
+      </div>
       </div>
       
 
