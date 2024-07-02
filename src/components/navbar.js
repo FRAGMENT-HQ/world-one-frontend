@@ -200,7 +200,7 @@ export default function Navbar() {
               className=" h-[60px] sm:h-[60px] sm:w-[180px] relative"
               loading="lazy"
               alt=""
-              src="LOGO.svg"
+              src="/LOGO.svg"
               onClick={() => {
                 router.push("/");
               }}

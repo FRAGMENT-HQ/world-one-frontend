@@ -152,7 +152,7 @@ const Frame11 = () => {
             />
           </div>
           <textarea
-            placeholder="Briefly tell us about your issue..."
+            placeholder="Briefly tell us about your requieremnt..."
             className="w-[calc(100%-48px)] font-normal py-2 px-[24px] h-[32rem] flex-1 flex flex-row items-center justify-start text-[1.25rem] text-base text-[#000]    rounded-xl"
             rows="5"
             value={querry}

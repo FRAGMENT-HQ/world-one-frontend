@@ -114,8 +114,8 @@ const Frame11 = () => {
     (res) => {
       toast.success("Order placed successfully");
       handleOpen();
-      setOrderData({});
-      setOrderData1({});
+      // setOrderData({});
+      // setOrderData1({});
     },
     (err) => {
       console.log(err);

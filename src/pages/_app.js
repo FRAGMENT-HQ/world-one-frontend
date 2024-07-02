@@ -6,6 +6,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import { submitQueryRequest } from "@/hooks/prod";
 import { DefaultSeo } from 'next-seo';
+import Head from "next/head";
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }) {
@@ -59,6 +60,12 @@ export default function App({ Component, pageProps }) {
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster />
+      <Head>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+      </Head>
       <DefaultSeo
 
         title="World One India Forex Pvt. Ltd."
@@ -68,22 +75,22 @@ export default function App({ Component, pageProps }) {
           locale: 'en_IE',
           url: 'https://worldoneforex.com/',
           site_name: 'World One India Forex Pvt. Ltd.',
-          images:[
+          images: [
             {
               url: 'https://worldoneforex.com/seo.png',
               width: 800,
               height: 600,
               alt: 'World One India Forex Pvt. Ltd.',
             },
-          
+
           ],
-        description: 'Get the best exchange rates and transfer money globally with ease. Fast, secure, and reliable currency exchange for individuals and businesses.',
+          description: 'Get the best exchange rates and transfer money globally with ease. Fast, secure, and reliable currency exchange for individuals and businesses.',
         }}
         // meta tags
         additionalMetaTags={[
           {
             name: 'keywords',
-            content:'best exchange rates,send money online,buy currency,sell currency,transfer money abroad,cheapest way to send money,international money transfer,online currency exchange,real-time exchange rates,currency exchange,money transfer,foreign exchange,forex,exchange rates,international payments,remittance,money exchange,currency converter,wire transfer'
+            content: 'best exchange rates,send money online,buy currency,sell currency,transfer money abroad,cheapest way to send money,international money transfer,online currency exchange,real-time exchange rates,currency exchange,money transfer,foreign exchange,forex,exchange rates,international payments,remittance,money exchange,currency converter,wire transfer'
           }]}
       />
 
@@ -199,7 +206,7 @@ export default function App({ Component, pageProps }) {
 
         <div className="w-[1680px] rounded-[20px] bg-darkslateblue-600 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-row items-start justify-between py-5  box-border max-w-full gap-[20px] z-[1] text-xl px-[120px] mq825:pl-[30px] mq825:pr-[30px] mq825:box-border mq1275:flex-wrap mq1275:justify-center mq1275:pl-[60px] mq1275:pr-[60px] mq1275:box-border">
           <div className="relative leading-[24px] font-medium inline-block max-w-full mq450:text-base mq450:leading-[19px]">
-            @ 2024 World One India forex private limited
+            @ 2024 World One India Forex Private Limited
           </div>
           <div className="flex flex-row items-start justify-start gap-[45px] max-w-full mq450:flex-wrap mq450:gap-[45px_22px]">
             <div

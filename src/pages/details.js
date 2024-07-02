@@ -67,7 +67,7 @@ const Frame11 = () => {
   const [panNumber, setPanNumber] = useState(userData?.panNumber || "");
   const [name, setName] = useState(userData?.name || "");
   const [email, setEmail] = useState(userData?.email || "");
-  const [phone, setPhone] = useState(userData?.phone || "");
+  const [phone, setPhone] = useState(userData?.phone_no || "");
   const [open, setOpen] = useState(false);
   const [countries, setCountries] = useState([]);
   const [status, setStatus] = useState(true);

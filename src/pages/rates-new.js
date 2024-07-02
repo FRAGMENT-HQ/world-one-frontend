@@ -80,6 +80,8 @@ const Outlets = () => {
   const [display, setDisplay] = useState(-1);
   const [city, setCity] = useState("");
   const [data, setData] = useState([]);
+  const [serData, setSerData] = useState([]);
+  const [search, setSearch] = useState(""); 
 
   // const router = useRouter();
   const size = useWindowSize();
@@ -120,6 +122,8 @@ const Outlets = () => {
       });
 
       setData(Data);
+      setSerData(Data);
+
     },
 
     (err) => {
@@ -138,6 +142,16 @@ const Outlets = () => {
       setDisplay(0);
     }
   }, [size.width]);
+
+  useEffect(() => {
+    if(search.length > 0){
+      let temp = data.filter((d) => d.currency.toLowerCase().includes(search.toLowerCase()));
+      setSerData(temp);
+    }else{
+      setSerData(data);
+    }
+  }, [search])
+  
 
   return (
     <div className="w-full relative bg-background flex flex-col items-start justify-start pt-[3rem] px-[5%] laptop:px-[120px] pb-[10rem] box-border gap-[2rem]  tracking-[normal] ">
@@ -196,13 +210,16 @@ const Outlets = () => {
       </div>
 
       <section className=" mt-4 flex flex-col items-start justify-start gap-6 min-w-full">
-        {/* <div className="flex justify-center">
+        <div className="flex justify-center">
           <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             placeholder="search for currency"
             className=" w-[18rem] py-2 rounded-xl pr-1 pl-2"
           />
           <img src="/search.svg" className="w-6 -ml-10" />
-        </div> */}
+        </div>
         <div className="w-full flex font-semibold gap-[3%] ">
           <div className="w-36 bg-[#E6E9F7] h-10 py-1 rounded-xl flex items-center justify-center ">
             Currency
@@ -242,7 +259,7 @@ const Outlets = () => {
         </div>
         <div className="w-full border border-solid border-[#27357E]"></div>
 
-        {data.map((currency) => {
+        {serData.map((currency) => {
           return (
             <>
               <div className="w-full text-sm flex font-normal gap-[3%]  ">

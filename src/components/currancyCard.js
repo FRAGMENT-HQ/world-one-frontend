@@ -9,7 +9,7 @@ const CurrencyCard = ({ rate }) => {
 
 
   return (
-    <div className="h-[9rem] snap-center shadow-[1px_1px_2px_rgba(248,_248,_248,_0.05)_inset,_0px_8px_24px_rgba(19,_26,_60,_0.15)] rounded-2xl bg-gray-200 overflow-hidden flex flex-col items-center justify-center py-[1rem] px-[1.5rem] box-border gap-[1rem] min-w-[14.313rem] max-w-[14.563rem] text-left text-[1.5rem] text-white ">
+    <div  className="h-[9rem] snap-center shadow-[1px_1px_2px_rgba(248,_248,_248,_0.05)_inset,_0px_8px_24px_rgba(19,_26,_60,_0.15)] rounded-2xl bg-gray-200 overflow-hidden flex flex-col items-center justify-center py-[1rem] px-[1.5rem] box-border gap-[1rem] min-w-[14.313rem] max-w-[14.563rem] text-left text-[1.5rem] text-white ">
       <div className="flex flex-row items-center justify-start py-[0rem] pr-[2rem] pl-[0rem] gap-[1rem]">
         <img
           className="h-[1.25rem] w-[1.75rem] relative object-cover"

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { order, cart } from "@/states/storage";
 import FrameComponent2 from "./frame-component2";
 import FrameComponent from "./frame-component";
@@ -11,6 +11,7 @@ import { getRateMutation, loginMutation } from "@/hooks/prod";
 import CityModal from "./cityModal";
 import CurrencyCard from "./currancyCard";
 import { getRateCardMutation } from "@/hooks/prod";
+import { getBlogsMutation } from "@/hooks/blogs";
 import Select from "react-select";
 import toast from "react-hot-toast";
 import Drawer from "@mui/material/Drawer";
@@ -141,11 +142,13 @@ const HomeExchangeCurrency = () => {
   const [userData, setUserData] = useAtom(authUser);
   const [cartItems, setCartItems] = useAtom(cart);
   const [service, setService] = useState("");
-  const [callBack, setCallBack] = useState(()=>{setOpenBlog(false);})
+  const [callBack, setCallBack] = useState(() => { setOpenBlog(false); })
+  const [blogs, setBlogs] = useState([]);
+  const srollRef = useRef();
   const size = useWindowSize();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  
+
   const getImgObjectURL = (imgSrc) => {
     const imgStyle = {
       backgroundImage: "url(" + imgSrc + ")",
@@ -158,6 +161,14 @@ const HomeExchangeCurrency = () => {
   const { mutate: getRate } = getRateMutation(
     (res) => {
       setRate(1 / res.data.rate);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+  const { mutate: getBlogs } = getBlogsMutation(
+    (res) => {
+      setBlogs(res?.data);
     },
     (err) => {
       console.log(err);
@@ -196,6 +207,7 @@ const HomeExchangeCurrency = () => {
   useEffect(() => {
     getRate(finalCurrency.value);
     getRateCard();
+    getBlogs();
   }, []);
 
   const AddToCart = () => {
@@ -221,7 +233,12 @@ const HomeExchangeCurrency = () => {
     if (prod.value == "Exchange Currency") {
       if ((amount * (rate + factor)) / usd > 3000) {
         toast.error(
-          "Cash Limit of USD 3000 equivalent is allowed according to RBI Guidelines."
+          <div className="text-[#102A83] flex flex-col justify-start gap-0" >
+            <div>Heads Up!</div>
+            <div><b>Max Currency Exchange: $3,000</b></div>
+            <div><b>Max Forex Card Load: $250,000</b></div>
+            <div>Plan your transactions accordingly.</div>
+          </div>
         );
         return;
       }
@@ -229,7 +246,12 @@ const HomeExchangeCurrency = () => {
     if (prod.value == "Forex Card") {
       if ((amount * (rate + factor)) / usd > 250000) {
         toast.error(
-          "Maximum limit of 250,000 USD cannot be exceeded Including cash."
+          <div className="text-[#102A83] flex flex-col justify-start gap-0" >
+            <div>Heads Up!</div>
+            <div><b>Max Currency Exchange: $3,000</b></div>
+            <div><b>Max Forex Card Load: $250,000</b></div>
+            <div>Plan your transactions accordingly.</div>
+          </div>
         );
         return;
       }
@@ -263,14 +285,13 @@ const HomeExchangeCurrency = () => {
   };
 
   const handleOrder = () => {
-    if(
+    if (
       !userData?.name
-    )
-    {
+    ) {
       setOpenBlog(true);
       setMessage("Please Login to continue");
-      setCallBack((e)=>{
-        
+      setCallBack((e) => {
+
 
         setdrawerOpen(false);
 
@@ -297,7 +318,7 @@ const HomeExchangeCurrency = () => {
               name: user.displayName,
               password: token,
             });
-            
+
           })
           .catch((error) => {
             // Handle Errors here.
@@ -313,8 +334,8 @@ const HomeExchangeCurrency = () => {
           });
 
       })
-      
-      
+
+
       return;
     }
     if (
@@ -331,13 +352,23 @@ const HomeExchangeCurrency = () => {
     }
     if (prod.value == "Exchange Currency") {
       if ((amount * (rate + factor)) / usd > 3000) {
-        toast.error("You can Buy 3000$ worth cash");
+        toast.error(<div className="text-[#102A83] flex flex-col justify-start gap-0" >
+          <div>Heads Up!</div>
+          <div><b>Max Currency Exchange: $3,000</b></div>
+          <div><b>Max Forex Card Load: $250,000</b></div>
+          <div>Plan your transactions accordingly.</div>
+        </div>);
         return;
       }
     }
     if (prod.value == "Forex Card") {
       if ((amount * (rate + factor)) / usd > 250000) {
-        toast.error("You can Buy 250000$ worth forex card");
+        toast.error(<div className="text-[#102A83] flex flex-col justify-start gap-0" >
+          <div>Heads Up!</div>
+          <div><b>Max Currency Exchange: $3,000</b></div>
+          <div><b>Max Forex Card Load: $250,000</b></div>
+          <div>Plan your transactions accordingly.</div>
+        </div>);
         return;
       }
     }
@@ -404,6 +435,27 @@ const HomeExchangeCurrency = () => {
     section.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  const scrollLeft = () => {
+    console.log(srollRef);
+    // srollRef.current.scrollLeft -= srollRef.
+    if (srollRef.current) {
+      srollRef.current.scrollBy({
+        top: 0,
+        left: -1 * 300,
+        behavior: 'smooth'
+      });
+    }
+  }
+  const scrollRight = () => {
+    if (srollRef.current) {
+      srollRef.current.scrollBy({
+        top: 0,
+        left: 300,
+        behavior: 'smooth'
+      });
+    }
+  }
+
   return (
     <div className=" bg-background w-full  overflow-hidden flex flex-col items-start justify-start">
       <CityModal
@@ -449,10 +501,10 @@ const HomeExchangeCurrency = () => {
           <div className="self-stretch flex flex-row items-start justify-start py-0 px-[76px] box-border max-w-full mq750:pl-[38px] mq750:pr-[38px] mq750:box-border">
             <button
               onClick={() => {
-                
+
                 setMessage("Blogs are coming soon ! ");
                 callBack
-                setCallBack(()=>{setOpenBlog(false);})
+                setCallBack(() => { setOpenBlog(false); })
               }}
               className="cursor-pointer [border:none] py-[18px] px-5 bg-secondary flex-1 shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden flex flex-row items-start justify-center box-border gap-[16px] max-w-full hover:bg-darkslateblue-800"
             >
@@ -485,7 +537,7 @@ const HomeExchangeCurrency = () => {
                 "0px 6px 24px -4px rgba(18, 25, 56, 0.10), 0px 12px 48px 4px rgba(18, 25, 56, 0.15)",
               backdropFilter: "blur(24px)",
             }}
-            className="bg-[#505d9c33] font-normal -mt-3 rounded-md px-4 py-2 font-semibold flex flex-col items-center gap-1  text-sm "
+            className="bg-[#161435] opacity-[90%] font-normal -mt-3 rounded-md px-4 py-2 font-semibold flex flex-col items-center gap-1  text-sm "
           >
             <img src="/AddCart.svg" />
             cart
@@ -507,120 +559,121 @@ const HomeExchangeCurrency = () => {
             <div className=" sm:visible w-full mt-5  rounded-3xl flex flex-col items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
               <div className="w-[75%] flex flex-col items-center justify-center text-[15px] font-semibold">
                 <div className="flex flex-col text-white  gap-[15%] ">
-                <div className=" flex flex-row items-center justify-center py-1 ">
-                        <div
-                          onClick={() => {
-                            setdrawerOpen(false);
-
-                            scroll("#about");
-                            
-                          }}
-                          className=" cursor-pointer relative leading-[32px] inline-block "
-                        >
-                          About
-                        </div>
-                      </div>
-                      <div
-                        onClick={() => {
-                          setdrawerOpen(false);
-
-                          router.push("/rates-new");
-                        }}
-                        className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
-                      >
-                        <div className="relative leading-[32px]">Rates</div>
-                      </div>
-                      <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
-                        <div
-                          onClick={() => {
-                            setdrawerOpen(false);
-
-                            scroll("#services");
-                          }}
-                          className="cursor-pointer relative leading-[32px]"
-                        >
-                          Services
-                        </div>
-                      </div>
-
-                      <div
-                        onClick={() => {
-                          setdrawerOpen(false);
-
-                          setdrawerOpen(false);
-                          scroll("#blogs");
-                        }}
-                        className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
-                      >
-                        <div className="relative leading-[32px]">Blogs</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={` flex h-16 gap-[12%] items-center flex-col`}>
-                    <div
-                      onClick={() => {setdrawerOpen(false);
-
-                        if (userData?.name) {
-                          router.push("/profile");
-                          return;
-                        }
-                        signInWithPopup(auth, provider)
-                          .then((result) => {
-                            // This gives you a Google Access Token. You can use it to access the Google API.
-                            const credential =
-                              GoogleAuthProvider.credentialFromResult(result);
-                            const token = credential.accessToken;
-
-                            // The signed-in user info.
-                            const user = result.user;
-                            // IdP data available using getAdditionalUserInfo(result)
-                            // ...
-
-                            setUserData({
-                              name: user.displayName,
-                              email: user.email,
-                              photo: user.photoURL,
-                              token: token,
-                            });
-                            login({
-                              email: user.email,
-                              name: user.displayName,
-                              password: token,
-                            });
-                          })
-                          .catch((error) => {
-                            // Handle Errors here.
-                            const errorCode = error.code;
-                            const errorMessage = error.message;
-                            // The email of the user's account used.
-                            const email = error?.customData?.email;
-                            // The AuthCredential type that was used.
-                            console.log(error);
-                            const credential =
-                              GoogleAuthProvider.credentialFromError(error);
-                            // ...
-                          });
-                      }}
-                      className={` ${userData?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl cursor-pointer "} text-[#FF9135] font-semibold text-sm `}
-                    >
-                      {userData?.name ? userData?.name.split(" ")[0] : "Login"}
-                    </div>
-
+                  <div className=" flex flex-row items-center justify-center py-1 ">
                     <div
                       onClick={() => {
-                        scroll("#mail");
+                        setdrawerOpen(false);
+
+                        scroll("#about");
+
                       }}
-                      className="cursor-pointer w-[11rem] h-10 rounded-xl bg-[#3c498b4d] overflow-hidden flex flex-row items-center justify-start py-2 pr-[12px] pl-4 box-border gap-[12px]"
+                      className=" cursor-pointer relative leading-[32px] inline-block "
                     >
-                      <img
-                        className="h-6 w-6 relative overflow-hidden shrink-0"
-                        alt=""
-                        src="/newSupport.svg"
-                      />
-                      <div className="relative text-base text-semibold !text-white  inline-block ">
-                        Contact Us
-                      </div>
+                      About
+                    </div>
                   </div>
+                  <div
+                    onClick={() => {
+                      setdrawerOpen(false);
+
+                      router.push("/rates-new");
+                    }}
+                    className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
+                  >
+                    <div className="relative leading-[32px]">Rates</div>
+                  </div>
+                  <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
+                    <div
+                      onClick={() => {
+                        setdrawerOpen(false);
+
+                        scroll("#services");
+                      }}
+                      className="cursor-pointer relative leading-[32px]"
+                    >
+                      Services
+                    </div>
+                  </div>
+
+                  <div
+                    onClick={() => {
+                      setdrawerOpen(false);
+
+                      setdrawerOpen(false);
+                      scroll("#blogs");
+                    }}
+                    className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
+                  >
+                    <div className="relative leading-[32px]">Blogs</div>
+                  </div>
+                </div>
+              </div>
+              <div className={` flex h-16 gap-[12%] items-center flex-col`}>
+                <div
+                  onClick={() => {
+                    setdrawerOpen(false);
+
+                    if (userData?.name) {
+                      router.push("/profile");
+                      return;
+                    }
+                    signInWithPopup(auth, provider)
+                      .then((result) => {
+                        // This gives you a Google Access Token. You can use it to access the Google API.
+                        const credential =
+                          GoogleAuthProvider.credentialFromResult(result);
+                        const token = credential.accessToken;
+
+                        // The signed-in user info.
+                        const user = result.user;
+                        // IdP data available using getAdditionalUserInfo(result)
+                        // ...
+
+                        setUserData({
+                          name: user.displayName,
+                          email: user.email,
+                          photo: user.photoURL,
+                          token: token,
+                        });
+                        login({
+                          email: user.email,
+                          name: user.displayName,
+                          password: token,
+                        });
+                      })
+                      .catch((error) => {
+                        // Handle Errors here.
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        // The email of the user's account used.
+                        const email = error?.customData?.email;
+                        // The AuthCredential type that was used.
+                        console.log(error);
+                        const credential =
+                          GoogleAuthProvider.credentialFromError(error);
+                        // ...
+                      });
+                  }}
+                  className={` ${userData?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl cursor-pointer "} text-[#FF9135] font-semibold text-sm `}
+                >
+                  {userData?.name ? userData?.name.split(" ")[0] : "Login"}
+                </div>
+
+                <div
+                  onClick={() => {
+                    scroll("#mail");
+                  }}
+                  className="cursor-pointer w-[11rem] h-10 rounded-xl bg-[#3c498b4d] overflow-hidden flex flex-row items-center justify-start py-2 pr-[12px] pl-4 box-border gap-[12px]"
+                >
+                  <img
+                    className="h-6 w-6 relative overflow-hidden shrink-0"
+                    alt=""
+                    src="/newSupport.svg"
+                  />
+                  <div className="relative text-base text-semibold !text-white  inline-block ">
+                    Contact Us
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1017,19 +1070,19 @@ const HomeExchangeCurrency = () => {
 
                   {((prod.value == "Exchange Currency" && selected) ||
                     prod.value == "Forex Card") && (
-                    <div
-                      onClick={() => {
-                        AddToCart();
-                      }}
-                      className="cursor-pointer [border:none] py-3 px-10 sm:py-2 bg-[#FF9135] rounded-lg sm:rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
-                    >
-                      <img
-                        className="h-11 w-11 relative overflow-hidden shrink-0 min-h-[32px]"
-                        alt=""
-                        src="/AddCart.svg"
-                      />
-                    </div>
-                  )}
+                      <div
+                        onClick={() => {
+                          AddToCart();
+                        }}
+                        className="cursor-pointer [border:none] py-3 px-10 sm:py-2 bg-[#FF9135] rounded-lg sm:rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
+                      >
+                        <img
+                          className="h-11 w-11 relative overflow-hidden shrink-0 min-h-[32px]"
+                          alt=""
+                          src="/AddCart.svg"
+                        />
+                      </div>
+                    )}
 
                   <div
                     onClick={() => {
@@ -1088,59 +1141,54 @@ const HomeExchangeCurrency = () => {
                    */}
                   </div>
                 )}
-                {size.width < 640 && (
-                  <div className=" absolute  w-[100vw] bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)]  flex flex-col items-center justify-start py-12 px-4 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
-                    <div className="w-full m-2  px-5 snap-x overflow-x-scroll flex gap-5">
-                      {rates.map((rate, index) => (
-                        <CurrencyCard key={index} rate={rate} />
-                      ))}
-                    </div>
-                    <button
-                      onClick={() => {
-                        router.push("/rates-new");
-                      }}
-                      className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
-                    >
-                      <img
-                        className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
-                        alt=""
-                        src="/gglist.svg"
-                      />
-                      <div className="relative text-base leading-[32px] font-semibold  text-secondary text-left">
-                        See Full Rate Card
-                      </div>
-                    </button>
-                  </div>
-                )}
+
               </div>
             </div>
           </div>
         </div>
 
         {size.width > 640 && (
-          <div className="self-stretch bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] overflow-hidden flex flex-col items-center justify-start py-12 px-8 box-border relative gap-[56px] max-w-full z-[2] mq825:gap-[28px_56px] mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
-            <div className="flex w-full snap-x overflow-x-scroll flex w-full gap-5">
-              {rates.map((rate, index) => (
-                <CurrencyCard key={index} rate={rate} />
-              ))}
-            </div>
-            <button
-              onClick={() => {
-                router.push("/rates-new");
-              }}
-              className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
-            >
-              <img
-                className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
-                alt=""
-                src="/gglist.svg"
-              />
-              <div className="relative text-base leading-[32px] font-semibold  text-secondary text-left">
-                See Full Rate Card
+          <div className="flex flex-col bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] max-w-full p-0 justify-start" >
+            <div className="self-stretch flex  overflow-hidden flex flex-row items-center justify-start py-12 px-8 box-border relative gap-4 max-w-full z-[2]  mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
+              <div onClick={() => {
+                scrollLeft()
+              }} ><img src="u_angle-right-l.svg" /></div>
+              <div ref={srollRef} className="flex w-full snap-x overflow-x-scroll flex w-full gap-5">
+                {rates.map((rate, index) => {
+                  console.log(index == 0 ? srollRef : null)
+                  return <>
+                    <CurrencyCard ref={index == 0 ? srollRef : null} key={index} rate={rate} />
+                  </>
+                }
+
+                )}
               </div>
-            </button>
+              <div onClick={() => {
+                scrollRight()
+              }} ><img src="u_angle-right-b.svg" /></div>
+
+            </div>
+            <div className=" self-stretch flex justify-center pt-2 pb-12 px-8 box-border relative gap-4 max-w-full z-[2] ">
+
+              <button
+                onClick={() => {
+                  router.push("/rates-new");
+                }}
+                className="cursor-pointer [border:none] py-4 px-[38.5px] bg-background h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
+              >
+                <img
+                  className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[32px]"
+                  alt=""
+                  src="/gglist.svg"
+                />
+                <div className="relative text-base leading-[32px] font-semibold  text-secondary text-left">
+                  See Full Rate Card
+                </div>
+              </button>
+            </div>
           </div>
         )}
+
       </section>
 
       <section
@@ -1153,11 +1201,11 @@ const HomeExchangeCurrency = () => {
       >
         <div className="self-stretch flex flex-row items-center justify-start gap-[5%] w-[95%] ml-[2.5%] sm:ml-0  sm:w-full mq825:gap-[111px_55px] mq450:gap-[111px_28px] mq1575:flex-wrap">
           <div
-            style={{ backdropFilter: "blur(24px)" }}
-            className="flex bg-[#233aaee6] gap-8 rounded-xl py-10 px-[7%] sm:px-[5%] sm:px-12 flex-col items-start justify-start w-[90vw] sm:w-[94%]"
+            style={{ backdropFilter: "blur(108px)" }}
+            className="flex bg-[#00236df2]  gap-8 rounded-[2rem] py-10 px-[7%] sm:px-[5%] sm:px-12 flex-col items-start justify-start w-[90vw] sm:w-[94%]"
           >
-            <div className=" box-border flex flex-row items-center justify-center py-0 px-[21px] border-l-[5px] border-0 border-solid border-white">
-              <h1 className="m-0 relative text-[2.5rem] font-medium inline-block mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
+            <div className=" box-border flex flex-row items-center justify-center py-0 px-[21px] border-l-[5px] border-0 border-solid border-primary">
+              <h1 className="m-0 relative text-[2.5rem] font-semibold inline-block mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
                 Welcome to World One Forex
               </h1>
             </div>
@@ -1256,7 +1304,7 @@ const HomeExchangeCurrency = () => {
                   });
                   scroll("#main-content");
                 }}
-                content={`Send money internationally, fast & secure. Ideal for fees, business transactions, or supporting loved ones.`}
+                content={`Send money internationally, fast & secure. Ideal for fees, Currently availaible for all educational transphers only.`}
               />
               <FrameComponent
                 currency="/mdilightcreditcard.svg"
@@ -1293,12 +1341,12 @@ const HomeExchangeCurrency = () => {
                   Why Choose World One Forex?
                 </div>
               </div>
-              <div className="self-stretch relative text-5xl leading-[36px] font-medium text-text2 mq450:text-lgi mq450:leading-[29px]">
+              <div className="self-stretch relative text-5xl  leading-[36px]  text-text2 mq450:text-lgi mq450:leading-[29px]">
                 Embark on a journey of seamless currency exchange with World One
                 Forex. Here's why our users love us:
               </div>
             </div>
-            <div className=" overflow-x-hidden  flex flex-row flex-wrap items-center justify-evenly gap-1 w-full ">
+            <div className=" overflow-x-hidden flex flex-row flex-wrap items-center justify-evenly gap-[0.5px] w-full ">
               <LinkFunction
                 reliability="Reliability"
                 trustOurExperienceAndSecu="Trust our experience and secure transactions."
@@ -1397,122 +1445,53 @@ const HomeExchangeCurrency = () => {
       </section> */}
       <section className="self-stretch overflow-hidden flex flex-row items-start justify-center py-[120px] px-5 box-border min-h-[828px] max-w-full text-left text-29xl text-text1 font-body-small mq825:pt-[78px] mq825:pb-[78px] mq825:box-border mq450:pt-[51px] mq450:pb-[51px] mq450:box-border">
         <div className=" flex flex-col items-start justify-start gap-[56px] max-w-full mq825:gap-[28px_56px]">
-          <div className=" box-border border-0 flex flex-row items-start justify-start py-0 px-[21px] max-w-full border-l-[5px] border-solid border-secondary">
+          <div className=" box-border border-0 flex flex-row flex-between flex-wrap w-full items-start justify-start py-0 px-[21px] max-w-full border-l-[5px] border-solid border-secondary">
             <h1 className="m-0 flex-1 relative text-inherit font-normal font-inherit inline-block max-w-full mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
               Frequently Asked Questions
             </h1>
+            <button
+              onClick={() => {
+                router.push("/faq");
+              }}
+              className="cursor-pointer [border:none] py-4 px-[38.5px] bg-secondary h-16 rounded-2xl  overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
+            >
+
+              <div className="relative text-base leading-[32px] font-semibold  text-white text-left">
+                View More
+              </div>
+              <img
+                className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[32px]"
+                alt=""
+                src="/fiarrowright.svg"
+              />
+            </button>
           </div>
           <FaqItems
             number="01"
+            small="What are the sactioned limit on Russian Fedration and Iraq?"
+            content="For CIS countries like Russian Fedrtion and Iraq, there is full cash limit. For Iraq and Lybia the sanctioned limit is USD 5000 or equivalent per person per visit."
+          />
+          <FaqItems
+            number="02"
             small="How much currency can I carry on an official/tourist trip abroad?"
             content="You can avail of foreign exchange up to USD 10,000 in any calendar year for tourism or private travel to any country other than Nepal and Bhutan on the basis of self-certification. You are allowed to carry currency equivalent to USD 3,000 & rest in Travel Money Card."
           />
           <FaqItems
-            number="02"
+            number="03"
             small="How long does it take to service a forex order? Can you provide the currency/card on the same day?"
             content="While we endeavor to process and service all orders within 4-6 business hours (excluding Sunday), we recommend that you place your order 24 hours before you travel so that there is no last minute stress for you"
           />
           <FaqItems
-            number="03"
+            number="04"
             small="Which bank forex card do you issue?"
             content="IndusInd Bank, Yes Bank & Thomas Cook India Ltd."
           />
           <FaqItems
-            number="04"
+            number="05"
             small="Can I retain any of the forex that I bought for foreign travel and did not spend?"
             content="You can indefinitely retain foreign exchange up to USD 2,000 for future use. Any foreign exchange in cash in excess of this sum, is required to be surrendered within 90 days of return."
           />
-          {/* <div className="self-stretch flex flex-col items-start justify-start gap-[39.5px] max-w-full text-13xl text-text3 mq825:gap-[20px_39.5px]">
-            <div className="self-stretch h-12 overflow-hidden shrink-0 flex flex-row items-start justify-start gap-[24px] max-w-full">
-              <div className="w-10 relative leading-[40px] inline-block shrink-0 mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
-                01
-              </div>
-              <div className="flex-1 flex flex-col items-start justify-start gap-[16px] max-w-[calc(100%_-_136px)] shrink-0 text-text1">
-                <div className="self-stretch relative leading-[40px] mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">{`Lorem ipsum dolor sit amet consectetur. Quisque nec mattis congue cursus velit habitasse `}</div>
-                <div className="self-stretch h-9 relative text-5xl leading-[36px] font-medium text-text2 inline-block mq450:text-lgi mq450:leading-[29px]">
-                  Lorem ipsum dolor sit amet consectetur. Quisque nec mattis
-                  congue cursus velit habitasse semper morbi.
-                </div>
-              </div>
-              <img
-                className="h-12 w-12 relative overflow-hidden shrink-0 object-cover"
-                alt=""
-                src="/eiarrowright-4@2x.png"
-              />
-            </div>
-            <div className="self-stretch h-px flex flex-row items-start justify-start py-0 px-16 box-border max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
-              <img
-                className="h-px flex-1 relative max-w-full overflow-hidden"
-                alt=""
-                src="/vector-11.svg"
-              />
-            </div>
-            <div className="self-stretch h-12 overflow-hidden shrink-0 flex flex-row items-start justify-start gap-[24px] max-w-full">
-              <div className="w-10 relative leading-[40px] inline-block shrink-0 mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
-                01
-              </div>
-              <div className="flex-1 flex flex-col items-start justify-start gap-[16px] max-w-[calc(100%_-_136px)] shrink-0 text-text1">
-                <div className="self-stretch relative leading-[40px] mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">{`Lorem ipsum dolor sit amet consectetur. Quisque nec mattis congue cursus velit habitasse `}</div>
-                <div className="self-stretch h-9 relative text-5xl leading-[36px] font-medium text-text2 inline-block mq450:text-lgi mq450:leading-[29px]">
-                  Lorem ipsum dolor sit amet consectetur. Quisque nec mattis
-                  congue cursus velit habitasse semper morbi.
-                </div>
-              </div>
-              <img
-                className="h-12 w-12 relative overflow-hidden shrink-0 object-cover"
-                alt=""
-                src="/eiarrowright-4@2x.png"
-              />
-            </div>
-            <div className="self-stretch h-px flex flex-row items-start justify-start py-0 px-16 box-border max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
-              <img
-                className="h-px flex-1 relative max-w-full overflow-hidden"
-                alt=""
-                src="/vector-11.svg"
-              />
-            </div>
-            <div className="self-stretch h-12 overflow-hidden shrink-0 flex flex-row items-start justify-start gap-[24px] max-w-full">
-              <div className="w-10 relative leading-[40px] inline-block shrink-0 mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
-                01
-              </div>
-              <div className="flex-1 flex flex-col items-start justify-start gap-[16px] max-w-[calc(100%_-_136px)] shrink-0 text-text1">
-                <div className="self-stretch relative leading-[40px] mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">{`Lorem ipsum dolor sit amet consectetur. Quisque nec mattis congue cursus velit habitasse `}</div>
-                <div className="self-stretch h-9 relative text-5xl leading-[36px] font-medium text-text2 inline-block mq450:text-lgi mq450:leading-[29px]">
-                  Lorem ipsum dolor sit amet consectetur. Quisque nec mattis
-                  congue cursus velit habitasse semper morbi.
-                </div>
-              </div>
-              <img
-                className="h-12 w-12 relative overflow-hidden shrink-0 object-cover"
-                alt=""
-                src="/eiarrowright-4@2x.png"
-              />
-            </div>
-            <div className="self-stretch h-px flex flex-row items-start justify-start py-0 px-16 box-border max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
-              <img
-                className="h-px flex-1 relative max-w-full overflow-hidden"
-                alt=""
-                src="/vector-11.svg"
-              />
-            </div>
-            <div className="self-stretch h-12 overflow-hidden shrink-0 flex flex-row items-start justify-start gap-[24px] max-w-full">
-              <div className="w-10 relative leading-[40px] inline-block shrink-0 mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">
-                01
-              </div>
-              <div className="flex-1 flex flex-col items-start justify-start gap-[16px] max-w-[calc(100%_-_136px)] shrink-0 text-text1">
-                <div className="self-stretch relative leading-[40px] mq825:text-7xl mq825:leading-[32px] mq450:text-lgi mq450:leading-[24px]">{`Lorem ipsum dolor sit amet consectetur. Quisque nec mattis congue cursus velit habitasse `}</div>
-                <div className="self-stretch h-9 relative text-5xl leading-[36px] font-medium text-text2 inline-block mq450:text-lgi mq450:leading-[29px]">
-                  Lorem ipsum dolor sit amet consectetur. Quisque nec mattis
-                  congue cursus velit habitasse semper morbi.
-                </div>
-              </div>
-              <img
-                className="h-12 w-12 relative overflow-hidden shrink-0 object-cover"
-                alt=""
-                src="/eiarrowright-4@2x.png"
-              />
-            </div>
-          </div> */}
+
         </div>
       </section>
       <section
@@ -1526,14 +1505,26 @@ const HomeExchangeCurrency = () => {
           </h1>
         </div>
         <div className="w-[90vw] overflow-x-auto flex flex-row flex-wrap items-start justify-evenly gap-[48px] max-w-full z-[1] mq825:gap-[48px_24px]">
-          <ColorAdjustor
+          {/* <ColorAdjustor
             unsplash3PyBkxgTiL0="/unsplash3pybkxgtil0@2x.png"
             welcomeToWorldOneForexBlo="Welcome to WorldOne Forex Blog!"
             onClick={() => {
               setOpenBlog(true);
             }}
-          />
-          <ColorAdjustor
+          /> */}
+          {blogs?.length > 0 && blogs.map((blog, index) => {
+            return (
+              <ColorAdjustor
+                key={index}
+                unsplash3PyBkxgTiL0={blog.mobile_image}
+                welcomeToWorldOneForexBlo={blog.title}
+                onClick={() => {
+                  router.push(`/blogs/${blog.id}`);
+                }}
+              />
+            );
+          })}
+          {/* <ColorAdjustor
             unsplash3PyBkxgTiL0="/image-14@2x.png"
             welcomeToWorldOneForexBlo="How to exchange currency in India?"
             onClick={() => {
@@ -1546,7 +1537,7 @@ const HomeExchangeCurrency = () => {
             onClick={() => {
               setOpenBlog(true);
             }}
-          />
+          /> */}
         </div>
       </section>
       {/* <section className="self-stretch bg-midnightblue overflow-hidden flex flex-col items-center justify-start pt-[30px] px-5 pb-12 box-border gap-[100px] max-w-full text-left text-13xl text-white  mq825:gap-[50px_100px] mq825:pt-[51px] mq825:pb-5 mq825:box-border mq450:gap-[25px_100px] mq1275:pt-[78px] mq1275:pb-[31px] mq1275:box-border">
