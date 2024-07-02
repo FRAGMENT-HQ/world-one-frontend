@@ -53,8 +53,7 @@ const cityOptions = [
   .sort((a, b) => a.label.trim().localeCompare(b.label.trim()));
 // import CountryData
 function useWindowSize() {
-  // Initialize state with undefined width/height so server and client renders match
-  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+
   const [windowSize, setWindowSize] = useState({
     width: undefined,
     height: undefined,
@@ -1148,7 +1147,7 @@ const HomeExchangeCurrency = () => {
         </div>
 
         {size.width > 640 && (
-          <div className="flex flex-col bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] max-w-full p-0 justify-start" >
+          <div className="flex w-full flex-col bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] max-w-full p-0 justify-start" >
             <div className="self-stretch flex  overflow-hidden flex flex-row items-center justify-start py-12 px-8 box-border relative gap-4 max-w-full z-[2]  mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
               <div onClick={() => {
                 scrollLeft()

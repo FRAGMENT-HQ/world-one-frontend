@@ -1,7 +1,7 @@
 import Select from "react-select";
 import { getFullRateCardMutation } from "@/hooks/prod";
 import Smodal from "@/components/smodal";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import Navbar from "@/components/navbar";
 import country from "../../country.json";
 const cityOptions = [
@@ -64,7 +64,30 @@ const options = [
   { label: "Mumbai", value: "Mumbai" },
   { label: "Chennai", value: "Chennai" },
   { label: "Kolkata", value: "Kolkata" },
+  // { label: "Agra", value: "Agra" },
+  // { label: "Jaipur", value: "Jaipur" },
+  { label: "Lucknow", value: "Lucknow" },
+  { label: "Chandigarh", value: "Chandigarh" },
 ];
+const options2 = [
+
+  { label: "Gurgaon", value: "Gurgaon" },
+  { label: "Noida", value: "Noida" },
+
+  { label: "Hyderabad", value: "Hyderabad" },
+  { label: "Vadodara", value: "Vadodara" },
+  // { label: "Lucknow", value: "Lucknow" },
+  { label: "Bangalore", value: "Bangalore" },
+  { label: "Kochi", value: "Kochi" },
+  { label: "Chennai", value: "Chennai" },
+  { label: "Ludhiana", value: "Ludhiana" },
+  { label: "Jalandhar", value: "Jalandhar" },
+  { label: "Amritsar", value: "Amritsar" },
+  { label: "Ahmedabad", value: "Ahmedabad" },
+  { label: "Trichy", value: "Trichy" },
+  { label: "Pune", value: "Pune" },
+  { label: "Calicut", value: "Calicut" },
+]
 
 
 const getImg = (name) => {
@@ -72,7 +95,7 @@ const getImg = (name) => {
   let full = Country?.name
   console.log(Country)
 
-  return Country ? {flag : Country?.flag ,name :full } : {flag : "" ,name : "" } ;
+  return Country ? { flag: Country?.flag, name: full } : { flag: "", name: "" };
 };
 const Outlets = () => {
   const [open, setOpen] = useState(false);
@@ -81,14 +104,22 @@ const Outlets = () => {
   const [city, setCity] = useState("");
   const [data, setData] = useState([]);
   const [serData, setSerData] = useState([]);
-  const [search, setSearch] = useState(""); 
+  const [search, setSearch] = useState("");
+  const scrollRef = useRef(null)
+
+  const scrollLeft = () => {
+    scrollRef.current.scrollLeft -= 100
+  }
+  const scrollRight = () => {
+    scrollRef.current.scrollLeft += 100
+  }
 
   // const router = useRouter();
   const size = useWindowSize();
 
   const { mutate, isLoading } = getFullRateCardMutation(
     (res) => {
-    
+
       let Data = res.data;
       Data = Data.map((d) => {
         const buyRate =
@@ -103,8 +134,8 @@ const Outlets = () => {
         let temp = getImg(currency);
         const flag = temp.flag
         const full = temp.name
-        console.log(full,temp)
-   
+        console.log(full, temp)
+
         return {
           flag,
           full,
@@ -144,14 +175,14 @@ const Outlets = () => {
   }, [size.width]);
 
   useEffect(() => {
-    if(search.length > 0){
+    if (search.length > 0) {
       let temp = data.filter((d) => d.currency.toLowerCase().includes(search.toLowerCase()));
       setSerData(temp);
-    }else{
+    } else {
       setSerData(data);
     }
   }, [search])
-  
+
 
   return (
     <div className="w-full relative bg-background flex flex-col items-start justify-start pt-[3rem] px-[5%] laptop:px-[120px] pb-[10rem] box-border gap-[2rem]  tracking-[normal] ">
@@ -183,30 +214,54 @@ const Outlets = () => {
           placeholder: () => "",
         }}
       />
-      <div className="flex flex-row flex-wrap items-center w-full py-[1rem] gap-[4vw] justify-start overflow-y-scroll ">
-        {/* <div className=" w-[7rem] h-[6.5rem] shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-2xl bg-white overflow-hidden flex flex-col items-center justify-center py-[1rem] px-[1.656rem]">
-              New Delhi
-            </div> */}
+      <div className="flex flex-row items-center w-full py-[1rem] gap-[4vw] justify-start overflow-y-scroll ">
+        <div className="bg-white px-4 py-3 rounded-xl flex justify-center items-center "  onClick={() => {
+          scrollLeft()
+        }} ><img src="bl.svg" /></div>
 
-        {options.map((option) => {
-          return (
-            <div
-              key={option.value}
-              onClick={() => setCity(option)}
-              className={`w-[4rem] font-semibold mt-4 ml-2 mr-2 h-[3.5rem] cursor-pointer shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-2xl  overflow-hidden flex flex-col items-center justify-center py-[1.5rem] px-[1.656rem] ${
-                city.value == option.value
+        <div ref={scrollRef} className="self-stretch flex snap-x overflow-x-scroll flex w-full gap-[4vw]" >
+
+          {options.map((option) => {
+            return (
+              <div
+                key={option.value}
+                onClick={() => setCity(option)}
+                className={`w-[8rem] font-semibold mt-4 ml-2 mr-2 h-[3.5rem] cursor-pointer shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-2xl  overflow-hidden flex flex-col items-center justify-center py-[1.5rem] px-[3.5rem] ${city.value == option.value
                   ? "!bg-[#FF9135] text-white "
                   : "bg-white text-[#27357E]"
-              }`}
-            >
-              <img
-                src={`/city/${city.value == option.value ? "light" : "dark"}/${option.value}.svg`}
-                className="w-16"
-              />
-              {option.label}
-            </div>
-          );
-        })}
+                  }`}
+              >
+                <img
+                  src={`/city/${city.value == option.value ? "light" : "dark"}/${option.value}.svg`}
+                  className="w-16"
+                />
+                {option.label}
+              </div>
+            );
+          })}
+          {options2.map((option) => {
+            return (
+              <div
+                key={option.value}
+                onClick={() => setCity(option)}
+                className={`w-[9rem] font-semibold mt-4  h-[3.5rem] cursor-pointer shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-2xl  overflow-hidden flex flex-col items-center justify-center py-[1.5rem] px-[3.5rem] ${city.value == option.value
+                  ? "!bg-[#FF9135] text-white "
+                  : "bg-white text-[#27357E]"
+                  }`}
+              >
+                <img
+                  src={`/city/${city.value == option.value ? "light" : "dark"}/City.svg`}
+                  className="w-16"
+                />
+                {option.label}
+              </div>
+            );
+          })}
+
+        </div>
+        <div className="bg-white px-4 py-3 rounded-xl flex justify-center items-center "  onClick={() => {
+          scrollRight()
+        }} ><img src="br.svg" /></div>
       </div>
 
       <section className=" mt-4 flex flex-col items-start justify-start gap-6 min-w-full">
@@ -242,7 +297,7 @@ const Outlets = () => {
           </div>
         </div>
         <div className="w-full text-xs laptop:text-sm flex font-normal gap-[3%]  ">
-          <div className="w-36 rounded-xl flex items-center "></div>
+          <div  className="w-36 rounded-xl flex items-center "></div>
           {display != 0 && (
             <div className="w-full flex-1 rounded-xl flex items-center justify-evenly ">
               <div className="w-[105px]" > Currency Notes (Cash)</div>
