@@ -85,7 +85,7 @@ const Frame1 = () => {
                 <div className="w-[116px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left whitespace-nowrap">
                   Forex Amount
                 </div>
-                <div className="w-[104px] relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left whitespace-nowrap">
+                <div className="w-[108px] mr-2 relative text-[1rem] sm:text-[1.25rem]  font-normal font-body-small text-text3 text-left whitespace-nowrap">
                   INR Amount
                 </div>
               </div>

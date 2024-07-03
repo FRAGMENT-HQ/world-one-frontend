@@ -5,12 +5,12 @@ import React from "react";
 import { useTimer } from "react-timer-hook";
 import { useRouter } from "next/router";
 import { cashfree } from "@/utils/cashfree";
-import { createPayoutMutation } from "@/hooks/payment";
+import { createPayoutMutation, confirmPaymentMutation } from "@/hooks/payment";
 import { Switch } from "@mui/material";
 import InputArray from "@/components/input-array";
 import FrameComponent4 from "@/components/frame-component4";
 import toast from "react-hot-toast";
-
+import Smodal from "@/components/smodal";
 function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
     width: undefined,
@@ -50,19 +50,27 @@ const PaymentPage = () => {
   const [selected, setSelected] = useState(false);
   const [selected2, setSelected2] = useState(false);
   const [selected3, setSelected3] = useState(false);
+  const [open, setOpen] = useState(false)
   const size = useWindowSize();
+
+  const { mutate: confirmPayment } = confirmPaymentMutation((res) => {
+  }, (err) => {
+    console.log(err);
+  }
+  );
 
   const { mutate: createPayout } = createPayoutMutation(
     (res) => {
       console.log(res);
       let checkoutOptions = {
         paymentSessionId: res.data.session,
-        returnUrl:
-          "https://test.cashfree.com/pgappsdemos/v3success.php?myorder=5",
+        // returnUrl:
+        //   "https://test.cashfree.com/pgappsdemos/v3success.php?myorder=5",
         redirectTarget: "_modal",
       };
       cashfree.checkout(checkoutOptions).then(function (result) {
-        console.log(result);
+        confirmPayment({ order_id: createOrderDetails.id, status: "success"});
+        setOpen(true)
         if (result.error) {
           alert(result.error.message);
         }
@@ -113,7 +121,8 @@ const PaymentPage = () => {
     <div className="w-full relative bg-background overflow-hidden flex flex-col items-center justify-start pt-[3rem] pb-[2.5rem] px-[1.25rem]  box-border gap-[2.75rem] leading-[normal] tracking-[normal] text-left text-[1.25rem] text-white font-sub-heading-small mq825:gap-[1.375rem]">
       <InputArray />
       <main className=" flex flex-col items-start justify-start gap-[1.75rem] max-w-full">
-        <FrameComponent4 step={4} title="Payment" />
+        <FrameComponent4 step={5} title="Payment" />
+        <Smodal open={open} setOpen={setOpen} />
 
         <section className="self-stretch shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white overflow-hidden flex flex-col items-start justify-center pb-[4rem] px-[5%] sm:px-[3rem] box-border gap-[1rem] max-w-full text-left text-[1.25rem] text-text1 font-sub-heading-small mq825:gap-[1.5rem] mq825:pt-[1.688rem] mq825:pb-[1.688rem] mq825:box-border mq1400:py-[2.625rem] mq1400:px-[1.5rem] mq1400:box-border">
           <form className="m-0 self-stretch rounded-13xl bg-white overflow-hidden flex flex-row flex-wrap items-start justify-start py-[3rem] box-border gap-[3rem] max-w-full mq900:gap-[1.5rem] mq900:pt-[2.625rem] mq900:pb-[2.625rem] mq900:box-border mq1725:flex-wrap">
@@ -135,13 +144,13 @@ const PaymentPage = () => {
                   </div>
                 </div>
                 {size.width > 1024 && (
-                <img
-                  className="self-stretch invisible laptop:visible laptop:w-full w-0  relative max-w-full overflow-hidden max-h-full"
-                  loading="lazy"
-                  alt=""
-                  src="/vector-18.svg"
-                />
-              )}
+                  <img
+                    className="self-stretch invisible laptop:visible laptop:w-full w-0  relative max-w-full overflow-hidden max-h-full"
+                    loading="lazy"
+                    alt=""
+                    src="/vector-18.svg"
+                  />
+                )}
 
                 {orderDetails?.orderItems.map((details, index) => {
                   return (
@@ -291,9 +300,7 @@ const PaymentPage = () => {
               src="/uexclamationtriangle.svg"
             />
             <div className="flex-1 relative leading-[1.5rem] font-normal inline-block  max-w-full lg:min-w-full">
-              Have you purchased or transferred foreign currency worth more than
-              INR. 700,000 in the present financial year including the current
-              order?
+              Have you not purchased or transferred foreign currency worth more than INR 700,000 in the present financial year, including the current order?
             </div>
             <Switch
               size="large"
@@ -362,11 +369,7 @@ const PaymentPage = () => {
               <button
                 onClick={() => {
                   if (selected && selected2 && selected3) {
-                    console.log("Request Payment", createOrderDetails.id, {
-                      order_id: createOrderDetails.id,
-                      email: userDetails.email,
-                      methord: Type.toLowerCase(),
-                    });
+                   
                     createPayout({
                       order_id: createOrderDetails.id,
                       email: userDetails.email,

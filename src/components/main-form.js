@@ -96,7 +96,7 @@ const MainForm = () => {
   };
   const { mutate, isLoading } = postOrderMutation(
     (res) => {
-      toast.success("Order placed successfully");
+      toast.success("Order saved successfully");
       if (orderData?.type == "cart") {
         setCreatOrderData(res.data);
         router.push("/delivery");

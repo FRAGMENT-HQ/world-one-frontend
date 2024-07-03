@@ -112,8 +112,9 @@ const Frame11 = () => {
   };
   const { mutate } = locationMutation(
     (res) => {
-      toast.success("Order placed successfully");
-      handleOpen();
+      toast.success("Order delivery saved successfully");
+      router.push("/payment");
+      // handleOpen();
       // setOrderData({});
       // setOrderData1({});
     },

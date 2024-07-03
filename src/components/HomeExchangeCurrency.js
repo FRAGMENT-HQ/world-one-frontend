@@ -147,7 +147,7 @@ const HomeExchangeCurrency = () => {
   const size = useWindowSize();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  const { width, height } = useWindowSize();
   const getImgObjectURL = (imgSrc) => {
     const imgStyle = {
       backgroundImage: "url(" + imgSrc + ")",
@@ -440,7 +440,7 @@ const HomeExchangeCurrency = () => {
     if (srollRef.current) {
       srollRef.current.scrollBy({
         top: 0,
-        left: -1 * 300,
+        left: -1 * (width > 600 ? 300 : 200),
         behavior: 'smooth'
       });
     }
@@ -449,7 +449,7 @@ const HomeExchangeCurrency = () => {
     if (srollRef.current) {
       srollRef.current.scrollBy({
         top: 0,
-        left: 300,
+        left: (width > 600 ? 300 : 200),
         behavior: 'smooth'
       });
     }
@@ -1026,11 +1026,12 @@ const HomeExchangeCurrency = () => {
                             <img
                               onClick={() => {
                                 setMessage(
-                                  <>
-                                    Max currency exchange limit is 3000$
-                                    <br />
-                                    Max Forex card limit is 250000${" "}
-                                  </>
+                                  <div className="text-[#102A83] flex flex-col justify-start gap-0" >
+                                    <div>Heads Up!</div>
+                                    <div><b>Max Currency Exchange: $3,000</b></div>
+                                    <div><b>Max Forex Card Load: $250,000</b></div>
+                                    <div>Plan your transactions accordingly.</div>
+                                  </div>
                                 );
                                 setOpenBlog(true);
                               }}
@@ -1147,45 +1148,45 @@ const HomeExchangeCurrency = () => {
         </div>
 
         {/* {size.width > 640 && ( */}
-          <div className="flex w-full flex-col bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] max-w-full p-0 justify-start" >
-            <div className="self-stretch flex  overflow-hidden flex flex-row items-center justify-start py-12 px-8 box-border relative gap-4 max-w-full z-[2]  mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
-              <div onClick={() => {
-                scrollLeft()
-              }} ><img src="u_angle-right-l.svg" /></div>
-              <div ref={srollRef} className="flex w-full snap-x overflow-x-scroll flex w-full gap-5">
-                {rates.map((rate, index) => {
-                  console.log(index == 0 ? srollRef : null)
-                  return <>
-                    <CurrencyCard ref={index == 0 ? srollRef : null} key={index} rate={rate} />
-                  </>
-                }
+        <div className="flex w-full flex-col bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] max-w-full p-0 justify-start" >
+          <div className="self-stretch flex  overflow-hidden flex flex-row items-center justify-start py-12 px-0 tablet:px-8 box-border relative gap-0 tablet:gap-4 max-w-full z-[2]  mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
+            <div onClick={() => {
+              scrollLeft()
+            }} ><img src="u_angle-right-l.svg" /></div>
+            <div ref={srollRef} className="flex w-full snap-x overflow-x-scroll flex w-full gap-5">
+              {rates.map((rate, index) => {
+                console.log(index == 0 ? srollRef : null)
+                return <>
+                  <CurrencyCard ref={index == 0 ? srollRef : null} key={index} rate={rate} />
+                </>
+              }
 
-                )}
-              </div>
-              <div onClick={() => {
-                scrollRight()
-              }} ><img src="u_angle-right-b.svg" /></div>
-
+              )}
             </div>
-            <div className=" self-stretch flex justify-center pt-2 pb-12 px-8 box-border relative gap-4 max-w-full z-[2] ">
+            <div onClick={() => {
+              scrollRight()
+            }} ><img src="u_angle-right-b.svg" /></div>
 
-              <button
-                onClick={() => {
-                  router.push("/rates-new");
-                }}
-                className="cursor-pointer [border:none] gap-[8px] tablet:gap-[14px] py-0 tablet:py-4 px-[30px] tablet:px-[38px] bg-background h-12 tablet:h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border whitespace-nowrap hover:bg-gainsboro-200"
-              >
-                <img
-                  className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[28px]"
-                  alt=""
-                  src="/gglist.svg"
-                />
-                <div className="relative text-base font-semibold  text-secondary text-left">
-                  See Full Rate Card
-                </div>
-              </button>
-            </div>
           </div>
+          <div className=" self-stretch flex justify-center pt-2 pb-12 px-8 box-border relative gap-4 max-w-full z-[2] ">
+
+            <button
+              onClick={() => {
+                router.push("/rates-new");
+              }}
+              className="cursor-pointer [border:none] gap-[8px] tablet:gap-[14px] py-0 tablet:py-4 px-[30px] tablet:px-[38px] bg-background h-12 tablet:h-16 rounded-2xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden shrink-0 flex flex-row items-center justify-center box-border whitespace-nowrap hover:bg-gainsboro-200"
+            >
+              <img
+                className="h-8 w-8 relative overflow-hidden shrink-0 min-h-[28px]"
+                alt=""
+                src="/gglist.svg"
+              />
+              <div className="relative text-base font-semibold  text-secondary text-left">
+                See Full Rate Card
+              </div>
+            </button>
+          </div>
+        </div>
         {/* )} */}
 
       </section>
@@ -1448,7 +1449,7 @@ const HomeExchangeCurrency = () => {
             <h1 className="m-0 flex-1 relative text-inherit font-normal font-inherit inline-block max-w-full mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
               Frequently Asked Questions
             </h1>
-            <button
+            {width > 654 && <button
               onClick={() => {
                 router.push("/faq");
               }}
@@ -1463,7 +1464,7 @@ const HomeExchangeCurrency = () => {
                 alt=""
                 src="/fiarrowright.svg"
               />
-            </button>
+            </button>}
           </div>
           <FaqItems
             number="01"
@@ -1490,7 +1491,22 @@ const HomeExchangeCurrency = () => {
             small="Can I retain any of the forex that I bought for foreign travel and did not spend?"
             content="You can indefinitely retain foreign exchange up to USD 2,000 for future use. Any foreign exchange in cash in excess of this sum, is required to be surrendered within 90 days of return."
           />
+          {width < 654 && <button
+            onClick={() => {
+              router.push("/faq");
+            }}
+            className="cursor-pointer [border:none] py-4 px-[38.5px] bg-secondary h-16 rounded-2xl  overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
+          >
 
+            <div className="relative text-base leading-[32px] font-semibold  text-white text-left">
+              View More
+            </div>
+            <img
+              className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[32px]"
+              alt=""
+              src="/fiarrowright.svg"
+            />
+          </button>}
         </div>
       </section>
       <section

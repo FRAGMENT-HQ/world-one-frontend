@@ -17,3 +17,22 @@ export const createPayoutMutation = (successCallback, errorCallback) => {
     },
   });
 };
+
+
+const confirmPaymentRequest = (data) => {
+  const url = getUrl(`/api/payments/confirmation/`);
+
+  return request("POST", url, data, false);
+};
+
+export const confirmPaymentMutation = (successCallback, errorCallback) => {
+  return useMutation(confirmPaymentRequest, {
+    mutationKey: "confirm-payout",
+    onSuccess: (res) => {
+      successCallback(res);
+    },
+    onError: (err) => {
+      errorCallback(err);
+    },
+  });
+};
