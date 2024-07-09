@@ -111,22 +111,7 @@ const MainForm = () => {
 
   const handleSubmission = () => {
     if (selected === true) {
-      // if (getName() && !extraFile) {
-      //   toast.error("upload all files");
-      //   return;
-      // }
-      // if (orderData?.product !== "Transfer Money Abroad") {
-      //   if (Object.keys(purpous).length == 0) {
-      //     toast.error("Please select a purpous");
-      //     return;
-      //   }
-
-      // }
-      // if (!pan || !passportFront || !passportBack) {
-      //   toast.error("upload all files");
-      //   return;
-      // }
-      // make a string coitaing all countries
+      
 
       const countryString = orderData.countries.reduce((acc, country) => {
         return acc + `${country.value},`;

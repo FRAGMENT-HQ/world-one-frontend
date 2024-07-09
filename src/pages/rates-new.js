@@ -93,7 +93,7 @@ const options2 = [
 const getImg = (name) => {
   let Country = country.find((c) => c.code === name);
   let full = Country?.name
-  console.log(Country)
+  
 
   return Country ? { flag: Country?.flag, name: full } : { flag: "", name: "" };
 };
@@ -120,21 +120,18 @@ const Outlets = () => {
   const { mutate, isLoading } = getFullRateCardMutation(
     (res) => {
 
-      let Data = res.data;
+      let Data = res.data.data;
+      let city = res.data.city;
+      console.log(city)
       Data = Data.map((d) => {
-        const buyRate =
-          d.rate > 1
-            ? (1 / (d.rate + 1)).toFixed(2)
-            : (1 / d.rate).toFixed(2) + 1;
-        const sellRate =
-          d.rate > 1
-            ? (1 / (d.rate - 1)).toFixed(2)
-            : ((1 / d.rate).toFixed(2) - 1).toFixed(2);
+        const buyRate =(((1 / d.rate)*(1+(d.markupPercentage/100)))*( (city.markup_percentage/100)+1 )).toFixed(2)
+        
+        const sellRate = (((1 / d.rate)*(1-(d.markdownPercentage/100)))*( 1-(city.markdown_percentage/100) )).toFixed(2)
         const currency = d.currency;
         let temp = getImg(currency);
         const flag = temp.flag
         const full = temp.name
-        console.log(full, temp)
+        
 
         return {
           flag,
@@ -163,8 +160,8 @@ const Outlets = () => {
   );
 
   useEffect(() => {
-    mutate();
-  }, []);
+    mutate(city?.value);
+  }, [city]);
 
   useEffect(() => {
     if (size.width > 720) {

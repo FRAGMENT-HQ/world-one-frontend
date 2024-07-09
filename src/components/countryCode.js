@@ -1,11 +1,11 @@
-import React from "react";
+import React,{useEffect} from "react";
 import Select, { components } from "react-select";
 import codeData from "../../country3.json";
 import country from "../../country.json";
 
 const getImg = (name) => {
   let Country = country.find((c) => c.country === name)
- 
+
   return Country?.flag;
 };
 
@@ -20,7 +20,7 @@ const CustomOption = ({ children, ...props }) => {
 };
 
 const CustomSingleValue = ({ children, ...props }) => {
-  
+
   return (
     <components.SingleValue {...props}>
       <div className="flex gap-2 items-center">
@@ -30,15 +30,15 @@ const CustomSingleValue = ({ children, ...props }) => {
   );
 };
 
-let options = codeData.map((d) =>{ 
+let options = codeData.map((d) => {
   const Img = getImg(d.name);
   if (Img) {
 
-   return {
-  value: d.dial_code,
-  label: `${d.dial_code}`,
-  icon: getImg(d.name),
-}
+    return {
+      value: d.dial_code,
+      label: `${d.dial_code}`,
+      icon: getImg(d.name),
+    }
 
   }
 
@@ -47,25 +47,37 @@ let options = codeData.map((d) =>{
 // remove undefined values
 options = options.filter((option) => option);
 
-export default function CountryCode({value,setValue,border="border-2"}) {
+export default function CountryCode({ value, setValue, border = "border-2", padding = "py-1 sm:py-2", disabled = false, defaultVal = null }) {
+
+  useEffect(() => {
+    if (defaultVal) {
+      setValue(options.find((o) => o.value === defaultVal))
+    }
+  
+    
+  }, [defaultVal])
+  
+  
+
   return (
     <div>
       <Select
         options={options}
         placeholder="Select Code"
+        isDisabled={disabled}
         classNames={{
-            container: () =>
-              `w-full min-w-36 text-white !rounded-2xl  border-solid ${border} border-[#000] rounded-lg bg-gray-100 py-1 sm:py-2 `,
-            control: () => "self-stretch  !bg-transparent !outline-none !border-none !mx-2",
-            menuList: () => "!bg-midnightblue min-w-18",
-            menu: () => "bg-midnightblue min-w-18",
-            option: () => "text-white hover:text-midnightblue min-w-18",
-            input: () => "text-white !outline-none",
-            singleValue: () => "!text-black !text-base",
-            indicatorSeparator: () => "hidden",
-            indicatorsContainer: () => "!p-0",
-            dropdownIndicator: () => "!pl-0",
-          }}
+          container: () =>
+            `w-full min-w-36 text-white !rounded-2xl border-solid ${border} border-[#000] rounded-lg bg-gray-100 ${padding} `,
+          control: () => "self-stretch  !bg-transparent !outline-none !border-none !mx-2",
+          menuList: () => "!bg-midnightblue min-w-18",
+          menu: () => "bg-midnightblue min-w-18",
+          option: () => "text-white hover:text-midnightblue min-w-18",
+          input: () => "text-white !outline-none",
+          singleValue: () => "!text-black !text-base",
+          indicatorSeparator: () => "hidden",
+          indicatorsContainer: () => "!p-0",
+          dropdownIndicator: () => "!pl-0",
+        }}
         components={{
           Option: CustomOption,
           SingleValue: CustomSingleValue

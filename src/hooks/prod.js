@@ -22,7 +22,7 @@ export const getRateMutation = (successCallback, errorCallback) => {
 const orderRequest = (data) => {
   const url = getUrl(`/api/products/order/create_order/`);
 
-  return request("POST", url, data, false,'multipart/form-data');
+  return request("POST", url, data, true,'multipart/form-data');
 };
 
 export const postOrderMutation = (successCallback, errorCallback) => {
@@ -55,9 +55,10 @@ export const getRateCardMutation = (successCallback, errorCallback) => {
   });
 };
 
-const fullRateCardRequest = () => {
-  const url = getUrl(`/api/products/forex`);
+const fullRateCardRequest = (data) => {
 
+  const url = getUrl(`/api/products/forex/?${data ? `city=${data}` :""}`);
+  
   return request("GET", url, null, false);
 };
 
@@ -80,23 +81,7 @@ export const submitQueryRequest = (Data) => {
 };
 
 
-const loginRequest = (data) => {
-  const url = getUrl(`/api/users/google_login/`);
 
-  return request("POST", url, data, false);
-};
-
-export const loginMutation = (successCallback, errorCallback) => {
-  return useMutation(loginRequest, {
-    mutationKey: "rate-request",
-    onSuccess: (res) => {
-      successCallback(res);
-    },
-    onError: (err) => {
-      errorCallback(err);
-    },
-  });
-};
 
 const listOutletsRequest = () => {
   const url = getUrl(`/api/outlets/`);
@@ -116,10 +101,10 @@ export const listOutletsMutation = (successCallback, errorCallback) => {
   });
 };
 
-const listOrdersRequest = (email) => {
-  const url = getUrl(`/api/items/?email=${email}`);
+const listOrdersRequest = () => {
+  const url = getUrl(`/api/items/`);
 
-  return request("GET", url, null, false);
+  return request("GET", url, true, true);
 };
 
 export const listOrdersMutation = (successCallback, errorCallback) => {
@@ -160,6 +145,25 @@ const addLocationRequest = (data) => {
 export const locationMutation = (successCallback, errorCallback) => {
   return useMutation(addLocationRequest, {
     mutationKey: "location-request",
+    onSuccess: (res) => {
+      successCallback(res);
+    },
+    onError: (err) => {
+      errorCallback(err);
+    },
+  });
+};
+
+const getCityRequest = (data) => {
+
+  const url = getUrl(`/api/city-rates/?${data ? `city=${data}` :""}`);
+  
+  return request("GET", url, null, false);
+};
+
+export const getCityMutation = (successCallback, errorCallback) => {
+  return useMutation(getCityRequest, {
+    mutationKey: "rate-request",
     onSuccess: (res) => {
       successCallback(res);
     },

@@ -24,7 +24,8 @@ export function request(
     // const body = data;
 
     if (authorized) {
-      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      const userInfo = JSON.parse(localStorage.getItem("authUser"));
+
 
       const token = userInfo.access_token;
 
@@ -85,8 +86,8 @@ const getBaseApi = () => {
   // else if (env == 'staging')
   //   return process.env.STAGING_SERVER;
 
-  return "https://backend.worldoneforex.com";
-  // return "http://localhost:8000";
+  // return "https://backend.worldoneforex.com";
+  return "http://localhost:8000";
 };
 
 export const BASE_API = getBaseApi();

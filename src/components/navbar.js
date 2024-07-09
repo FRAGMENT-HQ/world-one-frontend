@@ -1,11 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { order, cart } from "@/states/storage";
+
 
 import "react-multi-carousel/lib/styles.css";
 import { useRouter } from "next/router";
 import { useAtom } from "jotai";
-import { getRateMutation, loginMutation } from "@/hooks/prod";
+import ModalDisp from "./login";
+import { Modal } from "@mui/material";
 
 import Drawer from "@mui/material/Drawer";
 
@@ -51,40 +52,61 @@ function useWindowSize() {
   }, []); // Empty array ensures that effect is only run on mount
   return windowSize;
 }
-export default function Navbar() {
+export default function Navbar({container="bg-darkslateblue-900" }) {
   const [drawerOpen, setdrawerOpen] = useState(false);
-  const [selected, setSelected] = useState(true);
+
 
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
 
   // const [drawerOpen, setdrawerOpen] = useState(false);
-  const [prod, setprod] = useState({
-    label: "Exchange Currency",
-    value: "Exchange Currency",
-  });
+
   const [userData, setUserData] = useAtom(authUser);
-  const [cartItems, setCartItems] = useAtom(cart);
+
   const size = useWindowSize();
 
-  const { mutate: login } = loginMutation(
-    (res) => {
-      console.log();
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
+  
+  const style = {
+    // top: "50%",
+    // left: "40%",
+    // transform: "translate(-30%, -70%)",
+    bgcolor: "#FFF",
+    p: 4,
+    borderRadius: "32px",
+    backgroundColor: "white",
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    // boxShadow: 24,
+
+  };
+
   return (
-    <div className="w-full flex  self-stretch">
+    <div className={` w-full flex  self-stretch`}>
+      <Modal
+        style={style}
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+
+
+      >
+        <ModalDisp close={()=>{
+          setOpen(false)
+        }} />
+      </Modal>
       <Drawer
         open={drawerOpen}
         onClose={() => {
           setdrawerOpen(false);
         }}
       >
-        <div className="w-[100vw] h-[100vh] bg-darkslateblue-700">
+
+        <div className={`w-[100vw] h-[100vh] `}>
           <div className="text-white sm:visible w-full mt-5  rounded-3xl flex flex-col items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
             <div className="w-[75%] flex flex-col items-center justify-center text-[15px] font-semibold">
               <div className=" flex flex-row items-center justify-center py-1 ">
@@ -130,49 +152,15 @@ export default function Navbar() {
           <div className={` flex h-16 gap-[12%] items-center flex-col`}>
             <div
               onClick={() => {
-                if (userData?.name) {
+                if (userData?.user?.name) {
                   router.push("/profile");
                   return;
                 }
-                signInWithPopup(auth, provider)
-                  .then((result) => {
-                    // This gives you a Google Access Token. You can use it to access the Google API.
-                    const credential =
-                      GoogleAuthProvider.credentialFromResult(result);
-                    const token = credential.accessToken;
-                    // The signed-in user info.
-                    const user = result.user;
-                    // IdP data available using getAdditionalUserInfo(result)
-                    // ...
-
-                    setUserData({
-                      name: user.displayName,
-                      email: user.email,
-                      photo: user.photoURL,
-                      token: token,
-                    });
-                    login({
-                      email: user.email,
-                      name: user.displayName,
-                      password: token,
-                    });
-                  })
-                  .catch((error) => {
-                    // Handle Errors here.
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    // The email of the user's account used.
-                    const email = error?.customData?.email;
-                    // The AuthCredential type that was used.
-                    console.log(error);
-                    const credential =
-                      GoogleAuthProvider.credentialFromError(error);
-                    // ...
-                  });
+                setOpen(true);
               }}
-              className={` ${userData?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl "} text-[#FF9135] font-semibold text-sm `}
+              className={` ${userData?.user?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl "} text-[#FF9135] font-semibold text-sm `}
             >
-              {userData?.name ? userData?.name.split(" ")[0] : "Login"}
+              {userData?.user?.name ? userData?.user?.name.split(" ")[0] : "Login"}
             </div>
 
             <div
@@ -195,7 +183,7 @@ export default function Navbar() {
       </Drawer>
       <div className="self-stretch flex flex-row items-start justify-center py-0 pr-0 pl-0 box-border w-full">
         <div className=" flex flex-col items-end justify-start gap-[50px] w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px]  ">
-          <div className="sm:visible w-full w-[95%] h-[4vw] min-h-[85px] mt-0 rounded-3xl bg-darkslateblue-900 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row  items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
+          <div className={`sm:visible w-full w-[95%] h-[4vw] min-h-[85px] mt-0 rounded-3xl ${container} shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row  items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border`}>
             <img
               className=" h-[60px] sm:h-[60px] sm:w-[180px] relative"
               loading="lazy"
@@ -253,49 +241,15 @@ export default function Navbar() {
                 <div className={` flex h-16 gap-[12%] items-center flex-row`}>
                   <div
                     onClick={() => {
-                      if (userData?.name) {
+                      if (userData?.user?.name) {
                         router.push("/profile");
                         return;
                       }
-                      signInWithPopup(auth, provider)
-                        .then((result) => {
-                          // This gives you a Google Access Token. You can use it to access the Google API.
-                          const credential =
-                            GoogleAuthProvider.credentialFromResult(result);
-                          const token = credential.accessToken;
-                          // The signed-in user info.
-                          const user = result.user;
-                          // IdP data available using getAdditionalUserInfo(result)
-                          // ...
-
-                          setUserData({
-                            name: user.displayName,
-                            email: user.email,
-                            photo: user.photoURL,
-                            token: token,
-                          });
-                          login({
-                            email: user.email,
-                            name: user.displayName,
-                            password: token,
-                          });
-                        })
-                        .catch((error) => {
-                          // Handle Errors here.
-                          const errorCode = error.code;
-                          const errorMessage = error.message;
-                          // The email of the user's account used.
-                          const email = error?.customData?.email;
-                          // The AuthCredential type that was used.
-                          console.log(error);
-                          const credential =
-                            GoogleAuthProvider.credentialFromError(error);
-                          // ...
-                        });
+                      setOpen(true);
                     }}
-                    className={` ${userData?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl "} text-[#FF9135] font-semibold text-sm `}
+                    className={` ${userData?.user?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl "} text-[#FF9135] font-semibold text-sm `}
                   >
-                    {userData?.name ? userData?.name.split(" ")[0] : "Login"}
+                    {userData?.user?.name ? userData?.user?.name.split(" ")[0] : "Login"}
                   </div>
 
                   <div

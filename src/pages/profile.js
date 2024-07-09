@@ -126,10 +126,10 @@ const Frame11 = () => {
       <section className="overflow-x-sroll flex flex-col-reverse laptop:flex-row items-start justify-start gap-[2%] min-w-full">
         <div className=" w-full laptop:w-[23%] text-white min-w-[300px] h-96 bg-[#3C498B] rounded-xl pt-10 pb-2 flex flex-col items-center">
           <div className="w-24 h-24 bg-[#FF9135] text-center align-middle text-white font-semibold flex justify-center items-center text-[4rem] rounded-full">
-            <div>{user?.name[0]}</div>
+            <div>{user?.user?.name[0]}</div>
           </div>
           <div className="font-normal text-lg tracking-wide mt-4">
-            {user?.name}
+            {user?.user?.name}
           </div>
           {/* <div className="font-medium mt-2">9833250066</div> */}
           <div className="font-medium mt-2">{user?.email}</div>

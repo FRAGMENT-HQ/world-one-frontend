@@ -118,7 +118,7 @@ const Frame11 = () => {
   const handleNext = () => {
     if ((orderData?.product != "Travel Services" || !status) ) {
       if (!panNumber || !/[A-Z]{5}[0-9]{4}[A-Z]{1}/.test(panNumber)) {
-        toast.error("Valid pan number is required");
+        toast.error("Valid PAN number is required");
         return;
       }
     }
@@ -137,7 +137,7 @@ const Frame11 = () => {
       return;
     }
 
-    setUserData({ panNumber, name, email, phone_no: phone });
+    setUserData({ panNumber, name, email, phone_no: `${phone}`,country_code: code.value});
     if (orderData.product === "Travel Services") {
       handleSubmission();
     } else {

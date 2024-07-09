@@ -23,7 +23,7 @@ import InputArray from "../components/input-array";
 import FrameComponent4 from "../components/frame-component4";
 import FrameComponent3 from "../components/frame-component3";
 import { useAtom } from "jotai";
-import { user, creatOrder,order } from "@/states/storage";
+import { user, creatOrder, order } from "@/states/storage";
 import { useRouter } from "next/router";
 import { locationMutation } from "@/hooks/prod";
 import Smodal from "@/components/smodal";
@@ -32,6 +32,7 @@ import { useState, useEffect } from "react";
 import Select from "react-select";
 import CountryCode from "@/components/countryCode";
 import countryData from "../../country2.json";
+import { Switch } from "@mui/material";
 
 function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
@@ -90,6 +91,9 @@ const Frame11 = () => {
   const [State, setState] = useState({});
   const [pin, setPin] = useState("")
   const [location, setLocation] = useState("")
+  const [checked, setChecked] = useState(false)
+  const [defValue, setDefValue] = useState(null)
+
 
 
   useEffect(() => {
@@ -102,14 +106,21 @@ const Frame11 = () => {
       label: state,
     });
   }, [orderData?.city]);
+  useEffect(() => {
+    if(checked){
+      // alert(userData?.phone_no)
+      setPhone(userData?.phone_no)
+      setDefValue(userData?.country_code)
+    }
+
+
+  }, [checked])
+  
 
   const router = useRouter();
   const size = useWindowSize();
 
-  const handleOpen = () => {
-    setOpen(true);
-    // if(checked){
-  };
+
   const { mutate } = locationMutation(
     (res) => {
       toast.success("Order delivery saved successfully");
@@ -125,34 +136,34 @@ const Frame11 = () => {
   );
 
   const handleSubmission = () => {
-    if(email.length < 5){
+    if (email.length < 5) {
       toast.error("Please enter a valid address");
       return;
     }
-    if(phone.length < 10){
+    if (phone.length < 10) {
       toast.error("Please enter a valid phone number");
       return;
     }
-    if(!/^[1-9]{1}[0-9]{5}$/.test(pin)){
+    if (!/^[1-9]{1}[0-9]{5}$/.test(pin)) {
       toast.error("Please enter a valid pin code")
       return;
     }
-    if(location.length <3){
+    if (location.length < 3) {
       toast.error("Please enter a valid landmark")
       return;
     }
     mutate({
       email: userData?.email,
-      phone_no: phone,
+      phone_no: `${code.value}${phone}`,
       city: city?.value,
       state: State?.value,
-      address:email,
+      address: email,
       order: orderData1.id,
-      landmark:location,
-      pincode:pin
-    
+      landmark: location,
+      pincode: pin
+
     })
-    
+
   };
 
   const handleNext = () => {
@@ -185,12 +196,18 @@ const Frame11 = () => {
             </div>
           </div>
           <form className="m-0 self-stretch flex flex-row flex-wrap items-center justify-center gap-[3rem] max-w-full mq900:flex-col mq900:gap-[1.5rem]">
-            <div className="flex-1 flex flex-col items-start justify-center gap-[0.75rem] min-w-[95%] sm:min-w-[23.125rem] max-w-full mq900:min-w-full mq900:flex-[unset] mq900:self-stretch">
-              <div className=" relative text-[1.25rem] leading-[2rem] font-normal font-body-small text-text2 text-left inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
-                Delivery Coordination Phone
+            <div className="flex-1 flex flex-col items-start justify-center gap-[0.75rem] min-w-[95%] sm:min-w-[30rem] max-w-full ">
+              <div className=" w-full flex justify-between relative text-[1.25rem] leading-[2rem] font-normal font-body-small text-text2 text-left inline-block mq450:text-[1rem] mq450:leading-[1.625rem]">
+                <div>Delivery Coordination Phone</div><div className="text-sm" >Use Same as previous
+                  <Switch
+                    checked={checked}
+                    onChange={() => {
+                      setChecked(!checked);
+                    }}
+                  /> </div>
               </div>
               <div className="self-stretch flex flex-row items-center justify-start gap-[0.75rem] max-w-full mq900:flex-wrap">
-                <CountryCode border="border" value={code} setValue={setCode} />
+                <CountryCode isDisabled={checked} border="border" value={code} setValue={setCode} defaultVal={defValue} />
 
                 <div className="flex-1 rounded-lg bg-white box-border overflow-hidden flex flex-row items-center justify-start py-[0.625rem] pr-[0rem] pl-0 xs:pl-[1.5rem] gap-[0.5rem]  max-w-full border-[1px] border-solid border-text4">
                   <input
@@ -198,6 +215,7 @@ const Frame11 = () => {
                     placeholder="Enter phone number"
                     type="phone"
                     value={phone}
+                    disabled={checked}
                     onChange={(e) => setPhone(e.target.value)}
                   />
                 </div>
@@ -225,7 +243,7 @@ const Frame11 = () => {
             />
           </form>
           <form className="m-0 self-stretch flex flex-row flex-wrap items-center justify-center gap-[3rem] max-w-full mq900:flex-col mq900:gap-[1.5rem]">
-          <FrameComponent3
+            <FrameComponent3
               travelersName="Pin Code"
               frame18Placeholder="pin-code"
               iconsarrowDropDown24px="/iconsarrow-drop-down-24px11.svg"
@@ -287,38 +305,38 @@ const Frame11 = () => {
               be attempted on the next working day
             </div>
 
-            
+
           </div>
           <div className="flex items-center justify-start w-full gap-5 flex-col sm:flex-row">
-              {selected ? (
-                <img
-                  onClick={() => {
-                    setSelected(!selected);
-                  }}
-                  className="h-8 w-8 relative overflow-hidden shrink-0 "
-                  loading="lazy"
-                  alt=""
-                  src="/iconscheck-box-outline-blank.svg"
-                />
-              ) : (
-                <div
-                  onClick={() => {
-                    setSelected(!selected);
-                  }}
-                  className={` flex justify-center items-center cursor-pointer border-3 border-solid border-[#4F4F4F] ${selected ? "" : "bg-transperent"} h-4 w-6`}
-                ></div>
-              )}
+            {selected ? (
+              <img
+                onClick={() => {
+                  setSelected(!selected);
+                }}
+                className="h-8 w-8 relative overflow-hidden shrink-0 "
+                loading="lazy"
+                alt=""
+                src="/iconscheck-box-outline-blank.svg"
+              />
+            ) : (
+              <div
+                onClick={() => {
+                  setSelected(!selected);
+                }}
+                className={` flex justify-center items-center cursor-pointer border-3 border-solid border-[#4F4F4F] ${selected ? "" : "bg-transperent"} h-4 w-6`}
+              ></div>
+            )}
 
-              <div className=" text-[15px] text-left sm:text-inherit ">
+            <div className=" text-[15px] text-left sm:text-inherit ">
               I confirm that I will be present myself to collect the order at the time of delivery.
-              </div>
             </div>
+          </div>
 
           {size.width < 500 && (
             <button
               onClick={handleNext}
               className="mx-auto cursor-pointer invisable xs:visable  [border:none] py-[1.125rem] pr-[1.968rem] pl-[2.468rem] bg-secondary w-[13.813rem] shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[1rem]"
-              // onClick={onCustomerDetailsClick}
+            // onClick={onCustomerDetailsClick}
             >
               <img
                 className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 hidden min-h-[2rem]"

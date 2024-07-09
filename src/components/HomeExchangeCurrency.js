@@ -7,10 +7,10 @@ import Counter from "./counter";
 import "react-multi-carousel/lib/styles.css";
 import { useRouter } from "next/router";
 import { useAtom } from "jotai";
-import { getRateMutation, loginMutation } from "@/hooks/prod";
+import { getRateMutation } from "@/hooks/prod";
 import CityModal from "./cityModal";
 import CurrencyCard from "./currancyCard";
-import { getRateCardMutation } from "@/hooks/prod";
+import { getRateCardMutation, getCityMutation } from "@/hooks/prod";
 import { getBlogsMutation } from "@/hooks/blogs";
 import Select from "react-select";
 import toast from "react-hot-toast";
@@ -22,10 +22,10 @@ import { Modal } from "@mui/material";
 import { authUser } from "@/states/storage";
 import { auth } from "../utils/google";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-
+import Navbar from "./navbar";
 const provider = new GoogleAuthProvider();
 
-const usd = 84;
+// const usd = 84;
 
 // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 const cityOptions = [
@@ -128,7 +128,10 @@ const HomeExchangeCurrency = () => {
   const [openBlog, setOpenBlog] = useState(false);
   const [message, setMessage] = useState(`Blogs are coming soon ! `);
   const [rate, setRate] = useState(83);
+  const [usd, setUsd] = useState(83);
   const [factor, setFactor] = useState(1);
+  const [mFactor, setMFactor] = useState([1, -1]);
+
   const [open, setOpen] = useState(false);
   const [city, setCity] = useState("");
   const [rates, setRates] = useState([]);
@@ -143,6 +146,8 @@ const HomeExchangeCurrency = () => {
   const [service, setService] = useState("");
   const [callBack, setCallBack] = useState(() => { setOpenBlog(false); })
   const [blogs, setBlogs] = useState([]);
+  const [cfs, setCfs] = useState([]);
+  const [cf, setCf] = useState([]);
   const srollRef = useRef();
   const size = useWindowSize();
   const handleOpen = () => setOpen(true);
@@ -160,11 +165,25 @@ const HomeExchangeCurrency = () => {
   const { mutate: getRate } = getRateMutation(
     (res) => {
       setRate(1 / res.data.rate);
+      setUsd(1 / res.data.usd);
+      setMFactor([res.data.mark_up, res.data.mark_down])
+      setFactor(selected ? res.data.mark_up : -1 * res.data.mark_down);
     },
     (err) => {
       console.log(err);
     }
   );
+  const { mutate: getCity } = getCityMutation(
+    (res) => {
+      const stored = [res?.data.markup_percentage, -1 * res?.data.markdown_percentage];
+      setCfs(stored);
+      setCf(stored[selected ? 0 : 1]);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+
   const { mutate: getBlogs } = getBlogsMutation(
     (res) => {
       setBlogs(res?.data);
@@ -173,19 +192,26 @@ const HomeExchangeCurrency = () => {
       console.log(err);
     }
   );
-  const { mutate: login } = loginMutation(
-    (res) => {
-      console.log();
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
+  // const { mutate: login } = loginMutation(
+  //   (res) => {
+  //     console.log();
+  //   },
+  //   (err) => {
+  //     console.log(err);
+  //   }
+  // );
 
   useEffect(() => {
-    setFactor(selected ? +1 : -1);
+    setFactor(selected ? mFactor[0] : -1 * mFactor[1]);
     setPowerFactor(selected ? 1 : -1);
+    setCf(cfs[selected ? 0 : 1]);
   }, [selected]);
+
+  useEffect(() => {
+    getCity(city.value);
+  }, [city])
+
+
 
   useEffect(() => {
     setSelected(true);
@@ -212,7 +238,7 @@ const HomeExchangeCurrency = () => {
   const AddToCart = () => {
     if (
       prod.value != "Travel Services" &&
-      (amount == undefined || amount == "" || amount * (rate + factor) < 5000)
+      (amount == undefined || amount == "" || amount * (rate * (1 + (factor / 100)) * (1 + (cf / 100))) < 5000)
     ) {
       toast.error("Please enter the amount greater than 5000");
 
@@ -230,7 +256,7 @@ const HomeExchangeCurrency = () => {
     });
 
     if (prod.value == "Exchange Currency") {
-      if ((amount * (rate + factor)) / usd > 3000) {
+      if ((amount * (rate / usd)) > 3000) {
         toast.error(
           <div className="text-[#102A83] flex flex-col justify-start gap-0" >
             <div>Heads Up!</div>
@@ -243,11 +269,11 @@ const HomeExchangeCurrency = () => {
       }
     }
     if (prod.value == "Forex Card") {
-      if ((amount * (rate + factor)) / usd > 250000) {
+      if ((amount * (rate / usd)) > 250000) {
         toast.error(
           <div className="text-[#102A83] flex flex-col justify-start gap-0" >
             <div>Heads Up!</div>
-            <div><b>Max Currency Exchange: $3,000</b></div>
+            <div><b>Max Currency Exchange: $,000</b></div>
             <div><b>Max Forex Card Load: $250,000</b></div>
             <div>Plan your transactions accordingly.</div>
           </div>
@@ -262,10 +288,10 @@ const HomeExchangeCurrency = () => {
       const append_obj = {
         intialCurrency: selected ? intialCurrency : finalCurrency,
         finalCurrency: selected ? finalCurrency : intialCurrency,
-        amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
+        amount: (amount * ((rate * (1 + (factor / 100)) * (1 + cf / 100)) ** powerFactor)).toFixed(2),
         forexAmount: amount,
-        inrAmount: (amount * (rate + factor)).toFixed(2),
-        rate: (rate + factor ** powerFactor).toFixed(2),
+        inrAmount: (amount * (rate * (1 + (factor / 100)) * (1 + cf / 100))).toFixed(2),
+        rate: ((rate * (1 + factor / 100) * (1 + cf / 100)) ** powerFactor).toFixed(2),
         product: prod.value == "Exchange Currency" ? "Cash" : "Forex Card",
         bs: selected ? "Buy" : "Sell",
       };
@@ -285,7 +311,7 @@ const HomeExchangeCurrency = () => {
 
   const handleOrder = () => {
     if (
-      !userData?.name
+      !userData?.user?.name
     ) {
       setOpenBlog(true);
       setMessage("Please Login to continue");
@@ -312,11 +338,11 @@ const HomeExchangeCurrency = () => {
               photo: user.photoURL,
               token: token,
             });
-            login({
-              email: user.email,
-              name: user.displayName,
-              password: token,
-            });
+            // login({
+            //   email: user.email,
+            //   name: user.displayName,
+            //   password: token,
+            // });
 
           })
           .catch((error) => {
@@ -339,7 +365,7 @@ const HomeExchangeCurrency = () => {
     }
     if (
       prod.value != "Travel Services" &&
-      (amount == undefined || amount == "" || amount * (rate + factor) < 5000)
+      (amount == undefined || amount == "" || amount * (rate * (1 + cf / 100) * (1 + factor / 100)) < 5000)
     ) {
       toast.error("Please enter the amount greater than 5000");
 
@@ -350,10 +376,10 @@ const HomeExchangeCurrency = () => {
       return;
     }
     if (prod.value == "Exchange Currency") {
-      if ((amount * (rate + factor)) / usd > 3000) {
+      if ((amount * (rate / usd)) > 3000) {
         toast.error(<div className="text-[#102A83] flex flex-col justify-start gap-0" >
           <div>Heads Up!</div>
-          <div><b>Max Currency Exchange: $3,000</b></div>
+          <div><b>Max Currency Exchange: $3,00</b></div>
           <div><b>Max Forex Card Load: $250,000</b></div>
           <div>Plan your transactions accordingly.</div>
         </div>);
@@ -361,11 +387,11 @@ const HomeExchangeCurrency = () => {
       }
     }
     if (prod.value == "Forex Card") {
-      if ((amount * (rate + factor)) / usd > 250000) {
+      if ((amount * (rate / usd)) > 250000) {
         toast.error(<div className="text-[#102A83] flex flex-col justify-start gap-0" >
           <div>Heads Up!</div>
           <div><b>Max Currency Exchange: $3,000</b></div>
-          <div><b>Max Forex Card Load: $250,000</b></div>
+          <div><b>Max Forex Card Load: $20,000</b></div>
           <div>Plan your transactions accordingly.</div>
         </div>);
         return;
@@ -374,10 +400,10 @@ const HomeExchangeCurrency = () => {
     const Item = {
       intialCurrency: selected ? intialCurrency : finalCurrency,
       finalCurrency: selected ? finalCurrency : intialCurrency,
-      amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
+      amount: (amount * ((rate * (1 + cf / 100) * (1 + factor / 100)) ** powerFactor)).toFixed(2),
       forexAmount: amount,
-      inrAmount: (amount * (rate + factor)).toFixed(2),
-      rate: (rate + factor ** powerFactor).toFixed(2),
+      inrAmount: (amount * (rate * (1 + cf / 100) * (1 + factor / 100))).toFixed(2),
+      rate: ((rate * (1 + cf / 100) * (1 + factor / 100)) ** powerFactor).toFixed(2),
       product: prod.value == "Exchange Currency" ? "Cash" : prod.value,
       bs: selected ? "Buy" : "Sell",
     };
@@ -411,10 +437,10 @@ const HomeExchangeCurrency = () => {
           {
             intialCurrency: selected ? intialCurrency : finalCurrency,
             finalCurrency: selected ? finalCurrency : intialCurrency,
-            amount: (amount * (rate ** powerFactor + factor)).toFixed(2),
+            amount: (amount * ((rate * (1 + cf / 100) * (1 + factor / 100)) ** powerFactor)).toFixed(2),
             forexAmount: amount,
-            inrAmount: (amount * (rate + factor)).toFixed(2),
-            rate: (rate + factor ** powerFactor).toFixed(2),
+            inrAmount: (amount * (rate * (1 + cf / 100) * (1 + factor / 100))).toFixed(2),
+            rate: (rate * (1 + cf / 100) * (1 + factor / 100) ** powerFactor).toFixed(2),
             product:
               prod.value == "Exchange Currency"
                 ? "Cash"
@@ -486,7 +512,7 @@ const HomeExchangeCurrency = () => {
           <div className="self-stretch flex flex-row items-start justify-center text-left text-13xl text-secondary">
             <div className="relative leading-[40px] mq450:text-lgi mq450:leading-[24px] mq750:text-7xl mq750:leading-[32px]">
               <span>{message}</span>
-              {/* <span className="text-primary">{userData?.name}</span> */}
+              {/* <span className="text-primary">{userData?.user?.name}</span> */}
             </div>
           </div>
           <div className="self-stretch relative leading-[36px] font-medium mq450:text-lgi mq450:leading-[29px]"></div>
@@ -548,7 +574,7 @@ const HomeExchangeCurrency = () => {
           src="/bg-grad.png"
         />
         <img className="w-full absolute !m-[0] z-[1]" alt="" />
-        <Drawer
+        {/* <Drawer
           open={drawerOpen}
           onClose={() => {
             setdrawerOpen(false);
@@ -612,7 +638,7 @@ const HomeExchangeCurrency = () => {
                   onClick={() => {
                     setdrawerOpen(false);
 
-                    if (userData?.name) {
+                    if (userData?.user?.name) {
                       router.push("/profile");
                       return;
                     }
@@ -634,11 +660,11 @@ const HomeExchangeCurrency = () => {
                           photo: user.photoURL,
                           token: token,
                         });
-                        login({
-                          email: user.email,
-                          name: user.displayName,
-                          password: token,
-                        });
+                        // login({
+                        //   email: user.email,
+                        //   name: user.displayName,
+                        //   password: token,
+                        // });
                       })
                       .catch((error) => {
                         // Handle Errors here.
@@ -653,9 +679,9 @@ const HomeExchangeCurrency = () => {
                         // ...
                       });
                   }}
-                  className={` ${userData?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl cursor-pointer "} text-[#FF9135] font-semibold text-sm `}
+                  className={` ${userData?.user?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl cursor-pointer "} text-[#FF9135] font-semibold text-sm `}
                 >
-                  {userData?.name ? userData?.name.split(" ")[0] : "Login"}
+                  {userData?.user?.name ? userData?.user?.name.split(" ")[0] : "Login"}
                 </div>
 
                 <div
@@ -676,10 +702,11 @@ const HomeExchangeCurrency = () => {
               </div>
             </div>
           </div>
-        </Drawer>
+        </Drawer> */}
         <div className="self-stretch flex flex-row items-start justify-center py-0 pr-0 pl-0 box-border max-w-full">
           <div className=" flex flex-col items-end justify-start gap-[50px] max-w-full mq825:gap-[49px_98px] mq450:gap-[24px_98px] px-5 sm:px-[3%] laptop:px-[120px] ">
-            <div className="sm:visible w-full w-[95%] h-[4vw] min-h-[85px] mt-0 rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row  items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
+            <Navbar container="!bg-darkslateblue-200" />
+            {/* <div className="sm:visible w-full w-[95%] h-[4vw] min-h-[85px] mt-0 rounded-3xl bg-darkslateblue-200 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] flex flex-row  items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
               <img
                 className=" h-[60px] sm:h-[60px] sm:w-[180px] relative"
                 loading="lazy"
@@ -734,7 +761,7 @@ const HomeExchangeCurrency = () => {
                   <div className={` flex h-16 gap-[12%] items-center flex-row`}>
                     <div
                       onClick={() => {
-                        if (userData?.name) {
+                        if (userData?.user?.name) {
                           router.push("/profile");
                           return;
                         }
@@ -756,11 +783,11 @@ const HomeExchangeCurrency = () => {
                               photo: user.photoURL,
                               token: token,
                             });
-                            login({
-                              email: user.email,
-                              name: user.displayName,
-                              password: token,
-                            });
+                            // login({
+                            //   email: user.email,
+                            //   name: user.displayName,
+                            //   password: token,
+                            // });
                           })
                           .catch((error) => {
                             // Handle Errors here.
@@ -775,9 +802,9 @@ const HomeExchangeCurrency = () => {
                             // ...
                           });
                       }}
-                      className={` ${userData?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl "} text-[#FF9135] font-semibold text-sm `}
+                      className={` ${userData?.user?.name && "bg-[#3c498b4d] py-3 px-5 rounded-xl "} text-[#FF9135] font-semibold text-sm `}
                     >
-                      {userData?.name ? userData?.name.split(" ")[0] : "Login"}
+                      {userData?.user?.name ? userData?.user?.name.split(" ")[0] : "Login"}
                     </div>
 
                     <div
@@ -804,13 +831,13 @@ const HomeExchangeCurrency = () => {
                   }}
                   className="cursor-pointer flex gap-1 h-5 flex-col"
                 >
-                  {/* three line using divs */}
+                  
                   <div className="w-[20px] h-0.5 bg-white"></div>
                   <div className="w-[20px] h-0.5 bg-white"></div>
                   <div className="w-[20px] h-0.5 bg-white"></div>
                 </div>
               )}
-            </div>
+            </div> */}
             <div className="self-stretch w-full flex sm:flex-row flex-col items-start justify-between laptop:gap-[10%] gap-12 max-w-full text-[64px] text-text5  mq1575:flex-wrap">
               <form
                 id="main-content"
@@ -1044,7 +1071,7 @@ const HomeExchangeCurrency = () => {
                         <div className="w-[239px] rounded-2xl bg-informative box-border overflow-hidden shrink-0 flex flex-row items-center justify-center py-2 sm:py-3 px-[26px] whitespace-nowrap border-[2px] border-solid border-secondary">
                           <div className="flex-1 relative text-base sm:text-3xl leading-[32px] font-body-small text-white text-left">
                             1 {finalCurrency?.smValue} ={" "}
-                            {(rate + factor).toFixed(2)} {intialCurrency?.value}
+                            {(rate * (1 + cf / 100) * (1 + factor / 100)).toFixed(2)} {intialCurrency?.value}
                           </div>
                         </div>
                       </div>
@@ -1063,7 +1090,7 @@ const HomeExchangeCurrency = () => {
                         }}
                         className="m-0 w-32 text-wrap  relative text-2xl leading-[56px] font-normal font-body-small text-white text-left mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]"
                       >
-                        {`${(amount * (rate + factor)).toFixed(2)}`}
+                        {`${(amount * (rate * (1 + cf / 100) * (1 + factor / 100))).toFixed(2)}`}
                       </h1>
                     </div>
                   )}

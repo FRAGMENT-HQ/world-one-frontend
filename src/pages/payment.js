@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { order, timer, user, creatOrder } from "@/states/storage";
+import { order, timer, user, creatOrder,authUser } from "@/states/storage";
 import React from "react";
 import { useTimer } from "react-timer-hook";
 import { useRouter } from "next/router";
@@ -45,12 +45,14 @@ const PaymentPage = () => {
   const [orderDetails, setOrderDetails] = useAtom(order);
   const [timerDetails, setTimerDetails] = useAtom(timer);
   const [Type, setType] = useState("UPI");
-  const [userDetails, setUserDetails] = useAtom(user);
+  const [userDetails, setUserDetails] = useAtom(authUser);
   const [createOrderDetails, setCreateOrderDetails] = useAtom(creatOrder);
   const [selected, setSelected] = useState(false);
   const [selected2, setSelected2] = useState(false);
   const [selected3, setSelected3] = useState(false);
   const [open, setOpen] = useState(false)
+  const [partialPayment, setPartialPayment] = useState(false)
+
   const size = useWindowSize();
 
   const { mutate: confirmPayment } = confirmPaymentMutation((res) => {
@@ -69,7 +71,7 @@ const PaymentPage = () => {
         redirectTarget: "_modal",
       };
       cashfree.checkout(checkoutOptions).then(function (result) {
-        confirmPayment({ order_id: createOrderDetails.id, status: "success"});
+        confirmPayment({ order_id: createOrderDetails.id, status: "success" });
         setOpen(true)
         if (result.error) {
           alert(result.error.message);
@@ -199,6 +201,14 @@ const PaymentPage = () => {
                         {0}
                       </div>
                     </div>
+                    <div className="self-stretch  flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[1.75rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap">
+                      <div className="flex-1 relative text-[1.25rem] leading-[2rem] font-normal font-body-small text-text3 text-left inline-block min-w-[1.875rem] max-w-full mq450:text-[1rem] mq450:leading-[1.625rem]">
+                        Delirey Charges
+                      </div>
+                      <div className="relative text-[1.25rem] leading-[2rem] font-normal font-body-small text-text3 text-left inline-block min-w-[3.938rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
+                        {100}
+                      </div>
+                    </div>
                     <div className="self-stretch flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[2rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap mq450:gap-[1rem]">
                       <div className="flex-1 relative text-[1.25rem] leading-[2rem] font-normal font-body-small text-text2 text-left inline-block min-w-[3.938rem] max-w-full mq450:text-[1rem]">
                         Discount
@@ -213,7 +223,7 @@ const PaymentPage = () => {
                       Grand Total
                     </div>
                     <div className="relative text-[1.5rem] leading-[2rem] font-body-small text-secondary text-left inline-block min-w-[7.313rem] mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-                      {(orderDetails?.amount * 0.05).toFixed(2)}
+                      {((orderDetails?.amount * (partialPayment ? 0.05 : 1) + 100).toFixed(2))}
                     </div>
                   </div>
                 </div>
@@ -225,24 +235,23 @@ const PaymentPage = () => {
               How would you like to make payment?
             </div>
             <div className="w-[35.313rem] shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-lg bg-darkorange-100 overflow-hidden shrink-0 flex flex-row items-center justify-start py-[1rem] px-[2rem] box-border gap-[1rem] gap-[1.5rem] max-w-full text-error mq825:flex-wrap">
-              <div className="flex flex-row items-center justify-start gap-[0.812rem]">
-                <img
-                  className="h-[1.2rem] w-[1.2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
-                  alt=""
-                  src="/uclock.svg"
-                />
-                <div className="relative  inline-block min-w-[3.25rem] text-[1.2rem] ">
-                  {`${minutes}:${seconds}`}
-                </div>
-              </div>
               <div className="flex-1 relative text-[1rem]  font-[400] text-text2 inline-block min-w-[15.438rem] max-w-full mq450:text-[1rem] mq450:leading-[1.188rem]">
-                Rates held for 5 mins; complete payment before timer ends to
-                avoid new rates.
+                Make partial payment of 5% now and remaining later.
               </div>
+              <div className="flex flex-row items-center justify-start gap-[0.812rem]">
+                <Switch
+                  size="large"
+                  checked={partialPayment}
+                  onChange={() => {
+                    setPartialPayment(!partialPayment);
+                  }}
+                />
+              </div>
+
             </div>
           </div>
           <div className="w-[64rem] flex flex-row flex-wrap items-center justify-start gap-[3rem] max-w-full text-secondary mq825:gap-[1.5rem]">
-            <div
+            {((orderDetails?.amount * (partialPayment ? 0.05 : 1) + 100).toFixed(2)) <= 100000 && <div
               onClick={() => {
                 setType("UPI");
               }}
@@ -257,7 +266,7 @@ const PaymentPage = () => {
               <div className="relative leading-[1.5rem] inline-block min-w-[7.938rem] mq450:text-[1rem] mq450:leading-[1.188rem]">
                 UPI Payments
               </div>
-            </div>
+            </div>}
             <div
               onClick={() => {
                 setType("nb");
@@ -369,11 +378,12 @@ const PaymentPage = () => {
               <button
                 onClick={() => {
                   if (selected && selected2 && selected3) {
-                   
+
                     createPayout({
                       order_id: createOrderDetails.id,
                       email: userDetails.email,
                       methord: Type.toLowerCase(),
+                      partial: partialPayment
                     });
                   } else {
                     toast.error("please check all check box before proceding");

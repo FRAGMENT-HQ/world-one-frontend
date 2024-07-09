@@ -37,6 +37,7 @@
     "react-hot-toast": "^2.4.1",
     "react-loader-spinner": "^6.1.6",
     "react-multi-carousel": "^2.8.5",
+    "react-otp-input": "^3.1.1",
     "react-select": "^5.7.5",
     "react-timer-hook": "^3.0.7",
     "react-visibility-sensor": "^5.1.1"

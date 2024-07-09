@@ -237,7 +237,7 @@ const FrameComponent5 = ({
               src={pan === null ? "/id-card.svg" : "/upload-icon.svg"}
             />}
             <div className="flex-1 relative text-[1.25rem] leading-[1.5rem] font-normal font-avenir-next-lt-pro  text-left">
-              {`Upload${!loading ? `${pan !== null ? "ed" : ""} Pan Card` : "ing..."}`}
+              {`Upload${!loading ? `${pan !== null ? "ed" : ""} PAN Card` : "ing..."}`}
             </div>
             <input
               onChange={(e) => {
@@ -445,7 +445,7 @@ const FrameComponent5 = ({
             />
             <div className="flex-1 relative text-[1.25rem] leading-[1.5rem] font-normal font-avenir-next-lt-pro text-left">
               <p className="m-0">
-                {`${cPan === null ? ` Company Pan Card` : "Uploaded"}`}{" "}
+                {`${cPan === null ? ` Company PAN Card` : "Uploaded"}`}{" "}
               </p>
             </div>
             <input
