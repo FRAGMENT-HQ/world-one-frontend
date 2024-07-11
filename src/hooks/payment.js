@@ -3,7 +3,7 @@ import { getUrl, request } from "../utils/network";
 const createPayout = (data) => {
   const url = getUrl(`/api/payments/payouts/`);
 
-  return request("POST", url, data, false);
+  return request("POST", url, data, true);
 };
 
 export const createPayoutMutation = (successCallback, errorCallback) => {
@@ -22,7 +22,7 @@ export const createPayoutMutation = (successCallback, errorCallback) => {
 const confirmPaymentRequest = (data) => {
   const url = getUrl(`/api/payments/confirmation/`);
 
-  return request("POST", url, data, false);
+  return request("POST", url, data, true);
 };
 
 export const confirmPaymentMutation = (successCallback, errorCallback) => {

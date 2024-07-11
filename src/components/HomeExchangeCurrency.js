@@ -238,8 +238,7 @@ const HomeExchangeCurrency = () => {
   const AddToCart = () => {
     if (
       prod.value != "Travel Services" &&
-      (amount == undefined || amount == "" || amount * (rate * (1 + (factor / 100)) * (1 + (cf / 100))) < 5000)
-    ) {
+      (amount == undefined || amount == "" || amount * (rate * (1 + ((factor + cf) / 100))) < 5000)) {
       toast.error("Please enter the amount greater than 5000");
 
       return;
@@ -288,10 +287,10 @@ const HomeExchangeCurrency = () => {
       const append_obj = {
         intialCurrency: selected ? intialCurrency : finalCurrency,
         finalCurrency: selected ? finalCurrency : intialCurrency,
-        amount: (amount * ((rate * (1 + (factor / 100)) * (1 + cf / 100)) ** powerFactor)).toFixed(2),
+        amount: (amount * ((rate * (1 + ((factor + cf) / 100))) ** powerFactor)).toFixed(2),
         forexAmount: amount,
-        inrAmount: (amount * (rate * (1 + (factor / 100)) * (1 + cf / 100))).toFixed(2),
-        rate: ((rate * (1 + factor / 100) * (1 + cf / 100)) ** powerFactor).toFixed(2),
+        inrAmount: (amount * (rate * (1 + ((factor + cf) / 100)))).toFixed(2),
+        rate: ((rate * (1 + (factor + cf) / 100)) ** powerFactor).toFixed(2),
         product: prod.value == "Exchange Currency" ? "Cash" : "Forex Card",
         bs: selected ? "Buy" : "Sell",
       };
@@ -365,7 +364,7 @@ const HomeExchangeCurrency = () => {
     }
     if (
       prod.value != "Travel Services" &&
-      (amount == undefined || amount == "" || amount * (rate * (1 + cf / 100) * (1 + factor / 100)) < 5000)
+      (amount == undefined || amount == "" || amount * (rate * (1 + (factor + cf) / 100)) < 5000)
     ) {
       toast.error("Please enter the amount greater than 5000");
 
@@ -400,10 +399,10 @@ const HomeExchangeCurrency = () => {
     const Item = {
       intialCurrency: selected ? intialCurrency : finalCurrency,
       finalCurrency: selected ? finalCurrency : intialCurrency,
-      amount: (amount * ((rate * (1 + cf / 100) * (1 + factor / 100)) ** powerFactor)).toFixed(2),
+      amount: (amount * ((rate * (1 + (factor + cf) / 100)) ** powerFactor)).toFixed(2),
       forexAmount: amount,
-      inrAmount: (amount * (rate * (1 + cf / 100) * (1 + factor / 100))).toFixed(2),
-      rate: ((rate * (1 + cf / 100) * (1 + factor / 100)) ** powerFactor).toFixed(2),
+      inrAmount: (amount * (rate * (1 + (factor + cf) / 100))).toFixed(2),
+      rate: ((rate * (1 + (factor + cf) / 100)) ** powerFactor).toFixed(2),
       product: prod.value == "Exchange Currency" ? "Cash" : prod.value,
       bs: selected ? "Buy" : "Sell",
     };
@@ -437,10 +436,10 @@ const HomeExchangeCurrency = () => {
           {
             intialCurrency: selected ? intialCurrency : finalCurrency,
             finalCurrency: selected ? finalCurrency : intialCurrency,
-            amount: (amount * ((rate * (1 + cf / 100) * (1 + factor / 100)) ** powerFactor)).toFixed(2),
+            amount: (amount * ((rate * (1 + (factor + cf) / 100)) ** powerFactor)).toFixed(2),
             forexAmount: amount,
-            inrAmount: (amount * (rate * (1 + cf / 100) * (1 + factor / 100))).toFixed(2),
-            rate: (rate * (1 + cf / 100) * (1 + factor / 100) ** powerFactor).toFixed(2),
+            inrAmount: (amount * (rate * (1 + (factor + cf) / 100))).toFixed(2),
+            rate: (rate * (1 + (factor + cf) / 100) ** powerFactor).toFixed(2),
             product:
               prod.value == "Exchange Currency"
                 ? "Cash"
@@ -1071,7 +1070,7 @@ const HomeExchangeCurrency = () => {
                         <div className="w-[239px] rounded-2xl bg-informative box-border overflow-hidden shrink-0 flex flex-row items-center justify-center py-2 sm:py-3 px-[26px] whitespace-nowrap border-[2px] border-solid border-secondary">
                           <div className="flex-1 relative text-base sm:text-3xl leading-[32px] font-body-small text-white text-left">
                             1 {finalCurrency?.smValue} ={" "}
-                            {(rate * (1 + cf / 100) * (1 + factor / 100)).toFixed(2)} {intialCurrency?.value}
+                            {(rate * (1 + (factor + cf) / 100)).toFixed(2)} {intialCurrency?.value}
                           </div>
                         </div>
                       </div>
