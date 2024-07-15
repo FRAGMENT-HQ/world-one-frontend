@@ -211,13 +211,13 @@ export default function App({ Component, pageProps }) {
           <div className="flex flex-row items-start justify-start gap-[45px] max-w-full mq450:flex-wrap mq450:gap-[45px_22px]">
             <div
               onClick={() => router.push("/privacy-policy")}
-              className="relative leading-[24px] font-semibold inline-block min-w-[126px] mq450:text-base mq450:leading-[19px]"
+              className=" cursor-pointer relative leading-[24px] font-semibold inline-block min-w-[126px] mq450:text-base mq450:leading-[19px]"
             >
               Privacy Policy
             </div>
             <div
               onClick={() => router.push("/terms")}
-              className="relative leading-[24px] font-semibold mq450:text-base mq450:leading-[19px]"
+              className="cursor-pointer relative leading-[24px] font-semibold mq450:text-base mq450:leading-[19px]"
             >{`Terms & Conditions`}</div>
           </div>
         </div>

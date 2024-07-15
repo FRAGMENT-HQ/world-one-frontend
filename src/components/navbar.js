@@ -145,7 +145,7 @@ export default function Navbar({ container = "bg-darkslateblue-900" }) {
               </div>
             </div>
           </div>
-          <div className={` flex h-16 gap-[12%] items-center flex-col`}>
+          <div className={`cursor-pointer flex h-16 gap-[12%] items-center flex-col`}>
             <div
               onClick={() => {
                 if (userData?.user?.name) {
@@ -238,7 +238,7 @@ export default function Navbar({ container = "bg-darkslateblue-900" }) {
                     </div>
                   </div>
                 </div>
-                <div className={` flex h-16 gap-[12%] items-center flex-row`}>
+                <div className={`cursor-pointer flex h-16 gap-[12%] items-center flex-row`}>
                   <div
                     onClick={() => {
                       if (userData?.user?.name) {
