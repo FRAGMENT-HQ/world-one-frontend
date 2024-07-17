@@ -291,7 +291,7 @@ const HomeExchangeCurrency = () => {
         forexAmount: amount,
         inrAmount: (amount * (rate * (1 + ((factor + cf) / 100)))).toFixed(2),
         rate: ((rate * (1 + (factor + cf) / 100)) ** powerFactor).toFixed(2),
-        product: prod.value == "Exchange Currency" ? "Cash" : "Forex Card",
+        product: prod.value == "Exchange Currency" ? "Currancy" : "Forex Card",
         bs: selected ? "Buy" : "Sell",
       };
       if (cartItems?.Items?.length > 0) {
@@ -403,7 +403,7 @@ const HomeExchangeCurrency = () => {
       forexAmount: amount,
       inrAmount: (amount * (rate * (1 + (factor + cf) / 100))).toFixed(2),
       rate: ((rate * (1 + (factor + cf) / 100)) ** powerFactor).toFixed(2),
-      product: prod.value == "Exchange Currency" ? "Cash" : prod.value,
+      product: prod.value == "Exchange Currency" ? "Currancy" : prod.value,
       bs: selected ? "Buy" : "Sell",
     };
     // const meta = { city: city };
@@ -442,7 +442,7 @@ const HomeExchangeCurrency = () => {
             rate: (rate * (1 + (factor + cf) / 100) ** powerFactor).toFixed(2),
             product:
               prod.value == "Exchange Currency"
-                ? "Cash"
+                ? "Currancy"
                 : prod.value == "Transfer Money Abroad"
                   ? "Remittance"
                   : prod.value,

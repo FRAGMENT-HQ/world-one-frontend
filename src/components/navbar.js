@@ -85,9 +85,9 @@ export default function Navbar({ container = "bg-darkslateblue-900" }) {
       <Modal
         style={style}
         open={open}
-        onClose={() => {
-          setOpen(false);
-        }}
+        // onClose={() => {
+        //   setOpen(false);
+        // }}
       >
         
         <ModalDisp
@@ -148,7 +148,7 @@ export default function Navbar({ container = "bg-darkslateblue-900" }) {
           <div className={`cursor-pointer flex h-16 gap-[12%] items-center flex-col`}>
             <div
               onClick={() => {
-                if (userData?.user?.name) {
+                if (userData?.user?.email) {
                   router.push("/profile");
                   return;
                 }

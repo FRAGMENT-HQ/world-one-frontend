@@ -297,14 +297,14 @@ const Outlets = () => {
           <div  className="w-36 rounded-xl flex items-center "></div>
           {display != 0 && (
             <div className="w-full flex-1 rounded-xl flex items-center justify-evenly ">
-              <div className="w-[105px]" > Currency Notes (Cash)</div>
+              <div className="w-[105px]" > Currency Notes (Currancy)</div>
               <div className="w-[98px]"> Prepaid Forex Card</div>
               <div className="w-[71px]"> Remittance </div>
             </div>
           )}
           {display != 1 && (
             <div className="flex-1 self-streach rounded-xl flex items-center justify-evenly ">
-              <div className="w-[143px]" > Currency Notes (Cash) </div>
+              <div className="w-[143px]" > Currency Notes (Currancy) </div>
               {/* <div> Prepaid Forex Card </div> */}
             </div>
           )}

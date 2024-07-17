@@ -29,7 +29,7 @@ const Login = ({ setStage, close }) => {
   const [email, setEmail] = useState("");
   const [step, setStep] = useState(0);
   const [code, setCode] = useState("");
-  const { mutate: login } = gLoginMutation(
+  const { mutate: login,isLoading } = gLoginMutation(
     (res) => {
       console.log(res);
       // if code is 200 then login successfull
@@ -46,10 +46,11 @@ const Login = ({ setStage, close }) => {
     },
     (err) => {
       console.log(err);
+      toast.error(err?.response?.data?.error || "An error occured");
     }
   );
 
-  const { mutate } = loginMutation(
+  const { mutate,isLoading:isLoading1 } = loginMutation(
     (res) => {
       console.log(res);
 
@@ -60,9 +61,11 @@ const Login = ({ setStage, close }) => {
     },
     (err) => {
       console.log(err);
+      toast.error(err?.response?.data?.error || "An error occured");
+
     }
   );
-  const { mutate: complete } = completeMutation(
+  const { mutate: complete,isLoading:isLoading2 } = completeMutation(
     (res) => {
       close();
 
@@ -72,6 +75,8 @@ const Login = ({ setStage, close }) => {
     },
     (err) => {
       console.log(err);
+      toast.error(err?.response?.data?.error || "Phone no alderdy registered");
+
     }
   );
   return (
@@ -180,11 +185,11 @@ const Login = ({ setStage, close }) => {
             }}
             className="w-full bg-orange-500 text-white py-3 [border:none] rounded-2xl font-bold mb-4"
           >
-            {step == 0 ? "Login" : "Complete"}
+             { isLoading || isLoading1 || isLoading2 ? "Laoding..." :  step == 0 ? "Login" : "Complete"}
           </button>
           {step == 0 && (
             <>
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex text-white items-center justify-between mb-4">
                 <hr className="w-full border-gray-700" />
                 <span className="mx-4">or</span>
                 <hr className="w-full border-gray-700" />
@@ -213,7 +218,8 @@ const Login = ({ setStage, close }) => {
                       console.log(token, user);
                       login({
                         email: user.email,
-                        name: user.displayName,
+                        first_name: user.displayName.split(" ")[0],
+                        last_name: user.displayName.split(" ")[1],
                         password: "randompassword",
                         token: token,
                       });
@@ -238,7 +244,7 @@ const Login = ({ setStage, close }) => {
                   alt="Google icon"
                   className="w-6 h-6 mr-3"
                 />
-                Login with Google
+                Continue with Google
               </button>
               <div className="w-full text-sm flex justify-center gap-1 mb-6">
                 <div className="text-white">{"Dont have an account "} </div>

@@ -339,7 +339,7 @@ const PaymentPage = () => {
               ></div>
             )}
             <div className="flex-1 relative leading-[2rem] inline-block xs:min-w-[61.75rem] max-w-full min-w-full mq450:text-[1rem] mq450:leading-[1.625rem]">
-              I, {userDetails?.name} , agree to abide by the terms of use,
+              I, {userDetails?.user?.name} , agree to abide by the terms of use,
               confirm the accuracy of the provided information, and acknowledge
               that I am obligated to pay 2% of order total as cancellation
               charges in the event of order cancellation as outlined in

@@ -113,7 +113,7 @@ const MainForm = () => {
     if (selected === true) {
       
 
-      const countryString = orderData.countries.reduce((acc, country) => {
+      const countryString = orderData?.countries.reduce((acc, country) => {
         return acc + `${country.value},`;
       }, "");
       const orderItems = orderData.orderItems.map((item) => {

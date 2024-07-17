@@ -80,13 +80,13 @@ const Frame1 = () => {
     const Forex_card = slectedItems.filter(
       (item) => item.product === "Forex Card"
     );
-    const Cash = slectedItems.filter((item) => item.product === "Cash");
+    const Currancy = slectedItems.filter((item) => item.product === "Currancy");
 
     const amountInForex = Forex_card.reduce(
       (acc, item) => acc + parseFloat(item.inrAmount),
       0
     );
-    const amountInCash = Cash.reduce(
+    const amountInCash = Currancy.reduce(
       (acc, item) => acc + parseFloat(item.inrAmount),
       0
     );
@@ -111,7 +111,7 @@ const Frame1 = () => {
         amount: amount * gst,
         orderItems: slectedItems,
         type: "cart",
-        product: "Forex Card, Cash",
+        product: "Forex Card, Currancy",
       });
     }
     router.push("/summary");
