@@ -2,7 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 import { getUrl, request } from "../utils/network";
 
 const rateRequest = (curr) => {
-  const url = getUrl(`/api/products/forex/get_rate/?curr=${curr}`);
+  console.log(`curr`,curr)
+  const url = getUrl(`/api/products/forex/get_rate/?curr=${curr[0]}&product=${curr[1]}`);
 
   return request("GET", url, null, false);
 };

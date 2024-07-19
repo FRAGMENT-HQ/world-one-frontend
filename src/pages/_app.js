@@ -1,12 +1,14 @@
 import "@/styles/globals.css";
 import "@/pages/global.css";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import { submitQueryRequest } from "@/hooks/prod";
 import { DefaultSeo } from 'next-seo';
 import Head from "next/head";
+import url from 'url';
+
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }) {
@@ -14,6 +16,8 @@ export default function App({ Component, pageProps }) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
+  const router = useRouter();
+
   const handleClick = (mailId) => {
     window.location.href = `mailto:${mailId}`;
     // Additional functionality can be added here if needed
@@ -22,6 +26,16 @@ export default function App({ Component, pageProps }) {
     window.location.href = `tel:${phoneNo}`;
     // Additional functionality can be added here if needed
   };
+  useEffect(() => {
+    const basePath = url.parse(router.asPath).pathname;
+    console.log("app.js", basePath);
+
+    if (basePath !== "/" && router.asPath !== router.pathname ) {
+      console.log("pushing");
+      // router.push(router.asPath);
+    }
+  }, [router.asPath])
+  
 
   const handleSubmit = () => {
     const data = {
@@ -55,7 +69,7 @@ export default function App({ Component, pageProps }) {
       });
   };
 
-  const router = useRouter();
+  
 
   return (
     <QueryClientProvider client={queryClient}>

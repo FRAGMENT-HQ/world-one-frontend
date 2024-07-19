@@ -1,7 +1,7 @@
 import Select from "react-select";
 import { getFullRateCardMutation } from "@/hooks/prod";
 import Smodal from "@/components/smodal";
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/navbar";
 import country from "../../country.json";
 const cityOptions = [
@@ -70,7 +70,6 @@ const options = [
   { label: "Chandigarh", value: "Chandigarh" },
 ];
 const options2 = [
-
   { label: "Gurgaon", value: "Gurgaon" },
   { label: "Noida", value: "Noida" },
 
@@ -87,13 +86,11 @@ const options2 = [
   { label: "Trichy", value: "Trichy" },
   { label: "Pune", value: "Pune" },
   { label: "Calicut", value: "Calicut" },
-]
-
+];
 
 const getImg = (name) => {
   let Country = country.find((c) => c.code === name);
-  let full = Country?.name
-  
+  let full = Country?.name;
 
   return Country ? { flag: Country?.flag, name: full } : { flag: "", name: "" };
 };
@@ -105,33 +102,45 @@ const Outlets = () => {
   const [data, setData] = useState([]);
   const [serData, setSerData] = useState([]);
   const [search, setSearch] = useState("");
-  const scrollRef = useRef(null)
+  const scrollRef = useRef(null);
 
   const scrollLeft = () => {
-    scrollRef.current.scrollLeft -= 100
-  }
+    scrollRef.current.scrollLeft -= 100;
+  };
   const scrollRight = () => {
-    scrollRef.current.scrollLeft += 100
-  }
+    scrollRef.current.scrollLeft += 100;
+  };
 
   // const router = useRouter();
   const size = useWindowSize();
 
   const { mutate, isLoading } = getFullRateCardMutation(
     (res) => {
-
       let Data = res.data.data;
       let city = res.data.city;
-      console.log(city)
+      console.log(city);
       Data = Data.map((d) => {
-        const buyRate =(((1 / d.rate)*(1+(d.markupPercentage/100)))*( (city.markup_percentage/100)+1 )).toFixed(2)
-        
-        const sellRate = (((1 / d.rate)*(1-(d.markdownPercentage/100)))*( 1-(city.markdown_percentage/100) )).toFixed(2)
+        const buyRate = (
+          (1 / d.rate) *
+          (1 + (d.markupPercentage + city.markup_percentage) / 100)
+        ).toFixed(2);
+        const cardBuyRate = (
+          (1 / d.rate) *
+          (1 + (d.cardMarkupPercentage + city.markup_percentage) / 100)
+        ).toFixed(2);
+        const sellRate = (
+          (1 / d.rate) *
+          (1 - (d.markdownPercentage + city.markdown_percentage) / 100)
+        ).toFixed(2);
+        const cardSellRate = (
+          (1 / d.rate) *
+          (1 - (d.cardMarkdownPercentage + city.markdown_percentage) / 100)
+        ).toFixed(2);
         const currency = d.currency;
         let temp = getImg(currency);
-        const flag = temp.flag
-        const full = temp.name
-        
+        const flag = temp.flag;
+        const full = temp.name;
+        console.log(buyRate, cardBuyRate, sellRate, cardSellRate);
 
         return {
           flag,
@@ -139,19 +148,18 @@ const Outlets = () => {
           currency,
           buy: {
             cash: buyRate,
-            forexCard: buyRate,
+            forexCard: cardBuyRate,
             remittance: buyRate,
           },
           sell: {
             cash: sellRate,
-            forexCard: sellRate,
+            forexCard: cardSellRate,
           },
         };
       });
 
       setData(Data);
       setSerData(Data);
-
     },
 
     (err) => {
@@ -173,13 +181,14 @@ const Outlets = () => {
 
   useEffect(() => {
     if (search.length > 0) {
-      let temp = data.filter((d) => d.currency.toLowerCase().includes(search.toLowerCase()));
+      let temp = data.filter((d) =>
+        d.currency.toLowerCase().includes(search.toLowerCase())
+      );
       setSerData(temp);
     } else {
       setSerData(data);
     }
-  }, [search])
-
+  }, [search]);
 
   return (
     <div className="w-full relative bg-background flex flex-col items-start justify-start pt-[3rem] px-[5%] laptop:px-[120px] pb-[10rem] box-border gap-[2rem]  tracking-[normal] ">
@@ -212,21 +221,29 @@ const Outlets = () => {
         }}
       />
       <div className="flex flex-row items-center w-full py-[1rem] gap-[4vw] justify-start overflow-y-scroll ">
-        <div className="bg-white px-4 py-3 rounded-xl flex justify-center items-center "  onClick={() => {
-          scrollLeft()
-        }} ><img src="bl.svg" /></div>
+        <div
+          className="bg-white px-4 py-3 rounded-xl flex justify-center items-center "
+          onClick={() => {
+            scrollLeft();
+          }}
+        >
+          <img src="bl.svg" />
+        </div>
 
-        <div ref={scrollRef} className="self-stretch flex snap-x overflow-x-scroll flex w-full gap-[4vw]" >
-
+        <div
+          ref={scrollRef}
+          className="self-stretch flex snap-x overflow-x-scroll flex w-full gap-[4vw]"
+        >
           {options.map((option) => {
             return (
               <div
                 key={option.value}
                 onClick={() => setCity(option)}
-                className={`w-[8rem] font-semibold mt-4 ml-2 mr-2 h-[3.5rem] cursor-pointer shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-2xl  overflow-hidden flex flex-col items-center justify-center py-[1.5rem] px-[3.5rem] ${city.value == option.value
-                  ? "!bg-[#FF9135] text-white "
-                  : "bg-white text-[#27357E]"
-                  }`}
+                className={`w-[8rem] font-semibold mt-4 ml-2 mr-2 h-[3.5rem] cursor-pointer shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-2xl  overflow-hidden flex flex-col items-center justify-center py-[1.5rem] px-[3.5rem] ${
+                  city.value == option.value
+                    ? "!bg-[#FF9135] text-white "
+                    : "bg-white text-[#27357E]"
+                }`}
               >
                 <img
                   src={`/city/${city.value == option.value ? "light" : "dark"}/${option.value}.svg`}
@@ -241,10 +258,11 @@ const Outlets = () => {
               <div
                 key={option.value}
                 onClick={() => setCity(option)}
-                className={`w-[9rem] font-semibold mt-4  h-[3.5rem] cursor-pointer shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-2xl  overflow-hidden flex flex-col items-center justify-center py-[1.5rem] px-[3.5rem] ${city.value == option.value
-                  ? "!bg-[#FF9135] text-white "
-                  : "bg-white text-[#27357E]"
-                  }`}
+                className={`w-[9rem] font-semibold mt-4  h-[3.5rem] cursor-pointer shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1)] rounded-2xl  overflow-hidden flex flex-col items-center justify-center py-[1.5rem] px-[3.5rem] ${
+                  city.value == option.value
+                    ? "!bg-[#FF9135] text-white "
+                    : "bg-white text-[#27357E]"
+                }`}
               >
                 <img
                   src={`/city/${city.value == option.value ? "light" : "dark"}/City.svg`}
@@ -254,11 +272,15 @@ const Outlets = () => {
               </div>
             );
           })}
-
         </div>
-        <div className="bg-white px-4 py-3 rounded-xl flex justify-center items-center "  onClick={() => {
-          scrollRight()
-        }} ><img src="br.svg" /></div>
+        <div
+          className="bg-white px-4 py-3 rounded-xl flex justify-center items-center "
+          onClick={() => {
+            scrollRight();
+          }}
+        >
+          <img src="br.svg" />
+        </div>
       </div>
 
       <section className=" mt-4 flex flex-col items-start justify-start gap-6 min-w-full">
@@ -294,18 +316,18 @@ const Outlets = () => {
           </div>
         </div>
         <div className="w-full text-xs laptop:text-sm flex font-normal gap-[3%]  ">
-          <div  className="w-36 rounded-xl flex items-center "></div>
+          <div className="w-36 rounded-xl flex items-center "></div>
           {display != 0 && (
             <div className="w-full flex-1 rounded-xl flex items-center justify-evenly ">
-              <div className="w-[105px]" > Currency Notes (Currancy)</div>
+              <div className="w-[105px]"> Currency Notes (Currancy)</div>
               <div className="w-[98px]"> Prepaid Forex Card</div>
               <div className="w-[71px]"> Remittance </div>
             </div>
           )}
           {display != 1 && (
             <div className="flex-1 self-streach rounded-xl flex items-center justify-evenly ">
-              <div className="w-[143px]" > Currency Notes (Currancy) </div>
-              {/* <div> Prepaid Forex Card </div> */}
+              <div className="w-[143px]"> Currency Notes (Currancy) </div>
+              <div> Prepaid Forex Card </div>
             </div>
           )}
         </div>
@@ -321,14 +343,14 @@ const Outlets = () => {
                 {display != 0 && (
                   <div className="w-full text-[#38B000]  flex-1 rounded-xl flex items-center justify-evenly  ">
                     <div className="w-[105px]"> {currency.buy.cash}</div>
-                    <div className="w-[98px]">  {currency.buy.forexCard} </div>
-                    <div className="w-[71px]">  {currency.buy.remittance} </div>
+                    <div className="w-[98px]"> {currency.buy.forexCard} </div>
+                    <div className="w-[71px]"> {currency.buy.remittance} </div>
                   </div>
                 )}
                 {display != 1 && (
                   <div className="flex-1 text-[#FF3F2C] self-streach rounded-xl flex items-center justify-evenly">
                     <div className="w-[143px]"> {currency.sell.cash} </div>
-                    {/* <div> {currency.sell.forexCard} </div> */}
+                    <div> {currency.sell.forexCard} </div>
                   </div>
                 )}
               </div>

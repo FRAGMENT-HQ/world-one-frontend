@@ -218,8 +218,8 @@ const HomeExchangeCurrency = () => {
   }, [prod]);
 
   useEffect(() => {
-    getRate(finalCurrency.smValue);
-  }, [finalCurrency]);
+    getRate([finalCurrency.smValue,prod.value=="Exchange Currency"?"currancy":"crd"]);
+  }, [finalCurrency,prod]);
 
   const { mutate: getRateCard } = getRateCardMutation(
     (res) => {
@@ -230,7 +230,7 @@ const HomeExchangeCurrency = () => {
     }
   );
   useEffect(() => {
-    getRate(finalCurrency.value);
+    getRate([finalCurrency.value,prod.value=="Exchange Currency"?"currancy":"card"]);
     getRateCard();
     getBlogs();
   }, []);
@@ -1181,7 +1181,7 @@ const HomeExchangeCurrency = () => {
             }} ><img src="u_angle-right-l.svg" /></div>
             <div ref={srollRef} className="flex w-full snap-x overflow-x-scroll flex w-full gap-5">
               {rates.map((rate, index) => {
-                console.log(index == 0 ? srollRef : null)
+                
                 return <>
                   <CurrencyCard ref={index == 0 ? srollRef : null} key={index} rate={rate} />
                 </>
