@@ -90,11 +90,11 @@ const Outlets = () => {
                     {outlet.city}
                   </div>
                 </div>
-                <div className="flex items-center tablet:items-start text-lg flex-col gap-3">
+                <div className="flex w-[80vw] tablet:w-[30vw] items-center tablet:items-start text-lg flex-col gap-3">
                   <div className="text-secondary font-semibold">
                     {outlet.name}
                   </div>
-                  <div className="w-[50%] tablet:w-full text-center tablet:text-left text-sm font-normal">
+                  <div className="  tablet:w-full text-center tablet:text-left text-sm font-normal">
                     {outlet.address}
                   </div>
                 </div>
