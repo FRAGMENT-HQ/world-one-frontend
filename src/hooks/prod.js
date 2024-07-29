@@ -173,3 +173,20 @@ export const getCityMutation = (successCallback, errorCallback) => {
     },
   });
 };
+
+const getForexBuyListRequest = () => {
+  const url =  getUrl(`/api/products/forex/get_tradable`);;
+
+  return request("GET", url, null, false);
+};
+export const getForexBuyListMutation = (successCallback, errorCallback) => {
+  return useMutation(getForexBuyListRequest, {
+    mutationKey: "forex-list-request",
+    onSuccess: (res) => {
+      successCallback(res);
+    },
+    onError: (err) => {
+      errorCallback(err);
+    },
+  });
+};

@@ -3,25 +3,41 @@ import countryData from "../../country.json";
 import React from "react";
 // import Dropdown from 'react-dropdown';
 import Select, { components } from "react-select";
-
-// import "react-dropdown/style.css";
-
+import { useEffect,useState } from "react";
+import {getForexBuyListMutation} from "../hooks/prod";
 const FrameComponent2 = ({
   selectedOption,
   setSelectedOption,
   currencyYouHave,
   fixed = false,
 }) => {
+  const [forexList, setForexList] = useState([]);
+  const { mutate: getForexBuyList } = getForexBuyListMutation(
+    (res) => {
+      const Options = res.data.map((item) => item.currency)
+      const temp = countryData.filter((country) => Options.includes(country.code));
+      setForexList( temp.map((country) => ({
+        value: country.name,
+        label: country.name,
+        smValue: country.code,
+        image: country.flag,
+      })));
+
+    },
+    (err) => {
+      console.log(err);
+    }
+    
+  );
+  useEffect(() => {
+    getForexBuyList();
+  }, []);
+
   
-  const fullOptions = countryData.map((country) => ({
-    value: country.name,
-    label: country.name,
-    smValue: country.code,
-    image: country.flag,
-  }));
+  
 
   const options = fixed
-    ? fullOptions
+    ? forexList
     : [
         {
           value: "INR",

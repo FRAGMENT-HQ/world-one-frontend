@@ -14,7 +14,6 @@ import { getRateCardMutation, getCityMutation } from "@/hooks/prod";
 import { getBlogsMutation } from "@/hooks/blogs";
 import Select from "react-select";
 import toast from "react-hot-toast";
-import Drawer from "@mui/material/Drawer";
 import ColorAdjustor from "./color-adjustor";
 import FaqItems from "./faqItems";
 import { Modal } from "@mui/material";
@@ -168,6 +167,14 @@ const HomeExchangeCurrency = () => {
       setUsd(1 / res.data.usd);
       setMFactor([res.data.mark_up, res.data.mark_down])
       setFactor(selected ? res.data.mark_up : -1 * res.data.mark_down);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+  const { mutate:getRates } = getRateMutation(
+    (res) => {
+      
     },
     (err) => {
       console.log(err);
