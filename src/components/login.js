@@ -104,7 +104,7 @@ const Login = ({ setStage, close }) => {
           <p className="text-sm text-white mb-8">
             {step == 0
               ? "Please enter your details to login"
-              : "complete rest of ypur details"}
+              : "complete rest of your details"}
           </p>
           {step == 1 && (
             <>
@@ -185,7 +185,7 @@ const Login = ({ setStage, close }) => {
             }}
             className="w-full bg-orange-500 text-white py-3 [border:none] rounded-2xl font-bold mb-4"
           >
-             { isLoading || isLoading1 || isLoading2 ? "Laoding..." :  step == 0 ? "Login" : "Complete"}
+             { isLoading || isLoading1 || isLoading2 ? "Loading..." :  step == 0 ? "Login" : "Complete"}
           </button>
           {step == 0 && (
             <>

@@ -61,6 +61,7 @@ const MainForm = () => {
   const [selected, setSelected] = useState(false);
   const [open, setOpen] = useState(false);
   const [creatOrderData, setCreatOrderData] = useAtom(creatOrder);
+  const [status, setStatus] = useState(true);
   const [checked, setChecked] = useState(
     orderData?.type == "Transfer Money Abroad" ? true : false
   );
@@ -110,9 +111,40 @@ const MainForm = () => {
   );
 
   const handleSubmission = () => {
-    if (selected === true) {
-      
+    if (passportFront == null) {
+      toast.error("Please upload the front side of the passport");
+      return;
+    }
 
+    if (passportBack == null) {
+      toast.error("Please upload the back side of the passport");
+      return;
+    }
+
+    if (
+      (orderData?.product == "Transfer Money Abroad"
+        ? false
+        : orderData?.bs == "Buy") &&
+      airTicket == null
+    ) {
+      toast.error("Please upload the air ticket");
+      return;
+    }
+
+    if (!checked && visa == null) {
+      toast.error("Please upload the visa");
+      return;
+    }
+    if((!status) && pan == null){
+      toast.error("Please upload the pan card");
+      return;
+    }
+    if(getName() && extraFile == null){
+      toast.error(`Please upload ${getName()}`);
+      return;
+    }
+
+    if (selected === true) {
       const countryString = orderData?.countries.reduce((acc, country) => {
         return acc + `${country.value},`;
       }, "");
@@ -212,6 +244,8 @@ const MainForm = () => {
           purpous={purpous}
           orderData={orderData}
           showPan={orderData?.type == "Cart"}
+          status={status}
+          setStatus={setStatus}
         />
         <div className="flex sm:items-start gap-5 flex-row sm:flex-row">
           {selected ? (

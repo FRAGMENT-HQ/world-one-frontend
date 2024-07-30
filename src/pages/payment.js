@@ -201,14 +201,7 @@ const PaymentPage = () => {
                         {0}
                       </div>
                     </div>
-                    <div className="self-stretch  flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[1.75rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap">
-                      <div className="flex-1 relative text-[1.25rem] leading-[2rem] font-normal font-body-small text-text3 text-left inline-block min-w-[1.875rem] max-w-full mq450:text-[1rem] mq450:leading-[1.625rem]">
-                        Delirey Charges
-                      </div>
-                      <div className="relative text-[1.25rem] leading-[2rem] font-normal font-body-small text-text3 text-left inline-block min-w-[3.938rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
-                        {100}
-                      </div>
-                    </div>
+
                     <div className="self-stretch flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[2rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap mq450:gap-[1rem]">
                       <div className="flex-1 relative text-[1.25rem] leading-[2rem] font-normal font-body-small text-text2 text-left inline-block min-w-[3.938rem] max-w-full mq450:text-[1rem]">
                         Discount
@@ -223,7 +216,7 @@ const PaymentPage = () => {
                       Grand Total
                     </div>
                     <div className="relative text-[1.5rem] leading-[2rem] font-body-small text-secondary text-left inline-block min-w-[7.313rem] mq450:text-[1.188rem] mq450:leading-[1.625rem]">
-                      {((orderDetails?.amount * (partialPayment ? 0.05 : 1) + 100).toFixed(2))}
+                      {((orderDetails?.amount * (partialPayment ? 0.05 : 1) ).toFixed(2))}
                     </div>
                   </div>
                 </div>

@@ -48,6 +48,8 @@ const FrameComponent5 = ({
   setPurpous,
   name,
   orderData,
+  status,
+  setStatus,
   showPan = true,
 }) => {
   const panRef = useRef(null);
@@ -62,7 +64,6 @@ const FrameComponent5 = ({
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
-  const [status, setStatus] = useState(true);
   const [Citzen, setCitzen] = useState();
   const [loading, setLoading] = useState(false);
   const [passportFLoading, setPassportFLoading] = useState(false);
