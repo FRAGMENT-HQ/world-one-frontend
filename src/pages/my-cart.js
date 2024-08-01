@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import InputArray from "@/components/input-array";
-
+import { cartRateMutation } from "@/hooks/prod";
 function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
     width: undefined,
@@ -45,6 +45,44 @@ const Frame1 = () => {
   const router = useRouter();
   const size = useWindowSize();
 
+  const { mutate: getCartRate } = cartRateMutation(
+    (res) => {
+      const data = res.data;
+      console.log("data", data);
+      const updateData = orderDetails?.Items.map((item, index) => {
+        const x= parseFloat(data[index])
+        // console.log(x,x.to_fixed(2))
+        return {
+          ...item,
+          rate: parseFloat(data[index]).toFixed(2),
+
+          inrAmount: parseFloat(data[index] * item.forexAmount).toFixed(2),
+        };
+      });
+      setOrderDetails({ Items: updateData });
+      console.log("oc", { Items: updateData });
+    },
+    (err) => {
+      console.log(err.message);
+    }
+  );
+
+  useEffect(() => {
+    const data = [];
+    if (orderDetails?.Items) {
+      orderDetails?.Items.map((item) => {
+        data.push({
+          forex: item.finalCurrency.smValue,
+          city: Order?.city?.value,
+          buy: item.bs === "Buy" ? true : false,
+          product: item.product,
+        });
+      });
+      console.log(data, orderDetails);
+      getCartRate({ data: data });
+    }
+  }, []);
+
   useEffect(() => {
     setAmount(
       orderDetails?.Items.reduce(
@@ -61,14 +99,16 @@ const Frame1 = () => {
   useEffect(() => {
     // account for items for which the checkbox is selected
     setAmount(
-      orderDetails?.Items.reduce(
-        (acc, item, index) =>
-          acc +
-          (selected?.length > 0 && selected[index]
-            ? parseFloat(item.inrAmount)
-            : 0),
-        0
-      )
+      orderDetails?.Items
+        ? orderDetails?.Items.reduce(
+            (acc, item, index) =>
+              acc +
+              (selected?.length > 0 && selected[index]
+                ? parseFloat(item.inrAmount)
+                : 0),
+            0
+          )
+        : 0
     );
   }, [selected]);
 
@@ -150,57 +190,58 @@ const Frame1 = () => {
                 </div>
               </div>
 
-              {orderDetails?.Items.map((details, index) => {
-                return (
-                  <>
-                    <div className=" snap-center self-stretch flex flex-col laptop:flex-row items-start justify-between gap-[1rem]">
-                      <div
-                        onClick={() => {
-                          setSelected(
-                            selected?.map((item, i) =>
-                              i === index ? !item : item
-                            )
-                          );
-                        }}
-                        className=" w-[115px] flex flex-row items-start justify-start gap-[1.2rem]"
-                      >
-                        {selected?.length > 0 && selected[index] ? (
-                          <img
-                            className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
-                            loading="lazy"
-                            alt=""
-                            src="/iconscheck-box-outline-blank.svg"
-                          />
-                        ) : (
-                          <div
-                            onClick={() => {}}
-                            className={` flex justify-center items-center cursor-pointer border-3 border-solid border-[#4F4F4F] h-[1.5rem] w-[1.5rem]`}
-                          ></div>
-                        )}
-                        <div className="flex-1 relative font-semibold text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-success text-left">
-                          {details?.bs}
+              {orderDetails?.Items &&
+                orderDetails?.Items.map((details, index) => {
+                  return (
+                    <>
+                      <div className=" snap-center self-stretch flex flex-col laptop:flex-row items-start justify-between gap-[1rem]">
+                        <div
+                          onClick={() => {
+                            setSelected(
+                              selected?.map((item, i) =>
+                                i === index ? !item : item
+                              )
+                            );
+                          }}
+                          className=" w-[115px] flex flex-row items-start justify-start gap-[1.2rem]"
+                        >
+                          {selected?.length > 0 && selected[index] ? (
+                            <img
+                              className="h-[2rem] w-[2rem] relative overflow-hidden shrink-0 min-h-[2rem]"
+                              loading="lazy"
+                              alt=""
+                              src="/iconscheck-box-outline-blank.svg"
+                            />
+                          ) : (
+                            <div
+                              onClick={() => {}}
+                              className={` flex justify-center items-center cursor-pointer border-3 border-solid border-[#4F4F4F] h-[1.5rem] w-[1.5rem]`}
+                            ></div>
+                          )}
+                          <div className="flex-1 relative font-semibold text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-success text-left">
+                            {details?.bs}
+                          </div>
+                        </div>
+                        <div className=" w-[70px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                          {details?.product}
+                        </div>
+                        <div className=" w-[83px] relative font-semibold text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                          {details?.finalCurrency.smValue}
+                        </div>
+                        <div className=" w-[130px] font-semibold relative text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
+                          {details?.finalCurrency.smValue} ={" "}
+                          {details?.intialCurrency.smValue} {details?.rate}
+                        </div>
+                        <div className=" w-[116px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
+                          {details?.forexAmount}
+                        </div>
+                        <div className="w-[103px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
+                          {details?.inrAmount}
                         </div>
                       </div>
-                      <div className=" w-[70px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
-                        {details?.product}
-                      </div>
-                      <div className=" w-[83px] relative font-semibold text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
-                        {details?.finalCurrency.smValue}
-                      </div>
-                      <div className=" w-[130px] font-semibold relative text-[1rem] sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left inline-block shrink-0 whitespace-nowrap">
-                        {details?.finalCurrency.smValue} ={" "}
-                        {details?.intialCurrency.smValue} {details?.rate}
-                      </div>
-                      <div className=" w-[116px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
-                        {details?.forexAmount}
-                      </div>
-                      <div className="w-[103px] relative text-[1rem] font-semibold sm:text-[0.875rem] leading-[2rem] font-body-small text-text2 text-left">
-                        {details?.inrAmount}
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
+                    </>
+                  );
+                })}
             </div>
             <div className="w-full h-12 flex-wrap flex justify-between">
               <div

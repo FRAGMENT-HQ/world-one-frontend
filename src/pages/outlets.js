@@ -111,7 +111,7 @@ const Outlets = () => {
                   <div className="text-secondary tablet:text-white text-left font-semibold">Hours</div>
                   <div className="text-text2 flex flex-col gap-1 text-sm font-semibold">
                     <div>(Monday - Friday)</div>
-                    <div>(Saturday - Sunday)</div>
+                    <div>(Saturday)</div>
                   </div>
                 </div>
               </div>

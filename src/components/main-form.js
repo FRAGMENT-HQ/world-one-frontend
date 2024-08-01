@@ -168,7 +168,7 @@ const MainForm = () => {
       data.append("visa", visa);
       data.append("extra_file", extraFile);
       data.append("c_pan", cPan);
-      data.append("purous_of_visit", orderData.purpous);
+      data.append("purpose_of_visit", orderData.purpous);
       data.append("name", getName());
       data.append(
         "order",
@@ -181,7 +181,7 @@ const MainForm = () => {
           city: orderData.city.value,
           gst_amount: orderData.gst,
           countries: countryString,
-          purpous: purpous,
+          purpose_of_visit: purpous,
         })
       );
       data.append("items", JSON.stringify(orderItems));
