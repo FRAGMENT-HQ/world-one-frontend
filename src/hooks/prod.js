@@ -174,8 +174,8 @@ export const getCityMutation = (successCallback, errorCallback) => {
   });
 };
 
-const getForexBuyListRequest = () => {
-  const url =  getUrl(`/api/products/forex/get_tradable`);
+const getForexBuyListRequest = (data="buy") => {
+  const url =  getUrl(`/api/products/forex/get_tradable/?trade=${data}`);
 
   return request("GET", url, null, false);
 };

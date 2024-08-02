@@ -10,6 +10,7 @@ const FrameComponent2 = ({
   setSelectedOption,
   currencyYouHave,
   fixed = false,
+  trade = "buy",
 }) => {
   const [forexList, setForexList] = useState([]);
   const { mutate: getForexBuyList } = getForexBuyListMutation(
@@ -30,8 +31,8 @@ const FrameComponent2 = ({
     
   );
   useEffect(() => {
-    getForexBuyList();
-  }, []);
+    getForexBuyList(trade);
+  }, [trade]);
 
   
   
