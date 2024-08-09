@@ -331,52 +331,7 @@ const HomeExchangeCurrency = () => {
     ) {
       setOpenBlog(true);
       setMessage("Please Login to continue");
-      setCallBack((e) => {
-
-
-        setdrawerOpen(false);
-
-        signInWithPopup(auth, provider)
-          .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential =
-              GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-
-            // The signed-in user info.
-            const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            // ...
-
-            setUserData({
-              name: user.displayName,
-              email: user.email,
-              photo: user.photoURL,
-              token: token,
-            });
-            // login({
-            //   email: user.email,
-            //   name: user.displayName,
-            //   password: token,
-            // });
-
-          })
-          .catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            const email = error?.customData?.email;
-            // The AuthCredential type that was used.
-            console.log(error);
-            const credential =
-              GoogleAuthProvider.credentialFromError(error);
-            // ...
-          });
-
-      })
-
-
+      
       return;
     }
     if (
@@ -1033,13 +988,7 @@ const HomeExchangeCurrency = () => {
                   <div className="self-stretch  flex flex-col items-start justify-between gap-[24px] max-w-full">
                     {prod.value != "Travel Services" && (
                       <div className="self-stretch flex flex-row items-start justify-between gap-5 max-w-full mq825:flex-wrap">
-                        {/* <FrameComponent2
-                          selectedOption={intialCurrency}
-                          setSelectedOption={setIntialCurrency}
-                          currencyYouHave={
-                            selected ? "Currency you Have" : "Currency you Want"
-                          }
-                        /> */}
+               
                         <FrameComponent2
                           trade={prod.value == "Transfer Money Abroad" ? "transpher" : "buy"}
                           fixed={true}

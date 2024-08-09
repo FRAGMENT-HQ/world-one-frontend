@@ -146,6 +146,8 @@ const Outlets = () => {
           flag,
           full,
           currency,
+          can_buy:d.can_buy,
+          can_sell:d.can_transfer,
           buy: {
             cash: buyRate,
             forexCard: cardBuyRate,
@@ -157,7 +159,10 @@ const Outlets = () => {
           },
         };
       });
-
+      // sort data based on can_buy true
+      Data.sort((a, b) => a.can_buy - b.can_buy);
+      // reverse data
+      Data.reverse();
       setData(Data);
       setSerData(Data);
     },
@@ -319,14 +324,14 @@ const Outlets = () => {
           <div className="w-36 rounded-xl flex items-center "></div>
           {display != 0 && (
             <div className="w-full flex-1 rounded-xl flex items-center justify-evenly ">
-              <div className="w-[105px]"> Currency Notes (Currancy)</div>
+              <div className="w-[105px]"> Currency Notes (Currency)</div>
               <div className="w-[98px]"> Prepaid Forex Card</div>
               <div className="w-[71px]"> Remittance </div>
             </div>
           )}
           {display != 1 && (
             <div className="flex-1 self-streach rounded-xl flex items-center justify-evenly ">
-              <div className="w-[143px]"> Currency Notes (Currancy) </div>
+              <div className="w-[143px]"> Currency Notes (Currency) </div>
               <div> Prepaid Forex Card </div>
             </div>
           )}
@@ -334,6 +339,7 @@ const Outlets = () => {
         <div className="w-full border border-solid border-[#27357E]"></div>
 
         {serData.map((currency) => {
+          console.log(currency);
           return (
             <>
               <div className="w-full text-sm flex font-normal gap-[3%]  ">
@@ -342,15 +348,38 @@ const Outlets = () => {
                 </div>
                 {display != 0 && (
                   <div className="w-full text-[#38B000]  flex-1 rounded-xl flex items-center justify-evenly  ">
-                    <div className="w-[105px]"> {currency.buy.cash}</div>
-                    <div className="w-[98px]"> {currency.buy.forexCard} </div>
-                    <div className="w-[71px]"> {currency.buy.remittance} </div>
+                    {currency?.can_buy ? (
+                      <>
+                        <div className="w-[105px]"> {currency.buy.cash}</div>
+                        <div className="w-[98px]">
+                          {currency.buy.forexCard}{" "}
+                        </div>
+                        <div className="w-[71px]">
+                         
+                          {currency.buy.remittance}{" "}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                      <div className="w-[105px]"> On Request</div>
+                      <div className="w-[98px]">
+                      Not Available
+                      </div>
+                      <div className="w-[71px]">
+                       
+                      Not Available
+                      </div>
+                    </>
+                    )}
                   </div>
                 )}
                 {display != 1 && (
                   <div className="flex-1 text-[#FF3F2C] self-streach rounded-xl flex items-center justify-evenly">
-                    <div className="w-[143px]"> {currency.sell.cash} </div>
-                    <div> {currency.sell.forexCard} </div>
+                   {currency?.can_sell ? <> <div className="w-[143px]"> {currency.sell.cash} </div>
+                    <div> {currency.sell.forexCard} </div></>:<>
+                    <div className="w-[143px]"> On Request </div>
+                    <div> Not Available </div>
+                    </>}
                   </div>
                 )}
               </div>
