@@ -84,7 +84,7 @@ const FrameComponent2 = ({
           container: () =>
             "w-full  text-white !rounded-xl !border-none  rounded-lg bg-gray-100 py-1 sm:py-2 ",
           control: () => "self-stretch !bg-transparent !border-none !mx-2",
-          menuList: () => "!bg-midnightblue",
+          menuList: () => "!bg-midnightblue z-50 py-12 ",
           option: () => "text-white hover:text-midnightblue",
           input: () => "text-white",
           singleValue: () => "!text-white !text-base",
