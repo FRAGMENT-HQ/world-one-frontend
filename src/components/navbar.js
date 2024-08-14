@@ -85,9 +85,7 @@ export default function Navbar({ container = "bg-darkslateblue-900" }) {
       <Modal
         style={style}
         open={open}
-        // onClose={() => {
-        //   setOpen(false);
-        // }}
+      
       >
         
         <ModalDisp
@@ -102,13 +100,14 @@ export default function Navbar({ container = "bg-darkslateblue-900" }) {
           setdrawerOpen(false);
         }}
       >
-        <div className={`w-[100vw] h-[100vh] `}>
+        <div className={`w-[100vw] h-[100vh] bg-secondary `}>
           <div className="text-white sm:visible w-full mt-5  rounded-3xl flex flex-col items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
             <div className="w-[75%] flex flex-col items-center justify-center text-[15px] font-semibold">
               <div className=" flex flex-row items-center justify-center py-1 ">
                 <div
                   onClick={() => {
                     router.push("/#about");
+                    setdrawerOpen(false);
                   }}
                   className=" cursor-pointer relative leading-[32px] inline-block "
                 >
@@ -118,6 +117,7 @@ export default function Navbar({ container = "bg-darkslateblue-900" }) {
               <div
                 onClick={() => {
                   router.push("/rates-new");
+                  setdrawerOpen(false);
                 }}
                 className="cursor-pointer  shrink-0 flex flex-row items-center justify-center py-1  box-border"
               >
@@ -127,6 +127,7 @@ export default function Navbar({ container = "bg-darkslateblue-900" }) {
                 <div
                   onClick={() => {
                     router.push("/#services");
+                    setdrawerOpen(false);
                   }}
                   className="cursor-pointer relative leading-[32px]"
                 >
@@ -164,6 +165,7 @@ export default function Navbar({ container = "bg-darkslateblue-900" }) {
             <div
               onClick={() => {
                 router.push("/#mail");
+                setdrawerOpen(false);
               }}
               className="cursor-pointer w-[11rem] h-10 rounded-xl bg-[#3c498b4d] overflow-hidden flex flex-row items-center justify-start py-2 pr-[12px] pl-4 box-border gap-[12px]"
             >
