@@ -101,8 +101,13 @@ export default function Navbar({ container = "bg-darkslateblue-900" }) {
         }}
       >
         <div className={`w-[100vw] h-[100vh] bg-secondary `}>
+          
           <div className="text-white sm:visible w-full mt-5  rounded-3xl flex flex-col items-center justify-between py-[26px] px-16 box-border top-[0] z-[99] sticky gap-[20px] max-w-full mq1275:pl-8 mq1275:pr-8 mq1275:box-border">
+          <div onClick={()=>{
+            setdrawerOpen(false)
+          }} className="w-full cursor-pointer relative leading-[32px] inline-block text-2xl text-right " >x</div>
             <div className="w-[75%] flex flex-col items-center justify-center text-[15px] font-semibold">
+            
               <div className=" flex flex-row items-center justify-center py-1 ">
                 <div
                   onClick={() => {
