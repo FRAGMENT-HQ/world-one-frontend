@@ -92,9 +92,9 @@ const getImg = (name) => {
   let Country = country.find((c) => c.code === name);
   let full = Country?.name;
 
-  return Country ? { flag: Country?.flag, name: full } : { flag: "", name: "" };
+  return Country ? { flag: Country?.flag, name: full } : { flag: null, name: null };
 };
-const Outlets = () => {
+const Ratess = () => {
   const [open, setOpen] = useState(false);
   // const [drawerOpen, setdrawerOpen] = useState(false);
   const [display, setDisplay] = useState(-1);
@@ -118,7 +118,7 @@ const Outlets = () => {
     (res) => {
       let Data = res.data.data;
       let city = res.data.city;
-      console.log(city);
+      // console.log(city);
       Data = Data.map((d) => {
         const buyRate = (
           (1 / d.rate) *
@@ -138,9 +138,11 @@ const Outlets = () => {
         ).toFixed(2);
         const currency = d.currency;
         let temp = getImg(currency);
-        const flag = temp.flag;
-        const full = temp.name;
-        console.log(buyRate, cardBuyRate, sellRate, cardSellRate);
+        const flag = temp?.flag;
+        const full = temp?.name;
+        // console.log(currency,temp);
+        
+       if(full ){
 
         return {
           flag,
@@ -157,7 +159,7 @@ const Outlets = () => {
             cash: sellRate,
             forexCard: cardSellRate,
           },
-        };
+        };}
       });
       // sort data based on can_buy true
       Data.sort((a, b) => a.can_buy - b.can_buy);
@@ -339,7 +341,13 @@ const Outlets = () => {
         <div className="w-full border border-solid border-[#27357E]"></div>
 
         {serData.map((currency) => {
-          console.log(currency);
+          if(!currency?.full){
+            return(<></>)
+          }
+          if(!currency?.flag){
+            // console.log("no flag",currency);
+            return(<></>)
+          }
           return (
             <>
               <div className="w-full text-sm flex font-normal gap-[3%]  ">
@@ -392,4 +400,4 @@ const Outlets = () => {
   );
 };
 
-export default Outlets;
+export default Ratess;

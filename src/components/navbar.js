@@ -65,9 +65,7 @@ export default function Navbar({ container = "bg-darkslateblue-900" }) {
   const size = useWindowSize();
 
   const style = {
-    // top: "50%",
-    // left: "40%",
-    // transform: "translate(-30%, -70%)",
+
     bgcolor: "#FFF",
     p: 4,
     borderRadius: "32px",
@@ -77,7 +75,7 @@ export default function Navbar({ container = "bg-darkslateblue-900" }) {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    // boxShadow: 24,
+
   };
 
   return (

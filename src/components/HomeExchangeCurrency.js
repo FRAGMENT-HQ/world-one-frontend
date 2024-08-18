@@ -17,7 +17,7 @@ import toast from "react-hot-toast";
 import ColorAdjustor from "./color-adjustor";
 import FaqItems from "./faqItems";
 import { Modal } from "@mui/material";
-
+import ModalDisp from "./login";
 import { authUser } from "@/states/storage";
 import { auth } from "../utils/google";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -52,7 +52,6 @@ const cityOptions = [
   .sort((a, b) => a.label.trim().localeCompare(b.label.trim()));
 // import CountryData
 function useWindowSize() {
-
   const [windowSize, setWindowSize] = useState({
     width: undefined,
     height: undefined,
@@ -130,7 +129,7 @@ const HomeExchangeCurrency = () => {
   const [usd, setUsd] = useState(83);
   const [factor, setFactor] = useState(1);
   const [mFactor, setMFactor] = useState([1, -1]);
-
+  const [lOpen, setLOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [city, setCity] = useState("");
   const [rates, setRates] = useState([]);
@@ -143,7 +142,9 @@ const HomeExchangeCurrency = () => {
   const [userData, setUserData] = useAtom(authUser);
   const [cartItems, setCartItems] = useAtom(cart);
   const [service, setService] = useState("");
-  const [callBack, setCallBack] = useState(() => { setOpenBlog(false); })
+  const [callBack, setCallBack] = useState(() => {
+    setOpenBlog(false);
+  });
   const [blogs, setBlogs] = useState([]);
   const [cfs, setCfs] = useState([]);
   const [cf, setCf] = useState([]);
@@ -165,24 +166,25 @@ const HomeExchangeCurrency = () => {
     (res) => {
       setRate(1 / res.data.rate);
       setUsd(1 / res.data.usd);
-      setMFactor([res.data.mark_up, res.data.mark_down])
+      setMFactor([res.data.mark_up, res.data.mark_down]);
       setFactor(selected ? res.data.mark_up : -1 * res.data.mark_down);
     },
     (err) => {
       console.log(err);
     }
   );
-  const { mutate:getRates } = getRateMutation(
-    (res) => {
-      
-    },
+  const { mutate: getRates } = getRateMutation(
+    (res) => {},
     (err) => {
       console.log(err);
     }
   );
   const { mutate: getCity } = getCityMutation(
     (res) => {
-      const stored = [res?.data.markup_percentage, -1 * res?.data.markdown_percentage];
+      const stored = [
+        res?.data.markup_percentage,
+        -1 * res?.data.markdown_percentage,
+      ];
       setCfs(stored);
       setCf(stored[selected ? 0 : 1]);
     },
@@ -216,7 +218,7 @@ const HomeExchangeCurrency = () => {
 
   useEffect(() => {
     getCity(city.value);
-  }, [city])
+  }, [city]);
   useEffect(() => {
     setFinalCurrency({
       image:
@@ -224,19 +226,19 @@ const HomeExchangeCurrency = () => {
       label: "United States Dollar",
       smValue: "USD",
       value: "United States Dollar",
-    })
-  }, [prod])
-  
-
-
+    });
+  }, [prod]);
 
   useEffect(() => {
     setSelected(true);
   }, [prod]);
 
   useEffect(() => {
-    getRate([finalCurrency.smValue,prod.value=="Exchange Currency"?"currancy":"crd"]);
-  }, [finalCurrency,prod]);
+    getRate([
+      finalCurrency.smValue,
+      prod.value == "Exchange Currency" ? "currancy" : "crd",
+    ]);
+  }, [finalCurrency, prod]);
 
   const { mutate: getRateCard } = getRateCardMutation(
     (res) => {
@@ -247,7 +249,10 @@ const HomeExchangeCurrency = () => {
     }
   );
   useEffect(() => {
-    getRate([finalCurrency.value,prod.value=="Exchange Currency"?"currancy":"card"]);
+    getRate([
+      finalCurrency.value,
+      prod.value == "Exchange Currency" ? "currancy" : "card",
+    ]);
     getRateCard();
     getBlogs();
   }, []);
@@ -255,7 +260,10 @@ const HomeExchangeCurrency = () => {
   const AddToCart = () => {
     if (
       prod.value != "Travel Services" &&
-      (amount == undefined || amount == "" || amount * (rate * (1 + ((factor + cf) / 100))) < 5000)) {
+      (amount == undefined ||
+        amount == "" ||
+        amount * (rate * (1 + (factor + cf) / 100)) < 5000)
+    ) {
       toast.error("Please enter the amount greater than 5000");
 
       return;
@@ -272,12 +280,16 @@ const HomeExchangeCurrency = () => {
     });
 
     if (prod.value == "Exchange Currency") {
-      if ((amount * (rate / usd)) > 3000) {
+      if (amount * (rate / usd) > 3000) {
         toast.error(
-          <div className="text-[#102A83] flex flex-col justify-start gap-0" >
+          <div className="text-[#102A83] flex flex-col justify-start gap-0">
             <div>Heads Up!</div>
-            <div><b>Max Currency Exchange: $3,000</b></div>
-            <div><b>Max Forex Card Load: $250,000</b></div>
+            <div>
+              <b>Max Currency Exchange: $3,000</b>
+            </div>
+            <div>
+              <b>Max Forex Card Load: $250,000</b>
+            </div>
             <div>Plan your transactions accordingly.</div>
           </div>
         );
@@ -285,12 +297,16 @@ const HomeExchangeCurrency = () => {
       }
     }
     if (prod.value == "Forex Card") {
-      if ((amount * (rate / usd)) > 250000) {
+      if (amount * (rate / usd) > 250000) {
         toast.error(
-          <div className="text-[#102A83] flex flex-col justify-start gap-0" >
+          <div className="text-[#102A83] flex flex-col justify-start gap-0">
             <div>Heads Up!</div>
-            <div><b>Max Currency Exchange: $,000</b></div>
-            <div><b>Max Forex Card Load: $250,000</b></div>
+            <div>
+              <b>Max Currency Exchange: $,000</b>
+            </div>
+            <div>
+              <b>Max Forex Card Load: $250,000</b>
+            </div>
             <div>Plan your transactions accordingly.</div>
           </div>
         );
@@ -304,9 +320,12 @@ const HomeExchangeCurrency = () => {
       const append_obj = {
         intialCurrency: selected ? intialCurrency : finalCurrency,
         finalCurrency: selected ? finalCurrency : intialCurrency,
-        amount: (amount * ((rate * (1 + ((factor + cf) / 100))) ** powerFactor)).toFixed(2),
+        amount: (
+          amount *
+          (rate * (1 + (factor + cf) / 100)) ** powerFactor
+        ).toFixed(2),
         forexAmount: amount,
-        inrAmount: (amount * (rate * (1 + ((factor + cf) / 100)))).toFixed(2),
+        inrAmount: (amount * (rate * (1 + (factor + cf) / 100))).toFixed(2),
         rate: ((rate * (1 + (factor + cf) / 100)) ** powerFactor).toFixed(2),
         product: prod.value == "Exchange Currency" ? "Currancy" : "Forex Card",
         bs: selected ? "Buy" : "Sell",
@@ -326,17 +345,17 @@ const HomeExchangeCurrency = () => {
   };
 
   const handleOrder = () => {
-    if (
-      !userData?.user?.name
-    ) {
+    if (!userData?.user?.name) {
       setOpenBlog(true);
       setMessage("Please Login to continue");
-      
+
       return;
     }
     if (
       prod.value != "Travel Services" &&
-      (amount == undefined || amount == "" || amount * (rate * (1 + (factor + cf) / 100)) < 5000)
+      (amount == undefined ||
+        amount == "" ||
+        amount * (rate * (1 + (factor + cf) / 100)) < 5000)
     ) {
       toast.error("Please enter the amount greater than 5000");
 
@@ -347,31 +366,46 @@ const HomeExchangeCurrency = () => {
       return;
     }
     if (prod.value == "Exchange Currency") {
-      if ((amount * (rate / usd)) > 3000) {
-        toast.error(<div className="text-[#102A83] flex flex-col justify-start gap-0" >
-          <div>Heads Up!</div>
-          <div><b>Max Currency Exchange: $3,00</b></div>
-          <div><b>Max Forex Card Load: $250,000</b></div>
-          <div>Plan your transactions accordingly.</div>
-        </div>);
+      if (amount * (rate / usd) > 3000) {
+        toast.error(
+          <div className="text-[#102A83] flex flex-col justify-start gap-0">
+            <div>Heads Up!</div>
+            <div>
+              <b>Max Currency Exchange: $3,00</b>
+            </div>
+            <div>
+              <b>Max Forex Card Load: $250,000</b>
+            </div>
+            <div>Plan your transactions accordingly.</div>
+          </div>
+        );
         return;
       }
     }
     if (prod.value == "Forex Card") {
-      if ((amount * (rate / usd)) > 250000) {
-        toast.error(<div className="text-[#102A83] flex flex-col justify-start gap-0" >
-          <div>Heads Up!</div>
-          <div><b>Max Currency Exchange: $3,000</b></div>
-          <div><b>Max Forex Card Load: $20,000</b></div>
-          <div>Plan your transactions accordingly.</div>
-        </div>);
+      if (amount * (rate / usd) > 250000) {
+        toast.error(
+          <div className="text-[#102A83] flex flex-col justify-start gap-0">
+            <div>Heads Up!</div>
+            <div>
+              <b>Max Currency Exchange: $3,000</b>
+            </div>
+            <div>
+              <b>Max Forex Card Load: $20,000</b>
+            </div>
+            <div>Plan your transactions accordingly.</div>
+          </div>
+        );
         return;
       }
     }
     const Item = {
       intialCurrency: selected ? intialCurrency : finalCurrency,
       finalCurrency: selected ? finalCurrency : intialCurrency,
-      amount: (amount * ((rate * (1 + (factor + cf) / 100)) ** powerFactor)).toFixed(2),
+      amount: (
+        amount *
+        (rate * (1 + (factor + cf) / 100)) ** powerFactor
+      ).toFixed(2),
       forexAmount: amount,
       inrAmount: (amount * (rate * (1 + (factor + cf) / 100))).toFixed(2),
       rate: ((rate * (1 + (factor + cf) / 100)) ** powerFactor).toFixed(2),
@@ -408,7 +442,10 @@ const HomeExchangeCurrency = () => {
           {
             intialCurrency: selected ? intialCurrency : finalCurrency,
             finalCurrency: selected ? finalCurrency : intialCurrency,
-            amount: (amount * ((rate * (1 + (factor + cf) / 100)) ** powerFactor)).toFixed(2),
+            amount: (
+              amount *
+              (rate * (1 + (factor + cf) / 100)) ** powerFactor
+            ).toFixed(2),
             forexAmount: amount,
             inrAmount: (amount * (rate * (1 + (factor + cf) / 100))).toFixed(2),
             rate: (rate * (1 + (factor + cf) / 100) ** powerFactor).toFixed(2),
@@ -438,22 +475,42 @@ const HomeExchangeCurrency = () => {
       srollRef.current.scrollBy({
         top: 0,
         left: -1 * (width > 600 ? 300 : 200),
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }
-  }
+  };
   const scrollRight = () => {
     if (srollRef.current) {
       srollRef.current.scrollBy({
         top: 0,
-        left: (width > 600 ? 300 : 200),
-        behavior: 'smooth'
+        left: width > 600 ? 300 : 200,
+        behavior: "smooth",
       });
     }
-  }
+  };
 
   return (
     <div className=" bg-background w-full  overflow-hidden flex flex-col items-start justify-start">
+      <Modal
+        style={{
+          bgcolor: "#FFF",
+          p: 4,
+          borderRadius: "32px",
+          backgroundColor: "",
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        open={lOpen}
+
+      >
+        <ModalDisp close={() => {
+            setLOpen(false);
+          }} />
+      </Modal>
+
       <CityModal
         onClick={handleOrder}
         open={open}
@@ -497,10 +554,12 @@ const HomeExchangeCurrency = () => {
           <div className="self-stretch flex flex-row items-start justify-start py-0 px-[76px] box-border max-w-full mq750:pl-[38px] mq750:pr-[38px] mq750:box-border">
             <button
               onClick={() => {
-
                 setMessage("Blogs are coming soon ! ");
-                callBack
-                setCallBack(() => { setOpenBlog(false); })
+                callBack;
+                setCallBack(() => {
+                  setOpenBlog(false);
+                  setLOpen(true);
+                });
               }}
               className="cursor-pointer [border:none] py-[18px] px-5 bg-secondary flex-1 shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] rounded-2xl overflow-hidden flex flex-row items-start justify-center box-border gap-[16px] max-w-full hover:bg-darkslateblue-800"
             >
@@ -988,9 +1047,12 @@ const HomeExchangeCurrency = () => {
                   <div className="self-stretch  flex flex-col items-start justify-between gap-[24px] max-w-full">
                     {prod.value != "Travel Services" && (
                       <div className="self-stretch flex flex-row items-start justify-between gap-5 max-w-full mq825:flex-wrap">
-               
                         <FrameComponent2
-                          trade={prod.value == "Transfer Money Abroad" ? "transpher" : "buy"}
+                          trade={
+                            prod.value == "Transfer Money Abroad"
+                              ? "transpher"
+                              : "buy"
+                          }
                           fixed={true}
                           selectedOption={finalCurrency}
                           setSelectedOption={setFinalCurrency}
@@ -1019,11 +1081,17 @@ const HomeExchangeCurrency = () => {
                             <img
                               onClick={() => {
                                 setMessage(
-                                  <div className="text-[#102A83] flex flex-col justify-start gap-0" >
+                                  <div className="text-[#102A83] flex flex-col justify-start gap-0">
                                     <div>Heads Up!</div>
-                                    <div><b>Max Currency Exchange: $3,000</b></div>
-                                    <div><b>Max Forex Card Load: $250,000</b></div>
-                                    <div>Plan your transactions accordingly.</div>
+                                    <div>
+                                      <b>Max Currency Exchange: $3,000</b>
+                                    </div>
+                                    <div>
+                                      <b>Max Forex Card Load: $250,000</b>
+                                    </div>
+                                    <div>
+                                      Plan your transactions accordingly.
+                                    </div>
                                   </div>
                                 );
                                 setOpenBlog(true);
@@ -1037,7 +1105,8 @@ const HomeExchangeCurrency = () => {
                         <div className="w-[239px] rounded-2xl bg-informative box-border overflow-hidden shrink-0 flex flex-row items-center justify-center py-2 sm:py-3 px-[26px] whitespace-nowrap border-[2px] border-solid border-secondary">
                           <div className="flex-1 relative text-base sm:text-3xl leading-[32px] font-body-small text-white text-left">
                             1 {finalCurrency?.smValue} ={" "}
-                            {(rate * (1 + (factor + cf) / 100)).toFixed(2)} {intialCurrency?.value}
+                            {(rate * (1 + (factor + cf) / 100)).toFixed(2)}{" "}
+                            {intialCurrency?.value}
                           </div>
                         </div>
                       </div>
@@ -1063,19 +1132,19 @@ const HomeExchangeCurrency = () => {
 
                   {((prod.value == "Exchange Currency" && selected) ||
                     prod.value == "Forex Card") && (
-                      <div
-                        onClick={() => {
-                          AddToCart();
-                        }}
-                        className="cursor-pointer [border:none] py-3 px-10 sm:py-2 bg-[#FF9135] rounded-lg sm:rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
-                      >
-                        <img
-                          className="h-11 w-11 relative overflow-hidden shrink-0 min-h-[32px]"
-                          alt=""
-                          src="/AddCart.svg"
-                        />
-                      </div>
-                    )}
+                    <div
+                      onClick={() => {
+                        AddToCart();
+                      }}
+                      className="cursor-pointer [border:none] py-3 px-10 sm:py-2 bg-[#FF9135] rounded-lg sm:rounded-3xl shadow-[0px_8px_24px_rgba(57,_26,_0,_0.15)] overflow-hidden flex flex-row items-center justify-center box-border gap-[16px] whitespace-nowrap max-w-full hover:bg-gainsboro-100"
+                    >
+                      <img
+                        className="h-11 w-11 relative overflow-hidden shrink-0 min-h-[32px]"
+                        alt=""
+                        src="/AddCart.svg"
+                      />
+                    </div>
+                  )}
 
                   <div
                     onClick={() => {
@@ -1134,35 +1203,46 @@ const HomeExchangeCurrency = () => {
                    */}
                   </div>
                 )}
-
               </div>
             </div>
           </div>
         </div>
 
         {/* {size.width > 640 && ( */}
-        <div className="flex w-full flex-col bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] max-w-full p-0 justify-start" >
+        <div className="flex w-full flex-col bg-darkslateblue-300 shadow-[0px_6px_24px_-4px_rgba(18,_25,_56,_0.1),_0px_12px_48px_4px_rgba(18,_24,_56,_0.15)] [backdrop-filter:blur(48px)] max-w-full p-0 justify-start">
           <div className="self-stretch flex  overflow-hidden flex flex-row items-center justify-start py-12 px-0 tablet:px-8 box-border relative gap-0 tablet:gap-4 max-w-full z-[2]  mq450:pt-[31px] mq450:pb-[31px] mq450:box-border">
-            <div onClick={() => {
-              scrollLeft()
-            }} ><img src="u_angle-right-l.svg" /></div>
-            <div ref={srollRef} className="flex w-full snap-x overflow-x-scroll flex w-full gap-5">
-              {rates.map((rate, index) => {
-                
-                return <>
-                  <CurrencyCard ref={index == 0 ? srollRef : null} key={index} rate={rate} />
-                </>
-              }
-
-              )}
+            <div
+              onClick={() => {
+                scrollLeft();
+              }}
+            >
+              <img src="u_angle-right-l.svg" />
             </div>
-            <div onClick={() => {
-              scrollRight()
-            }} ><img src="u_angle-right-b.svg" /></div>
-
+            <div
+              ref={srollRef}
+              className="flex w-full snap-x overflow-x-scroll flex w-full gap-5"
+            >
+              {rates.map((rate, index) => {
+                return (
+                  <>
+                    <CurrencyCard
+                      ref={index == 0 ? srollRef : null}
+                      key={index}
+                      rate={rate}
+                    />
+                  </>
+                );
+              })}
+            </div>
+            <div
+              onClick={() => {
+                scrollRight();
+              }}
+            >
+              <img src="u_angle-right-b.svg" />
+            </div>
           </div>
           <div className=" self-stretch flex justify-center pt-2 pb-12 px-8 box-border relative gap-4 max-w-full z-[2] ">
-
             <button
               onClick={() => {
                 router.push("/rates-new");
@@ -1181,7 +1261,6 @@ const HomeExchangeCurrency = () => {
           </div>
         </div>
         {/* )} */}
-
       </section>
 
       <section
@@ -1442,22 +1521,23 @@ const HomeExchangeCurrency = () => {
             <h1 className="m-0 flex-1 relative text-inherit font-normal font-inherit inline-block max-w-full mq825:text-19xl mq825:leading-[45px] mq450:text-10xl mq450:leading-[34px]">
               Frequently Asked Questions
             </h1>
-            {width > 654 && <button
-              onClick={() => {
-                router.push("/faq");
-              }}
-              className="cursor-pointer [border:none] py-4 px-[38.5px] bg-secondary h-16 rounded-2xl  overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
-            >
-
-              <div className="relative text-base leading-[32px] font-semibold  text-white text-left">
-                View More
-              </div>
-              <img
-                className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[32px]"
-                alt=""
-                src="/fiarrowright.svg"
-              />
-            </button>}
+            {width > 654 && (
+              <button
+                onClick={() => {
+                  router.push("/faq");
+                }}
+                className="cursor-pointer [border:none] py-4 px-[38.5px] bg-secondary h-16 rounded-2xl  overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
+              >
+                <div className="relative text-base leading-[32px] font-semibold  text-white text-left">
+                  View More
+                </div>
+                <img
+                  className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[32px]"
+                  alt=""
+                  src="/fiarrowright.svg"
+                />
+              </button>
+            )}
           </div>
           <FaqItems
             number="01"
@@ -1484,22 +1564,23 @@ const HomeExchangeCurrency = () => {
             small="Can I retain any of the forex that I bought for foreign travel and did not spend?"
             content="You can indefinitely retain foreign exchange up to USD 2,000 for future use. Any foreign exchange in cash in excess of this sum, is required to be surrendered within 90 days of return."
           />
-          {width < 654 && <button
-            onClick={() => {
-              router.push("/faq");
-            }}
-            className="cursor-pointer [border:none] py-4 px-[38.5px] bg-secondary h-16 rounded-2xl  overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
-          >
-
-            <div className="relative text-base leading-[32px] font-semibold  text-white text-left">
-              View More
-            </div>
-            <img
-              className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[32px]"
-              alt=""
-              src="/fiarrowright.svg"
-            />
-          </button>}
+          {width < 654 && (
+            <button
+              onClick={() => {
+                router.push("/faq");
+              }}
+              className="cursor-pointer [border:none] py-4 px-[38.5px] bg-secondary h-16 rounded-2xl  overflow-hidden shrink-0 flex flex-row items-center justify-center box-border gap-[14px] whitespace-nowrap hover:bg-gainsboro-200"
+            >
+              <div className="relative text-base leading-[32px] font-semibold  text-white text-left">
+                View More
+              </div>
+              <img
+                className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[32px]"
+                alt=""
+                src="/fiarrowright.svg"
+              />
+            </button>
+          )}
         </div>
       </section>
       <section
@@ -1520,19 +1601,20 @@ const HomeExchangeCurrency = () => {
               setOpenBlog(true);
             }}
           /> */}
-          {blogs?.length > 0 && blogs.map((blog, index) => {
-            return (
-              <ColorAdjustor
-                key={index}
-                unsplash3PyBkxgTiL0={blog.mobile_image}
-                welcomeToWorldOneForexBlo={blog.title}
-                content={blog?.mini_content}
-                onClick={() => {
-                  router.push(`/blogs/${blog.id}`);
-                }}
-              />
-            );
-          })}
+          {blogs?.length > 0 &&
+            blogs.map((blog, index) => {
+              return (
+                <ColorAdjustor
+                  key={index}
+                  unsplash3PyBkxgTiL0={blog.mobile_image}
+                  welcomeToWorldOneForexBlo={blog.title}
+                  content={blog?.mini_content}
+                  onClick={() => {
+                    router.push(`/blogs/${blog.id}`);
+                  }}
+                />
+              );
+            })}
           {/* <ColorAdjustor
             unsplash3PyBkxgTiL0="/image-14@2x.png"
             welcomeToWorldOneForexBlo="How to exchange currency in India?"
