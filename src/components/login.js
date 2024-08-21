@@ -114,6 +114,7 @@ const Login = ({ setStage, close }) => {
                   padding="py-0.5"
                   value={code}
                   setValue={setCode}
+                  defaultVal={"+91"}
                 />
 
                 <div className="flex-1 rounded-2xl bg-gray-100 box-border overflow-hidden flex flex-row items-center justify-start py-[0.625rem] pr-[0rem] pl-0 xs:pl-[1.5rem] gap-[0.5rem] max-w-full border-[1px] ">
@@ -334,6 +335,7 @@ const Signup = ({ setStage, close }) => {
                   padding="py-0.5"
                   value={code}
                   setValue={setCode}
+                  defaultVal={"+91"}
                 />
 
                 <div className="flex-1 rounded-2xl bg-gray-100 box-border overflow-hidden flex flex-row items-center justify-start py-[0.625rem] pr-[0rem] pl-0 xs:pl-[1.5rem] gap-[0.5rem] max-w-full border-[1px] ">

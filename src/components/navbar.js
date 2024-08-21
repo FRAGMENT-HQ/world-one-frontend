@@ -232,6 +232,17 @@ export default function Navbar({ container = "bg-darkslateblue-900" }) {
                       </div>
                     </div>
 
+                    <div className="  shrink-0 flex flex-row items-center justify-center py-1  box-border">
+                      <div
+                        onClick={() => {
+                          router.push("/outlets");
+                        }}
+                        className="cursor-pointer relative leading-[32px]"
+                      >
+                        Outlets
+                      </div>
+                    </div>
+
                     <div
                       onClick={() => {
                         setdrawerOpen(false);

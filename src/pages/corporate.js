@@ -157,7 +157,7 @@ const Frame11 = () => {
           </div>
           <div className="w-full flex flex-col laptop:flex-row gap-6 laptop:gap-[4%]">
             <div className=" w-full laptop:w-[48%] flex flex-col sm:flex-row items-start justify-start gap-[0.75rem] max-w-full">
-              <CountryCode value={code} border={"!border"} setValue={setCode}  />
+              <CountryCode value={code} border={"!border"} setValue={setCode}  defaultVal={"+91"} />
               <input
                 className=" w-[96%] px-[2%] font-normal !border sm:w-full sm:px-3 h-[2rem] flex-1 flex flex-row items-center justify-start text-[1.25rem] text-base text-[#000]  py-3  rounded-xl"
                 placeholder="Enter phone number"

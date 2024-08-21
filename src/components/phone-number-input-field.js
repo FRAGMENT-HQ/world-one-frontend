@@ -26,7 +26,7 @@ const PhoneNumberInputField = ({
         </div>
         <div className="self-stretch flex flex-row items-center justify-start gap-[0.75rem] max-w-full mq900:flex-wrap">
           
-            <CountryCode border="border" value={code} setValue={setCode}  />
+            <CountryCode border="border !text-black" value={code} setValue={setCode}  defaultVal={"+91"} />
           
           <div className="flex-1 rounded-lg bg-white box-border overflow-hidden flex flex-row items-center justify-start py-[0.625rem] pr-[0rem] pl-0 xs:pl-[1.5rem] gap-[0.5rem]  max-w-full border-[1px] border-solid border-text4">
             <input

@@ -3,7 +3,7 @@ import FrameComponent4 from "../components/frame-component4";
 import PhoneNumberInputField from "../components/phone-number-input-field";
 import FrameComponent3 from "../components/frame-component3";
 import { useAtom } from "jotai";
-import { user, order } from "@/states/storage";
+import { user, order,authUser } from "@/states/storage";
 import { useRouter } from "next/router";
 import { postOrderMutation } from "@/hooks/prod";
 import Smodal from "@/components/smodal";
@@ -63,14 +63,15 @@ const countryOptions = countryData.map((country) => ({
 }));
 const Frame11 = () => {
   const [userData, setUserData] = useAtom(user);
+  const [authUserData, setAuthUserData] = useAtom(authUser);
   const [orderData, setOrderData] = useAtom(order);
-  const [panNumber, setPanNumber] = useState(userData?.panNumber || "");
-  const [name, setName] = useState(userData?.name || "");
-  const [email, setEmail] = useState(userData?.email || "");
-  const [phone, setPhone] = useState(userData?.phone_no || "");
+  const [panNumber, setPanNumber] = useState( userData?.panNumber || "");
+  const [name, setName] = useState( authUserData?.user?.name || userData?.name || "");
+  const [email, setEmail] = useState( authUserData?.user?.email || userData?.email || "");
+  const [phone, setPhone] = useState( authUserData?.user?.phone_no || userData?.phone_no || "");
   const [open, setOpen] = useState(false);
   const [countries, setCountries] = useState([]);
-  const [status, setStatus] = useState(true);
+  const [status, setStatus] = useState(false);
   const [purpous, setPurpous] = useState({});
   const [code, setCode] = useState({
     icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAJDSURBVHja7JfNaxNBGIef2WwalaahhaaYUm1ta4tivViUHqxSRISeBG/SP0vwVPDkTfAiqIh4ED8OORRrFT8qghZrpYkxu9mdmddDYhtFwak4ufQHy+zC7Mwz837MO0pE6KQCOqxdAAVkgFyr9SkDNEKgp7J4+YsEfudXKqCwsNgXAgUJFNlDM36X/+klQCEEclgLOkHiKiBt1qHtu91q8pv3X/vwx35qTw+iGwC5EABrER0hOvazfB2DNQC0ADSkcfPxoUwWbPozgCR1JI08BX8GTBuAWIM0akhS9+eFOtnyjgkRWXH9vx5r3n+oYrAMFvMUunM7CEU1Ge4E/tmrz9x7tMrxyQEA7j95x5HRImemh/5/Ko6TlBt3XnDp/CTfooRKrcHFuQnKz9f4uF7bUSp2MkF5eY2NzYgktdx9vEqlGnNuZoSxA72srdeYPzvuZALnHWikBhGIE009SqnVU+qxBiBqtc4mcClKjo73c/vhW05OlZg9McSF06PMnRrm1oM3TE+V/nqcH3M6A+T3dTE/O8aV62X29+cZKRW4dnOJsYO9DA8WnAEUMJGm6UoYugXExmbE8usNjLEcHu6jVOx2SwNak81mm2E4fnUByQQkrezkrKdu3bsyWYLmUdDMhNoYwjBA8FOgKgXa6m0Aay2Imy/8kwSs0dtOaI1BKZ/VEFjTHgVWUPgjUKjmrm+dhghKKbq79nqDsLINYESE6malE1W5UcAAcAzo9zz5OrCkWneCfKv1qQbwVe1eTjsN8H0AbQf7MRxAQMIAAAAASUVORK5CYII=",
@@ -116,7 +117,7 @@ const Frame11 = () => {
   };
 
   const handleNext = () => {
-    if ((orderData?.product != "Travel Services" || !status) ) {
+    if ((orderData?.product != "Travel Services" || status) ) {
       if (!panNumber || !/[A-Z]{5}[0-9]{4}[A-Z]{1}/.test(panNumber)) {
         toast.error("Valid PAN number is required");
         return;

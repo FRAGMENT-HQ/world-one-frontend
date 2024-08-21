@@ -210,15 +210,7 @@ const FrameComponent5 = ({
             protect from misuse.
           </div>
         </div>
-        {orderData?.type !== "Transfer Money Abroad" && <div className="self-stretch flex flex-col items-start justify-center gap-[1.5rem] max-w-full text-left text-[1rem] text-text1 font-avenir-next-lt-pro">
-          <div className="w-[50.063rem] flex flex-row flex-wrap items-center justify-start gap-[4.5rem] max-w-full text-[1.25rem] text-text2 mq900:gap-[2.25rem] mq450:gap-[1.125rem]">
-            <div className="flex-1 relative leading-[2rem] font-normal inline-block min-w-[25.688rem] max-w-full mq900:min-w-full mq450:text-[1rem] mq450:leading-[1.625rem]">
-              In case you do not require a Visa or if you will receive a Visa on
-              arrival
-            </div>
-            <Switch size="large" checked={checked} onChange={handleChange} />
-          </div>
-        </div>}
+        
 
         {/* <FrameComponent1 />
         <FrameComponent /> */}
@@ -464,6 +456,15 @@ const FrameComponent5 = ({
             />
           </button>
         )}
+        {orderData?.type !== "Transfer Money Abroad" && <div className="self-stretch flex flex-col items-start justify-center gap-[1.5rem] max-w-full text-left text-[1rem] text-text1 font-avenir-next-lt-pro">
+          <div className="w-[50.063rem] flex flex-row flex-wrap items-center justify-start gap-[4.5rem] max-w-full text-[1.25rem] text-text2 mq900:gap-[2.25rem] mq450:gap-[1.125rem]">
+            <div className="flex-1 relative leading-[2rem] font-normal inline-block min-w-[25.688rem] max-w-full mq900:min-w-full mq450:text-[1rem] mq450:leading-[1.625rem]">
+              In case you do not require a Visa or if you will receive a Visa on
+              arrival
+            </div>
+            <Switch size="large" checked={checked} onChange={handleChange} />
+          </div>
+        </div>}
       </div>
     </div>
   );

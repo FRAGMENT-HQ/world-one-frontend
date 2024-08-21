@@ -207,13 +207,7 @@ const MainForm = () => {
         step={3}
         isLoading={isLoading}
       />
-      {/* <FrameComponent2 /> */}
-      {/* <img
-        className="self-stretch relative max-w-full overflow-hidden max-h-full shrink-0"
-        loading="lazy"
-        alt=""
-        src="/vector-20.svg"
-      /> */}
+ 
 
       <div className="self-stretch shadow-[0px_6px_48px_-4px_rgba(18,_25,_56,_0.1)] rounded-13xl bg-white overflow-hidden flex flex-col items-start justify-center py-[6rem] sm:py-[2.5rem] px-[1rem] sm:px-[3rem] box-border gap-[3rem] max-w-full text-[1.25rem] mq900:gap-[1.5rem] mq450:pt-[2.625rem] mq450:pb-[2.625rem] mq450:box-border mq1325:pl-[1.5rem] mq1325:pr-[1.5rem] mq1325:box-border">
         {/* <FrameComponent6 /> */}

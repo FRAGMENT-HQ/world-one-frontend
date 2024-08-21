@@ -236,7 +236,7 @@ const HomeExchangeCurrency = () => {
   useEffect(() => {
     getRate([
       finalCurrency.smValue,
-      prod.value == "Exchange Currency" ? "currancy" : "crd",
+      prod.value == "Exchange Currency" ? "currency" : "crd",
     ]);
   }, [finalCurrency, prod]);
 
@@ -251,7 +251,7 @@ const HomeExchangeCurrency = () => {
   useEffect(() => {
     getRate([
       finalCurrency.value,
-      prod.value == "Exchange Currency" ? "currancy" : "card",
+      prod.value == "Exchange Currency" ? "currency" : "card",
     ]);
     getRateCard();
     getBlogs();
@@ -327,7 +327,7 @@ const HomeExchangeCurrency = () => {
         forexAmount: amount,
         inrAmount: (amount * (rate * (1 + (factor + cf) / 100))).toFixed(2),
         rate: ((rate * (1 + (factor + cf) / 100)) ** powerFactor).toFixed(2),
-        product: prod.value == "Exchange Currency" ? "Currancy" : "Forex Card",
+        product: prod.value == "Exchange Currency" ? "Currency" : "Forex Card",
         bs: selected ? "Buy" : "Sell",
       };
       if (cartItems?.Items?.length > 0) {
@@ -409,7 +409,7 @@ const HomeExchangeCurrency = () => {
       forexAmount: amount,
       inrAmount: (amount * (rate * (1 + (factor + cf) / 100))).toFixed(2),
       rate: ((rate * (1 + (factor + cf) / 100)) ** powerFactor).toFixed(2),
-      product: prod.value == "Exchange Currency" ? "Currancy" : prod.value,
+      product: prod.value == "Exchange Currency" ? "Currency" : prod.value,
       bs: selected ? "Buy" : "Sell",
     };
     // const meta = { city: city };
@@ -451,7 +451,7 @@ const HomeExchangeCurrency = () => {
             rate: (rate * (1 + (factor + cf) / 100) ** powerFactor).toFixed(2),
             product:
               prod.value == "Exchange Currency"
-                ? "Currancy"
+                ? "Currency"
                 : prod.value == "Transfer Money Abroad"
                   ? "Remittance"
                   : prod.value,

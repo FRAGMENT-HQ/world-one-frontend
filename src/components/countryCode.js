@@ -23,7 +23,7 @@ const CustomSingleValue = ({ children, ...props }) => {
 
   return (
     <components.SingleValue {...props}>
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center ">
         <img src={props?.data?.icon} /> <div>{children}</div>
       </div>
     </components.SingleValue>
