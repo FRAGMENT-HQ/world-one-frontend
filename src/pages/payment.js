@@ -11,6 +11,7 @@ import InputArray from "@/components/input-array";
 import FrameComponent4 from "@/components/frame-component4";
 import toast from "react-hot-toast";
 import Smodal from "@/components/smodal";
+
 function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
     width: undefined,
@@ -55,7 +56,14 @@ const PaymentPage = () => {
 
   const size = useWindowSize();
 
-  const { mutate: confirmPayment } = confirmPaymentMutation((res) => {
+  const { mutate: confirmPayment,status } = confirmPaymentMutation((res) => {
+    const message = res?.data?.message;
+    if (message === "success") {
+      setOpen(true)
+    }
+    else {
+      alert("Payment Failed pls try again")
+    }
   }, (err) => {
     console.log(err);
   }
@@ -64,22 +72,24 @@ const PaymentPage = () => {
   const { mutate: createPayout } = createPayoutMutation(
     (res) => {
       console.log(res);
-      let checkoutOptions = {
-        paymentSessionId: res.data.session,
-        // returnUrl:
-        //   "https://test.cashfree.com/pgappsdemos/v3success.php?myorder=5",
-        redirectTarget: "_modal",
-      };
-      cashfree.checkout(checkoutOptions).then(function (result) {
-        confirmPayment({ order_id: createOrderDetails.id, status: "success" });
-        setOpen(true)
-        if (result.error) {
-          alert(result.error.message);
-        }
-        if (result.redirect) {
-          console.log("Redirection");
-        }
-      });
+      const link = res?.data?.link;
+      window.location.href = link;
+      // let checkoutOptions = {
+      //   paymentSessionId: res.data.session,
+      //   // returnUrl:
+      //   //   "https://test.cashfree.com/pgappsdemos/v3success.php?myorder=5",
+      //   redirectTarget: "_modal",
+      // };
+      // cashfree.checkout(checkoutOptions).then(function (result) {
+      //   confirmPayment({ order_id: createOrderDetails.id, status: "success" });
+      //   setOpen(true)
+      //   if (result.error) {
+      //     alert(result.error.message);
+      //   }
+      //   if (result.redirect) {
+      //     console.log("Redirection");
+      //   }
+      // });
     },
     (err) => {
       console.log(err);
@@ -118,6 +128,18 @@ const PaymentPage = () => {
       // router.push("/");
     }
   }, [isRunning]);
+
+  useEffect(() => {
+    if (router?.query?.check === "true") {
+    //  call after 20 seconds
+      // setTimeout(() => {
+      //   confirmPayment({ order_id: createOrderDetails?.id })
+      // }, 5000);
+     confirmPayment({ order_id: createOrderDetails?.id })
+    }
+  }, [router?.query]);
+ if(status !== "loading"){
+  //  if(false){
 
   return (
     <div className="w-full relative bg-background overflow-hidden flex flex-col items-center justify-start pt-[3rem] pb-[2.5rem] px-[1.25rem]  box-border gap-[2.75rem] leading-[normal] tracking-[normal] text-left text-[1.25rem] text-white font-sub-heading-small mq825:gap-[1.375rem]">
@@ -190,7 +212,8 @@ const PaymentPage = () => {
                         Total
                       </div>
                       <div className="relative text-[1.25rem] leading-[2rem] font-normal font-body-small text-text3 text-left inline-block min-w-[3.938rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
-                        {orderDetails?.amount.toFixed(2)}
+                       {/* add inr amount from each */}
+                        {  orderDetails?.orderItems.reduce((acc, item) => acc + item.inrAmount, 0)}
                       </div>
                     </div>
                     <div className="self-stretch  flex flex-row items-start justify-start pt-[0.5rem] px-[0rem] pb-[0.375rem] gap-[1.75rem] max-w-full border-0 border-b-[1px] border-solid border-text3 mq900:flex-wrap">
@@ -198,7 +221,7 @@ const PaymentPage = () => {
                         GST
                       </div>
                       <div className="relative text-[1.25rem] leading-[2rem] font-normal font-body-small text-text3 text-left inline-block min-w-[3.938rem] mq450:text-[1rem] mq450:leading-[1.625rem]">
-                        {0}
+                        {(orderDetails?.orderItems.reduce((acc, item) => acc + item.inrAmount, 0) * (orderDetails?.gst-1)).toFixed(2)}
                       </div>
                     </div>
 
@@ -243,7 +266,7 @@ const PaymentPage = () => {
 
             </div>
           </div>
-          <div className="w-[64rem] flex flex-row flex-wrap items-center justify-start gap-[3rem] max-w-full text-secondary mq825:gap-[1.5rem]">
+          {/* <div className="w-[64rem] flex flex-row flex-wrap items-center justify-start gap-[3rem] max-w-full text-secondary mq825:gap-[1.5rem]">
             {((orderDetails?.amount * (partialPayment ? 0.05 : 1) + 100).toFixed(2)) <= 100000 && <div
               onClick={() => {
                 setType("UPI");
@@ -292,7 +315,7 @@ const PaymentPage = () => {
                 Debit/Credit Cards
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="self-stretch rounded-3xl bg-darkorange-200 overflow-hidden flex flex-col sm:flex-row flex-wrap items-center justify-start mt-4 py-[1rem] px-[2rem] box-border gap-[1.5rem] max-w-full text-[1rem]">
             <img
@@ -336,7 +359,7 @@ const PaymentPage = () => {
               confirm the accuracy of the provided information, and acknowledge
               that I am obligated to pay 2% of order total as cancellation
               charges in the event of order cancellation as outlined in
-              WorldOneForex's cancellation policy.
+              World One India Forex's cancellation policy.
             </div>
           </div>
           <div className="self-stretch flex flex-row flex-wrap items-center justify-start py-[0.25rem] px-[0rem] box-border gap-[2rem] max-w-full text-text2 mq825:gap-[1rem]">
@@ -360,7 +383,7 @@ const PaymentPage = () => {
               ></div>
             )}
             <div className="flex-1 relative leading-[2rem]  inline-block min-w-[27.25rem] max-w-full mq450:text-[1rem] mq450:leading-[1.625rem] mq825:min-w-full">
-              I, confirm I want to exchange currency from WorldOneForex
+              I, confirm I want to exchange currency from World One India Forex Pvt. Ltd.
             </div>
           </div>
           <div className="w-[64rem] flex flex-col items-start justify-center gap-[2rem] max-w-full text-[1.5rem] mq825:gap-[1rem]">
@@ -398,7 +421,11 @@ const PaymentPage = () => {
         </section>
       </main>
     </div>
-  );
+  );}
+  else{
+    return <div className="h-screen w-screen flex justify-center items-center " > 
+    <iframe className="h-screen w-screen " src="https://lottie.host/embed/8ebc31d3-95d1-4c02-bd9f-654cf4afe686/cf4p7ZXLer.json"></iframe></div>
+  }
 };
 
 export default PaymentPage;
